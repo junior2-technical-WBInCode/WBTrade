@@ -28,77 +28,173 @@ export interface Category {
 // UWAGA: Te kategorie to KONTENERY - produkty wyświetlają się tylko w podkategoriach
 export const mainCategories: Category[] = [
   {
-    name: 'Elektronika',
-    slug: 'elektronika',
+    name: 'Elektronika i GSM',
+    slug: 'elektronika-i-gsm',
     children: [
-      { name: 'Akcesoria Komputerowe', slug: 'akcesoria-komputerowe' },
-      { name: 'Etui i akcesoria GSM', slug: 'etui-i-akcesoria-gsm' },
+      { name: 'Akcesoria GSM', slug: 'akcesoria-gsm' },
+      { name: 'Audio (słuchawki i głośniki)', slug: 'audio-sluchawki-i-glosniki' },
+      { name: 'Drukarki i skanery', slug: 'drukarki-i-skanery' },
+      { name: 'Etui i pokrowce', slug: 'etui-i-pokrowce' },
+      { name: 'Kable i adaptery', slug: 'kable-i-adaptery' },
+      { name: 'Komputery i akcesoria', slug: 'komputery-i-akcesoria' },
+      { name: 'Komputery i laptopy', slug: 'komputery-i-laptopy' },
+      { name: 'Konsole i gry', slug: 'konsole-i-gry' },
+      { name: 'Ładowanie i zasilanie', slug: 'ladowanie-i-zasilanie' },
+      { name: 'Monitoring', slug: 'monitoring' },
+      { name: 'Monitory', slug: 'monitory' },
+      { name: 'Podzespoły komputerowe', slug: 'podzespoly-komputerowe' },
+      { name: 'Sieci i serwery', slug: 'sieci-i-serwery' },
       { name: 'Smartfony i telefony', slug: 'smartfony-i-telefony' },
       { name: 'Smartwatche', slug: 'smartwatche' },
-      { name: 'Słuchawki', slug: 'sluchawki' },
+      { name: 'Szkła i folie ochronne', slug: 'szkla-i-folie-ochronne' },
+      { name: 'UPSy i zasilanie', slug: 'upsy-i-zasilanie' },
     ]
   },
   {
-    name: 'Sport',
-    slug: 'sport',
+    name: 'Dom',
+    slug: 'dom',
+    children: [
+      { name: 'Energia i ogrzewanie', slug: 'energia-i-ogrzewanie' },
+      { name: 'Gadżety', slug: 'gadzety' },
+      { name: 'Kuchnia', slug: 'kuchnia' },
+      { name: 'Łazienka', slug: 'lazienka' },
+      { name: 'Oświetlenie (domowe)', slug: 'oswietlenie-domowe' },
+      { name: 'Smart home', slug: 'smart-home' },
+      { name: 'Sprzęt AGD', slug: 'sprzet-agd' },
+      { name: 'Wyposażenie i akcesoria', slug: 'wyposazenie-i-akcesoria' },
+      { name: 'Zabezpieczenia', slug: 'zabezpieczenia' },
+      { name: 'Zwierzęta', slug: 'zwierzeta' },
+    ]
+  },
+  {
+    name: 'Sport i turystyka',
+    slug: 'sport-i-turystyka',
     children: [
       { name: 'Akcesoria sportowe', slug: 'akcesoria-sportowe' },
-      { name: 'Rekreacja', slug: 'rekreacja' },
-      { name: 'Turystyka', slug: 'turystyka' },
+      { name: 'Fitness i trening', slug: 'fitness-i-trening' },
+      { name: 'Kemping i przetrwanie', slug: 'kemping-i-przetrwanie' },
+      { name: 'Rowery i akcesoria', slug: 'rowery-i-akcesoria' },
+      { name: 'Sprzęt turystyczny', slug: 'sprzet-turystyczny' },
+      { name: 'Wykrywacze metalu', slug: 'wykrywacze-metalu' },
     ]
   },
   {
-    name: 'Zdrowie i uroda',
-    slug: 'zdrowie-i-uroda',
-    children: []  // Brak podkategorii - produkty trafiają bezpośrednio tutaj
+    name: 'Dla dziecka',
+    slug: 'dla-dziecka',
+    children: [
+      { name: 'Artykuły plastyczne i kreatywne', slug: 'artykuly-plastyczne-i-kreatywne' },
+      { name: 'Artykuły szkolne i papiernicze', slug: 'artykuly-szkolne-i-papiernicze' },
+      { name: 'Gry edukacyjne i planszowe', slug: 'gry-edukacyjne-i-planszowe' },
+      { name: 'Naczynia i akcesoria dziecięce', slug: 'naczynia-i-akcesoria-dzieciece' },
+      { name: 'Pluszaki', slug: 'pluszaki' },
+      { name: 'Pojazdy i jeździki', slug: 'pojazdy-i-jezdziki' },
+      { name: 'Przebrania', slug: 'przebrania' },
+      { name: 'Przybory i akcesoria', slug: 'przybory-i-akcesoria' },
+      { name: 'Zabawki', slug: 'zabawki' },
+      { name: 'Zabawki ogrodowe', slug: 'zabawki-ogrodowe' },
+      { name: 'LEGO', slug: 'lego' },
+    ]
   },
   {
-    name: 'Dom i ogród',
-    slug: 'dom-i-ogrod',
+    name: 'Gastronomia',
+    slug: 'gastronomia',
     children: [
-      { name: 'Akcesoria dla zwierząt', slug: 'akcesoria-dla-zwierzat' },
-      { name: 'Akcesoria domowe', slug: 'akcesoria-domowe' },
-      { name: 'Domowe AGD', slug: 'domowe-agd' },
-      { name: 'Ogród', slug: 'ogrod' },
-      { name: 'Oświetlenie', slug: 'oswietlenie' },
-      { name: 'Wyposażenie wnętrz', slug: 'wyposazenie-wnetrz' },
+      { name: 'Cukiernictwo', slug: 'cukiernictwo' },
+      { name: 'Higiena i utrzymanie czystości', slug: 'higiena-i-utrzymanie-czystosci' },
+      { name: 'Pizzeria', slug: 'pizzeria' },
+      { name: 'Sprzęt do wyrobu alkoholu', slug: 'sprzet-do-wyrobu-alkoholu' },
+      { name: 'Sprzęt gastronomiczny', slug: 'sprzet-gastronomiczny' },
+      { name: 'Ubój i wędzenie', slug: 'uboj-i-wedzenie' },
+      { name: 'Wyposażenie lokali', slug: 'wyposazenie-lokali' },
+    ]
+  },
+  {
+    name: 'Wagi',
+    slug: 'wagi',
+    children: [
+      { name: 'Wagi kuchenne', slug: 'wagi-kuchenne' },
+      { name: 'Wagi przemysłowe', slug: 'wagi-przemyslowe' },
+    ]
+  },
+  {
+    name: 'Zdrowie i Uroda',
+    slug: 'zdrowie-i-uroda',
+    children: [
+      { name: 'Grooming', slug: 'grooming' },
+      { name: 'Masaż i rehabilitacja', slug: 'masaz-i-rehabilitacja' },
+      { name: 'Modele anatomiczne', slug: 'modele-anatomiczne' },
+      { name: 'Oczyszczacze powietrza i dezynfekcja', slug: 'oczyszczacze-powietrza-i-dezynfekcja' },
+      { name: 'Wyposażenie gabinetów i salonów', slug: 'wyposazenie-gabinetow-i-salonow' },
+    ]
+  },
+  {
+    name: 'Chemia profesjonalna',
+    slug: 'chemia-profesjonalna',
+    children: [
+      { name: 'Chemia dla gastronomii', slug: 'chemia-dla-gastronomii' },
+      { name: 'Chemia przemysłowa', slug: 'chemia-przemyslowa' },
+      { name: 'Chemia samochodowa', slug: 'chemia-samochodowa' },
+      { name: 'Chemia warsztatowa', slug: 'chemia-warsztatowa' },
+    ]
+  },
+  {
+    name: 'Ogród i Gospodarstwo',
+    slug: 'ogrod-i-gospodarstwo',
+    children: [
+      { name: 'Akcesoria garażowe', slug: 'akcesoria-garazowe' },
+      { name: 'Artykuły dla zwierząt', slug: 'artykuly-dla-zwierzat' },
+      { name: 'Baseny i akcesoria', slug: 'baseny-i-akcesoria' },
+      { name: 'Meble ogrodowe', slug: 'meble-ogrodowe' },
+      { name: 'Nawadnianie', slug: 'nawadnianie' },
+      { name: 'Ogród i narzędzia ogrodowe', slug: 'ogrod-i-narzedzia-ogrodowe' },
+      { name: 'Oświetlenie zewnętrzne', slug: 'oswietlenie-zewnetrzne' },
+      { name: 'Place zabaw', slug: 'place-zabaw' },
+      { name: 'Pojemniki i zbiorniki gospodarcze', slug: 'pojemniki-i-zbiorniki-gospodarcze' },
+      { name: 'Pszczelarstwo', slug: 'pszczelarstwo' },
+    ]
+  },
+  {
+    name: 'Narzędzia',
+    slug: 'narzedzia',
+    children: [
+      { name: 'Akcesoria', slug: 'narzedzia-akcesoria' },
+      { name: 'Czujniki', slug: 'czujniki' },
+      { name: 'Elektronarzędzia', slug: 'elektronarzedzia' },
+      { name: 'Maszyny i urządzenia', slug: 'maszyny-i-urzadzenia' },
+      { name: 'Narzędzia ręczne', slug: 'narzedzia-reczne' },
+      { name: 'Spawalnictwo', slug: 'spawalnictwo' },
+      { name: 'Sprzęt Laboratoryjny', slug: 'sprzet-laboratoryjny' },
+      { name: 'Urządzenia', slug: 'urzadzenia' },
     ]
   },
   {
     name: 'Motoryzacja',
     slug: 'motoryzacja',
     children: [
-      { name: 'Akcesoria samochodowe', slug: 'akcesoria-samochodowe' },
-      { name: 'Folie samochodowe', slug: 'folie-samochodowe' },
-    ]
-  },
-  {
-    name: 'Dziecko',
-    slug: 'dziecko',
-    children: [
-      { name: 'Kostiumy i przebrania', slug: 'kostiumy-i-przebrania' },
-      { name: 'Zabawki', slug: 'zabawki' },
-      { name: 'Pojazdy dla dzieci', slug: 'pojazdy-dla-dzieci' },
-      { name: 'Artykuły dla dzieci', slug: 'artykuly-dla-dzieci' },
-      { name: 'Artykuły plastyczne', slug: 'artykuly-plastyczne' },
-      { name: 'Artykuły szkolne', slug: 'artykuly-szkolne' },
+      { name: 'Akcesoria i części', slug: 'akcesoria-i-czesci' },
+      { name: 'Ładowarki samochodowe', slug: 'ladowarki-samochodowe' },
+      { name: 'Uchwyty samochodowe', slug: 'uchwyty-samochodowe' },
+      { name: 'Wyposażenie warsztatu', slug: 'wyposazenie-warsztatu' },
     ]
   },
   {
     name: 'Biurowe i papiernicze',
     slug: 'biurowe-i-papiernicze',
-    children: []  // Brak podkategorii - produkty trafiają bezpośrednio tutaj
+    children: []
   },
   {
-    name: 'Gastronomiczne',
-    slug: 'gastronomiczne',
-    children: [
-      { name: 'Naczynia i zastawa', slug: 'naczynia-i-zastawa' },
-    ]
+    name: 'Opakowania i materiały wysyłkowe',
+    slug: 'opakowania-i-materialy-wysylkowe',
+    children: []
   },
   {
-    name: 'Inne',
-    slug: 'inne',
+    name: 'Chemia gospodarcza',
+    slug: 'chemia-gospodarcza',
+    children: []
+  },
+  {
+    name: 'Outlet',
+    slug: 'outlet',
     children: []
   },
 ];
