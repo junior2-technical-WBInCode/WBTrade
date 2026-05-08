@@ -1,93 +1,189 @@
 {
   "description": "Mapowanie kategorii na podstawie tagów z Baselinkera. Każdy produkt ma dwa tagi: główny i podkategorii.",
-  "version": "2.1",
+  "version": "3.0",
   
   "mainCategoryTags": [
-    "Elektronika",
-    "Sport",
-    "Zdrowie i uroda",
-    "Dom i ogród",
+    "Elektronika i GSM",
+    "Dom",
+    "Sport i turystyka",
+    "Dla dziecka",
+    "Gastronomia",
+    "Wagi",
+    "Zdrowie i Uroda",
+    "Chemia profesjonalna",
+    "Ogród i Gospodarstwo",
+    "Narzędzia",
     "Motoryzacja",
-    "Dziecko",
     "Biurowe i papiernicze",
-    "Gastronomiczne",
-    "gastronomia",
+    "Opakowania i materiały wysyłkowe",
+    "Chemia gospodarcza",
     "Outlet"
   ],
   
   "categoryTree": {
-    "Elektronika": {
-      "slug": "elektronika",
+    "Elektronika i GSM": {
+      "slug": "elektronika-i-gsm",
       "order": 1,
       "subcategories": {
-        "Akcesoria Komputerowe": { "slug": "akcesoria-komputerowe" },
-        "Etui i akcesoria GSM": { "slug": "etui-i-akcesoria-gsm" },
+        "Akcesoria GSM": { "slug": "akcesoria-gsm" },
+        "Audio (słuchawki i głośniki)": { "slug": "audio-sluchawki-i-glosniki" },
+        "Drukarki i skanery": { "slug": "drukarki-i-skanery" },
+        "Etui i pokrowce": { "slug": "etui-i-pokrowce" },
+        "Kable i adaptery": { "slug": "kable-i-adaptery" },
+        "Komputery i akcesoria": { "slug": "komputery-i-akcesoria" },
+        "Komputery i laptopy": { "slug": "komputery-i-laptopy" },
+        "Konsole i gry": { "slug": "konsole-i-gry" },
+        "Ładowanie i zasilanie": { "slug": "ladowanie-i-zasilanie" },
+        "Monitoring": { "slug": "monitoring" },
+        "Monitory": { "slug": "monitory" },
+        "Podzespoły komputerowe": { "slug": "podzespoly-komputerowe" },
+        "Sieci i serwery": { "slug": "sieci-i-serwery" },
         "Smartfony i telefony": { "slug": "smartfony-i-telefony" },
         "Smartwatche": { "slug": "smartwatche" },
-        "Słuchawki": { "slug": "sluchawki" }
+        "Szkła i folie ochronne": { "slug": "szkla-i-folie-ochronne" },
+        "UPSy i zasilanie": { "slug": "upsy-i-zasilanie" }
       }
     },
-    "Sport": {
-      "slug": "sport",
+    "Dom": {
+      "slug": "dom",
       "order": 2,
       "subcategories": {
-        "Akcesoria sportowe": { "slug": "akcesoria-sportowe" },
-        "Rekreacja": { "slug": "rekreacja" },
-        "Turystyka": { "slug": "turystyka" }
+        "Energia i ogrzewanie": { "slug": "energia-i-ogrzewanie" },
+        "Gadżety": { "slug": "gadzety" },
+        "Kuchnia": { "slug": "kuchnia" },
+        "Łazienka": { "slug": "lazienka" },
+        "Oświetlenie (domowe)": { "slug": "oswietlenie-domowe" },
+        "Smart home": { "slug": "smart-home" },
+        "Sprzęt AGD": { "slug": "sprzet-agd" },
+        "Wyposażenie i akcesoria": { "slug": "wyposazenie-i-akcesoria" },
+        "Zabezpieczenia": { "slug": "zabezpieczenia" },
+        "Zwierzęta": { "slug": "zwierzeta" }
       }
     },
-    "Zdrowie i uroda": {
-      "slug": "zdrowie-i-uroda",
+    "Sport i turystyka": {
+      "slug": "sport-i-turystyka",
       "order": 3,
-      "subcategories": {}
+      "subcategories": {
+        "Akcesoria sportowe": { "slug": "akcesoria-sportowe" },
+        "Fitness i trening": { "slug": "fitness-i-trening" },
+        "Kemping i przetrwanie": { "slug": "kemping-i-przetrwanie" },
+        "Rowery i akcesoria": { "slug": "rowery-i-akcesoria" },
+        "Sprzęt turystyczny": { "slug": "sprzet-turystyczny" },
+        "Wykrywacze metalu": { "slug": "wykrywacze-metalu" }
+      }
     },
-    "Dom i ogród": {
-      "slug": "dom-i-ogrod",
+    "Dla dziecka": {
+      "slug": "dla-dziecka",
       "order": 4,
       "subcategories": {
-        "Akcesoria dla zwierząt": { "slug": "akcesoria-dla-zwierzat" },
-        "Akcesoria domowe": { "slug": "akcesoria-domowe" },
-        "Domowe AGD": { "slug": "domowe-agd" },
-        "Ogród": { "slug": "ogrod" },
-        "Oświetlenie": { "slug": "oswietlenie" },
-        "Wyposażenie wnętrz": { "slug": "wyposazenie-wnetrz" }
+        "Artykuły plastyczne i kreatywne": { "slug": "artykuly-plastyczne-i-kreatywne" },
+        "Artykuły szkolne i papiernicze": { "slug": "artykuly-szkolne-i-papiernicze" },
+        "Gry edukacyjne i planszowe": { "slug": "gry-edukacyjne-i-planszowe" },
+        "Naczynia i akcesoria dziecięce": { "slug": "naczynia-i-akcesoria-dzieciece" },
+        "Pluszaki": { "slug": "pluszaki" },
+        "Pojazdy i jeździki": { "slug": "pojazdy-i-jezdziki" },
+        "Przebrania": { "slug": "przebrania" },
+        "Przybory i akcesoria": { "slug": "przybory-i-akcesoria" },
+        "Zabawki": { "slug": "zabawki" },
+        "Zabawki ogrodowe": { "slug": "zabawki-ogrodowe" },
+        "LEGO": { "slug": "lego" }
+      }
+    },
+    "Gastronomia": {
+      "slug": "gastronomia",
+      "order": 5,
+      "subcategories": {
+        "Cukiernictwo": { "slug": "cukiernictwo" },
+        "Higiena i utrzymanie czystości": { "slug": "higiena-i-utrzymanie-czystosci" },
+        "Pizzeria": { "slug": "pizzeria" },
+        "Sprzęt do wyrobu alkoholu": { "slug": "sprzet-do-wyrobu-alkoholu" },
+        "Sprzęt gastronomiczny": { "slug": "sprzet-gastronomiczny" },
+        "Ubój i wędzenie": { "slug": "uboj-i-wedzenie" },
+        "Wyposażenie lokali": { "slug": "wyposazenie-lokali" }
+      }
+    },
+    "Wagi": {
+      "slug": "wagi",
+      "order": 6,
+      "subcategories": {
+        "Wagi kuchenne": { "slug": "wagi-kuchenne" },
+        "Wagi przemysłowe": { "slug": "wagi-przemyslowe" }
+      }
+    },
+    "Zdrowie i Uroda": {
+      "slug": "zdrowie-i-uroda",
+      "order": 7,
+      "subcategories": {
+        "Grooming": { "slug": "grooming" },
+        "Masaż i rehabilitacja": { "slug": "masaz-i-rehabilitacja" },
+        "Modele anatomiczne": { "slug": "modele-anatomiczne" },
+        "Oczyszczacze powietrza i dezynfekcja": { "slug": "oczyszczacze-powietrza-i-dezynfekcja" },
+        "Wyposażenie gabinetów i salonów": { "slug": "wyposazenie-gabinetow-i-salonow" }
+      }
+    },
+    "Chemia profesjonalna": {
+      "slug": "chemia-profesjonalna",
+      "order": 8,
+      "subcategories": {
+        "Chemia dla gastronomii": { "slug": "chemia-dla-gastronomii" },
+        "Chemia przemysłowa": { "slug": "chemia-przemyslowa" },
+        "Chemia samochodowa": { "slug": "chemia-samochodowa" },
+        "Chemia warsztatowa": { "slug": "chemia-warsztatowa" }
+      }
+    },
+    "Ogród i Gospodarstwo": {
+      "slug": "ogrod-i-gospodarstwo",
+      "order": 9,
+      "subcategories": {
+        "Akcesoria garażowe": { "slug": "akcesoria-garazowe" },
+        "Artykuły dla zwierząt": { "slug": "artykuly-dla-zwierzat" },
+        "Baseny i akcesoria": { "slug": "baseny-i-akcesoria" },
+        "Meble ogrodowe": { "slug": "meble-ogrodowe" },
+        "Nawadnianie": { "slug": "nawadnianie" },
+        "Ogród i narzędzia ogrodowe": { "slug": "ogrod-i-narzedzia-ogrodowe" },
+        "Oświetlenie zewnętrzne": { "slug": "oswietlenie-zewnetrzne" },
+        "Place zabaw": { "slug": "place-zabaw" },
+        "Pojemniki i zbiorniki gospodarcze": { "slug": "pojemniki-i-zbiorniki-gospodarcze" },
+        "Pszczelarstwo": { "slug": "pszczelarstwo" }
+      }
+    },
+    "Narzędzia": {
+      "slug": "narzedzia",
+      "order": 10,
+      "subcategories": {
+        "Akcesoria": { "slug": "narzedzia-akcesoria" },
+        "Czujniki": { "slug": "czujniki" },
+        "Elektronarzędzia": { "slug": "elektronarzedzia" },
+        "Maszyny i urządzenia": { "slug": "maszyny-i-urzadzenia" },
+        "Narzędzia ręczne": { "slug": "narzedzia-reczne" },
+        "Spawalnictwo": { "slug": "spawalnictwo" },
+        "Sprzęt Laboratoryjny": { "slug": "sprzet-laboratoryjny" },
+        "Urządzenia": { "slug": "urzadzenia" }
       }
     },
     "Motoryzacja": {
       "slug": "motoryzacja",
-      "order": 5,
+      "order": 11,
       "subcategories": {
-        "Akcesoria samochodowe": { "slug": "akcesoria-samochodowe" },
-        "Folie samochodowe": { "slug": "folie-samochodowe" }
-      }
-    },
-    "Dziecko": {
-      "slug": "dziecko",
-      "order": 6,
-      "subcategories": {
-        "Kostiumy i przebrania": { "slug": "kostiumy-i-przebrania" },
-        "Zabawki": { "slug": "zabawki" },
-        "Pojazdy dla dzieci": { "slug": "pojazdy-dla-dzieci" },
-        "Artykuły dla dzieci": { "slug": "artykuly-dla-dzieci" },
-        "Artykuły plastyczne": { "slug": "artykuly-plastyczne" },
-        "Artykuły szkolne": { "slug": "artykuly-szkolne" }
+        "Akcesoria i części": { "slug": "akcesoria-i-czesci" },
+        "Ładowarki samochodowe": { "slug": "ladowarki-samochodowe" },
+        "Uchwyty samochodowe": { "slug": "uchwyty-samochodowe" },
+        "Wyposażenie warsztatu": { "slug": "wyposazenie-warsztatu" }
       }
     },
     "Biurowe i papiernicze": {
       "slug": "biurowe-i-papiernicze",
-      "order": 7,
+      "order": 12,
       "subcategories": {}
     },
-    "Gastronomiczne": {
-      "slug": "gastronomiczne",
-      "order": 8,
-      "subcategories": {
-        "Naczynia i zastawa": { "slug": "naczynia-i-zastawa" }
-      }
+    "Opakowania i materiały wysyłkowe": {
+      "slug": "opakowania-i-materialy-wysylkowe",
+      "order": 13,
+      "subcategories": {}
     },
-    "gastronomia": {
-      "slug": "gastronomiczne",
-      "order": 8,
+    "Chemia gospodarcza": {
+      "slug": "chemia-gospodarcza",
+      "order": 14,
       "subcategories": {}
     },
     "Outlet": {
@@ -126,55 +222,160 @@
   "tagNormalization": {
     "description": "Mapowanie wariantów tagów na standardowe nazwy (case-insensitive)",
     "mappings": {
-      "elektronika": "Elektronika",
-      "sport": "Sport",
-      "zdrowie i uroda": "Zdrowie i uroda",
-      "dom i ogród": "Dom i ogród",
-      "dom i ogrod": "Dom i ogród",
+      "elektronika i gsm": "Elektronika i GSM",
+      "elektronika": "Elektronika i GSM",
+      "dom": "Dom",
+      "dom i ogród": "Dom",
+      "dom i ogrod": "Dom",
+      "sport i turystyka": "Sport i turystyka",
+      "sport": "Sport i turystyka",
+      "dla dziecka": "Dla dziecka",
+      "dziecko": "Dla dziecka",
+      "gastronomia": "Gastronomia",
+      "gastronomiczne": "Gastronomia",
+      "wagi": "Wagi",
+      "zdrowie i uroda": "Zdrowie i Uroda",
+      "chemia profesjonalna": "Chemia profesjonalna",
+      "ogród i gospodarstwo": "Ogród i Gospodarstwo",
+      "ogrod i gospodarstwo": "Ogród i Gospodarstwo",
+      "narzędzia": "Narzędzia",
+      "narzedzia": "Narzędzia",
       "motoryzacja": "Motoryzacja",
-      "dziecko": "Dziecko",
       "biurowe i papiernicze": "Biurowe i papiernicze",
-      "gastronomiczne": "Gastronomiczne",
-      "gastronomia": "Gastronomiczne",
-      
-      "akcesoria komputerowe": "Akcesoria Komputerowe",
-      "etui i akcesoria gsm": "Etui i akcesoria GSM",
+      "opakowania i materiały wysyłkowe": "Opakowania i materiały wysyłkowe",
+      "opakowania i materialy wysylkowe": "Opakowania i materiały wysyłkowe",
+      "chemia gospodarcza": "Chemia gospodarcza",
+      "outlet": "Outlet",
+
+      "akcesoria gsm": "Akcesoria GSM",
+      "audio (słuchawki i głośniki)": "Audio (słuchawki i głośniki)",
+      "audio (sluchawki i glosniki)": "Audio (słuchawki i głośniki)",
+      "drukarki i skanery": "Drukarki i skanery",
+      "etui i pokrowce": "Etui i pokrowce",
+      "kable i adaptery": "Kable i adaptery",
+      "komputery i akcesoria": "Komputery i akcesoria",
+      "komputery i laptopy": "Komputery i laptopy",
+      "konsole i gry": "Konsole i gry",
+      "ładowanie i zasilanie": "Ładowanie i zasilanie",
+      "ladowanie i zasilanie": "Ładowanie i zasilanie",
+      "monitoring": "Monitoring",
+      "monitory": "Monitory",
+      "podzespoły komputerowe": "Podzespoły komputerowe",
+      "podzespoly komputerowe": "Podzespoły komputerowe",
+      "sieci i serwery": "Sieci i serwery",
       "smartfony i telefony": "Smartfony i telefony",
       "smartwatche": "Smartwatche",
-      "słuchawki": "Słuchawki",
-      "sluchawki": "Słuchawki",
-      
+      "szkła i folie ochronne": "Szkła i folie ochronne",
+      "szkla i folie ochronne": "Szkła i folie ochronne",
+      "upsy i zasilanie": "UPSy i zasilanie",
+
+      "energia i ogrzewanie": "Energia i ogrzewanie",
+      "gadżety": "Gadżety",
+      "gadzety": "Gadżety",
+      "kuchnia": "Kuchnia",
+      "łazienka": "Łazienka",
+      "lazienka": "Łazienka",
+      "oświetlenie (domowe)": "Oświetlenie (domowe)",
+      "oswietlenie (domowe)": "Oświetlenie (domowe)",
+      "smart home": "Smart home",
+      "sprzęt agd": "Sprzęt AGD",
+      "sprzet agd": "Sprzęt AGD",
+      "wyposażenie i akcesoria": "Wyposażenie i akcesoria",
+      "wyposazenie i akcesoria": "Wyposażenie i akcesoria",
+      "zabezpieczenia": "Zabezpieczenia",
+      "zwierzęta": "Zwierzęta",
+      "zwierzeta": "Zwierzęta",
+
       "akcesoria sportowe": "Akcesoria sportowe",
-      "rekreacja": "Rekreacja",
-      "turystyka": "Turystyka",
-      
-      "akcesoria dla zwierząt": "Akcesoria dla zwierząt",
-      "akcesoria dla zwierzat": "Akcesoria dla zwierząt",
-      "akcesoria domowe": "Akcesoria domowe",
-      "domowe agd": "Domowe AGD",
-      "ogród": "Ogród",
-      "ogrod": "Ogród",
-      "oświetlenie": "Oświetlenie",
-      "oswietlenie": "Oświetlenie",
-      "wyposażenie wnętrz": "Wyposażenie wnętrz",
-      "wyposazenie wnetrz": "Wyposażenie wnętrz",
-      
-      "akcesoria samochodowe": "Akcesoria samochodowe",
-      "folie samochodowe": "Folie samochodowe",
-      
-      "kostiumy i przebrania": "Kostiumy i przebrania",
+      "fitness i trening": "Fitness i trening",
+      "kemping i przetrwanie": "Kemping i przetrwanie",
+      "rowery i akcesoria": "Rowery i akcesoria",
+      "sprzęt turystyczny": "Sprzęt turystyczny",
+      "sprzet turystyczny": "Sprzęt turystyczny",
+      "wykrywacze metalu": "Wykrywacze metalu",
+
+      "artykuły plastyczne i kreatywne": "Artykuły plastyczne i kreatywne",
+      "artykuly plastyczne i kreatywne": "Artykuły plastyczne i kreatywne",
+      "artykuły szkolne i papiernicze": "Artykuły szkolne i papiernicze",
+      "artykuly szkolne i papiernicze": "Artykuły szkolne i papiernicze",
+      "gry edukacyjne i planszowe": "Gry edukacyjne i planszowe",
+      "naczynia i akcesoria dziecięce": "Naczynia i akcesoria dziecięce",
+      "naczynia i akcesoria dzieciece": "Naczynia i akcesoria dziecięce",
+      "pluszaki": "Pluszaki",
+      "pojazdy i jeździki": "Pojazdy i jeździki",
+      "pojazdy i jezdziki": "Pojazdy i jeździki",
+      "przebrania": "Przebrania",
+      "przybory i akcesoria": "Przybory i akcesoria",
       "zabawki": "Zabawki",
-      "pojazdy dla dzieci": "Pojazdy dla dzieci",
-      "artykuły dla dzieci": "Artykuły dla dzieci",
-      "artykuly dla dzieci": "Artykuły dla dzieci",
-      "artykuły plastyczne": "Artykuły plastyczne",
-      "artykuly plastyczne": "Artykuły plastyczne",
-      "artykuły szkolne": "Artykuły szkolne",
-      "artykuly szkolne": "Artykuły szkolne",
-      
-      "naczynia i zastawa": "Naczynia i zastawa",
-      
-      "outlet": "Outlet"
+      "zabawki ogrodowe": "Zabawki ogrodowe",
+      "lego": "LEGO",
+
+      "cukiernictwo": "Cukiernictwo",
+      "higiena i utrzymanie czystości": "Higiena i utrzymanie czystości",
+      "higiena i utrzymanie czystosci": "Higiena i utrzymanie czystości",
+      "pizzeria": "Pizzeria",
+      "sprzęt do wyrobu alkoholu": "Sprzęt do wyrobu alkoholu",
+      "sprzet do wyrobu alkoholu": "Sprzęt do wyrobu alkoholu",
+      "sprzęt gastronomiczny": "Sprzęt gastronomiczny",
+      "sprzet gastronomiczny": "Sprzęt gastronomiczny",
+      "ubój i wędzenie": "Ubój i wędzenie",
+      "uboj i wedzenie": "Ubój i wędzenie",
+      "wyposażenie lokali": "Wyposażenie lokali",
+      "wyposazenie lokali": "Wyposażenie lokali",
+
+      "wagi kuchenne": "Wagi kuchenne",
+      "wagi przemysłowe": "Wagi przemysłowe",
+      "wagi przemyslowe": "Wagi przemysłowe",
+
+      "grooming": "Grooming",
+      "masaż i rehabilitacja": "Masaż i rehabilitacja",
+      "masaz i rehabilitacja": "Masaż i rehabilitacja",
+      "modele anatomiczne": "Modele anatomiczne",
+      "oczyszczacze powietrza i dezynfekcja": "Oczyszczacze powietrza i dezynfekcja",
+      "wyposażenie gabinetów i salonów": "Wyposażenie gabinetów i salonów",
+      "wyposazenie gabinetow i salonow": "Wyposażenie gabinetów i salonów",
+
+      "chemia dla gastronomii": "Chemia dla gastronomii",
+      "chemia przemysłowa": "Chemia przemysłowa",
+      "chemia przemyslowa": "Chemia przemysłowa",
+      "chemia samochodowa": "Chemia samochodowa",
+      "chemia warsztatowa": "Chemia warsztatowa",
+
+      "akcesoria garażowe": "Akcesoria garażowe",
+      "akcesoria garazowe": "Akcesoria garażowe",
+      "artykuły dla zwierząt": "Artykuły dla zwierząt",
+      "artykuly dla zwierzat": "Artykuły dla zwierząt",
+      "baseny i akcesoria": "Baseny i akcesoria",
+      "meble ogrodowe": "Meble ogrodowe",
+      "nawadnianie": "Nawadnianie",
+      "ogród i narzędzia ogrodowe": "Ogród i narzędzia ogrodowe",
+      "ogrod i narzedzia ogrodowe": "Ogród i narzędzia ogrodowe",
+      "oświetlenie zewnętrzne": "Oświetlenie zewnętrzne",
+      "oswietlenie zewnetrzne": "Oświetlenie zewnętrzne",
+      "place zabaw": "Place zabaw",
+      "pojemniki i zbiorniki gospodarcze": "Pojemniki i zbiorniki gospodarcze",
+      "pszczelarstwo": "Pszczelarstwo",
+
+      "elektronarzędzia": "Elektronarzędzia",
+      "elektronarzedzia": "Elektronarzędzia",
+      "maszyny i urządzenia": "Maszyny i urządzenia",
+      "maszyny i urzadzenia": "Maszyny i urządzenia",
+      "narzędzia ręczne": "Narzędzia ręczne",
+      "narzedzia reczne": "Narzędzia ręczne",
+      "spawalnictwo": "Spawalnictwo",
+      "sprzęt laboratoryjny": "Sprzęt Laboratoryjny",
+      "sprzet laboratoryjny": "Sprzęt Laboratoryjny",
+      "czujniki": "Czujniki",
+      "urządzenia": "Urządzenia",
+      "urzadzenia": "Urządzenia",
+
+      "akcesoria i części": "Akcesoria i części",
+      "akcesoria i czesci": "Akcesoria i części",
+      "ładowarki samochodowe": "Ładowarki samochodowe",
+      "ladowarki samochodowe": "Ładowarki samochodowe",
+      "uchwyty samochodowe": "Uchwyty samochodowe",
+      "wyposażenie warsztatu": "Wyposażenie warsztatu",
+      "wyposazenie warsztatu": "Wyposażenie warsztatu"
     }
   }
 }

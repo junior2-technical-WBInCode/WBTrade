@@ -709,8 +709,27 @@ export class BaselinkerService {
     let skipped = 0;
 
     try {
-      const categories = await provider.getInventoryCategories(inventoryId);
-      console.log(`[BaselinkerSync] Fetched ${categories.length} categories from Baselinker`);
+      const allCategories = await provider.getInventoryCategories(inventoryId);
+      console.log(`[BaselinkerSync] Fetched ${allCategories.length} categories from Baselinker`);
+
+      // Filter out warehouse-specific categories (e.g. Hurtownia Sportowa uses "/" separator)
+      // Only keep shared categories (with "|" separator or plain top-level names without "/")
+      // Also skip warehouse-specific plain categories that are not shared across all inventories
+      const BLOCKED_CATEGORY_NAMES = new Set([
+        '', ' ',
+        'akcesoria', 'odzież', 'obuwie', 'buty', 'moda', 'sport', 'dziecko',
+        'import z verto', 'import z inmotion', 'do skategoryzowania',
+        '(gry i zabawki) pluszaki',
+      ]);
+      const categories = allCategories.filter(c => {
+        if (c.name.includes('/')) return false;
+        if (BLOCKED_CATEGORY_NAMES.has(c.name.trim().toLowerCase())) return false;
+        return true;
+      });
+      const skippedCount = allCategories.length - categories.length;
+      if (skippedCount > 0) {
+        console.log(`[BaselinkerSync] Skipped ${skippedCount} warehouse-specific categories`);
+      }
 
       // Pre-fetch all existing categories for comparison
       const existingCategories = await prisma.category.findMany({
