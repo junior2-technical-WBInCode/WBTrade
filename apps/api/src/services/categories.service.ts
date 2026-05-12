@@ -393,6 +393,7 @@ export class CategoriesService {
 
   /**
    * Get category by slug with children
+   * Filters out hidden categories
    */
   async getCategoryBySlug(slug: string): Promise<CategoryWithChildren | null> {
     const category = await prisma.category.findUnique({
@@ -419,6 +420,11 @@ export class CategoriesService {
     });
 
     if (!category) return null;
+
+    // Check if category is hidden
+    if (HIDDEN_CATEGORY_NAMES.some(hiddenName => category.name.toLowerCase() === hiddenName.toLowerCase())) {
+      return null;
+    }
 
     // Collect all slugs from category + children + grandchildren + great-grandchildren
     const allNodes: { id: string; slug: string }[] = [{ id: category.id, slug: category.slug }];
@@ -533,28 +539,40 @@ export class CategoriesService {
     // Sprawdź cache — kategorie rzadko się zmieniają
     const cached = await getCachedCategoryTree<CategoryWithChildren[]>();
     if (cached) {
-      return cached;
+      // Filter hidden categories even from cache (in case HIDDEN_CATEGORY_NAMES changed)
+      const filterHidden = (cats: CategoryWithChildren[]): CategoryWithChildren[] => {
+        return cats
+          .filter(cat => !HIDDEN_CATEGORY_NAMES.some(hiddenName => cat.name.toLowerCase() === hiddenName.toLowerCase()))
+          .map(cat => ({
+            ...cat,
+            children: cat.children ? filterHidden(cat.children) : undefined
+          }));
+      };
+      return filterHidden(cached);
     }
 
     const categories = await prisma.category.findMany({
       where: { 
         isActive: true,
         parentId: null,
-        baselinkerCategoryId: { not: null } // Only Baselinker categories
+        baselinkerCategoryId: { not: null }, // Only Baselinker categories
+        name: { notIn: HIDDEN_CATEGORY_NAMES, mode: 'insensitive' },
       },
       orderBy: [{ order: 'asc' }, { name: 'asc' }],
       include: {
         children: {
           where: { 
             isActive: true,
-            baselinkerCategoryId: { not: null }
+            baselinkerCategoryId: { not: null },
+            name: { notIn: HIDDEN_CATEGORY_NAMES, mode: 'insensitive' },
           },
           orderBy: [{ order: 'asc' }, { name: 'asc' }],
           include: {
             children: {
               where: { 
                 isActive: true,
-                baselinkerCategoryId: { not: null }
+                baselinkerCategoryId: { not: null },
+                name: { notIn: HIDDEN_CATEGORY_NAMES, mode: 'insensitive' },
               },
               orderBy: [{ order: 'asc' }, { name: 'asc' }],
             }
