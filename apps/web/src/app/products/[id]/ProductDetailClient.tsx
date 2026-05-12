@@ -834,17 +834,23 @@ export default function ProductDetailClient({ product }: ProductDetailClientProp
               {/* Warehouse Location based on tags */}
               {(() => {
                 const tags = product?.tags || [];
+                const blId = ((product as any).baselinkerProductId || '').toLowerCase();
                 let warehouseCity = '';
                 
-                if (tags.some(t => t.toLowerCase().includes('hurtownia przemysłowa'))) {
+                // Outlet products always show Rzeszów (check first - overrides wholesaler tag)
+                if (blId.startsWith('outlet-') || tags.some(t => t.toLowerCase() === 'rzeszów' || t.toLowerCase() === 'outlet')) {
+                  warehouseCity = 'Rzeszowie';
+                } else if (tags.some(t => t.toLowerCase().includes('hurtownia przemysłowa')) || blId.startsWith('hp-')) {
                   warehouseCity = 'Zielonej Górze';
                 } else if (tags.some(t => t.toLowerCase() === 'ikonka')) {
                   warehouseCity = 'Białymstoku';
-                } else if (tags.some(t => t.toLowerCase() === 'leker')) {
+                } else if (tags.some(t => t.toLowerCase() === 'leker') || blId.startsWith('leker-')) {
                   warehouseCity = 'Chynowie';
-                } else if (tags.some(t => t.toLowerCase() === 'btp')) {
+                } else if (tags.some(t => t.toLowerCase() === 'btp') || blId.startsWith('btp-')) {
                   warehouseCity = 'Chotowie';
-                } else if (tags.some(t => t.toLowerCase().includes('hurtownia kuchenna'))) {
+                } else if (tags.some(t => t.toLowerCase() === 'dofirmy') || blId.startsWith('dofirmy-')) {
+                  warehouseCity = 'Koszalinie';
+                } else if (tags.some(t => t.toLowerCase().includes('hurtownia kuchenna')) || blId.startsWith('hk-')) {
                   warehouseCity = 'Hurtowni Kuchennej';
                 }
                 
