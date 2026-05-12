@@ -720,7 +720,9 @@ export class BaselinkerService {
         'akcesoria', 'odzież', 'obuwie', 'buty', 'moda', 'sport', 'dziecko',
         'import z verto', 'import z inmotion', 'do skategoryzowania',
         '(gry i zabawki) pluszaki',
-        'kategoria tymczasowa', 'hurtownia sportowa', 'import z pmsport', 'w przygotowaniu',
+        '*kategoria tymczasowa', '-hurtownia sportowa', '- hurtownia sportowa',
+        'hurtownia sportowa', 'import z pmsport', 'w przygotowaniu',
+        'kategoria tymczasowa', 'do zrobienia',
       ]);
       const categories = allCategories.filter(c => {
         if (c.name.includes('/')) return false;

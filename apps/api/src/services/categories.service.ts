@@ -36,7 +36,10 @@ const HIDDEN_TAGS = ['błąd zdjęcia', 'błąd zdjęcia ', 'nie wrzucać-zabron
 const HIDDEN_CATEGORY_NAMES = [
   'do zrobienia',
   'kategoria tymczasowa',
+  '*kategoria tymczasowa',
   'hurtownia sportowa',
+  '- hurtownia sportowa',
+  '-hurtownia sportowa',
   'import z pmsport',
   'w przygotowaniu'
 ];
