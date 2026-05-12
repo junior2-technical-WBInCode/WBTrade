@@ -885,7 +885,9 @@ export class BaselinkerService {
               foundId = dbCategory.id;
             } else {
               // Create intermediate category (no baselinkerCategoryId since it's synthetic)
-              const intermediateSlug = slugify(partName) || `category-${Date.now()}`;
+              // Include parent context in slug to avoid collisions
+              const parentPart = i > 0 ? parts[i - 1] : '';
+              const intermediateSlug = (parentPart ? slugify(`${parentPart}-${partName}`) : slugify(partName)) || `category-${Date.now()}`;
               const intermediateFullPath = parts.slice(0, i + 1).join('|');
               console.log(`[BaselinkerSync] Creating intermediate category: "${intermediateFullPath}"`);
               
@@ -941,8 +943,10 @@ export class BaselinkerService {
             if (pathToCategoryId.has(fullPath.toLowerCase())) continue;
           }
 
-          // Create slug from leaf name only (parent is in hierarchy)
-          const slug = slugify(leafName) || `subcategory-${categoryId}`;
+          // Create slug from parent + leaf name to avoid collisions
+          // e.g. "Elektronika|Akcesoria" → "elektronika-akcesoria" instead of just "akcesoria"
+          const parentName = parts.length >= 2 ? parts[parts.length - 2] : '';
+          const slug = (parentName ? slugify(`${parentName}-${leafName}`) : slugify(leafName)) || `subcategory-${categoryId}`;
           
           const result = await prisma.category.upsert({
             where: { baselinkerCategoryId: categoryId },

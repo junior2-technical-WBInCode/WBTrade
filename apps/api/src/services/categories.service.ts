@@ -90,7 +90,9 @@ export class CategoriesService {
   private async getAllMatchingCategoryIds(slug: string): Promise<string[]> {
     const prefixes = ['btp-', 'hp-', 'leker-', 'ikonka-'];
 
-    // Find ALL matching categories: exact slug + supplier prefixes + contains
+    // Find ALL matching categories: exact slug + supplier prefixes
+    // NOTE: Do NOT use `contains` here — it causes false matches between unrelated
+    // subcategories with similar names (e.g. "akcesoria" matching "akcesoria-sportowe")
     const matchingCategories = await prisma.category.findMany({
       where: {
         isActive: true,
@@ -99,7 +101,6 @@ export class CategoriesService {
           ...prefixes.map(prefix => ({
             slug: { startsWith: `${prefix}${slug}` }
           })),
-          { slug: { contains: slug, mode: 'insensitive' as const } },
         ],
       },
       select: { id: true },

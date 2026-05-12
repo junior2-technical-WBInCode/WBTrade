@@ -26,6 +26,8 @@ export interface Category {
 
 // Główne kategorie (zsynchronizowane z tagami Baselinker)
 // UWAGA: Te kategorie to KONTENERY - produkty wyświetlają się tylko w podkategoriach
+// UWAGA: Slugi podkategorii w DB zawierają prefiks rodzica (np. "elektronika-i-gsm-akcesoria-gsm")
+//        Lista poniżej jest referencją — rzeczywiste dane ładowane dynamicznie z API
 export const mainCategories: Category[] = [
   {
     name: 'Elektronika i GSM',

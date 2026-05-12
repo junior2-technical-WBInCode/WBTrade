@@ -249,11 +249,14 @@ function buildCategoryTree(
         
         let childNode = currentNode.children.get(partName);
         if (!childNode) {
+          // Include parent name in slug to avoid collisions between
+          // same-named subcategories under different parents (e.g. "Akcesoria")
+          const parentName = parsed.parts[i - 1];
           childNode = {
             baselinkerCategoryId: isLast ? categoryId : '',
             name: partName,
             fullPath: partPath,
-            slug: slugify(partName),
+            slug: slugify(`${parentName}-${partName}`),
             children: new Map(),
             productCount: 0,
           };

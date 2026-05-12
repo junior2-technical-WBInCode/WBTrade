@@ -268,9 +268,11 @@ export class ProductsService {
   private async getAllCategoryIds(categorySlugOrId: string): Promise<string[]> {
     const prefixes = ['btp-', 'hp-', 'leker-', 'ikonka-', 'dofirmy-'];
 
-    // Find ALL matching categories at once: exact slug + supplier prefixes + contains
+    // Find ALL matching categories at once: exact slug + supplier prefixes
     // This ensures product listing aggregates products from all supplier variants
     // matching the same base category (e.g. gadzety, btp-gadzety, hp-gadzety)
+    // NOTE: Do NOT use `contains` here — it causes false matches between unrelated
+    // subcategories with similar names (e.g. "akcesoria" matching "akcesoria-sportowe")
     let categories = await prisma.category.findMany({
       where: { 
         OR: [
@@ -278,9 +280,6 @@ export class ProductsService {
           ...prefixes.map(prefix => ({
             slug: { startsWith: `${prefix}${categorySlugOrId}` }
           })),
-          {
-            slug: { contains: categorySlugOrId, mode: 'insensitive' as const }
-          }
         ]
       },
       select: { id: true },
