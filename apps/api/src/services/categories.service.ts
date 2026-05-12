@@ -33,7 +33,13 @@ const BLOCKED_IMAGE_DOMAINS: string[] = [];
 const HIDDEN_TAGS = ['błąd zdjęcia', 'błąd zdjęcia ', 'nie wrzucać-zabronione'];
 
 // Kategorie ukryte na stronie (nazwa lowercase)
-const HIDDEN_CATEGORY_NAMES = ['do zrobienia'];
+const HIDDEN_CATEGORY_NAMES = [
+  'do zrobienia',
+  'kategoria tymczasowa',
+  'hurtownia sportowa',
+  'import z pmsport',
+  'w przygotowaniu'
+];
 
 // Bazowy filtr dla widocznych produktów - MUSI BYĆ IDENTYCZNY jak w products.service.ts
 const VISIBLE_PRODUCT_WHERE = {
