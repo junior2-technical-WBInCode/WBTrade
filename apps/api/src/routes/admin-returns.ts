@@ -39,15 +39,21 @@ router.get('/', async (req: Request, res: Response) => {
   try {
     const { page, limit, status, type, search, dateFrom, dateTo } = req.query;
 
+    const statusStr = typeof status === 'string' ? status : undefined;
+    const typeStr = typeof type === 'string' ? type : undefined;
+    const searchStr = typeof search === 'string' ? search : undefined;
+    const dateFromStr = typeof dateFrom === 'string' ? dateFrom : undefined;
+    const dateToStr = typeof dateTo === 'string' ? dateTo : undefined;
+
     const result = await returnService.getReturns({
       page: page ? Number(page) : undefined,
       limit: limit ? Number(limit) : undefined,
-      status: status ? (status as string).includes(',') ? undefined : (status as ReturnStatus) : undefined,
-      statuses: status && (status as string).includes(',') ? (status as string).split(',') as ReturnStatus[] : undefined,
-      type: type as 'RETURN' | 'COMPLAINT' | undefined,
-      search: search as string | undefined,
-      dateFrom: dateFrom ? new Date(dateFrom as string) : undefined,
-      dateTo: dateTo ? new Date(dateTo as string) : undefined,
+      status: statusStr ? (statusStr.includes(',') ? undefined : (statusStr as ReturnStatus)) : undefined,
+      statuses: statusStr?.includes(',') ? statusStr.split(',') as ReturnStatus[] : undefined,
+      type: typeStr as 'RETURN' | 'COMPLAINT' | undefined,
+      search: searchStr,
+      dateFrom: dateFromStr ? new Date(dateFromStr) : undefined,
+      dateTo: dateToStr ? new Date(dateToStr) : undefined,
     });
 
     res.json(result);
