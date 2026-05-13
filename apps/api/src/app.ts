@@ -52,6 +52,7 @@ import adminLoyaltyRoutes from './routes/admin-loyalty';
 import chatbotRoutes from './routes/chatbot';
 import supportRoutes from './routes/support';
 import adminSyncRoutes from './routes/admin-sync';
+import adminCategoriesRoutes from './routes/admin-categories';
 import adminSupportRoutes from './routes/admin-support';
 import adminReturnsRoutes from './routes/admin-returns';
 import adminDeliveryDelaysRoutes from './routes/admin-delivery-delays';
@@ -1037,6 +1038,7 @@ app.use('/api/chatbot', chatbotRoutes); // WuBuś chatbot unmatched questions
 app.use('/api/support', supportRoutes); // Customer support messaging
 app.use('/api/admin/support', adminSupportRoutes); // Admin support management
 app.use('/api/admin/sync', adminSyncRoutes); // Admin manual XML price sync
+app.use('/api/admin/categories', adminCategoriesRoutes); // Admin categories management
 app.use('/api/admin/returns', adminReturnsRoutes); // Admin returns management
 app.use('/api/admin/delivery-delays', adminDeliveryDelaysRoutes); // Admin delivery delay alerts
 app.use('/api/admin/email-templates', adminEmailTemplatesRoutes); // Admin email templates management
