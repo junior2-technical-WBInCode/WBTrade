@@ -1,6 +1,7 @@
 import { Router, Request, Response } from 'express';
 import { streamGoogleMerchantFeed, streamFilteredGoogleMerchantFeed, generateGoogleMerchantFeed, getFeedStats } from '../services/google-feed.service';
 import { streamFaviFeed } from '../services/favi-feed.service';
+import { streamCampaignFeed, getCampaignKeys } from '../services/campaign-feed.service';
 import { authGuard, adminOnly } from '../middleware/auth.middleware';
 
 const router = Router();
@@ -177,6 +178,42 @@ router.get('/favi.xml', async (req: Request, res: Response) => {
     if (!res.headersSent) {
       res.status(500).json({
         error: 'Failed to generate FAVI feed',
+        message: error instanceof Error ? error.message : 'Unknown error'
+      });
+    }
+  }
+});
+
+/**
+ * GET /api/feed/campaign/:key
+ * Campaign-specific feed by key (caloroczna, gastronomia, ogrod, sport)
+ * Public endpoint - accessible by Google bots
+ */
+router.get('/campaign/:key', async (req: Request, res: Response) => {
+  try {
+    const key = req.params.key;
+    const validKeys = getCampaignKeys();
+    if (!validKeys.includes(key)) {
+      res.status(404).json({ error: `Unknown campaign. Valid keys: ${validKeys.join(', ')}` });
+      return;
+    }
+
+    const baseUrl = process.env.FRONTEND_URL?.split(',')[0]?.trim()
+      || `${req.protocol}://${req.get('host')}`;
+
+    res.set({
+      'Content-Type': 'application/xml; charset=utf-8',
+      'Cache-Control': 'public, max-age=3600',
+      'X-Robots-Tag': 'noindex',
+      'Transfer-Encoding': 'chunked',
+    });
+
+    await streamCampaignFeed(key, baseUrl, res);
+  } catch (error) {
+    console.error('Error generating campaign feed:', error);
+    if (!res.headersSent) {
+      res.status(500).json({
+        error: 'Failed to generate campaign feed',
         message: error instanceof Error ? error.message : 'Unknown error'
       });
     }

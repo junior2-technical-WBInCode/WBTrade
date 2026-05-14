@@ -273,8 +273,8 @@ export async function streamGoogleMerchantFeed(baseUrl: string, res: Response): 
 
     skip += BATCH_SIZE;
 
-    // Safety limit - max 50000 products
-    if (skip >= 50000) {
+    // Safety limit - max 150000 products (Google Merchant limit per feed file)
+    if (skip >= 150000) {
       hasMore = false;
     }
 
@@ -363,7 +363,7 @@ export async function generateGoogleMerchantFeed(baseUrl: string): Promise<strin
     }
 
     skip += BATCH_SIZE;
-    if (skip >= 50000) {
+    if (skip >= 150000) {
       hasMore = false;
     }
   }
@@ -469,7 +469,7 @@ export async function streamFilteredGoogleMerchantFeed(
     }
 
     skip += BATCH_SIZE;
-    if (skip >= 50000) {
+    if (skip >= 150000) {
       hasMore = false;
     }
 
