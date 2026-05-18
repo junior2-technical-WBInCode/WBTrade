@@ -26,6 +26,7 @@ import {
   Percent,
   RotateCcw,
   Clock,
+  Building2,
   // Trophy,
 } from 'lucide-react';
 import { useState } from 'react';
@@ -168,6 +169,11 @@ const navSections: NavSection[] = [
         title: 'Użytkownicy',
         href: '/users',
         icon: Users,
+      },
+      {
+        title: 'Współpraca B2B',
+        href: '/b2b',
+        icon: Building2,
       },
       {
         title: 'Magazyn (WMS)',
