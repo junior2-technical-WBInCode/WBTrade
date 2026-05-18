@@ -2,6 +2,7 @@ import { Router, Request, Response } from 'express';
 import { streamGoogleMerchantFeed, streamFilteredGoogleMerchantFeed, generateGoogleMerchantFeed, getFeedStats } from '../services/google-feed.service';
 import { streamFaviFeed } from '../services/favi-feed.service';
 import { streamCampaignFeed, getCampaignKeys } from '../services/campaign-feed.service';
+import { streamCeneoFeed } from '../services/ceneo-feed.service';
 import { authGuard, adminOnly } from '../middleware/auth.middleware';
 
 const router = Router();
@@ -214,6 +215,35 @@ router.get('/campaign/:key', async (req: Request, res: Response) => {
     if (!res.headersSent) {
       res.status(500).json({
         error: 'Failed to generate campaign feed',
+        message: error instanceof Error ? error.message : 'Unknown error'
+      });
+    }
+  }
+});
+
+/**
+ * GET /api/feed/ceneo
+ * Ceneo XML feed with recalculated prices (multiplier 1.1 instead of 1.35)
+ * Public endpoint
+ */
+router.get('/ceneo', async (req: Request, res: Response) => {
+  try {
+    const baseUrl = process.env.FRONTEND_URL?.split(',')[0]?.trim()
+      || `${req.protocol}://${req.get('host')}`;
+
+    res.set({
+      'Content-Type': 'application/xml; charset=utf-8',
+      'Cache-Control': 'public, max-age=3600',
+      'X-Robots-Tag': 'noindex',
+      'Transfer-Encoding': 'chunked',
+    });
+
+    await streamCeneoFeed(baseUrl, res);
+  } catch (error) {
+    console.error('Error generating Ceneo feed:', error);
+    if (!res.headersSent) {
+      res.status(500).json({
+        error: 'Failed to generate Ceneo feed',
         message: error instanceof Error ? error.message : 'Unknown error'
       });
     }
