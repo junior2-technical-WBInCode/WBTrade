@@ -49,7 +49,7 @@ export async function getB2bUserInfo(userId: string): Promise<{ multiplier: numb
     select: { role: true, b2bStatus: true, b2bPriceMultiplier: true },
   });
 
-  if (!user || user.role !== 'B2B_PARTNER' || user.b2bStatus !== 'APPROVED') {
+  if (!user || user.role !== 'B2B_PARTNER' || (user.b2bStatus !== 'APPROVED' && user.b2bStatus !== 'SUSPENDED')) {
     return null;
   }
 

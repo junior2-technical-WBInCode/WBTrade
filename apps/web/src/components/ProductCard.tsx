@@ -50,8 +50,8 @@ export default memo(function ProductCard({ product, showDelivery = false, showWi
   const showPlaceholder = imgError || !productImage;
   const mainImage = showPlaceholder ? PLACEHOLDER_IMAGE : productImage;
 
-  // B2B price transformation
-  const isB2b = user && (user as any).b2bStatus === 'APPROVED';
+  // B2B price transformation (show B2B prices for APPROVED and SUSPENDED partners)
+  const isB2b = user && ((user as any).b2bStatus === 'APPROVED' || (user as any).b2bStatus === 'SUSPENDED');
   const b2bMultiplier = isB2b ? ((user as any).b2bPriceMultiplier || 1.10) : null;
   const displayPrice = isB2b && b2bMultiplier ? calculateB2bPrice(Number(product.price), b2bMultiplier) : Number(product.price);
 
