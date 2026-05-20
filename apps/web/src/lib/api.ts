@@ -561,7 +561,7 @@ export interface OrderItem {
 export interface PackageShippingInfo {
   packageId: string;
   wholesaler?: string;
-  method: 'inpost_paczkomat' | 'inpost_kurier' | 'dpd_kurier' | 'wysylka_gabaryt' | 'odbior_osobisty_outlet';
+  method: 'inpost_paczkomat' | 'inpost_kurier' | 'dpd_kurier' | 'wysylka_gabaryt' | 'odbior_osobisty_outlet' | 'b2b_wysylka_wlasna';
   price: number;
   paczkomatCode?: string;
   paczkomatAddress?: string;
@@ -611,6 +611,8 @@ export interface Order {
   notes?: string;
   // Invoice preference
   wantInvoice?: boolean;
+  invoiceNumber?: string;
+  invoiceUrl?: string;
   // Business order fields
   isBusinessOrder?: boolean;
   billingNip?: string;
@@ -1282,7 +1284,7 @@ export const checkoutApi = {
     }>('/checkout/shipping/calculate', { items }),
   
   // Get shipping options per package (for per-product shipping selection)
-  getShippingPerPackage: (items: Array<{ variantId: string; quantity: number }>) =>
+  getShippingPerPackage: (items: Array<{ variantId: string; quantity: number }>, cartSubtotal?: number) =>
     api.post<{
       packagesWithOptions: Array<{
         package: {
@@ -1315,7 +1317,7 @@ export const checkoutApi = {
       }>;
       totalShippingCost: number;
       warnings: string[];
-    }>('/checkout/shipping/per-package', { items }),
+    }>('/checkout/shipping/per-package', { items, cartSubtotal }),
   
   // Get pickup points (Paczkomaty)
   getPickupPoints: (postalCode: string, city?: string, limit?: number) =>

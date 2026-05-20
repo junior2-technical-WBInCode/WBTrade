@@ -54,14 +54,14 @@ router.get('/shipping/calculate', optionalAuth, calculateCartShipping);
  * Calculate shipping cost for provided items (alternative to cart-based calculation)
  * Body: { items: [{ variantId: string, quantity: number }] }
  */
-router.post('/shipping/calculate', calculateItemsShipping);
+router.post('/shipping/calculate', optionalAuth, calculateItemsShipping);
 
 /**
  * POST /api/checkout/shipping/per-package
  * Get shipping options per package for per-product shipping selection
  * Body: { items: [{ variantId: string, quantity: number }] }
  */
-router.post('/shipping/per-package', getShippingPerPackage);
+router.post('/shipping/per-package', optionalAuth, getShippingPerPackage);
 
 // ============================================
 // PAYMENT ENDPOINTS

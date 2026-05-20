@@ -5,6 +5,7 @@ import { popularityService } from './popularity.service';
 import { roundMoney, addMoney, subtractMoney } from '../lib/currency';
 import { createBaselinkerProvider } from '../providers/baselinker';
 import { decryptToken } from '../lib/encryption';
+import { getB2bUserInfo, calculateB2bPrice } from './b2b-pricing.service';
 
 // Courier name mapping for display
 const COURIER_NAMES: Record<string, string> = {
@@ -209,14 +210,19 @@ export class OrdersService {
     
     // SECURITY: Look up real prices from DB for all items to prevent price manipulation
     // Also pre-fetch product/variant names to avoid redundant lookups inside the transaction
+    const b2bInfo = data.userId ? await getB2bUserInfo(data.userId) : null;
     const itemsWithRealPrices = await Promise.all(
       data.items.map(async (item) => {
         const variant = await prisma.productVariant.findUnique({
           where: { id: item.variantId },
           include: { product: { select: { name: true } } },
         });
-        const realPrice = variant ? Number(variant.price) : item.unitPrice;
-        if (variant && Math.abs(realPrice - item.unitPrice) > 0.01) {
+        let realPrice = variant ? Number(variant.price) : item.unitPrice;
+        // Apply B2B pricing for B2B partners
+        if (b2bInfo) {
+          realPrice = calculateB2bPrice(realPrice, b2bInfo.multiplier);
+        }
+        if (variant && !b2bInfo && Math.abs(realPrice - item.unitPrice) > 0.01) {
           console.warn(`[SECURITY] Price mismatch for variant ${item.variantId}: client sent ${item.unitPrice}, DB price is ${realPrice}`);
         }
         return {

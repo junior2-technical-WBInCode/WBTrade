@@ -129,7 +129,7 @@ export class PaymentService {
   /**
    * Get all available payment methods
    */
-  async getAvailablePaymentMethods(): Promise<AvailablePaymentMethod[]> {
+  async getAvailablePaymentMethods(userId?: string): Promise<AvailablePaymentMethod[]> {
     const methods: AvailablePaymentMethod[] = [];
 
     for (const provider of this.providers.values()) {
@@ -151,6 +151,23 @@ export class PaymentService {
       feeType: 'fixed',
       description: 'Zapłać kurierowi przy odbiorze',
     });
+
+    // Add B2B bank transfer (only for approved B2B partners)
+    if (userId) {
+      const { getB2bUserInfo } = require('./b2b-pricing.service');
+      const b2bInfo = await getB2bUserInfo(userId);
+      if (b2bInfo) {
+        methods.push({
+          id: 'b2b_transfer',
+          type: 'bank_transfer' as PaymentMethodType,
+          name: 'Przelew na konto (B2B)',
+          providerId: 'payu',
+          fee: 0,
+          feeType: 'fixed',
+          description: 'Przelew bankowy z odroczonym terminem płatności (7 dni)',
+        });
+      }
+    }
 
     return methods;
   }

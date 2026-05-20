@@ -390,6 +390,7 @@ model Order {
   invoiceNumber            String?              @map("invoice_number")
   invoiceUrl               String?              @map("invoice_url")
   orderLabel               String?              @map("order_label")
+  b2bShippingLabel         String?              @map("b2b_shipping_label")
   pendingCancellation      Boolean              @default(false) @map("pending_cancellation")
   pendingCancellationAt    DateTime?            @map("pending_cancellation_at")
   cancellationReason       String?              @map("cancellation_reason")

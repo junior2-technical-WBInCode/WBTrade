@@ -62,8 +62,9 @@ export default function CartPage() {
           variantId: item.variant.id,
           quantity: item.quantity,
         }));
-        
-        const response = await checkoutApi.getShippingPerPackage(items);
+
+        const cartSubtotal = cart.items.reduce((sum, item) => sum + (item.variant.price * item.quantity), 0);
+        const response = await checkoutApi.getShippingPerPackage(items, cartSubtotal);
         
         // Build shipping prices per wholesaler - use LOWEST available price
         const prices: Record<string, number> = {};

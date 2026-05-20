@@ -542,6 +542,26 @@ export class BaselinkerProvider implements IBaselinkerProvider {
   }
 
   /**
+   * Get invoices from Baselinker (works with any connected invoicing system: Fakturownia, inFakt, wFirma, etc.)
+   * @param params - Optional filters (series_id, date_from, id_from)
+   */
+  async getInvoices(params?: {
+    series_id?: number;
+    date_from?: number; // Unix timestamp
+    id_from?: number;
+  }): Promise<any[]> {
+    console.log('[Baselinker] Getting invoices with params:', params);
+
+    const response = await this.request<{ invoices: any[] }>(
+      'getInvoices',
+      params || {}
+    );
+
+    console.log(`[Baselinker] Retrieved ${response.invoices?.length || 0} invoices`);
+    return response.invoices || [];
+  }
+
+  /**
    * Split array into chunks
    */
   private chunkArray<T>(array: T[], size: number): T[][] {

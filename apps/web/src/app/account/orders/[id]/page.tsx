@@ -57,6 +57,7 @@ const shippingMethodNames: Record<string, string> = {
   dpd: 'Kurier DPD',
   wysylka_gabaryt: 'Wysyłka gabaryt',
   gabaryt: 'Wysyłka gabaryt',
+  b2b_wysylka_wlasna: 'Wysyłka własna B2B',
   odbior_osobisty_outlet: 'Odbiór osobisty (Outlet)',
 };
 
@@ -921,6 +922,126 @@ export default function OrderDetailsPage() {
                   </div>
                 )}
               </div>
+
+              {/* B2B Shipping Label Upload */}
+              {order.shippingMethod === 'b2b_wysylka_wlasna' && (
+                <div className="bg-white dark:bg-secondary-800 rounded-xl border border-gray-100 dark:border-secondary-700 shadow-sm p-5 md:col-span-2">
+                  <div className="flex items-center gap-2 mb-4">
+                    <svg className="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
+                    </svg>
+                    <h3 className="font-semibold text-gray-900 dark:text-white">Etykieta wysyłkowa (własna)</h3>
+                  </div>
+                  
+                  {(order as any).b2bShippingLabel ? (
+                    <div className="flex items-center justify-between p-3 bg-green-50 dark:bg-green-900/20 rounded-lg">
+                      <div className="flex items-center gap-2">
+                        <svg className="w-5 h-5 text-green-600 dark:text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                        <span className="text-sm font-medium text-green-800 dark:text-green-300">Etykieta przesłana</span>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <a
+                          href={`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api'}/b2b-labels/${order.id}`}
+                          className="text-xs text-primary-600 dark:text-primary-400 hover:text-primary-700 font-medium"
+                          onClick={async (e) => {
+                            e.preventDefault();
+                            const stored = localStorage.getItem('auth_tokens');
+                            if (!stored) return;
+                            const token = JSON.parse(stored).accessToken;
+                            const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api'}/b2b-labels/${order.id}`, {
+                              headers: { Authorization: `Bearer ${token}` },
+                            });
+                            if (res.ok) {
+                              const blob = await res.blob();
+                              const disposition = res.headers.get('content-disposition') || '';
+                              const match = disposition.match(/filename="(.+?)"/);
+                              const filename = match ? match[1] : `etykieta-${order.orderNumber}`;
+                              const a = document.createElement('a');
+                              a.href = URL.createObjectURL(blob);
+                              a.download = filename;
+                              a.click();
+                              URL.revokeObjectURL(a.href);
+                            }
+                          }}
+                        >
+                          Pobierz
+                        </a>
+                        <button
+                          onClick={async () => {
+                            if (!confirm('Czy na pewno chcesz usunąć etykietę?')) return;
+                            const stored = localStorage.getItem('auth_tokens');
+                            if (!stored) return;
+                            const token = JSON.parse(stored).accessToken;
+                            const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api'}/b2b-labels/${order.id}`, {
+                              method: 'DELETE',
+                              headers: { Authorization: `Bearer ${token}` },
+                            });
+                            if (res.ok) {
+                              window.location.reload();
+                            }
+                          }}
+                          className="text-xs text-red-500 hover:text-red-600 font-medium"
+                        >
+                          Usuń
+                        </button>
+                      </div>
+                    </div>
+                  ) : (
+                    <div>
+                      <p className="text-sm text-gray-500 dark:text-gray-400 mb-3">
+                        Wgraj etykietę wysyłkową swojego kuriera (PDF, JPEG lub PNG, max 10 MB).
+                      </p>
+                      <label className="flex flex-col items-center justify-center w-full h-28 border-2 border-dashed border-gray-300 dark:border-secondary-600 rounded-lg cursor-pointer hover:border-primary-400 dark:hover:border-primary-500 transition-colors">
+                        <div className="flex flex-col items-center">
+                          <svg className="w-6 h-6 text-gray-400 mb-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" />
+                          </svg>
+                          <span className="text-sm text-gray-500 dark:text-gray-400">Kliknij lub przeciągnij plik</span>
+                        </div>
+                        <input
+                          type="file"
+                          className="hidden"
+                          accept=".pdf,.jpg,.jpeg,.png,.webp"
+                          onChange={async (e) => {
+                            const file = e.target.files?.[0];
+                            if (!file) return;
+                            const maxSize = 10 * 1024 * 1024; // 10 MB
+                            if (file.size > maxSize) {
+                              alert('Plik jest za duży. Maksymalny rozmiar to 10 MB.');
+                              e.target.value = '';
+                              return;
+                            }
+                            const allowedTypes = ['application/pdf', 'image/jpeg', 'image/png', 'image/webp'];
+                            if (!allowedTypes.includes(file.type)) {
+                              alert('Niedozwolony format pliku. Dozwolone: PDF, JPEG, PNG, WebP.');
+                              e.target.value = '';
+                              return;
+                            }
+                            const stored = localStorage.getItem('auth_tokens');
+                            if (!stored) return;
+                            const token = JSON.parse(stored).accessToken;
+                            const formData = new FormData();
+                            formData.append('label', file);
+                            const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api'}/b2b-labels/${order.id}`, {
+                              method: 'POST',
+                              headers: { Authorization: `Bearer ${token}` },
+                              body: formData,
+                            });
+                            if (res.ok) {
+                              window.location.reload();
+                            } else {
+                              const data = await res.json();
+                              alert(data.error || 'Nie udało się przesłać etykiety');
+                            }
+                          }}
+                        />
+                      </label>
+                    </div>
+                  )}
+                </div>
+              )}
 
               {/* Payment Info */}
               <div className="bg-white dark:bg-secondary-800 rounded-xl border border-gray-100 dark:border-secondary-700 shadow-sm p-5">

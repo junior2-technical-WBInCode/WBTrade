@@ -1,19 +1,12 @@
 'use client';
 
-import { useState, useEffect, use } from 'react';
+import { useState, useEffect } from 'react';
+import { useSearchParams } from 'next/navigation';
 import { ArrowLeft, Printer, Package, Truck } from 'lucide-react';
 import Link from 'next/link';
 import { getAuthToken } from '@/lib/api';
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api';
-
-interface OrderItem {
-  productName: string;
-  variantName: string;
-  sku?: string;
-  quantity: number;
-  unitPrice: number;
-}
 
 interface PackageShipping {
   packageId: string;
@@ -36,7 +29,6 @@ interface PackageShipping {
     productName: string;
     variantId: string;
     quantity: number;
-    image?: string;
   }[];
 }
 
@@ -46,8 +38,6 @@ interface Order {
   shippingMethod: string;
   trackingNumber?: string;
   createdAt: string;
-  total: number;
-  status: string;
   paczkomatCode?: string;
   paczkomatAddress?: string;
   packageShipping?: PackageShipping[];
@@ -55,25 +45,21 @@ interface Order {
     firstName: string;
     lastName: string;
     phone?: string;
-    email?: string;
     companyName?: string;
-    nip?: string;
   };
   guestFirstName?: string;
   guestLastName?: string;
   guestPhone?: string;
-  guestEmail?: string;
   shippingAddress?: {
     firstName: string;
     lastName: string;
     street: string;
     city: string;
     postalCode: string;
-    country: string;
     phone?: string;
     companyName?: string;
   };
-  items: OrderItem[];
+  items: { productName: string; quantity: number }[];
   customerNotes?: string;
 }
 
@@ -99,53 +85,89 @@ const SHIPPING_NAMES: Record<string, string> = {
   'odbior_osobisty_outlet': 'Odbiór osobisty',
 };
 
-export default function ShippingLabelPage({ params }: { params: Promise<{ id: string }> }) {
-  const { id } = use(params);
-  const [order, setOrder] = useState<Order | null>(null);
+interface LabelData {
+  orderNumber: string;
+  orderDate: string;
+  shippingMethodName: string;
+  trackingNumber?: string;
+  paczkomatCode?: string;
+  paczkomatAddress?: string;
+  packageIndex?: number;
+  packageTotal?: number;
+  recipient: {
+    name: string;
+    companyName?: string;
+    street: string;
+    city: string;
+    postalCode: string;
+    phone?: string;
+  };
+  sender: { name: string; street: string; city: string; postalCode: string };
+  items: { name: string; quantity: number }[];
+  totalQty: number;
+  isB2b: boolean;
+  customerNotes?: string;
+}
+
+export default function BulkLabelsPage() {
+  const searchParams = useSearchParams();
+  const [labels, setLabels] = useState<LabelData[]>([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
 
   useEffect(() => {
-    loadOrder();
-  }, [id]);
+    const ids = searchParams.get('ids');
+    if (ids) {
+      loadOrders(ids.split(','));
+    } else {
+      setError('Brak wybranych zamówień');
+      setLoading(false);
+    }
+  }, [searchParams]);
 
-  async function loadOrder() {
+  async function loadOrders(ids: string[]) {
     try {
       setLoading(true);
       const token = getAuthToken();
-      const response = await fetch(`${API_URL}/orders/${id}`, {
-        headers: {
-          'Content-Type': 'application/json',
-          ...(token && { Authorization: `Bearer ${token}` }),
-        },
-      });
-      if (!response.ok) throw new Error('Order not found');
-      const data = await response.json();
-      setOrder(data);
-    } catch (error) {
-      console.error('Failed to load order:', error);
+      const allLabels: LabelData[] = [];
+
+      for (const id of ids) {
+        const response = await fetch(`${API_URL}/orders/${id}`, {
+          headers: {
+            'Content-Type': 'application/json',
+            ...(token && { Authorization: `Bearer ${token}` }),
+          },
+        });
+        if (!response.ok) continue;
+        const order: Order = await response.json();
+        allLabels.push(...buildLabelsForOrder(order));
+      }
+
+      setLabels(allLabels);
+    } catch (err) {
+      setError('Błąd ładowania zamówień');
+      console.error(err);
     } finally {
       setLoading(false);
     }
   }
 
-  const handlePrint = () => {
-    window.print();
-  };
-
   if (loading) {
     return (
-      <div className="space-y-6">
-        <div className="h-10 w-48 bg-slate-700 rounded animate-pulse"></div>
-        <div className="h-[600px] bg-slate-700 rounded-xl animate-pulse"></div>
+      <div className="flex items-center justify-center min-h-[400px]">
+        <div className="text-center">
+          <div className="w-10 h-10 border-4 border-orange-500 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+          <p className="text-gray-400">Ładowanie etykiet...</p>
+        </div>
       </div>
     );
   }
 
-  if (!order) {
+  if (error) {
     return (
       <div className="text-center py-20">
         <Package className="w-16 h-16 mx-auto mb-4 text-red-400" />
-        <h2 className="text-xl font-bold text-white mb-2">Zamówienie nie znalezione</h2>
+        <h2 className="text-xl font-bold text-white mb-2">{error}</h2>
         <Link href="/orders" className="text-orange-400 hover:text-orange-300">
           Wróć do listy zamówień
         </Link>
@@ -153,29 +175,27 @@ export default function ShippingLabelPage({ params }: { params: Promise<{ id: st
     );
   }
 
-  const labels = buildLabels(order);
-
   return (
     <div className="space-y-6">
-      {/* Header - hide on print */}
+      {/* Header */}
       <div className="flex items-center justify-between print:hidden">
         <div className="flex items-center gap-4">
           <Link
-            href={`/orders/${id}`}
+            href="/orders"
             className="p-2 bg-slate-800 border border-slate-700 rounded-lg hover:bg-slate-700 transition-colors"
           >
             <ArrowLeft className="w-5 h-5 text-gray-400" />
           </Link>
           <div>
-            <h1 className="text-2xl font-bold text-white">Etykiety do zamówienia</h1>
+            <h1 className="text-2xl font-bold text-white">Drukowanie etykiet</h1>
             <p className="text-gray-400">
-              Zamówienie {order.orderNumber} • {labels.length} {labels.length === 1 ? 'etykieta' : labels.length < 5 ? 'etykiety' : 'etykiet'}
+              {labels.length} {labels.length === 1 ? 'etykieta' : labels.length < 5 ? 'etykiety' : 'etykiet'} do wydruku
             </p>
           </div>
         </div>
 
         <button
-          onClick={handlePrint}
+          onClick={() => window.print()}
           className="flex items-center gap-2 px-5 py-2.5 bg-orange-500 rounded-lg text-white font-medium hover:bg-orange-600 transition-colors"
         >
           <Printer className="w-4 h-4" />
@@ -183,121 +203,92 @@ export default function ShippingLabelPage({ params }: { params: Promise<{ id: st
         </button>
       </div>
 
-      {/* Labels */}
-      <div className="space-y-8 print:space-y-0">
+      {/* Labels grid */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 print:grid-cols-1 print:gap-0">
         {labels.map((label, index) => (
-          <div key={index} className="flex justify-center print:block print:break-after-page">
-            <div className="bg-white text-black p-6 rounded-xl shadow-2xl w-full max-w-[500px] print:max-w-none print:rounded-none print:shadow-none print:p-4 print:border print:border-gray-300">
-
+          <div key={index} className="print:break-after-page">
+            <div className="bg-white text-black p-5 rounded-xl shadow-lg print:rounded-none print:shadow-none print:p-4 print:border print:border-gray-300">
               {/* Top bar */}
-              <div className="flex items-center justify-between border-b-2 border-black pb-3 mb-3">
+              <div className="flex items-center justify-between border-b-2 border-black pb-2 mb-2">
                 <div className="flex items-center gap-2">
-                  <Truck className="w-6 h-6" />
+                  <Truck className="w-5 h-5" />
                   <div>
-                    <p className="font-bold text-lg leading-tight">WBTrade</p>
-                    <p className="text-xs text-gray-600">{label.shippingMethodName}</p>
+                    <p className="font-bold text-base leading-tight">WBTrade</p>
+                    <p className="text-[10px] text-gray-600">{label.shippingMethodName}</p>
                   </div>
                 </div>
                 <div className="text-right">
-                  <p className="font-mono text-xs text-gray-500">#{order.orderNumber}</p>
-                  <p className="text-xs">{new Date(order.createdAt).toLocaleDateString('pl-PL')}</p>
-                  {labels.length > 1 && (
-                    <p className="text-xs font-bold text-gray-600 mt-0.5">
-                      Paczka {index + 1}/{labels.length}
-                    </p>
+                  <p className="font-mono text-[10px] text-gray-500">#{label.orderNumber}</p>
+                  <p className="text-[10px]">{label.orderDate}</p>
+                  {label.packageTotal && label.packageTotal > 1 && (
+                    <p className="text-[10px] font-bold">Paczka {label.packageIndex}/{label.packageTotal}</p>
                   )}
                 </div>
               </div>
 
-              {/* Tracking / Paczkomat */}
+              {/* Paczkomat / Tracking */}
               {(label.trackingNumber || label.paczkomatCode) && (
-                <div className="bg-gray-100 px-3 py-2 rounded mb-3 text-center">
-                  {label.paczkomatCode && (
+                <div className="bg-gray-100 px-2 py-1.5 rounded mb-2 text-center">
+                  {label.paczkomatCode ? (
                     <>
-                      <p className="text-[10px] text-gray-500 uppercase font-bold">Paczkomat</p>
-                      <p className="font-mono text-lg font-bold">{label.paczkomatCode}</p>
-                      {label.paczkomatAddress && (
-                        <p className="text-xs text-gray-600">{label.paczkomatAddress}</p>
-                      )}
+                      <p className="text-[9px] text-gray-500 uppercase font-bold">Paczkomat</p>
+                      <p className="font-mono text-sm font-bold">{label.paczkomatCode}</p>
                     </>
-                  )}
-                  {label.trackingNumber && !label.paczkomatCode && (
+                  ) : (
                     <>
-                      <p className="text-[10px] text-gray-500 uppercase font-bold">Numer przesyłki</p>
-                      <p className="font-mono text-lg font-bold tracking-wider">{label.trackingNumber}</p>
+                      <p className="text-[9px] text-gray-500 uppercase font-bold">Nr przesyłki</p>
+                      <p className="font-mono text-sm font-bold">{label.trackingNumber}</p>
                     </>
                   )}
                 </div>
               )}
 
               {/* Recipient */}
-              <div className="border-2 border-black p-3 rounded mb-3">
-                <p className="text-[10px] text-gray-500 font-bold uppercase mb-1">Odbiorca</p>
+              <div className="border-2 border-black p-2.5 rounded mb-2">
+                <p className="text-[9px] text-gray-500 font-bold uppercase mb-0.5">Odbiorca</p>
                 {label.recipient.companyName && (
-                  <p className="font-bold text-sm">{label.recipient.companyName}</p>
+                  <p className="font-bold text-xs">{label.recipient.companyName}</p>
                 )}
-                <p className="font-bold text-base">{label.recipient.name}</p>
-                <p className="text-sm">{label.recipient.street}</p>
-                <p className="text-sm font-bold">{label.recipient.postalCode} {label.recipient.city}</p>
+                <p className="font-bold text-sm">{label.recipient.name}</p>
+                <p className="text-xs">{label.recipient.street}</p>
+                <p className="text-xs font-bold">{label.recipient.postalCode} {label.recipient.city}</p>
                 {label.recipient.phone && (
-                  <p className="text-xs text-gray-600 mt-1">Tel: {label.recipient.phone}</p>
+                  <p className="text-[10px] text-gray-600">Tel: {label.recipient.phone}</p>
                 )}
               </div>
 
               {/* Sender */}
-              <div className="border border-gray-300 p-3 rounded mb-3">
-                <p className="text-[10px] text-gray-500 font-bold uppercase mb-1">Nadawca</p>
-                <p className="font-medium text-sm">{label.sender.name}</p>
-                <p className="text-xs">{label.sender.street}</p>
-                <p className="text-xs">{label.sender.postalCode} {label.sender.city}</p>
+              <div className="border border-gray-300 p-2 rounded mb-2">
+                <p className="text-[9px] text-gray-500 font-bold uppercase mb-0.5">Nadawca</p>
+                <p className="font-medium text-xs">{label.sender.name}</p>
+                <p className="text-[10px]">{label.sender.street}, {label.sender.postalCode} {label.sender.city}</p>
               </div>
 
-              {/* Package Contents */}
+              {/* Contents */}
               {label.items.length > 0 && (
-                <div className="border-t border-gray-200 pt-2">
-                  <p className="text-[10px] text-gray-500 font-bold uppercase mb-1">Zawartość ({label.totalQty} szt.)</p>
-                  <div className="space-y-0.5">
-                    {label.items.slice(0, 6).map((item, i) => (
-                      <div key={i} className="flex justify-between text-xs">
-                        <span className="truncate max-w-[320px]">{item.name}</span>
-                        <span className="font-medium ml-2 whitespace-nowrap">×{item.quantity}</span>
-                      </div>
-                    ))}
-                    {label.items.length > 6 && (
-                      <p className="text-xs text-gray-500 italic">... i {label.items.length - 6} więcej</p>
-                    )}
-                  </div>
+                <div className="border-t border-gray-200 pt-1.5">
+                  <p className="text-[9px] text-gray-500 font-bold uppercase">Zawartość ({label.totalQty} szt.)</p>
+                  {label.items.slice(0, 4).map((item, i) => (
+                    <div key={i} className="flex justify-between text-[10px]">
+                      <span className="truncate max-w-[250px]">{item.name}</span>
+                      <span className="font-medium">×{item.quantity}</span>
+                    </div>
+                  ))}
+                  {label.items.length > 4 && (
+                    <p className="text-[10px] text-gray-500">... +{label.items.length - 4}</p>
+                  )}
                 </div>
               )}
 
-              {/* Customer notes */}
-              {order.customerNotes && index === 0 && (
-                <div className="border-t border-gray-200 mt-2 pt-2">
-                  <p className="text-[10px] text-gray-500 font-bold uppercase">Uwagi klienta</p>
-                  <p className="text-xs italic">{order.customerNotes}</p>
-                </div>
-              )}
-
-              {/* B2B marker */}
+              {/* B2B badge */}
               {label.isB2b && (
-                <div className="mt-2 bg-blue-50 border border-blue-200 rounded px-2 py-1 text-center">
-                  <span className="text-xs font-bold text-blue-700">ZAMÓWIENIE B2B — PRZELEW</span>
+                <div className="mt-1.5 bg-blue-50 border border-blue-200 rounded px-2 py-0.5 text-center">
+                  <span className="text-[10px] font-bold text-blue-700">B2B — PRZELEW</span>
                 </div>
               )}
             </div>
           </div>
         ))}
-      </div>
-
-      {/* Instructions - hide on print */}
-      <div className="bg-slate-800/50 rounded-xl border border-slate-700/50 p-6 print:hidden">
-        <h3 className="font-semibold text-white mb-3">Instrukcje</h3>
-        <ul className="space-y-1.5 text-gray-400 text-sm">
-          <li>• Wydrukuj etykietę na papierze A6 (105×148mm) lub A5</li>
-          <li>• Naklej etykietę na widocznym miejscu paczki</li>
-          <li>• Dla wielu paczek — każda etykieta na osobnej paczce</li>
-          <li>• Zamów odbiór kuriera lub nadaj paczkę w punkcie</li>
-        </ul>
       </div>
 
       {/* Print Styles */}
@@ -317,9 +308,6 @@ export default function ShippingLabelPage({ params }: { params: Promise<{ id: st
           .print\\:hidden {
             display: none !important;
           }
-          .print\\:block {
-            display: block !important;
-          }
           .print\\:break-after-page {
             break-after: page;
           }
@@ -333,47 +321,33 @@ export default function ShippingLabelPage({ params }: { params: Promise<{ id: st
   );
 }
 
-// ===== Build label data =====
-interface LabelData {
-  shippingMethodName: string;
-  trackingNumber?: string;
-  paczkomatCode?: string;
-  paczkomatAddress?: string;
-  recipient: {
-    name: string;
-    companyName?: string;
-    street: string;
-    city: string;
-    postalCode: string;
-    phone?: string;
-  };
-  sender: { name: string; street: string; city: string; postalCode: string };
-  items: { name: string; quantity: number }[];
-  totalQty: number;
-  isB2b: boolean;
-}
-
-function buildLabels(order: Order): LabelData[] {
+function buildLabelsForOrder(order: Order): LabelData[] {
   const isB2b = order.shippingMethod === 'b2b_wysylka_wlasna' ||
     order.packageShipping?.some(p => p.method === 'b2b_wysylka_wlasna') || false;
+  const orderDate = new Date(order.createdAt).toLocaleDateString('pl-PL');
 
   if (order.packageShipping && order.packageShipping.length > 0) {
-    return order.packageShipping.map(pkg => {
-      const recipient = getRecipientForPackage(pkg, order);
-      const sender = getSenderForPackage(pkg.wholesaler);
+    return order.packageShipping.map((pkg, idx) => {
+      const recipient = getRecipient(pkg, order);
+      const sender = getSender(pkg.wholesaler);
       const items = pkg.items?.map(i => ({ name: i.productName, quantity: i.quantity })) || [];
       const totalQty = items.reduce((sum, i) => sum + i.quantity, 0);
 
       return {
+        orderNumber: order.orderNumber,
+        orderDate,
         shippingMethodName: SHIPPING_NAMES[pkg.method] || pkg.method,
         trackingNumber: order.trackingNumber,
         paczkomatCode: pkg.paczkomatCode,
         paczkomatAddress: pkg.paczkomatAddress,
+        packageIndex: idx + 1,
+        packageTotal: order.packageShipping!.length,
         recipient,
         sender,
         items,
         totalQty,
         isB2b,
+        customerNotes: order.customerNotes,
       };
     });
   }
@@ -386,6 +360,8 @@ function buildLabels(order: Order): LabelData[] {
   const totalQty = items.reduce((sum, i) => sum + i.quantity, 0);
 
   return [{
+    orderNumber: order.orderNumber,
+    orderDate,
     shippingMethodName: SHIPPING_NAMES[order.shippingMethod] || order.shippingMethod || 'Kurier',
     trackingNumber: order.trackingNumber,
     paczkomatCode: order.paczkomatCode,
@@ -398,14 +374,15 @@ function buildLabels(order: Order): LabelData[] {
       postalCode: order.shippingAddress?.postalCode || '',
       phone: order.shippingAddress?.phone || order.user?.phone || order.guestPhone,
     },
-    sender: getSenderForPackage(undefined),
+    sender: getSender(undefined),
     items,
     totalQty,
     isB2b,
+    customerNotes: order.customerNotes,
   }];
 }
 
-function getRecipientForPackage(pkg: PackageShipping, order: Order) {
+function getRecipient(pkg: PackageShipping, order: Order) {
   if (pkg.customAddress) {
     return {
       name: `${pkg.customAddress.firstName} ${pkg.customAddress.lastName}`.trim(),
@@ -417,7 +394,6 @@ function getRecipientForPackage(pkg: PackageShipping, order: Order) {
       phone: pkg.customAddress.phone,
     };
   }
-
   const addr = order.shippingAddress;
   return {
     name: addr
@@ -431,11 +407,10 @@ function getRecipientForPackage(pkg: PackageShipping, order: Order) {
   };
 }
 
-function getSenderForPackage(wholesaler?: string) {
+function getSender(wholesaler?: string) {
   if (wholesaler) {
     const key = wholesaler.toLowerCase().replace(/\s+/g, '_');
     if (WAREHOUSE_ADDRESSES[key]) return WAREHOUSE_ADDRESSES[key];
-    // Try matching without normalization
     const found = Object.entries(WAREHOUSE_ADDRESSES).find(([k]) =>
       k.toLowerCase() === wholesaler.toLowerCase()
     );

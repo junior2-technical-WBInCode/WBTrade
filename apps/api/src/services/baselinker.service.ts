@@ -3153,6 +3153,14 @@ export class BaselinkerService {
       };
     }
   }
+
+  /**
+   * Get invoices from Baselinker (works with any connected invoicing system)
+   */
+  async getInvoices(params?: { date_from?: number; series_id?: number }) {
+    const provider = await this.createProvider();
+    return provider.getInvoices(params);
+  }
 }
 
 // Export singleton instance

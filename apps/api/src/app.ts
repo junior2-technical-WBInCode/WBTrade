@@ -63,7 +63,9 @@ import imageProxyRoutes from './routes/image-proxy';
 import adminWholesalersRoutes from './routes/admin-wholesalers';
 import wholesalersRoutes from './routes/wholesalers';
 import b2bRoutes from './routes/b2b';
+import b2bLabelsRoutes from './routes/b2b-labels';
 import adminB2bRoutes from './routes/admin-b2b';
+import adminInvoicesRoutes from './routes/admin-invoices';
 import manufacturersRoutes from './routes/manufacturers';
 import { generalRateLimiter } from './middleware/rate-limit.middleware';
 import { initializeMeilisearch, meiliClient, PRODUCTS_INDEX, isMeilisearchAvailable } from './lib/meilisearch';
@@ -1049,7 +1051,9 @@ app.use('/api/img', imageProxyRoutes); // Image proxy with disk cache
 app.use('/api/admin/wholesalers', adminWholesalersRoutes); // Admin wholesaler management
 app.use('/api/wholesalers', wholesalersRoutes); // Public wholesaler config
 app.use('/api/b2b', b2bRoutes); // B2B cooperation (apply, status)
+app.use('/api/b2b-labels', b2bLabelsRoutes); // B2B shipping label upload/download
 app.use('/api/admin/b2b', adminB2bRoutes); // Admin B2B management
+app.use('/api/admin/invoices', adminInvoicesRoutes); // Admin invoices from Fakturownia
 
 // Serve uploaded files statically
 app.use('/uploads', express.static(path.join(__dirname, '../uploads')));

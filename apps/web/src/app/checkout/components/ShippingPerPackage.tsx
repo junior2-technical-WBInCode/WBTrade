@@ -7,7 +7,7 @@ import { checkoutApi } from '../../../lib/api';
 import { roundMoney } from '../../../lib/currency';
 import InPostGeoWidget, { InPostPoint } from '../../../components/InPostGeoWidget';
 
-type ShippingMethodId = 'inpost_paczkomat' | 'inpost_kurier' | 'dpd_kurier' | 'wysylka_gabaryt' | 'odbior_osobisty_outlet';
+type ShippingMethodId = 'inpost_paczkomat' | 'inpost_kurier' | 'dpd_kurier' | 'wysylka_gabaryt' | 'odbior_osobisty_outlet' | 'b2b_wysylka_wlasna';
 
 interface ShippingMethodOption {
   id: string;
@@ -50,7 +50,7 @@ interface ShippingPerPackageProps {
   onSubmit: (data: ShippingData) => void;
   onBack: () => void;
   onPriceChange?: (totalPrice: number) => void;
-  cartItems?: Array<{ variant: { id: string }; quantity: number }>;
+  cartItems?: Array<{ variant: { id: string; price?: number }; quantity: number }>;
 }
 
 // Shipping provider icons
@@ -84,6 +84,12 @@ const ShippingIcon = ({ id }: { id: string }) => {
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
           </svg>
+        </div>
+      );
+    case 'b2b_wysylka_wlasna':
+      return (
+        <div className="flex items-center justify-center w-12 h-7 bg-blue-600 rounded px-1">
+          <span className="text-white text-[9px] font-bold">B2B</span>
         </div>
       );
     default:
@@ -138,7 +144,8 @@ export default function ShippingPerPackage({
           quantity: item.quantity,
         }));
 
-        const response = await checkoutApi.getShippingPerPackage(items);
+        const cartSubtotal = cartItems.reduce((sum, item) => sum + ((item.variant?.price || 0) * item.quantity), 0);
+        const response = await checkoutApi.getShippingPerPackage(items, cartSubtotal);
 
         setPackagesWithOptions(response.packagesWithOptions);
         setWarnings(response.warnings);

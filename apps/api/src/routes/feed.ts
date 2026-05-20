@@ -3,6 +3,8 @@ import { streamGoogleMerchantFeed, streamFilteredGoogleMerchantFeed, generateGoo
 import { streamFaviFeed } from '../services/favi-feed.service';
 import { streamCampaignFeed, getCampaignKeys } from '../services/campaign-feed.service';
 import { streamCeneoFeed } from '../services/ceneo-feed.service';
+import { streamB2bXmlFeed, streamB2bCsvFeed } from '../services/b2b-feed.service';
+import { getB2bUserInfo } from '../services/b2b-pricing.service';
 import { authGuard, adminOnly } from '../middleware/auth.middleware';
 
 const router = Router();
@@ -246,6 +248,71 @@ router.get('/ceneo', async (req: Request, res: Response) => {
         error: 'Failed to generate Ceneo feed',
         message: error instanceof Error ? error.message : 'Unknown error'
       });
+    }
+  }
+});
+
+/**
+ * GET /api/feed/b2b/xml
+ * B2B XML feed with user-specific pricing
+ * Requires authentication + approved B2B status
+ */
+router.get('/b2b/xml', authGuard, async (req: Request, res: Response) => {
+  try {
+    const b2bInfo = await getB2bUserInfo(req.user!.userId);
+    if (!b2bInfo) {
+      res.status(403).json({ error: 'Dostęp tylko dla zatwierdzonych partnerów B2B' });
+      return;
+    }
+
+    const baseUrl = process.env.FRONTEND_URL?.split(',')[0]?.trim()
+      || `${req.protocol}://${req.get('host')}`;
+
+    res.set({
+      'Content-Type': 'application/xml; charset=utf-8',
+      'Cache-Control': 'private, max-age=3600',
+      'X-Robots-Tag': 'noindex',
+      'Transfer-Encoding': 'chunked',
+    });
+
+    await streamB2bXmlFeed(baseUrl, b2bInfo.multiplier, res);
+  } catch (error) {
+    console.error('Error generating B2B XML feed:', error);
+    if (!res.headersSent) {
+      res.status(500).json({ error: 'Nie udało się wygenerować feedu B2B' });
+    }
+  }
+});
+
+/**
+ * GET /api/feed/b2b/csv
+ * B2B CSV feed with user-specific pricing
+ * Requires authentication + approved B2B status
+ */
+router.get('/b2b/csv', authGuard, async (req: Request, res: Response) => {
+  try {
+    const b2bInfo = await getB2bUserInfo(req.user!.userId);
+    if (!b2bInfo) {
+      res.status(403).json({ error: 'Dostęp tylko dla zatwierdzonych partnerów B2B' });
+      return;
+    }
+
+    const baseUrl = process.env.FRONTEND_URL?.split(',')[0]?.trim()
+      || `${req.protocol}://${req.get('host')}`;
+
+    res.set({
+      'Content-Type': 'text/csv; charset=utf-8',
+      'Content-Disposition': 'attachment; filename="b2b-products.csv"',
+      'Cache-Control': 'private, max-age=3600',
+      'X-Robots-Tag': 'noindex',
+      'Transfer-Encoding': 'chunked',
+    });
+
+    await streamB2bCsvFeed(baseUrl, b2bInfo.multiplier, res);
+  } catch (error) {
+    console.error('Error generating B2B CSV feed:', error);
+    if (!res.headersSent) {
+      res.status(500).json({ error: 'Nie udało się wygenerować feedu B2B' });
     }
   }
 });

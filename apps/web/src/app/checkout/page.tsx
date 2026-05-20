@@ -28,12 +28,15 @@ export interface AddressData {
   postalCode: string;
   city: string;
   differentBillingAddress: boolean;
+  billingFirstName?: string;
+  billingLastName?: string;
   billingCompanyName?: string;
   billingNip?: string;
   billingStreet?: string;
   billingApartment?: string;
   billingPostalCode?: string;
   billingCity?: string;
+  billingPhone?: string;
 }
 
 export interface ShippingData {
@@ -181,6 +184,13 @@ function CheckoutPageContent() {
     }
   }, [isAuthenticated, currentStep]);
 
+  // Auto-enable invoice for B2B partners
+  useEffect(() => {
+    if (user && (user as any).b2bStatus === 'APPROVED') {
+      setCheckoutData(prev => ({ ...prev, wantInvoice: true }));
+    }
+  }, [user]);
+
   // Check if payment was cancelled (redirected back from PayU)
   useEffect(() => {
     const cancelled = searchParams.get('cancelled');
@@ -213,9 +223,11 @@ function CheckoutPageContent() {
           variantId: item.variant.id,
           quantity: item.quantity,
         }));
+
+        const cartSubtotal = checkoutItems.reduce((sum, item) => sum + (item.variant.price * item.quantity), 0);
         
         // Use per-package shipping to get accurate initial prices
-        const response = await checkoutApi.getShippingPerPackage(items);
+        const response = await checkoutApi.getShippingPerPackage(items, cartSubtotal);
         
         // Use the total shipping cost from API (calculated correctly based on package weights)
         const totalShipping = response.totalShippingCost || 0;
@@ -452,15 +464,15 @@ function CheckoutPageContent() {
       // Create billing address if different from shipping
       if (checkoutData.address.differentBillingAddress) {
         const billingData = {
-          firstName: checkoutData.address.firstName,
-          lastName: checkoutData.address.lastName,
+          firstName: checkoutData.address.billingFirstName || checkoutData.address.firstName,
+          lastName: checkoutData.address.billingLastName || checkoutData.address.lastName,
           companyName: checkoutData.address.billingCompanyName || undefined,
           nip: checkoutData.address.billingNip || undefined,
           street: checkoutData.address.billingStreet + (checkoutData.address.billingApartment ? ` ${checkoutData.address.billingApartment}` : ''),
           city: checkoutData.address.billingCity || '',
           postalCode: checkoutData.address.billingPostalCode || '',
           country: 'PL',
-          phone: checkoutData.address.phone,
+          phone: checkoutData.address.billingPhone || checkoutData.address.phone,
           isDefault: false,
           label: 'Faktura',
           type: 'BILLING' as const,

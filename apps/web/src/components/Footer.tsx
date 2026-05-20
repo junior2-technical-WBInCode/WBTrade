@@ -108,6 +108,8 @@ export default function Footer({ hideTrustBadges = false }: FooterProps) {
             <h5 className="font-bold text-secondary-900 dark:text-secondary-100 mb-5 text-sm uppercase tracking-wider">Informacje</h5>
             <ul className="space-y-3">
               <li><Link href="/about" className="text-secondary-600 dark:text-secondary-400 hover:text-primary-500 transition-colors">O nas</Link></li>
+              <li><Link href="/cooperation" className="text-secondary-600 dark:text-secondary-400 hover:text-primary-500 transition-colors">Współpraca B2B</Link></li>
+              <li><Link href="/b2b/feeds" className="text-secondary-600 dark:text-secondary-400 hover:text-primary-500 transition-colors">Wymiana plików XML / CSV</Link></li>
               <li><Link href="/terms" className="text-secondary-600 dark:text-secondary-400 hover:text-primary-500 transition-colors">Regulamin</Link></li>
               <li><Link href="/cookies" className="text-secondary-600 dark:text-secondary-400 hover:text-primary-500 transition-colors">Polityka plików &quot;cookie&quot;</Link></li>
               <li><Link href="/rodo" className="text-secondary-600 dark:text-secondary-400 hover:text-primary-500 transition-colors">Polityka RODO</Link></li>

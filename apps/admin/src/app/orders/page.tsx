@@ -7,7 +7,7 @@ import {
   ShoppingCart, Search, Filter, Eye, ChevronLeft, ChevronRight, 
   Truck, FileText, Package, Calendar, RefreshCw, Download,
   MoreVertical, X, Ban, RotateCcw, AlertTriangle, Trash2, Archive,
-  MessageSquare
+  MessageSquare, Printer
 } from 'lucide-react';
 import Link from 'next/link';
 import ConfirmModal from '@/components/ConfirmModal';
@@ -580,6 +580,18 @@ export default function OrdersPage() {
             >
               <MessageSquare className="w-4 h-4" />
               Wyślij wiadomość
+            </button>
+
+            {/* Drukuj etykiety */}
+            <button
+              onClick={() => {
+                const ids = selectedOrders.join(',');
+                window.open(`/orders/labels?ids=${ids}`, '_blank');
+              }}
+              className="px-4 py-2 bg-green-600/20 border border-green-500/30 rounded-lg text-green-400 hover:bg-green-600/30 transition-colors flex items-center gap-2"
+            >
+              <Printer className="w-4 h-4" />
+              Drukuj etykiety
             </button>
 
             {/* Przenieś do archiwum */}

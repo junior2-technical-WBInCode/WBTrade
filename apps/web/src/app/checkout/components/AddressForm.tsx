@@ -198,6 +198,22 @@ export default function AddressForm({ initialData, onSubmit, isGuestCheckout = f
                 companyCity: profileData.user.companyCity,
                 companyPostalCode: profileData.user.companyPostalCode,
               });
+
+              // Auto-fill billing data for B2B partners
+              if (profileData.user.b2bStatus === 'APPROVED') {
+                setFormData(prev => ({
+                  ...prev,
+                  differentBillingAddress: true,
+                  billingFirstName: profileData.user.firstName || prev.firstName || '',
+                  billingLastName: profileData.user.lastName || prev.lastName || '',
+                  billingCompanyName: profileData.user.companyName || '',
+                  billingNip: profileData.user.nip || '',
+                  billingStreet: profileData.user.companyStreet || prev.billingStreet || '',
+                  billingCity: profileData.user.companyCity || prev.billingCity || '',
+                  billingPostalCode: profileData.user.companyPostalCode || prev.billingPostalCode || '',
+                  billingPhone: profileData.user.phone || prev.phone || '',
+                }));
+              }
             }
           }
         } catch (error) {

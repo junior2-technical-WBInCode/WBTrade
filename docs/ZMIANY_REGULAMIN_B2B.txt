@@ -1,0 +1,154 @@
+=====================================
+ZMIANY DO WPROWADZENIA W DOKUMENTACH PRAWNYCH
+W ZWIĄZKU Z WDROŻENIEM SYSTEMU B2B
+=====================================
+Data: 20 maja 2026 r.
+
+======================================================
+1. REGULAMIN (apps/web/src/app/terms/page.tsx)
+======================================================
+
+§ 1.6 – Postanowienia ogólne (B2B)
+-----------------------------------
+OBECNA TREŚĆ: ogólne zdanie o indywidualnych uzgodnieniach B2B.
+DODAĆ:
+- Szczegółowe zasady współpracy B2B opisane są na stronie /cooperation
+  oraz w Centrum pomocy: /help/account/b2b.
+- Warunki niniejszego Regulaminu stosuje się do Klientów B2B,
+  z zastrzeżeniem postanowień szczególnych opisanych w § 3.4, § 5.8, § 5.9 i § 6.6.
+
+
+§ 2 – Definicje
+-----------------------------------
+DODAĆ NOWĄ DEFINICJĘ:
+"Konto firmowe (B2B)" – konto w Sklepie przeznaczone dla przedsiębiorców,
+zapewniające dostęp do indywidualnego cennika hurtowego, płatności przelewem
+bankowym oraz dedykowanych metod dostawy. Założenie Konta firmowego wymaga
+weryfikacji przez Sprzedawcę.
+
+
+§ 3 – Konto i zakupy bez rejestracji
+-----------------------------------
+DODAĆ NOWY PUNKT (np. 3.4):
+3.4. Rejestracja Konta firmowego (B2B):
+  a) Klient wybiera opcję „Konto firmowe (B2B)" podczas rejestracji.
+  b) Wymagane dane: nazwa firmy, NIP, adres siedziby, numer telefonu kontaktowego.
+  c) Po złożeniu wniosku Sprzedawca weryfikuje dane przedsiębiorcy
+     (zazwyczaj w ciągu 1-2 dni roboczych).
+  d) Po pozytywnej weryfikacji Klient otrzymuje powiadomienie e-mail
+     o zatwierdzeniu konta. Od tego momentu dostępne są ceny hurtowe,
+     płatność przelewem oraz wysyłka własna B2B.
+  e) Sprzedawca zastrzega sobie prawo odmowy aktywacji Konta firmowego
+     bez podania przyczyny.
+
+
+§ 5 – Ceny i płatności
+-----------------------------------
+DODAĆ NOWY PUNKT (np. 5.8):
+5.8. Klienci posiadający zatwierdzone Konto firmowe (B2B) mają dostęp do
+indywidualnego cennika hurtowego. Ceny hurtowe widoczne są wyłącznie po
+zalogowaniu na zatwierdzone Konto firmowe. Wysokość rabatu hurtowego ustalana
+jest indywidualnie przez Sprzedawcę.
+
+DODAĆ NOWY PUNKT (np. 5.9):
+5.9. Dla Klientów B2B dostępna jest dodatkowa metoda płatności – przelew
+bankowy z terminem płatności 7 dni kalendarzowych od daty złożenia zamówienia.
+Metoda ta dostępna jest wyłącznie dla zatwierdzonych partnerów B2B.
+W przypadku braku zapłaty w terminie, Sprzedawca zastrzega sobie prawo
+do wstrzymania realizacji kolejnych zamówień.
+
+
+§ 5.7 – Faktury (ZMIANA ISTNIEJĄCEGO PUNKTU)
+-----------------------------------
+OBECNA TREŚĆ: faktura na życzenie, dane wymagane przed finalizacją.
+DODAĆ/ZMIENIĆ NA:
+- Dla Klientów indywidualnych: faktura VAT wystawiana jest na życzenie,
+  pod warunkiem podania danych do faktury przed finalizacją zamówienia.
+- Dla Klientów B2B: faktura VAT generowana jest automatycznie do każdego
+  zamówienia na podstawie danych firmowych podanych przy rejestracji konta.
+
+
+§ 6 – Dostawa
+-----------------------------------
+DODAĆ NOWY PUNKT (np. 6.6):
+6.6. Wysyłka własna (B2B):
+  a) Klienci posiadający zatwierdzone Konto firmowe (B2B) mogą skorzystać
+     z opcji „Wysyłka własna (B2B)", organizując transport zamówienia
+     samodzielnie za pośrednictwem wybranego przez siebie kuriera.
+  b) Opłata obsługowa za przygotowanie paczki wynosi:
+     - 1,99 zł brutto – dla zamówień o wartości co najmniej 50 zł,
+     - 4,99 zł brutto – dla zamówień o wartości poniżej 50 zł.
+  c) Po złożeniu zamówienia Klient B2B zobowiązany jest do przesłania
+     etykiety wysyłkowej swojego kuriera za pośrednictwem panelu konta
+     (sekcja „Etykieta wysyłkowa" w szczegółach zamówienia).
+  d) Dozwolone formaty etykiety: PDF, JPEG, PNG, WebP. Maksymalny rozmiar
+     pliku: 10 MB.
+  e) Magazyn Sprzedawcy przygotowuje paczkę, nalepia dostarczoną etykietę
+     i wydaje przesyłkę kurierowi Klienta.
+  f) Za prawidłowość danych na etykiecie odpowiada Klient.
+
+
+======================================================
+2. POLITYKA PRYWATNOŚCI (apps/web/src/app/privacy/page.tsx)
+======================================================
+
+§ 2 – Zakres zbieranych danych
+-----------------------------------
+DODAĆ:
+W przypadku rejestracji Konta firmowego (B2B) dodatkowo zbieramy:
+- NIP (Numer Identyfikacji Podatkowej),
+- nazwę firmy (przedsiębiorcy),
+- adres siedziby firmy (ulica, kod pocztowy, miasto),
+- numer telefonu kontaktowego firmy.
+
+
+§ 4 – Cel przetwarzania
+-----------------------------------
+DODAĆ NOWE CELE:
+- weryfikacja statusu przedsiębiorcy w ramach współpracy B2B,
+- obsługa współpracy hurtowej (indywidualny cennik, warunki płatności),
+- generowanie i przechowywanie faktur VAT,
+- przetwarzanie etykiet wysyłkowych przesłanych przez Klienta B2B
+  (w zakresie niezbędnym do realizacji wysyłki).
+
+
+§ 8 – Odbiorcy danych
+-----------------------------------
+DODAĆ:
+- Kurierzy wskazani przez Klienta B2B w ramach usługi „Wysyłka własna"
+  (w zakresie danych zawartych na etykiecie wysyłkowej przesłanej
+  przez Klienta).
+
+UWAGA: Etykieta wysyłkowa jest dostarczana przez samego Klienta B2B,
+więc to Klient decyduje jakie dane osobowe się na niej znajdują.
+Sprzedawca przetwarza etykietę wyłącznie w celu naklejenia jej na paczkę.
+
+
+======================================================
+3. POLITYKA RODO (apps/web/src/app/rodo/page.tsx)
+======================================================
+
+§ 5 – Cele i podstawy prawne przetwarzania
+-----------------------------------
+DODAĆ:
+- Przetwarzanie danych firmowych (NIP, nazwa firmy, adres siedziby)
+  na podstawie:
+  * art. 6 ust. 1 lit. b RODO – niezbędność do wykonania umowy
+    (realizacja współpracy hurtowej B2B),
+  * art. 6 ust. 1 lit. c RODO – wypełnienie obowiązku prawnego
+    (wystawianie faktur VAT zgodnie z przepisami podatkowymi),
+  * art. 6 ust. 1 lit. f RODO – prawnie uzasadniony interes
+    administratora (weryfikacja kontrahenta, zapobieganie nadużyciom).
+
+
+======================================================
+PODSUMOWANIE NOWYCH ELEMENTÓW SYSTEMU B2B
+======================================================
+
+1. Konto firmowe B2B (rejestracja + weryfikacja 1-2 dni + zatwierdzenie)
+2. Indywidualny cennik hurtowy (ceny widoczne po zalogowaniu)
+3. Metoda płatności: przelew bankowy B2B (termin 7 dni)
+4. Automatyczna faktura VAT dla zamówień B2B
+5. Wysyłka własna B2B (opłata 1,99/4,99 zł + przesłanie etykiety)
+6. Feed produktowy XML/CSV (dostęp po zatwierdzeniu konta)
+7. Brak minimalnej wartości zamówienia

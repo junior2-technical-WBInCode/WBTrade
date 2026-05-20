@@ -3,6 +3,7 @@ import { z } from 'zod';
 import { ProductsService } from '../services/products.service';
 import { PriceChangeSource } from '@prisma/client';
 import { popularityService } from '../services/popularity.service';
+import { getB2bUserInfo, applyB2bPricing } from '../services/b2b-pricing.service';
 
 const productsService = new ProductsService();
 
@@ -144,6 +145,15 @@ export async function getProducts(req: Request, res: Response): Promise<void> {
     }
 
     const result = await productsService.getAll(filters);
+
+    // Apply B2B pricing if authenticated user is a B2B partner
+    if (req.user?.userId) {
+      const b2bInfo = await getB2bUserInfo(req.user.userId);
+      if (b2bInfo) {
+        result.products = result.products.map((p: any) => applyB2bPricing(p, b2bInfo.multiplier));
+      }
+    }
+
     res.status(200).json(result);
   } catch (error) {
     console.error('Error fetching products:', error);
@@ -157,11 +167,21 @@ export async function getProducts(req: Request, res: Response): Promise<void> {
 export async function getProductById(req: Request, res: Response): Promise<void> {
   try {
     const { id } = req.params;
-    const product = await productsService.getById(id);
+    let product = await productsService.getById(id);
 
     if (!product) {
       res.status(404).json({ message: 'Produkt nie zostal znaleziony' });
       return;
+    }
+
+    // Apply B2B pricing if authenticated user is a B2B partner
+    console.log(`[B2B DEBUG] getProductById: userId=${req.user?.userId}, hasAuth=${!!req.headers.authorization}`);
+    if (req.user?.userId) {
+      const b2bInfo = await getB2bUserInfo(req.user.userId);
+      console.log(`[B2B DEBUG] b2bInfo:`, b2bInfo);
+      if (b2bInfo) {
+        product = applyB2bPricing(product, b2bInfo.multiplier);
+      }
     }
 
     // Increment view count asynchronously (don't wait)
@@ -182,11 +202,19 @@ export async function getProductById(req: Request, res: Response): Promise<void>
 export async function getProductBySlug(req: Request, res: Response): Promise<void> {
   try {
     const { slug } = req.params;
-    const product = await productsService.getBySlug(slug);
+    let product = await productsService.getBySlug(slug);
 
     if (!product) {
       res.status(404).json({ message: 'Produkt nie zostal znaleziony' });
       return;
+    }
+
+    // Apply B2B pricing if authenticated user is a B2B partner
+    if (req.user?.userId) {
+      const b2bInfo = await getB2bUserInfo(req.user.userId);
+      if (b2bInfo) {
+        product = applyB2bPricing(product, b2bInfo.multiplier);
+      }
     }
 
     // Increment view count asynchronously (don't wait)

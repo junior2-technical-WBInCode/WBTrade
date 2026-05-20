@@ -29,7 +29,7 @@ const router = Router();
 // ========================================
 
 // Route to get all products (with filters & pagination)
-router.get('/', getProducts);
+router.get('/', optionalAuth, getProducts);
 
 // Route to get available filters for products
 router.get('/filters', getFilters);
@@ -68,10 +68,10 @@ router.get('/brands', getBrands);
 router.get('/brands/:slug', getBrandBySlug);
 
 // Route to get a specific product by slug (SEO-friendly)
-router.get('/slug/:slug', getProductBySlug);
+router.get('/slug/:slug', optionalAuth, getProductBySlug);
 
 // Route to get a specific product by ID
-router.get('/:id', getProductById);
+router.get('/:id', optionalAuth, getProductById);
 
 // Product reviews routes (public read, optional auth for can-review check)
 router.get('/:productId/reviews', reviewsController.getProductReviews);

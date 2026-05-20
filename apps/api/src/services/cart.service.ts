@@ -1,6 +1,7 @@
 import { prisma } from '../db';
 import { roundMoney } from '../lib/currency';
 import { saleCampaignService } from './sale-campaign.service';
+import { getB2bUserInfo, calculateB2bPrice } from './b2b-pricing.service';
 
 export interface CartWithItems {
   id: string;
@@ -355,6 +356,14 @@ export class CartService {
    * Apply coupon to cart
    */
   async applyCoupon(cartId: string, couponCode: string, userId?: string): Promise<CartWithItems> {
+    // Block coupons for B2B partners
+    if (userId) {
+      const b2bInfo = await getB2bUserInfo(userId);
+      if (b2bInfo) {
+        throw new Error('Kupony rabatowe nie są dostępne dla kont B2B');
+      }
+    }
+
     // Normalize coupon code - uppercase and trim whitespace
     const normalizedCode = couponCode.toUpperCase().trim();
     
@@ -602,11 +611,23 @@ export class CartService {
    * Format cart with calculated totals
    */
   private async formatCart(cart: any): Promise<CartWithItems> {
+    // Check if cart belongs to a B2B user
+    let b2bMultiplier: number | null = null;
+    if (cart.userId) {
+      const b2bInfo = await getB2bUserInfo(cart.userId);
+      if (b2bInfo) b2bMultiplier = b2bInfo.multiplier;
+    }
+
     const items: CartItemWithProduct[] = cart.items.map((item: any) => {
       // Use variant price, but fallback to product price if variant price is 0
       const variantPrice = Number(item.variant.price);
       const productPrice = Number(item.variant.product.price || 0);
-      const effectivePrice = variantPrice > 0 ? variantPrice : productPrice;
+      let effectivePrice = variantPrice > 0 ? variantPrice : productPrice;
+
+      // Apply B2B pricing
+      if (b2bMultiplier) {
+        effectivePrice = calculateB2bPrice(effectivePrice, b2bMultiplier);
+      }
       const tags = item.variant.product.tags || [];
       const wholesaler = this.getWholesaler(tags);
       

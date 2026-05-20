@@ -815,7 +815,7 @@ export class ShippingCalculatorService {
   /**
    * Get available shipping methods for cart items
    */
-  async getAvailableShippingMethods(items: CartItemForShipping[]): Promise<Array<{
+  async getAvailableShippingMethods(items: CartItemForShipping[], options?: { isB2b?: boolean; cartSubtotal?: number }): Promise<Array<{
     id: string;
     name: string;
     price: number;
@@ -900,6 +900,19 @@ export class ShippingCalculatorService {
         forced: true, // Ta opcja jest wymuszona i nie może być zmieniona
       } as any);
     }
+
+    // B2B shipping method (only for approved B2B partners)
+    if (options?.isB2b) {
+      const subtotal = options.cartSubtotal || 0;
+      const b2bShippingPrice = subtotal >= 50 ? 1.99 : 4.99;
+      methods.push({
+        id: 'b2b_wysylka_wlasna',
+        name: 'Wysyłka własna (B2B)',
+        price: b2bShippingPrice,
+        available: true,
+        message: subtotal >= 50 ? 'Dostawa B2B od 50 zł' : 'Dostawa B2B poniżej 50 zł',
+      });
+    }
     
     return methods;
   }
@@ -908,7 +921,7 @@ export class ShippingCalculatorService {
    * Get shipping options per package (for per-product shipping selection)
    * Each package gets its own list of available shipping methods
    */
-  async getShippingOptionsPerPackage(items: CartItemForShipping[]): Promise<{
+  async getShippingOptionsPerPackage(items: CartItemForShipping[], options?: { isB2b?: boolean; cartSubtotal?: number }): Promise<{
     packagesWithOptions: PackageWithShippingOptions[];
     totalShippingCost: number;
     warnings: string[];
@@ -1035,6 +1048,20 @@ export class ShippingCalculatorService {
           ? 'dpd_kurier'
           : (pkg.isPaczkomatAvailable ? 'inpost_paczkomat' : 'inpost_kurier');
       
+      // B2B shipping option
+      if (options?.isB2b) {
+        const subtotal = options.cartSubtotal || 0;
+        const b2bPrice = subtotal >= 50 ? 1.99 : 4.99;
+        methods.push({
+          id: 'b2b_wysylka_wlasna',
+          name: 'Wysyłka własna (B2B)',
+          price: b2bPrice,
+          available: true,
+          message: subtotal >= 50 ? 'Dostawa B2B od 50 zł' : 'Dostawa B2B poniżej 50 zł',
+          estimatedDelivery: '2-5 dni roboczych',
+        });
+      }
+
       packagesWithOptions.push({
         package: pkg,
         shippingMethods: methods,

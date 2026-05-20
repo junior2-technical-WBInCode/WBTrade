@@ -7,8 +7,17 @@ import Image from 'next/image';
 import { Product } from '../lib/api';
 import { useWishlist } from '../contexts/WishlistContext';
 import { useCart } from '../contexts/CartContext';
+import { useAuth } from '../contexts/AuthContext';
 import { PLACEHOLDER_IMAGE, WAREHOUSE_LOCATIONS, getWarehouseLocation, calculateDiscountPercent, getProductBrand, getProductBrandSlug } from './productUtils';
 import { getProxiedImageUrl } from '../lib/image-proxy';
+
+// B2B price calculation (mirrors backend b2b-pricing.service.ts)
+function calculateB2bPrice(storePrice: number, multiplier: number): number {
+  if (storePrice <= 0 || multiplier <= 0) return 0;
+  const basePrice = storePrice / 1.35;
+  const b2bPrice = basePrice * multiplier;
+  return Math.floor(b2bPrice) + 0.99;
+}
 
 // Cart icon
 const CartIcon = ({ className }: { className?: string }) => (
@@ -35,12 +44,19 @@ export interface ProductCardProps {
 export default memo(function ProductCard({ product, showDelivery = false, showWishlist = true, showAddToCart = true }: ProductCardProps) {
   const router = useRouter();
   const [imgError, setImgError] = useState(false);
+  const { user } = useAuth();
   const firstImage = product.images?.[0];
   const productImage = firstImage?.id ? getProxiedImageUrl(firstImage.id) : firstImage?.url;
   const showPlaceholder = imgError || !productImage;
   const mainImage = showPlaceholder ? PLACEHOLDER_IMAGE : productImage;
-  const hasDiscount = product.compareAtPrice && Number(product.compareAtPrice) > Number(product.price);
-  const discountPercent = calculateDiscountPercent(product.price, product.compareAtPrice);
+
+  // B2B price transformation
+  const isB2b = user && (user as any).b2bStatus === 'APPROVED';
+  const b2bMultiplier = isB2b ? ((user as any).b2bPriceMultiplier || 1.10) : null;
+  const displayPrice = isB2b && b2bMultiplier ? calculateB2bPrice(Number(product.price), b2bMultiplier) : Number(product.price);
+
+  const hasDiscount = !isB2b && product.compareAtPrice && Number(product.compareAtPrice) > Number(product.price);
+  const discountPercent = !isB2b ? calculateDiscountPercent(product.price, product.compareAtPrice) : 0;
 
   const { isInWishlist, toggleWishlist } = useWishlist();
   const { addToCart } = useCart();
@@ -192,13 +208,18 @@ export default memo(function ProductCard({ product, showDelivery = false, showWi
           <div className="mt-1.5 sm:mt-2">
             <div className="flex items-baseline gap-0.5 sm:gap-1">
               <span className="text-sm sm:text-lg font-bold text-gray-900 dark:text-secondary-100">
-                {Number(product.price).toFixed(2).replace('.', ',')}
+                {displayPrice.toFixed(2).replace('.', ',')}
               </span>
               <span className="text-xs sm:text-sm font-semibold text-gray-900 dark:text-secondary-100">zł</span>
             </div>
             {hasDiscount && (
               <span className="text-[10px] sm:text-xs text-gray-400 dark:text-secondary-500 line-through">
                 {Number(product.compareAtPrice).toFixed(2).replace('.', ',')} zł
+              </span>
+            )}
+            {isB2b && (
+              <span className="text-[10px] sm:text-xs text-blue-600 dark:text-blue-400 font-medium">
+                cena B2B
               </span>
             )}
           </div>

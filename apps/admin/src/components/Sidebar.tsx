@@ -27,6 +27,7 @@ import {
   RotateCcw,
   Clock,
   Building2,
+  FileText,
   // Trophy,
 } from 'lucide-react';
 import { useState } from 'react';
@@ -81,6 +82,11 @@ const navSections: NavSection[] = [
         title: 'Kupony',
         href: '/coupons',
         icon: Ticket,
+      },
+      {
+        title: 'Faktury',
+        href: '/invoices',
+        icon: FileText,
       },
       {
         title: 'Przeceny',

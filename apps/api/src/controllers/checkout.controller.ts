@@ -13,6 +13,7 @@ import { CartService } from '../services/cart.service';
 import { addressesService } from '../services/addresses.service';
 import { emailService } from '../services/email.service';
 import { ShippingProviderId } from '../types/shipping.types';
+import { getB2bUserInfo } from '../services/b2b-pricing.service';
 import { CreatePaymentRequest, PaymentMethodType, PaymentProviderId } from '../types/payment.types';
 import { loyaltyService } from '../services/loyalty.service';
 
@@ -137,7 +138,11 @@ export async function calculateCartShipping(req: Request, res: Response): Promis
     }));
     
     // Get available shipping methods with calculated prices
-    const shippingMethods = await shippingCalculatorService.getAvailableShippingMethods(cartItems);
+    const b2bInfo = req.user?.userId ? await getB2bUserInfo(req.user.userId) : null;
+    const shippingMethods = await shippingCalculatorService.getAvailableShippingMethods(cartItems, {
+      isB2b: !!b2bInfo,
+      cartSubtotal: cart.subtotal,
+    });
     
     // Get detailed calculation for additional info
     const detailedCalculation = await shippingCalculatorService.calculateShipping(cartItems);
@@ -185,7 +190,10 @@ export async function calculateItemsShipping(req: Request, res: Response): Promi
     }));
     
     // Get available shipping methods with calculated prices
-    const shippingMethods = await shippingCalculatorService.getAvailableShippingMethods(cartItems);
+    const b2bInfo = req.user?.userId ? await getB2bUserInfo(req.user.userId) : null;
+    const shippingMethods = await shippingCalculatorService.getAvailableShippingMethods(cartItems, {
+      isB2b: !!b2bInfo,
+    });
     
     // Get detailed calculation for additional info
     const detailedCalculation = await shippingCalculatorService.calculateShipping(cartItems);
@@ -232,8 +240,12 @@ export async function getShippingPerPackage(req: Request, res: Response): Promis
       quantity: item.quantity || 1,
     }));
     
-    // Get shipping options per package
-    const result = await shippingCalculatorService.getShippingOptionsPerPackage(cartItems);
+    // Get shipping options per package (with B2B info if applicable)
+    const b2bInfoPkg = req.user?.userId ? await getB2bUserInfo(req.user.userId) : null;
+    const result = await shippingCalculatorService.getShippingOptionsPerPackage(cartItems, {
+      isB2b: !!b2bInfoPkg,
+      cartSubtotal: Number(req.body.cartSubtotal) || 0,
+    });
     
     res.json({
       packagesWithOptions: result.packagesWithOptions.map(pkgOpt => ({
@@ -299,7 +311,7 @@ export async function getPickupPoints(req: Request, res: Response): Promise<void
  */
 export async function getPaymentMethods(req: Request, res: Response): Promise<void> {
   try {
-    const methods = await paymentService.getAvailablePaymentMethods();
+    const methods = await paymentService.getAvailablePaymentMethods(req.user?.userId);
 
     res.json({
       paymentMethods: methods.map(method => ({
@@ -383,6 +395,19 @@ export async function createCheckout(req: Request, res: Response): Promise<void>
       return;
     }
 
+    // Validate B2B-only methods
+    if (shippingMethod === 'b2b_wysylka_wlasna' || paymentMethod === 'b2b_transfer') {
+      if (!userId) {
+        res.status(403).json({ message: 'Metody B2B dostępne tylko dla zalogowanych partnerów B2B' });
+        return;
+      }
+      const b2bCheck = await getB2bUserInfo(userId);
+      if (!b2bCheck) {
+        res.status(403).json({ message: 'Metody B2B dostępne tylko dla zatwierdzonych partnerów B2B' });
+        return;
+      }
+    }
+
     // Get cart - for logged in users by userId, for guests by sessionId
     let cart;
     if (userId) {
@@ -452,7 +477,11 @@ export async function createCheckout(req: Request, res: Response): Promise<void>
         quantity: item.quantity,
       }));
       
-      const serverShippingResult = await shippingCalculatorService.getShippingOptionsPerPackage(cartItemsForShipping);
+      const b2bInfoCheckout = userId ? await getB2bUserInfo(userId) : null;
+      const serverShippingResult = await shippingCalculatorService.getShippingOptionsPerPackage(cartItemsForShipping, {
+        isB2b: !!b2bInfoCheckout,
+        cartSubtotal: subtotal,
+      });
       const serverPackages = serverShippingResult.packagesWithOptions;
       
       // Match each client-submitted package to server-calculated packages and override prices
@@ -504,7 +533,11 @@ export async function createCheckout(req: Request, res: Response): Promise<void>
         const shippingResult = await shippingCalculatorService.calculateShipping(cartItemsForShipping);
         
         // Get price for specific shipping method
-        const methods = await shippingCalculatorService.getAvailableShippingMethods(cartItemsForShipping);
+        const b2bInfoForShipping = userId ? await getB2bUserInfo(userId) : null;
+        const methods = await shippingCalculatorService.getAvailableShippingMethods(cartItemsForShipping, {
+          isB2b: !!b2bInfoForShipping,
+          cartSubtotal: subtotal,
+        });
         const selectedMethod = methods.find(m => m.id === shippingMethod);
         shippingCost = selectedMethod?.price || shippingResult.shippingCost;
         
@@ -530,8 +563,8 @@ export async function createCheckout(req: Request, res: Response): Promise<void>
     }
 
     // Get payment fee
-    const paymentMethods = await paymentService.getAvailablePaymentMethods();
-    const selectedPayment = paymentMethods.find(m => m.type === paymentMethod);
+    const paymentMethods = await paymentService.getAvailablePaymentMethods(userId);
+    const selectedPayment = paymentMethods.find(m => m.type === paymentMethod || m.id === paymentMethod);
     const paymentFee = selectedPayment?.fee || 0;
 
     // Re-validate coupon and recalculate discount based on selected items subtotal
@@ -880,6 +913,106 @@ export async function createCheckout(req: Request, res: Response): Promise<void>
         orderNumber: order.orderNumber,
         status: 'created',
         paymentMethod: 'cod',
+        total,
+        redirectUrl: `/order/${order.id}/confirmation`,
+      });
+    } else if (paymentMethod === 'b2b_transfer') {
+      // B2B bank transfer - validate that user is actually B2B
+      if (!userId) {
+        res.status(403).json({ message: 'Przelew B2B dostępny tylko dla zalogowanych użytkowników' });
+        return;
+      }
+      const b2bCheckInfo = await getB2bUserInfo(userId);
+      if (!b2bCheckInfo) {
+        res.status(403).json({ message: 'Przelew B2B dostępny tylko dla zatwierdzonych partnerów B2B' });
+        return;
+      }
+
+      // Mark order payment as pending bank transfer (no payment gateway)
+      await prisma.order.update({
+        where: { id: order.id },
+        data: {
+          paymentStatus: 'PENDING',
+          internalNotes: 'Oczekuje na przelew bankowy B2B (termin 7 dni)',
+        },
+      });
+
+      // Mark coupon as used (same as COD)
+      if (cart.couponCode) {
+        try {
+          await prisma.coupon.update({
+            where: { code: cart.couponCode },
+            data: { usedCount: { increment: 1 } },
+          });
+          console.log(`[Checkout] Coupon ${cart.couponCode} marked as used for B2B transfer order ${order.orderNumber}`);
+        } catch (err) {
+          console.error(`[Checkout] Failed to mark coupon ${cart.couponCode} as used:`, err);
+        }
+      }
+
+      // Send order confirmation email
+      const orderForEmail = await prisma.order.findUnique({
+        where: { id: order.id },
+        include: {
+          user: { select: { email: true, firstName: true } },
+          shippingAddress: true,
+          items: {
+            include: {
+              variant: {
+                include: {
+                  product: {
+                    select: {
+                      images: { take: 1, select: { url: true } },
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
+      });
+
+      if (orderForEmail) {
+        const customerEmail = orderForEmail.user?.email;
+        const customerName = orderForEmail.user?.firstName || 'Partnerze';
+
+        if (customerEmail && orderForEmail.shippingAddress) {
+          emailService.sendOrderConfirmationEmail(
+            customerEmail,
+            customerName,
+            orderForEmail.orderNumber,
+            orderForEmail.id,
+            Number(orderForEmail.total),
+            orderForEmail.items.map(item => ({
+              name: item.productName,
+              variant: item.variantName,
+              quantity: item.quantity,
+              price: Number(item.unitPrice),
+              total: Number(item.total),
+              imageUrl: item.variant?.product?.images?.[0]?.url || null,
+            })),
+            {
+              firstName: orderForEmail.shippingAddress.firstName,
+              lastName: orderForEmail.shippingAddress.lastName,
+              street: orderForEmail.shippingAddress.street,
+              city: orderForEmail.shippingAddress.city,
+              postalCode: orderForEmail.shippingAddress.postalCode,
+              phone: orderForEmail.shippingAddress.phone || undefined,
+            },
+            orderForEmail.shippingMethod || 'b2b_wysylka_wlasna',
+            'b2b_transfer',
+            false // isPaid - B2B transfer is not paid yet
+          ).catch((err) => {
+            console.error(`[Checkout] Error sending B2B order confirmation email:`, err);
+          });
+        }
+      }
+
+      res.json({
+        orderId: order.id,
+        orderNumber: order.orderNumber,
+        status: 'created',
+        paymentMethod: 'b2b_transfer',
         total,
         redirectUrl: `/order/${order.id}/confirmation`,
       });

@@ -13,7 +13,8 @@ export class SecureAuthController {
    */
   async register(req: Request, res: Response): Promise<void> {
     try {
-      const { email, password, firstName, lastName, newsletter } = req.body;
+      const { email, password, firstName, lastName, newsletter,
+              accountType, companyName, nip, companyStreet, companyCity, companyPostalCode, phone } = req.body;
 
       // Validate required fields
       if (!email || !password) {
@@ -31,6 +32,13 @@ export class SecureAuthController {
         lastName,
         newsletter: !!newsletter,
         userAgent: getUserAgent(req),
+        accountType,
+        companyName,
+        nip,
+        companyStreet,
+        companyCity,
+        companyPostalCode,
+        phone,
       });
 
       res.status(201).json({
@@ -77,7 +85,7 @@ export class SecureAuthController {
         }
       }
 
-      console.error('Registration error');
+      console.error('Registration error', error instanceof Error ? error.message : error);
       res.status(500).json({
         message: 'Rejestracja nie powiodła się',
         code: 'REGISTRATION_ERROR',
@@ -526,6 +534,8 @@ export class SecureAuthController {
           companyStreet: user.companyStreet,
           companyCity: user.companyCity,
           companyPostalCode: user.companyPostalCode,
+          b2bStatus: (user as any).b2bStatus || null,
+          b2bPriceMultiplier: (user as any).b2bPriceMultiplier || null,
         },
       });
     } catch (error) {

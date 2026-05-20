@@ -85,6 +85,13 @@ interface RegisterInput {
   newsletter?: boolean;
   ipAddress?: string;
   userAgent?: string;
+  // B2B fields
+  accountType?: 'personal' | 'business';
+  companyName?: string;
+  nip?: string;
+  companyStreet?: string;
+  companyCity?: string;
+  companyPostalCode?: string;
 }
 
 interface LoginInput {
@@ -157,6 +164,9 @@ interface UserResponse {
   companyStreet?: string | null;
   companyCity?: string | null;
   companyPostalCode?: string | null;
+  // B2B fields
+  b2bStatus?: string;
+  b2bPriceMultiplier?: number;
 }
 
 interface RegisterResult {
@@ -191,7 +201,8 @@ export class SecureAuthService {
    * Register a new user with full security checks
    */
   async register(input: RegisterInput): Promise<RegisterResult> {
-    const { email, password, firstName, lastName, phone, newsletter, ipAddress, userAgent } = input;
+    const { email, password, firstName, lastName, phone, newsletter, ipAddress, userAgent,
+            accountType, companyName, nip, companyStreet, companyCity, companyPostalCode } = input;
 
     // Validate password
     const passwordValidation = validatePassword(password);
@@ -223,6 +234,9 @@ export class SecureAuthService {
     // Hash password with high cost factor
     const hashedPassword = await bcrypt.hash(password, SALT_ROUNDS);
 
+    // Determine if this is a B2B registration
+    const isBusinessAccount = accountType === 'business';
+
     // Create user
     const user = await prisma.user.create({
       data: {
@@ -231,9 +245,18 @@ export class SecureAuthService {
         firstName: (firstName || '').trim(),
         lastName: (lastName || '').trim(),
         phone: phone?.trim() || null,
-        role: 'CUSTOMER',
+        role: isBusinessAccount ? 'CUSTOMER' : 'CUSTOMER', // stays CUSTOMER until admin approves
         emailVerified: false,
         failedLoginAttempts: 0,
+        // B2B fields
+        ...(isBusinessAccount && {
+          b2bStatus: 'PENDING',
+          companyName: companyName?.trim() || null,
+          nip: nip?.replace(/[\s-]/g, '') || null,
+          companyStreet: companyStreet?.trim() || null,
+          companyCity: companyCity?.trim() || null,
+          companyPostalCode: companyPostalCode?.trim() || null,
+        }),
       },
     });
 
@@ -277,10 +300,13 @@ export class SecureAuthService {
     }
 
     // Generate welcome discount code and send email (async, don't block registration)
-    debugLog('[SecureAuthService] Starting welcome discount...');
-    this.sendWelcomeDiscount(user.id, user.email, user.firstName || '').catch((err) => {
-      console.error('[SecureAuthService] Failed to send welcome discount:', err.message);
-    });
+    // Skip for B2B accounts — they don't get personal discount coupons
+    if (!isBusinessAccount) {
+      debugLog('[SecureAuthService] Starting welcome discount...');
+      this.sendWelcomeDiscount(user.id, user.email, user.firstName || '').catch((err) => {
+        console.error('[SecureAuthService] Failed to send welcome discount:', err.message);
+      });
+    }
 
     // If user opted in for newsletter, auto-subscribe and generate newsletter discount
     if (newsletter) {
@@ -964,6 +990,8 @@ export class SecureAuthService {
     companyStreet?: string | null;
     companyCity?: string | null;
     companyPostalCode?: string | null;
+    b2bStatus?: any;
+    b2bPriceMultiplier?: any;
   }): UserResponse {
     return {
       id: user.id,
@@ -979,6 +1007,8 @@ export class SecureAuthService {
       companyStreet: user.companyStreet,
       companyCity: user.companyCity,
       companyPostalCode: user.companyPostalCode,
+      b2bStatus: user.b2bStatus || undefined,
+      b2bPriceMultiplier: user.b2bPriceMultiplier ? Number(user.b2bPriceMultiplier) : undefined,
     };
   }
 
