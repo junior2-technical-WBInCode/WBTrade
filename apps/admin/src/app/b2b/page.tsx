@@ -26,7 +26,7 @@ interface B2bApplication {
   companyStreet: string | null;
   companyCity: string | null;
   companyPostalCode: string | null;
-  b2bStatus: 'NONE' | 'PENDING' | 'APPROVED' | 'REJECTED' | 'REVOKED';
+  b2bStatus: 'NONE' | 'PENDING' | 'APPROVED' | 'REJECTED' | 'REVOKED' | 'SUSPENDED';
   b2bPriceMultiplier: number | null;
   b2bApprovedAt: string | null;
   b2bApprovedBy: string | null;
@@ -109,6 +109,35 @@ export default function AdminB2bPage() {
     }
   };
 
+  const handleSuspend = async (userId: string) => {
+    if (!token) return;
+    if (!confirm('Czy na pewno chcesz zawiesić konto tego partnera? Nie będzie mógł składać zamówień.')) return;
+    const reason = prompt('Powód zawieszenia (opcjonalnie):');
+    setActionLoading(userId);
+    try {
+      await apiJson.post(`/admin/b2b/partners/${userId}/suspend`, { reason: reason || undefined }, token);
+      fetchData();
+    } catch (err: any) {
+      alert(err.message);
+    } finally {
+      setActionLoading(null);
+    }
+  };
+
+  const handleUnsuspend = async (userId: string) => {
+    if (!token) return;
+    if (!confirm('Czy na pewno chcesz odwiesić konto tego partnera?')) return;
+    setActionLoading(userId);
+    try {
+      await apiJson.post(`/admin/b2b/partners/${userId}/unsuspend`, {}, token);
+      fetchData();
+    } catch (err: any) {
+      alert(err.message);
+    } finally {
+      setActionLoading(null);
+    }
+  };
+
   const handleUpdateMultiplier = async (userId: string) => {
     if (!token || !editMultiplier) return;
     const multiplier = parseFloat(editMultiplier.value);
@@ -145,12 +174,14 @@ export default function AdminB2bPage() {
       APPROVED: 'bg-green-100 text-green-800',
       REJECTED: 'bg-red-100 text-red-800',
       REVOKED: 'bg-gray-100 text-gray-800',
+      SUSPENDED: 'bg-orange-100 text-orange-800',
     };
     const labels: Record<string, string> = {
       PENDING: 'Oczekuje',
       APPROVED: 'Zatwierdzony',
       REJECTED: 'Odrzucony',
       REVOKED: 'Cofnięty',
+      SUSPENDED: 'Zawieszony',
     };
     return (
       <span className={`px-2 py-1 text-xs font-medium rounded-full ${styles[status] || 'bg-gray-100 text-gray-600'}`}>
@@ -311,14 +342,44 @@ export default function AdminB2bPage() {
                           </>
                         )}
                         {app.b2bStatus === 'APPROVED' && (
-                          <button
-                            onClick={() => handleRevoke(app.id)}
-                            disabled={actionLoading === app.id}
-                            className="p-1.5 bg-red-500/20 text-red-400 hover:bg-red-500/30 rounded-md transition-colors"
-                            title="Cofnij współpracę"
-                          >
-                            <Ban className="w-4 h-4" />
-                          </button>
+                          <>
+                            <button
+                              onClick={() => handleSuspend(app.id)}
+                              disabled={actionLoading === app.id}
+                              className="p-1.5 bg-orange-500/20 text-orange-400 hover:bg-orange-500/30 rounded-md transition-colors"
+                              title="Zawieś konto"
+                            >
+                              <Ban className="w-4 h-4" />
+                            </button>
+                            <button
+                              onClick={() => handleRevoke(app.id)}
+                              disabled={actionLoading === app.id}
+                              className="p-1.5 bg-red-500/20 text-red-400 hover:bg-red-500/30 rounded-md transition-colors"
+                              title="Cofnij współpracę"
+                            >
+                              <X className="w-4 h-4" />
+                            </button>
+                          </>
+                        )}
+                        {app.b2bStatus === 'SUSPENDED' && (
+                          <>
+                            <button
+                              onClick={() => handleUnsuspend(app.id)}
+                              disabled={actionLoading === app.id}
+                              className="p-1.5 bg-green-500/20 text-green-400 hover:bg-green-500/30 rounded-md transition-colors"
+                              title="Odwieś konto"
+                            >
+                              <Check className="w-4 h-4" />
+                            </button>
+                            <button
+                              onClick={() => handleRevoke(app.id)}
+                              disabled={actionLoading === app.id}
+                              className="p-1.5 bg-red-500/20 text-red-400 hover:bg-red-500/30 rounded-md transition-colors"
+                              title="Cofnij współpracę"
+                            >
+                              <X className="w-4 h-4" />
+                            </button>
+                          </>
                         )}
                       </div>
                     </td>

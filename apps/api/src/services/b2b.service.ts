@@ -153,6 +153,48 @@ export class B2bService {
   }
 
   /**
+   * Suspend B2B partner (temporary block — can't place orders but keeps account access)
+   */
+  async suspendPartner(userId: string, adminId: string, reason?: string) {
+    const user = await prisma.user.findUnique({ where: { id: userId } });
+    if (!user) throw new Error('Użytkownik nie znaleziony');
+    if (user.role !== 'B2B_PARTNER' || user.b2bStatus !== 'APPROVED') {
+      throw new Error('Użytkownik nie jest aktywnym partnerem B2B');
+    }
+
+    await prisma.user.update({
+      where: { id: userId },
+      data: {
+        b2bStatus: 'SUSPENDED',
+        b2bNotes: reason ? `Zawieszony: ${reason}` : 'Konto zawieszone przez administratora',
+      },
+    });
+
+    return { status: 'SUSPENDED' as B2bStatus };
+  }
+
+  /**
+   * Unsuspend B2B partner (restore access)
+   */
+  async unsuspendPartner(userId: string, adminId: string) {
+    const user = await prisma.user.findUnique({ where: { id: userId } });
+    if (!user) throw new Error('Użytkownik nie znaleziony');
+    if (user.role !== 'B2B_PARTNER' || user.b2bStatus !== 'SUSPENDED') {
+      throw new Error('Użytkownik nie jest zawieszonym partnerem B2B');
+    }
+
+    await prisma.user.update({
+      where: { id: userId },
+      data: {
+        b2bStatus: 'APPROVED',
+        b2bNotes: null,
+      },
+    });
+
+    return { status: 'APPROVED' as B2bStatus };
+  }
+
+  /**
    * Update B2B price multiplier for a user (admin action)
    */
   async updateMultiplier(userId: string, multiplier: number, adminId: string) {
@@ -215,7 +257,7 @@ export class B2bService {
    */
   async getPartners() {
     return prisma.user.findMany({
-      where: { role: 'B2B_PARTNER', b2bStatus: 'APPROVED' },
+      where: { role: 'B2B_PARTNER', b2bStatus: { in: ['APPROVED', 'SUSPENDED'] } },
       select: {
         id: true,
         email: true,
@@ -224,8 +266,10 @@ export class B2bService {
         phone: true,
         companyName: true,
         nip: true,
+        b2bStatus: true,
         b2bPriceMultiplier: true,
         b2bApprovedAt: true,
+        b2bNotes: true,
         createdAt: true,
         _count: { select: { orders: true } },
       },

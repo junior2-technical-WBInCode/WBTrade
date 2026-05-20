@@ -90,4 +90,29 @@ router.put('/partners/:userId/multiplier', async (req: Request, res: Response): 
   }
 });
 
+/**
+ * POST /api/admin/b2b/partners/:userId/suspend - Suspend B2B partner
+ */
+router.post('/partners/:userId/suspend', async (req: Request, res: Response): Promise<void> => {
+  try {
+    const { reason } = req.body || {};
+    const result = await b2bService.suspendPartner(req.params.userId, req.user!.userId, reason);
+    res.json({ message: 'Partner B2B zawieszony', ...result });
+  } catch (error: any) {
+    res.status(400).json({ message: error.message });
+  }
+});
+
+/**
+ * POST /api/admin/b2b/partners/:userId/unsuspend - Unsuspend B2B partner
+ */
+router.post('/partners/:userId/unsuspend', async (req: Request, res: Response): Promise<void> => {
+  try {
+    const result = await b2bService.unsuspendPartner(req.params.userId, req.user!.userId);
+    res.json({ message: 'Partner B2B odwieszony', ...result });
+  } catch (error: any) {
+    res.status(400).json({ message: error.message });
+  }
+});
+
 export default router;
