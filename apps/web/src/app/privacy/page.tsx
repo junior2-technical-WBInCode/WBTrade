@@ -19,7 +19,7 @@ export default function PrivacyPolicyPage() {
               Polityka prywatności
             </h1>
             <p className="text-secondary-500 dark:text-secondary-400">
-              Ostatnia aktualizacja: 26 marca 2026
+              Ostatnia aktualizacja: 20 maja 2026
             </p>
           </div>
         </div>
@@ -37,7 +37,7 @@ export default function PrivacyPolicyPage() {
                 </h2>
                 <p className="text-secondary-600 dark:text-secondary-400 mb-6">
                   Niniejsza Polityka Prywatności określa zasady przetwarzania i&nbsp;ochrony danych osobowych
-                  przekazanych przez Użytkowników w&nbsp;związku z&nbsp;korzystaniem z&nbsp;serwisu wb-trade.pl („Sklep").
+                  przekazanych przez Użytkowników w&nbsp;związku z&nbsp;korzystaniem ze&nbsp;Sklepu prowadzonego pod adresem wb-trade.pl oraz aplikacji mobilnej WB&nbsp;Trade („Sklep").
                 </p>
                 <p className="text-secondary-600 dark:text-secondary-400 mb-6">
                   Administratorem danych osobowych jest WB&nbsp;Partners Sp.&nbsp;z&nbsp;o.o. z&nbsp;siedzibą w&nbsp;Rzeszowie pod ul.&nbsp;Juliusza
@@ -57,25 +57,47 @@ export default function PrivacyPolicyPage() {
                   Zbieramy następujące dane osobowe:
                 </p>
                 <ul className="list-disc pl-6 text-secondary-600 dark:text-secondary-400 mb-6 space-y-2">
-                  <li>Imię i nazwisko</li>
-                  <li>Adres e-mail</li>
-                  <li>Numer telefonu</li>
-                  <li>Adres dostawy</li>
-                  <li>Dane rozliczeniowe</li>
-                  <li>Dane do faktury</li>
-                  <li>Dane zamówień</li>
-                  <li>Dane techniczne i analityczne</li>
+                  <li>imię i nazwisko,</li>
+                  <li>adres e-mail,</li>
+                  <li>numer telefonu,</li>
+                  <li>adres dostawy,</li>
+                  <li>dane rozliczeniowe,</li>
+                  <li>dane do faktury,</li>
+                  <li>dane zamówień,</li>
+                  <li>dane techniczne i analityczne.</li>
                 </ul>
+                <p className="text-secondary-600 dark:text-secondary-400 mb-4">
+                  W przypadku rejestracji Konta firmowego (B2B) dodatkowo przetwarzamy dane firmowe, takie jak:
+                </p>
+                <ul className="list-disc pl-6 text-secondary-600 dark:text-secondary-400 mb-6 space-y-2">
+                  <li>NIP,</li>
+                  <li>nazwa firmy,</li>
+                  <li>adres siedziby firmy,</li>
+                  <li>numer telefonu kontaktowego,</li>
+                  <li>adres e-mail,</li>
+                  <li>dane osoby kontaktowej, jeżeli zostały podane.</li>
+                </ul>
+                <p className="text-secondary-600 dark:text-secondary-400 mb-6">
+                  W przypadku korzystania z&nbsp;usługi „Wysyłka własna (B2B)" możemy przetwarzać dane zawarte na&nbsp;etykiecie wysyłkowej przesłanej przez Klienta B2B, w&nbsp;zakresie niezbędnym do&nbsp;przygotowania paczki, umieszczenia etykiety na&nbsp;przesyłce i&nbsp;przekazania jej przewoźnikowi wskazanemu przez Klienta B2B.
+                </p>
 
                 <h2 className="text-2xl font-bold text-secondary-900 dark:text-white mt-10 mb-4">
                   3. Źródło danych osobowych
                 </h2>
+                <p className="text-secondary-600 dark:text-secondary-400 mb-4">
+                  Dane osobowe pozyskujemy bezpośrednio od&nbsp;Ciebie, w&nbsp;szczególności podczas:
+                </p>
+                <ul className="list-disc pl-6 text-secondary-600 dark:text-secondary-400 mb-6 space-y-2">
+                  <li>rejestracji konta,</li>
+                  <li>rejestracji Konta firmowego (B2B),</li>
+                  <li>składania zamówienia,</li>
+                  <li>wypełniania formularzy kontaktowych,</li>
+                  <li>zapisu do newslettera,</li>
+                  <li>kontaktu z Biurem Obsługi Klienta,</li>
+                  <li>przesłania etykiety wysyłkowej w ramach usługi „Wysyłka własna (B2B)".</li>
+                </ul>
                 <p className="text-secondary-600 dark:text-secondary-400 mb-6">
-                  Dane osobowe pozyskujemy bezpośrednio od&nbsp;Ciebie, w&nbsp;szczególności podczas: rejestracji konta,
-                  składania zamówienia, wypełniania formularzy kontaktowych, zapisu do&nbsp;newslettera oraz w&nbsp;trakcie
-                  kontaktu z&nbsp;Biurem Obsługi Klienta. Dodatkowo, po&nbsp;wyrażeniu zgody na&nbsp;pliki cookies, możemy
-                  pozyskiwać dane z&nbsp;urządzenia i&nbsp;przeglądarki (np.&nbsp;identyfikatory cookies, adres IP, informacje o&nbsp;aktywności
-                  w&nbsp;Sklepie) w&nbsp;związku z&nbsp;korzystaniem z&nbsp;narzędzi analitycznych i&nbsp;marketingowych.
+                  Dodatkowo, po&nbsp;wyrażeniu zgody na&nbsp;pliki cookies, możemy pozyskiwać dane z&nbsp;urządzenia i&nbsp;przeglądarki, w&nbsp;szczególności identyfikatory cookies, adres IP oraz informacje o&nbsp;aktywności w&nbsp;Sklepie, w&nbsp;związku z&nbsp;korzystaniem z&nbsp;narzędzi analitycznych i&nbsp;marketingowych.
                 </p>
 
                 <h2 className="text-2xl font-bold text-secondary-900 dark:text-white mt-10 mb-4">
@@ -85,15 +107,20 @@ export default function PrivacyPolicyPage() {
                   Dane osobowe przetwarzane są w celu:
                 </p>
                 <ul className="list-disc pl-6 text-secondary-600 dark:text-secondary-400 mb-6 space-y-2">
-                  <li>Realizacji zamówień i umów sprzedaży</li>
-                  <li>Obsługi konta użytkownika (jeżeli zostało założone)</li>
-                  <li>Obsługi zwrotów i reklamacji</li>
-                  <li>Kontaktu z klientem w sprawach zamówienia, zwrotu lub reklamacji</li>
-                  <li>Prowadzenia analiz i statystyk</li>
-                  <li>Marketingu bezpośredniego – na podstawie prawnie uzasadnionego interesu</li>
-                  <li>Wysyłki newslettera – wyłącznie na podstawie zgody użytkownika</li>
-                  <li>Wypełnienia obowiązków prawnych (np. podatkowych/księgowych)</li>
-                  <li>Ustalenia, dochodzenia i obrony roszczeń</li>
+                  <li>realizacji zamówień i umów sprzedaży,</li>
+                  <li>obsługi konta użytkownika, jeżeli zostało założone,</li>
+                  <li>obsługi Konta firmowego (B2B),</li>
+                  <li>weryfikacji statusu przedsiębiorcy w ramach współpracy B2B,</li>
+                  <li>obsługi współpracy hurtowej, w tym indywidualnego cennika oraz warunków płatności,</li>
+                  <li>generowania i przechowywania faktur VAT,</li>
+                  <li>obsługi etykiet wysyłkowych przesłanych przez Klienta B2B w ramach usługi „Wysyłka własna (B2B)",</li>
+                  <li>obsługi zwrotów i reklamacji,</li>
+                  <li>kontaktu z klientem w sprawach zamówienia, zwrotu lub reklamacji,</li>
+                  <li>prowadzenia analiz i statystyk,</li>
+                  <li>marketingu bezpośredniego – na podstawie prawnie uzasadnionego interesu,</li>
+                  <li>wysyłki newslettera – wyłącznie na podstawie zgody użytkownika,</li>
+                  <li>wypełnienia obowiązków prawnych, w szczególności podatkowych i księgowych,</li>
+                  <li>ustalenia, dochodzenia i obrony roszczeń.</li>
                 </ul>
 
                 <h2 className="text-2xl font-bold text-secondary-900 dark:text-white mt-10 mb-4">
@@ -103,10 +130,10 @@ export default function PrivacyPolicyPage() {
                   Przetwarzamy dane osobowe na podstawie:
                 </p>
                 <ul className="list-disc pl-6 text-secondary-600 dark:text-secondary-400 mb-6 space-y-2">
-                  <li>Art. 6 ust. 1 lit. a RODO – zgoda użytkownika</li>
-                  <li>Art. 6 ust. 1 lit. b RODO – niezbędność do wykonania umowy</li>
-                  <li>Art. 6 ust. 1 lit. c RODO – wypełnienie obowiązku prawnego</li>
-                  <li>Art. 6 ust. 1 lit. f RODO – prawnie uzasadniony interes administratora</li>
+                  <li>art. 6 ust. 1 lit. a RODO – zgoda użytkownika,</li>
+                  <li>art. 6 ust. 1 lit. b RODO – niezbędność do wykonania umowy lub podjęcia działań przed jej zawarciem,</li>
+                  <li>art. 6 ust. 1 lit. c RODO – wypełnienie obowiązku prawnego,</li>
+                  <li>art. 6 ust. 1 lit. f RODO – prawnie uzasadniony interes administratora.</li>
                 </ul>
                 <p className="text-secondary-600 dark:text-secondary-400 mb-6">
                   Szczegółowe cele i&nbsp;przypisane im podstawy prawne wskazujemy w&nbsp;dokumencie „RODO" dostępnym
@@ -118,9 +145,10 @@ export default function PrivacyPolicyPage() {
                 </h2>
                 <p className="text-secondary-600 dark:text-secondary-400 mb-6">
                   Dane osobowe przechowywane są przez okres niezbędny do&nbsp;realizacji celów, dla których zostały
-                  zebrane, a&nbsp;następnie przez okres wymagany przepisami prawa (np.&nbsp;przepisami podatkowymi – 5&nbsp;lat od&nbsp;końca
-                  roku, w&nbsp;którym powstał obowiązek podatkowy). Dane przetwarzane na&nbsp;podstawie zgody
-                  przechowujemy do&nbsp;momentu jej wycofania.
+                  zebrane, a&nbsp;następnie przez okres wymagany przepisami prawa, w&nbsp;szczególności przepisami podatkowymi i&nbsp;księgowymi.
+                </p>
+                <p className="text-secondary-600 dark:text-secondary-400 mb-6">
+                  Dane przetwarzane na&nbsp;podstawie zgody przechowujemy do&nbsp;momentu jej wycofania, chyba że dalsze przetwarzanie jest niezbędne na&nbsp;innej podstawie prawnej.
                 </p>
                 <p className="text-secondary-600 dark:text-secondary-400 mb-6">
                   Szczegółowe informacje o&nbsp;okresie przechowywania danych wskazujemy w&nbsp;dokumencie „RODO"
@@ -134,14 +162,15 @@ export default function PrivacyPolicyPage() {
                   Każdy użytkownik ma prawo do:
                 </p>
                 <ul className="list-disc pl-6 text-secondary-600 dark:text-secondary-400 mb-6 space-y-2">
-                  <li>Dostępu do swoich danych osobowych</li>
-                  <li>Sprostowania nieprawdziwych danych</li>
-                  <li>Usunięcia danych („prawo do bycia zapomnianym")</li>
-                  <li>Ograniczenia przetwarzania</li>
-                  <li>Przenoszenia danych</li>
-                  <li>Sprzeciwu wobec przetwarzania</li>
-                  <li>Wycofania zgody w dowolnym momencie</li>
-                  <li>Wniesienia skargi do organu nadzorczego (UODO)</li>
+                  <li>dostępu do swoich danych osobowych,</li>
+                  <li>sprostowania nieprawdziwych danych,</li>
+                  <li>usunięcia danych („prawo do bycia zapomnianym"),</li>
+                  <li>ograniczenia przetwarzania,</li>
+                  <li>przenoszenia danych,</li>
+                  <li>sprzeciwu wobec przetwarzania,</li>
+                  <li>sprzeciwu wobec przetwarzania danych na potrzeby marketingu bezpośredniego,</li>
+                  <li>wycofania zgody w dowolnym momencie,</li>
+                  <li>wniesienia skargi do organu nadzorczego (UODO).</li>
                 </ul>
 
                 <h2 className="text-2xl font-bold text-secondary-900 dark:text-white mt-10 mb-4">
@@ -151,28 +180,32 @@ export default function PrivacyPolicyPage() {
                   Dane osobowe mogą być przekazywane następującym podmiotom:
                 </p>
                 <ul className="list-disc pl-6 text-secondary-600 dark:text-secondary-400 mb-6 space-y-2">
-                  <li>Firmom kurierskim i pocztowym (w celu dostawy zamówień)</li>
-                  <li>Operatorom płatności – PayU S.A. oraz imoje (ING Bank Śląski S.A.) – w celu realizacji płatności</li>
-                  <li>Dostawcom usług IT i hostingu</li>
-                  <li>Biurom rachunkowym i kancelariom prawnym</li>
-                  <li>Organom państwowym (na podstawie przepisów prawa)</li>
+                  <li>firmom kurierskim i pocztowym – w celu dostawy zamówień,</li>
+                  <li>operatorom płatności – PayU S.A. oraz imoje (ING Bank Śląski S.A.) – w celu realizacji płatności,</li>
+                  <li>dostawcom usług IT i hostingu,</li>
+                  <li>podmiotom świadczącym usługi księgowe,</li>
+                  <li>kancelariom prawnym – jeżeli jest to niezbędne do obsługi sprawy, dochodzenia roszczeń lub obrony przed roszczeniami,</li>
+                  <li>organom państwowym – na podstawie przepisów prawa,</li>
+                  <li>kurierom lub przewoźnikom wskazanym przez Klienta B2B w ramach usługi „Wysyłka własna (B2B)" – w zakresie danych zawartych na etykiecie wysyłkowej przesłanej przez Klienta.</li>
                 </ul>
+                <p className="text-secondary-600 dark:text-secondary-400 mb-6">
+                  Etykieta wysyłkowa w&nbsp;ramach usługi „Wysyłka własna (B2B)" jest dostarczana przez Klienta B2B. Klient B2B decyduje, jakie dane znajdują się na&nbsp;etykiecie, a&nbsp;Sprzedawca przetwarza ją wyłącznie w&nbsp;celu przygotowania paczki, umieszczenia etykiety na&nbsp;przesyłce i&nbsp;wydania przesyłki przewoźnikowi.
+                </p>
 
                 <h2 className="text-2xl font-bold text-secondary-900 dark:text-white mt-10 mb-4">
                   9. Pliki cookies
                 </h2>
-                <p className="text-secondary-600 dark:text-secondary-400 mb-4">
-                  Serwis wykorzystuje pliki cookies w celu:
-                </p>
-                <ul className="list-disc pl-6 text-secondary-600 dark:text-secondary-400 mb-6 space-y-2">
-                  <li>Utrzymania sesji użytkownika</li>
-                  <li>Zapamiętania zawartości koszyka</li>
-                  <li>Prowadzenia analiz statystycznych</li>
-                  <li>Personalizacji treści i reklam</li>
-                </ul>
                 <p className="text-secondary-600 dark:text-secondary-400 mb-6">
-                  Użytkownik może w każdej chwili zmienić ustawienia przeglądarki dotyczące cookies.
-                  Szczegółowe informacje znajdują się w ustawieniach przeglądarki internetowej.
+                  Serwis wykorzystuje pliki cookies oraz podobne technologie.
+                </p>
+                <p className="text-secondary-600 dark:text-secondary-400 mb-6">
+                  Narzędzia analityczne i&nbsp;marketingowe, w&nbsp;tym Google Analytics 4 oraz Google Ads, są uruchamiane zgodnie z&nbsp;ustawieniami plików cookies użytkownika.
+                </p>
+                <p className="text-secondary-600 dark:text-secondary-400 mb-6">
+                  W Sklepie stosowany jest mechanizm zarządzania zgodami (Consent Mode v2), który pozwala dostosować działanie tagów analitycznych i&nbsp;reklamowych do&nbsp;udzielonych zgód.
+                </p>
+                <p className="text-secondary-600 dark:text-secondary-400 mb-6">
+                  Użytkownik może w&nbsp;każdej chwili zmienić lub wycofać zgodę w&nbsp;ustawieniach cookies dostępnych w&nbsp;Sklepie.
                 </p>
 
                 <h2 className="text-2xl font-bold text-secondary-900 dark:text-white mt-10 mb-4">
@@ -220,9 +253,10 @@ export default function PrivacyPolicyPage() {
                   13. Zmiany polityki prywatności
                 </h2>
                 <p className="text-secondary-600 dark:text-secondary-400 mb-6">
-                  Administrator zastrzega sobie prawo do wprowadzania zmian w Polityce Prywatności. O wszelkich
-                  zmianach użytkownicy będą informowani poprzez publikację nowej wersji na stronie internetowej.
-                  Korzystanie z serwisu po wprowadzeniu zmian oznacza ich akceptację.
+                  Administrator może wprowadzać zmiany w&nbsp;Polityce Prywatności w&nbsp;szczególności w&nbsp;przypadku zmian przepisów prawa, zmian funkcjonalności Sklepu, zmian zasad współpracy B2B lub zmian wykorzystywanych narzędzi technologicznych.
+                </p>
+                <p className="text-secondary-600 dark:text-secondary-400 mb-6">
+                  Aktualna wersja Polityki Prywatności jest publikowana w&nbsp;Sklepie.
                 </p>
 
               </div>
