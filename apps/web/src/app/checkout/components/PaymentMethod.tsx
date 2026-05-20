@@ -9,9 +9,10 @@ interface PaymentMethodProps {
   initialData: PaymentData;
   onSubmit: (data: PaymentData) => void;
   onBack: () => void;
+  isB2b?: boolean;
 }
 
-type PaymentId = 'payu' | 'imoje';
+type PaymentId = 'payu' | 'imoje' | 'b2b_przelew';
 
 interface PaymentOption {
   id: PaymentId;
@@ -35,6 +36,13 @@ const paymentOptions: PaymentOption[] = [
     description: 'BLIK, karta płatnicza, szybki przelew, Google Pay, Apple Pay'
   },
 ];
+
+const b2bPaymentOption: PaymentOption = {
+  id: 'b2b_przelew',
+  name: 'Przelew bankowy (B2B)',
+  extraFee: 0,
+  description: 'Termin płatności 7 dni od daty zamówienia'
+};
 
 // Ikony dla metod płatności
 const PaymentIcon = ({ id }: { id: PaymentId }) => {
@@ -72,12 +80,13 @@ const PaymentIcon = ({ id }: { id: PaymentId }) => {
   }
 };
 
-export default function PaymentMethod({ initialData, onSubmit, onBack }: PaymentMethodProps) {
+export default function PaymentMethod({ initialData, onSubmit, onBack, isB2b }: PaymentMethodProps) {
+  const availableOptions = isB2b ? [...paymentOptions, b2bPaymentOption] : paymentOptions;
   const [selectedMethod, setSelectedMethod] = useState<PaymentId>(
     (initialData.method as PaymentId) || 'payu'
   );
 
-  const selectedOption = paymentOptions.find(opt => opt.id === selectedMethod);
+  const selectedOption = availableOptions.find(opt => opt.id === selectedMethod);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -95,7 +104,7 @@ export default function PaymentMethod({ initialData, onSubmit, onBack }: Payment
 
       <form onSubmit={handleSubmit}>
         <div className="divide-y divide-gray-100 dark:divide-secondary-700">
-          {paymentOptions.map((option) => (
+          {availableOptions.map((option) => (
             <label
               key={option.id}
               className={`

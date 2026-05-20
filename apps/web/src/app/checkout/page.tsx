@@ -12,7 +12,7 @@ import CheckoutSteps from './components/CheckoutSteps';
 import CheckoutAuthChoice from './components/CheckoutAuthChoice';
 import AddressForm from './components/AddressForm';
 import ShippingPerPackage from './components/ShippingPerPackage';
-
+import PaymentMethod from './components/PaymentMethod';
 import OrderSummary from './components/OrderSummary';
 import CheckoutPackagesList from './components/CheckoutPackagesList';
 import CouponInput from './components/CouponInput';
@@ -77,7 +77,7 @@ export interface PackageShippingSelection {
 }
 
 export interface PaymentData {
-  method: 'payu' | 'imoje' | 'card' | 'blik' | 'transfer' | 'google_pay' | 'apple_pay' | 'paypo';
+  method: 'payu' | 'imoje' | 'card' | 'blik' | 'transfer' | 'google_pay' | 'apple_pay' | 'paypo' | 'b2b_przelew';
   extraFee: number;
 }
 
@@ -287,6 +287,8 @@ function CheckoutPageContent() {
     window.scrollTo(0, 0);
   };
 
+  const isB2bUser = user && (user as any).b2bStatus === 'APPROVED';
+
   const handleShippingSubmit = (shipping: ShippingData) => {
     setCheckoutData(prev => ({ ...prev, shipping }));
 
@@ -295,12 +297,27 @@ function CheckoutPageContent() {
     const totalValue = checkoutItems.reduce((sum, item) => sum + ((item.variant?.price || 0) * item.quantity), 0);
     trackAddShippingInfo(items, totalValue, shipping.method);
 
-    // Auto-set payment to PayU (only option) and track
-    const payment: PaymentData = { method: 'payu', extraFee: 0 };
+    if (isB2bUser) {
+      // B2B: show payment method choice (step 3)
+      setCurrentStep(3);
+    } else {
+      // Non-B2B: auto-set PayU and go to summary (step 3 for non-B2B = summary)
+      const payment: PaymentData = { method: 'payu', extraFee: 0 };
+      setCheckoutData(prev => ({ ...prev, payment }));
+      trackAddPaymentInfo(items, totalValue, payment.method);
+      setCurrentStep(3);
+    }
+    window.scrollTo(0, 0);
+  };
+
+  const handlePaymentSubmit = (payment: PaymentData) => {
     setCheckoutData(prev => ({ ...prev, payment }));
+
+    const items = checkoutItems.map((item, index) => cartItemToGA4(item, index));
+    const totalValue = checkoutItems.reduce((sum, item) => sum + ((item.variant?.price || 0) * item.quantity), 0);
     trackAddPaymentInfo(items, totalValue, payment.method);
 
-    setCurrentStep(3);
+    setCurrentStep(4);
     window.scrollTo(0, 0);
   };
 
@@ -689,7 +706,16 @@ function CheckoutPageContent() {
               />
             )}
 
-            {currentStep === 3 && (
+            {currentStep === 3 && isB2bUser && (
+              <PaymentMethod
+                initialData={checkoutData.payment}
+                onSubmit={handlePaymentSubmit}
+                onBack={handleBack}
+                isB2b={true}
+              />
+            )}
+
+            {((currentStep === 3 && !isB2bUser) || currentStep === 4) && (
               <OrderSummary
                 checkoutData={checkoutData}
                 cart={displayCart}

@@ -40,6 +40,7 @@ const paymentMethodNames: Record<PaymentData['method'], string> = {
   google_pay: 'Google Pay',
   apple_pay: 'Apple Pay',
   paypo: 'PayPo',
+  b2b_przelew: 'Przelew bankowy (B2B)',
 };
 
 export default function OrderSummary({
