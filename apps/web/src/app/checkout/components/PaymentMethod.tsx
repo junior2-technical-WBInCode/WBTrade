@@ -75,6 +75,10 @@ const PaymentIcon = ({ id }: { id: PaymentId }) => {
         <span className="px-2 py-1 bg-[#00A651] text-white text-xs font-bold rounded">imoje</span>
       );
     }
+    case 'b2b_przelew':
+      return (
+        <span className="px-2 py-1 bg-blue-600 text-white text-xs font-bold rounded">B2B</span>
+      );
     default:
       return null;
   }
@@ -163,6 +167,20 @@ export default function PaymentMethod({ initialData, onSubmit, onBack, isB2b }: 
             </label>
           ))}
         </div>
+
+        {/* B2B bank transfer info */}
+        {selectedMethod === 'b2b_przelew' && (
+          <div className="mx-4 sm:mx-6 my-3 sm:my-4 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg p-3 sm:p-4">
+            <div className="flex gap-2">
+              <svg className="w-5 h-5 text-blue-500 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+              <p className="text-sm text-blue-700 dark:text-blue-300">
+                Zamówienie zostanie przekazane do realizacji po zaksięgowaniu płatności na rachunku Sprzedawcy. Termin płatności: 7 dni od daty złożenia zamówienia.
+              </p>
+            </div>
+          </div>
+        )}
 
         {/* Security note */}
         <div className="px-4 sm:px-6 py-3 sm:py-4 border-t dark:border-secondary-600 bg-gray-50 dark:bg-secondary-700">

@@ -20,6 +20,7 @@ export default function RegisterPage() {
     acceptTerms: false,
     acceptPrivacy: false,
     acceptNewsletter: false,
+    acceptB2bTerms: false,
     // B2B fields
     accountType: 'personal' as 'personal' | 'business',
     companyName: '',
@@ -108,6 +109,7 @@ export default function RegisterPage() {
       if (!formData.companyCity.trim()) return 'Miasto jest wymagane';
       if (!/^\d{2}-\d{3}$/.test(formData.companyPostalCode)) return 'Nieprawidłowy kod pocztowy (format: XX-XXX)';
       if (!formData.phone.trim()) return 'Telefon jest wymagany dla konta firmowego';
+      if (!formData.acceptB2bTerms) return 'Musisz zaakceptować zasady współpracy B2B';
     }
     if (!formData.acceptTerms) return 'Musisz zaakceptować regulamin';
     if (!formData.acceptPrivacy) return 'Musisz zaakceptować politykę prywatności';
@@ -717,6 +719,31 @@ export default function RegisterPage() {
                   {' '}<span className="text-red-500">*</span>
                 </label>
               </div>
+
+              {/* B2B terms — wymagany dla konta firmowego */}
+              {formData.accountType === 'business' && (
+                <div className="flex items-start gap-3 py-1.5 px-2 bg-gradient-to-r from-orange-50/50 to-white dark:from-orange-900/10 dark:to-secondary-800 rounded-xl border border-orange-200 dark:border-orange-800/30">
+                  <input
+                    id="acceptB2bTerms"
+                    name="acceptB2bTerms"
+                    type="checkbox"
+                    checked={formData.acceptB2bTerms}
+                    onChange={handleChange}
+                    className="mt-0.5 w-4 h-4 text-orange-500 border-gray-300 rounded focus:ring-orange-500 focus:ring-offset-0"
+                  />
+                  <label htmlFor="acceptB2bTerms" className="text-sm text-gray-600 dark:text-gray-300 leading-snug select-none cursor-pointer">
+                    Oświadczam, że zakładam Konto firmowe (B2B) jako przedsiębiorca i akceptuję{' '}
+                    <Link href="/cooperation" className="text-orange-500 hover:text-orange-600 font-medium">
+                      zasady współpracy B2B
+                    </Link>
+                    {' '}oraz{' '}
+                    <Link href="/terms" className="text-orange-500 hover:text-orange-600 font-medium">
+                      Regulamin Sklepu
+                    </Link>
+                    {' '}<span className="text-red-500">*</span>
+                  </label>
+                </div>
+              )}
 
               {/* Newsletter — opcjonalny */}
               <div className="flex items-start gap-3 py-1.5 px-2 bg-gradient-to-r from-white to-orange-50/50 dark:from-secondary-800 dark:to-orange-900/10 rounded-xl">
