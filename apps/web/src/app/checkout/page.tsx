@@ -605,6 +605,52 @@ function CheckoutPageContent() {
     );
   }
 
+  // Block suspended B2B users from checkout
+  const isSuspended = user && (user as any).b2bStatus === 'SUSPENDED';
+  if (isSuspended) {
+    return (
+      <div className="min-h-screen bg-gray-50 dark:bg-secondary-900">
+        <header className="bg-white dark:bg-secondary-800 shadow-sm">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+            <Link href="/">
+              <Image 
+                src="/images/WB-TRADE.svg" 
+                alt="WB Trade Group" 
+                width={140} 
+                height={50} 
+                className="h-10 w-auto object-contain"
+              />
+            </Link>
+          </div>
+        </header>
+        <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 text-center">
+          <div className="text-6xl mb-4">⚠️</div>
+          <h1 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">Konto zawieszone</h1>
+          <p className="text-gray-600 dark:text-gray-400 mb-4">
+            Twoje konto B2B zostało tymczasowo zawieszone. Nie możesz obecnie składać zamówień.
+          </p>
+          <p className="text-gray-500 dark:text-gray-500 mb-8 text-sm">
+            Masz nadal dostęp do historii zamówień oraz faktur. W razie pytań skontaktuj się z naszym działem obsługi.
+          </p>
+          <div className="flex gap-4 justify-center">
+            <Link
+              href="/account/orders"
+              className="inline-flex items-center px-6 py-3 bg-orange-500 text-white rounded-lg hover:bg-orange-600 font-medium"
+            >
+              Historia zamówień
+            </Link>
+            <Link
+              href="/contact"
+              className="inline-flex items-center px-6 py-3 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-100 dark:hover:bg-secondary-700 font-medium"
+            >
+              Kontakt
+            </Link>
+          </div>
+        </main>
+      </div>
+    );
+  }
+
   // For non-authenticated users, we show auth choice at step 0
   // This block is no longer needed - we handle it in the main render with CheckoutAuthChoice
 

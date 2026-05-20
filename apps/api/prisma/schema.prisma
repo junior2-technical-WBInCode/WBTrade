@@ -806,6 +806,7 @@ enum B2bStatus {
   APPROVED
   REJECTED
   REVOKED
+  SUSPENDED
 }
 
 enum AddressType {

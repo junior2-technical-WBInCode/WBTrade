@@ -396,7 +396,7 @@ export async function createCheckout(req: Request, res: Response): Promise<void>
     }
 
     // Validate B2B-only methods
-    if (shippingMethod === 'b2b_wysylka_wlasna' || paymentMethod === 'b2b_transfer') {
+    if (shippingMethod === 'b2b_wysylka_wlasna' || paymentMethod === 'b2b_przelew' || paymentMethod === 'b2b_transfer') {
       if (!userId) {
         res.status(403).json({ message: 'Metody B2B dostępne tylko dla zalogowanych partnerów B2B' });
         return;
@@ -404,6 +404,18 @@ export async function createCheckout(req: Request, res: Response): Promise<void>
       const b2bCheck = await getB2bUserInfo(userId);
       if (!b2bCheck) {
         res.status(403).json({ message: 'Metody B2B dostępne tylko dla zatwierdzonych partnerów B2B' });
+        return;
+      }
+    }
+
+    // Block suspended B2B users from placing any orders
+    if (userId) {
+      const suspendCheck = await prisma.user.findUnique({
+        where: { id: userId },
+        select: { b2bStatus: true },
+      });
+      if (suspendCheck?.b2bStatus === 'SUSPENDED') {
+        res.status(403).json({ message: 'Twoje konto B2B zostało zawieszone. Nie możesz składać zamówień. Skontaktuj się z obsługą.' });
         return;
       }
     }
