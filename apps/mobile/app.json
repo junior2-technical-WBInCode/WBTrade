@@ -2,7 +2,7 @@
   "expo": {
     "name": "WBTrade",
     "slug": "apeczka",
-    "version": "1.0.0",
+    "version": "3.0.1",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
     "scheme": "wbtrade",
@@ -28,6 +28,7 @@
       },
       "edgeToEdgeEnabled": true,
       "package": "pl.wbtrade.app",
+      "versionCode": 3,
       "permissions": [
         "ACCESS_FINE_LOCATION",
         "ACCESS_COARSE_LOCATION",

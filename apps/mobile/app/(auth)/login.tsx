@@ -43,7 +43,7 @@ export default function LoginScreen() {
     try {
       const result = await login(data.email, data.password);
       if (result.success) {
-        router.replace('/(tabs)');
+        router.replace('/');
       } else {
         setError(result.error || 'Nieprawidłowy email lub hasło');
       }
@@ -60,7 +60,7 @@ export default function LoginScreen() {
     try {
       const result = await loginWithGoogle();
       if (result.success) {
-        router.replace('/(tabs)');
+        router.replace('/');
       } else {
         setError(result.error || 'Logowanie Google nie powiodło się');
       }
