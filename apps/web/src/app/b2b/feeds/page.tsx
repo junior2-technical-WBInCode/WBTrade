@@ -5,11 +5,17 @@ import { useAuth } from '../../../contexts/AuthContext';
 import Link from 'next/link';
 
 export default function B2bFeedsPage() {
+
   const { user } = useAuth();
   const [copying, setCopying] = useState<string | null>(null);
 
   const isB2b = user && (user as any).b2bStatus === 'APPROVED';
-  const apiBase = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000';
+
+  // Normalize apiBase to never end with /api
+  let apiBase = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000';
+  if (apiBase.endsWith('/api')) {
+    apiBase = apiBase.slice(0, -4);
+  }
 
   const feedXmlUrl = `${apiBase}/api/feed/b2b/xml`;
   const feedCsvUrl = `${apiBase}/api/feed/b2b/csv`;
