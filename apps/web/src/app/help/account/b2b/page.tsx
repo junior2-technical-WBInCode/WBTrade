@@ -66,12 +66,7 @@ export default function HelpB2BPage() {
                 Warunki współpracy B2B
               </h2>
               <div className="grid md:grid-cols-2 gap-4">
-                <div className="bg-blue-50 dark:bg-blue-900/20 rounded-xl p-4">
-                  <h4 className="font-medium text-secondary-900 dark:text-white mb-2">💰 Ceny</h4>
-                  <p className="text-sm text-secondary-600 dark:text-secondary-400">
-                    Dedykowany cennik hurtowy z indywidualnym mnożnikiem. Ceny widoczne po zalogowaniu na zatwierdzone konto B2B.
-                  </p>
-                </div>
+                
                 <div className="bg-blue-50 dark:bg-blue-900/20 rounded-xl p-4">
                   <h4 className="font-medium text-secondary-900 dark:text-white mb-2">🚚 Dostawa</h4>
                   <p className="text-sm text-secondary-600 dark:text-secondary-400">
