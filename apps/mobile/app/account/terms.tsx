@@ -29,140 +29,144 @@ const SECTIONS: Section[] = [
   {
     title: '§ 1. Postanowienia ogólne',
     content:
-      '1. Niniejszy Regulamin określa zasady korzystania ze Sklepu prowadzonego za pośrednictwem serwisu internetowego dostępnego pod adresem www.wb-trade.pl oraz aplikacji mobilnej WB Trade (dalej łącznie: „Sklep").\n\n' +
-      '2. Właścicielem i operatorem Sklepu jest: WB Partners Spółka z ograniczoną odpowiedzialnością z siedzibą w Rzeszowie (adres: ul. Juliusza Słowackiego 24/11, 35-060 Rzeszów), wpisana do rejestru przedsiębiorców Krajowego Rejestru Sądowego prowadzonego przez Sąd Rejonowy w Rzeszowie, XII Wydział Gospodarczy Krajowego Rejestru Sądowego, pod numerem KRS: 0001151642, NIP: 5170455185, REGON: 540735769, o kapitale zakładowym w wysokości 200 000,00 zł (wpłaconym w całości) – dalej: „Sprzedawca".\n\n' +
+      '1. Niniejszy Regulamin określa zasady korzystania ze sklepu internetowego prowadzonego pod adresem https://www.wb-trade.pl oraz aplikacji mobilnej WB Trade (dalej łącznie: „Sklep”).\n\n' +
+      '2. Właścicielem i operatorem Sklepu jest: WB Partners Sp. z o.o. z siedzibą w Rzeszowie, ul. Juliusza Słowackiego 24/11, 35-060 Rzeszów, NIP: 5170455185, REGON: 540735769, KRS: 0001151642 (dalej: „Sprzedawca”).\n\n' +
       '3. Kontakt ze Sprzedawcą:\n   a) e-mail: support@wb-partners.pl,\n   b) telefon: +48 570 034 367,\n   c) godziny obsługi: pon.–pt. 9:00–17:00.\n\n' +
-      '4. Regulamin jest udostępniony nieodpłatnie w Sklepie w sposób umożliwiający jego pozyskanie, odtwarzanie i utrwalanie.\n\n' +
-      '5. Do korzystania ze Sklepu niezbędne są: urządzenie z dostępem do Internetu oraz, odpowiednio, aktualna przeglądarka internetowa lub aplikacja mobilna WB Trade w aktualnej wersji, a także aktywne konto e-mail (w przypadku składania Zamówień).\n\n' +
-      '6. Regulamin ma zastosowanie do Umów sprzedaży zawieranych w Sklepie z Klientami na terytorium Rzeczypospolitej Polskiej.\n\n' +
-      '7. Sklep nie jest marketplace\'em umożliwiającym sprzedaż przez zewnętrznych sprzedawców – Sprzedawca oferuje produkty we własnym imieniu.\n\n' +
-      '8. Korzystanie ze Sklepu oznacza akceptację niniejszego Regulaminu.',
+      '4. Regulamin jest udostępniony nieodpłatnie w Sklepie w sposób umożliwiający jego pobranie, zapisanie i odtworzenie.\n\n' +
+      '5. Do korzystania ze Sklepu niezbędne są:\n   a) urządzenie z dostępem do Internetu,\n   b) aktualna przeglądarka internetowa lub aplikacja mobilna WB Trade,\n   c) aktywny adres e-mail.\n\n' +
+      '6. Regulamin ma zastosowanie do Umów sprzedaży zawieranych za pośrednictwem Sklepu na terytorium Rzeczypospolitej Polskiej, o ile Strony nie postanowią inaczej.\n\n' +
+      '7. Sklep prowadzi sprzedaż:\n   a) konsumencką (B2C),\n   b) dla przedsiębiorców (B2B).\n\n' +
+      '8. W zakresie nieuregulowanym odmiennie w Regulaminie do Klientów B2B stosuje się postanowienia dotyczące przedsiębiorców.\n\n' +
+      '9. Postanowienia dotyczące Konsumentów oraz Przedsiębiorców na prawach konsumenta, w szczególności dotyczące prawa odstąpienia od Umowy zawartej na odległość, nie mają zastosowania do Klientów B2B, chyba że Regulamin wyraźnie stanowi inaczej.\n\n' +
+      '10. Sklep nie jest marketplace’em umożliwiającym sprzedaż przez podmioty trzecie. Sprzedawca oferuje Produkty we własnym imieniu.\n\n' +
+      '11. Złożenie Zamówienia wymaga akceptacji Regulaminu.\n\n' +
+      '12. Sprzedawca może indywidualnie ustalać z Klientami B2B warunki współpracy handlowej, w szczególności dotyczące cen, rabatów, terminów płatności, sposobów dostawy, zasad realizacji Zamówień, zwrotów, reklamacji oraz innych warunków współpracy. Warunki te ustalane są w drodze odrębnej umowy, porozumienia lub indywidualnych ustaleń dokonanych w formie dokumentowej pomiędzy Sprzedawcą a Klientem B2B. Indywidualnie uzgodnione warunki mają pierwszeństwo przed postanowieniami niniejszego Regulaminu w zakresie, w jakim odmiennie regulują prawa i obowiązki Stron.\n\n' +
+      '13. Założenie Konta w Sklepie, w tym Konta firmowego (B2B), oznacza zapoznanie się z Regulaminem oraz jego akceptację.',
   },
   {
     title: '§ 2. Definicje',
     content:
-      '1. Klient – osoba fizyczna, osoba prawna lub jednostka organizacyjna posiadająca zdolność prawną, korzystająca ze Sklepu, w tym składająca Zamówienie.\n\n' +
-      '2. Konsument – osoba fizyczna dokonująca zakupu niezwiązanego bezpośrednio z jej działalnością gospodarczą lub zawodową.\n\n' +
+      '1. Klient – osoba fizyczna, osoba prawna lub jednostka organizacyjna posiadająca zdolność prawną korzystająca ze Sklepu.\n\n' +
+      '2. Konsument – osoba fizyczna dokonująca zakupu niezwiązanego bezpośrednio z działalnością gospodarczą lub zawodową.\n\n' +
       '3. Przedsiębiorca – osoba fizyczna, osoba prawna lub jednostka organizacyjna prowadząca działalność gospodarczą lub zawodową.\n\n' +
-      '4. Przedsiębiorca na prawach konsumenta – osoba fizyczna zawierająca Umowę bezpośrednio związaną z jej działalnością gospodarczą, gdy z treści Umowy wynika, że nie ma ona dla tej osoby charakteru zawodowego.\n\n' +
-      '5. Konto – indywidualne konto Klienta w Sklepie, umożliwiające korzystanie z wybranych funkcji (w tym podgląd Zamówień).\n\n' +
-      '6. Produkt – rzecz ruchoma oferowana w Sklepie (Sklep nie oferuje produktów cyfrowych).\n\n' +
-      '7. Koszyk – funkcjonalność Sklepu umożliwiająca gromadzenie wybranych Produktów przed złożeniem Zamówienia.\n\n' +
-      '8. Zamówienie – oświadczenie woli Klienta zmierzające bezpośrednio do zawarcia Umowy sprzedaży Produktu/Produktów.\n\n' +
-      '9. Oferta – złożone przez Klienta Zamówienie, które stanowi ofertę w rozumieniu przepisów prawa.\n\n' +
-      '10. Umowa – umowa sprzedaży zawarta pomiędzy Sprzedawcą a Klientem na odległość.\n\n' +
-      '11. Dzień roboczy – dzień od poniedziałku do piątku, z wyłączeniem dni ustawowo wolnych od pracy.',
+      '4. Przedsiębiorca na prawach konsumenta – osoba fizyczna prowadząca działalność gospodarczą, zawierająca Umowę niezwiązaną zawodowo z prowadzoną działalnością.\n\n' +
+      '5. Konto – indywidualne konto Klienta w Sklepie.\n\n' +
+      '6. Konto firmowe (B2B) – konto przeznaczone dla przedsiębiorców, zapewniające dostęp do funkcji B2B, w szczególności indywidualnych cen hurtowych, płatności przelewem, feedu XML/CSV oraz dedykowanych metod dostawy.\n\n' +
+      '7. Klient B2B – przedsiębiorca posiadający zatwierdzone Konto firmowe (B2B), korzystający z indywidualnych warunków handlowych lub cen hurtowych oferowanych przez Sprzedawcę.\n\n' +
+      '8. Cennik hurtowy – indywidualne warunki cenowe udostępnione Klientowi B2B po zalogowaniu.\n\n' +
+      '9. Produkt – rzecz ruchoma oferowana w Sklepie.\n\n' +
+      '10. Zamówienie – oświadczenie woli Klienta zmierzające do zawarcia Umowy sprzedaży.\n\n' +
+      '11. Umowa – umowa sprzedaży zawierana na odległość pomiędzy Sprzedawcą a Klientem.\n\n' +
+      '12. Dzień roboczy – dzień od poniedziałku do piątku z wyłączeniem dni ustawowo wolnych od pracy.',
   },
   {
-    title: '§ 3. Konto i zakupy bez rejestracji',
+    title: '§ 3. Konto i Konto firmowe (B2B)',
     content:
       '1. Założenie Konta jest dobrowolne i bezpłatne.\n\n' +
-      '2. Klient może dokonywać zakupów bez rejestracji (jako „gość").\n\n' +
-      '3. Założenie Konta wymaga podania co najmniej adresu e-mail i utworzenia hasła. Klient jest zobowiązany do podania danych zgodnych z prawdą.\n\n' +
-      '4. Klient ponosi odpowiedzialność za zachowanie poufności danych logowania.\n\n' +
-      '5. Sprzedawca może zablokować lub usunąć Konto, jeżeli:\n   a) Klient narusza postanowienia Regulaminu lub przepisy prawa,\n   b) działania Klienta zagrażają bezpieczeństwu Sklepu,\n   c) Klient podejmuje działania o charakterze nadużyciowym.\n\n' +
-      '6. Usunięcie Konta nie wpływa na ważność Umów zawartych przed jego usunięciem.',
+      '2. Klient może dokonywać zakupów bez rejestracji, jeśli Sklep udostępnia taką funkcjonalność.\n\n' +
+      '3. Konto firmowe (B2B) wymaga:\n   a) podania danych firmowych,\n   b) numeru NIP,\n   c) weryfikacji i zatwierdzenia przez Sprzedawcę.\n\n' +
+      '4. Sprzedawca może odmówić aktywacji Konta firmowego z uzasadnionych przyczyn.\n\n' +
+      '5. Konto firmowe może zapewniać dostęp do:\n   a) cen hurtowych,\n   b) płatności przelewem,\n   c) feedów XML/CSV,\n   d) dedykowanych metod dostawy,\n   e) innych funkcji B2B.\n\n' +
+      '6. Uzyskanie dostępu do indywidualnego cennika hurtowego oznacza, że Zamówienia składane z wykorzystaniem Konta firmowego mają charakter zawodowy i związany z działalnością gospodarczą Klienta B2B.\n\n' +
+      '7. Sprzedawca może ograniczyć lub cofnąć dostęp do funkcji B2B w przypadku:\n   a) zaległości płatniczych,\n   b) naruszenia Regulaminu,\n   c) podejrzenia nadużyć,\n   d) zmiany polityki handlowej.',
   },
   {
     title: '§ 4. Składanie Zamówień i zawarcie Umowy',
     content:
-      '1. Zamówienia w Sklepie można składać 24 godziny na dobę, 7 dni w tygodniu, z zastrzeżeniem przerw technicznych.\n\n' +
-      '2. W celu złożenia Zamówienia Klient:\n   a) wybiera Produkt/Produkty i dodaje je do Koszyka,\n   b) wybiera sposób dostawy i płatności,\n   c) podaje dane wymagane do realizacji Zamówienia,\n   d) potwierdza Zamówienie, akceptując Regulamin.\n\n' +
-      '3. Złożenie Zamówienia przez Klienta stanowi ofertę zakupu Produktów na warunkach wskazanych w Sklepie.\n\n' +
-      '4. Umowa zostaje zawarta z chwilą otrzymania przez Klienta potwierdzenia przyjęcia Zamówienia do realizacji.\n\n' +
-      '5. Sprzedawca może odmówić przyjęcia Zamówienia do realizacji w szczególności, gdy:\n   a) Zamówienie zawiera oczywiste błędy,\n   b) brak jest możliwości realizacji Zamówienia z przyczyn niezależnych od Sprzedawcy,\n   c) zachodzi uzasadnione podejrzenie nadużycia.\n\n' +
-      '6. Anulowanie Zamówienia:\n   a) Do czasu opłacenia Zamówienia Klient może anulować Zamówienie bez podania przyczyny,\n   b) Po opłaceniu Zamówienia anulowanie wymaga kontaktu z Biurem Obsługi Klienta,\n   c) Po nadaniu przesyłki anulowanie może nie być możliwe.',
+      '1. Zamówienia można składać 24 godziny na dobę.\n\n' +
+      '2. W celu złożenia Zamówienia Klient:\n   a) wybiera Produkt i dodaje go do Koszyka,\n   b) wybiera sposób dostawy i płatności,\n   c) podaje dane wymagane do realizacji Zamówienia,\n   d) akceptuje Regulamin.\n\n' +
+      '3. Złożenie Zamówienia stanowi ofertę zawarcia Umowy sprzedaży.\n\n' +
+      '4. Umowa zostaje zawarta z chwilą przesłania przez Sprzedawcę potwierdzenia przyjęcia Zamówienia do realizacji.\n\n' +
+      '5. Sprzedawca może odmówić realizacji Zamówienia w przypadku:\n   a) błędu technicznego,\n   b) błędnej ceny,\n   c) braku dostępności Produktu,\n   d) podejrzenia nadużycia,\n   e) niemożliwości realizacji z przyczyn logistycznych.\n\n' +
+      '6. W przypadku odmowy realizacji Zamówienia dokonana płatność podlega zwrotowi.',
   },
   {
     title: '§ 5. Ceny i płatności',
     content:
-      '1. Ceny Produktów podawane są w złotych polskich (PLN) i zawierają podatek VAT.\n\n' +
-      '2. Cena widoczna przy Produkcie w chwili składania Zamówienia jest wiążąca dla Stron.\n\n' +
-      '3. Koszty dostawy są podawane w trakcie składania Zamówienia.\n\n' +
-      '4. Dostępne metody płatności:\n   a) szybkie płatności online (operatorzy płatności – w szczególności PayU oraz imoje),\n   b) płatność kartą (w ramach systemu płatności online),\n   c) BLIK (w ramach systemu płatności online),\n   d) Google Pay, Apple Pay (w ramach systemu płatności online),\n   e) przelew tradycyjny na rachunek Sprzedawcy.\n\n' +
-      '5. W przypadku płatności przelewem tradycyjnym Sprzedawca przystępuje do realizacji po zaksięgowaniu środków.\n\n' +
-      '6. Sprzedawca może udostępniać kupony rabatowe i akcje promocyjne na zasadach określonych w § 11.\n\n' +
-      '7. Faktury wystawiane są na życzenie Klienta na podstawie danych podanych podczas składania Zamówienia.\n\n' +
-      '8. Bezpieczeństwo transakcji: Sprzedawca nie przechowuje danych kart płatniczych. Płatności online realizowane są przez zewnętrznego operatora.\n\n' +
-      '9. Zwrot płatności realizowany jest w formie odpowiadającej pierwotnej metodzie płatności.',
+      '1. Wszystkie ceny podawane są w PLN i zawierają podatek VAT.\n\n' +
+      '2. Cena widoczna przy Produkcie w chwili składania Zamówienia jest wiążąca dla Stron, z zastrzeżeniem oczywistych błędów technicznych lub cenowych.\n\n' +
+      '3. Koszty dostawy prezentowane są podczas składania Zamówienia.\n\n' +
+      '4. Dostępne metody płatności:\n   a) PayU,\n   b) imoje,\n   c) karta płatnicza,\n   d) BLIK,\n   e) Google Pay,\n   f) Apple Pay,\n   g) przelew tradycyjny.\n\n' +
+      '5. Sprzedawca może udostępniać Klientom B2B indywidualne ceny hurtowe.\n\n' +
+      '6. Sprzedawca może zmienić lub cofnąć warunki hurtowe w przypadku:\n   a) zaległości płatniczych,\n   b) nadużyć,\n   c) zmiany polityki handlowej.\n\n' +
+      '7. Dla Klientów B2B Sprzedawca może udostępnić płatność przelewem z terminem płatności 7 dni.\n\n' +
+      '8. Produkt nie jest rezerwowany do czasu zaksięgowania płatności, chyba że Strony uzgodnią inaczej.\n\n' +
+      '9. Faktury VAT dla Klientów B2B wystawiane są automatycznie na dane firmowe przypisane do Konta firmowego.',
   },
   {
-    title: '§ 6. Dostawa i realizacja Zamówień',
+    title: '§ 6. Dostawa',
     content:
       '1. Dostawa realizowana jest na terytorium Polski.\n\n' +
-      '2. Dostępne metody dostawy/odbioru:\n   a) Paczkomaty InPost,\n   b) Kurier InPost,\n   c) Kurier DPD,\n   d) przesyłka gabarytowa (dla wybranych Produktów),\n   e) odbiór osobisty w siedzibie Sprzedawcy – wyłącznie dla Produktów w kategorii „Outlet".\n\n' +
-      '3. Dla wybranych Produktów obowiązują kwoty dostawy gabarytowej.\n\n' +
-      '4. Czas realizacji Zamówienia wynosi zwykle 1–5 dni roboczych od dnia przyjęcia do realizacji.\n\n' +
-      '5. Sprzedawca przekazuje Klientowi informację o nadaniu przesyłki, w tym numer przesyłki do śledzenia.\n\n' +
-      '6. Odbiór i szkody w transporcie: Klient powinien sprawdzić stan przesyłki przy odbiorze. W przypadku uszkodzenia zaleca się sporządzenie protokołu szkody.\n\n' +
-      '7. Ryzyko przypadkowej utraty lub uszkodzenia Produktu przechodzi na Klienta z chwilą wydania Produktu.',
+      '2. Dostępne metody dostawy:\n   a) Paczkomaty InPost,\n   b) Kurier InPost,\n   c) Kurier DPD,\n   d) przesyłki gabarytowe,\n   e) odbiór osobisty dla Produktów Outlet.\n\n' +
+      '3. Czas realizacji Zamówienia wynosi zwykle od 1 do 5 dni roboczych.\n\n' +
+      '4. Zamówienie może zostać zrealizowane w kilku przesyłkach.\n\n' +
+      '5. Klient powinien sprawdzić stan przesyłki przy odbiorze.\n\n' +
+      '6. Klienci B2B mogą korzystać z opcji „Wysyłka własna (B2B)” organizując transport we własnym zakresie.\n\n' +
+      '7. Ryzyko przypadkowej utraty lub uszkodzenia Produktu przechodzi:\n   a) na Konsumenta – z chwilą objęcia Produktu w posiadanie,\n   b) na Klienta B2B – z chwilą wydania Produktu przewoźnikowi.',
   },
   {
-    title: '§ 7. Gwarancja producenta',
+    title: '§ 7. Gwarancja',
     content:
-      '1. Produkty mogą być objęte gwarancją udzieloną przez producenta lub dystrybutora.\n\n' +
-      '2. Sprzedawca nie udziela dodatkowej gwarancji własnej ponad uprawnienia wynikające z przepisów prawa.\n\n' +
-      '3. Warunki i zakres Gwarancji określa dokument gwarancyjny producenta/dystrybutora dołączony do Produktu.',
+      '1. Produkty mogą być objęte gwarancją producenta lub dystrybutora.\n\n' +
+      '2. Sprzedawca nie udziela dodatkowej gwarancji własnej, chyba że wyraźnie wskazano inaczej.',
   },
   {
     title: '§ 8. Odstąpienie od Umowy (zwroty)',
     content:
-      '1. Konsument oraz Przedsiębiorca na prawach konsumenta mają prawo odstąpić od Umowy bez podania przyczyny w terminie 14 dni od dnia otrzymania Produktu.\n\n' +
-      '2. Dla zachowania terminu wystarczy wysłanie oświadczenia o odstąpieniu przed jego upływem.\n\n' +
-      '3. Oświadczenie o odstąpieniu może zostać złożone za pośrednictwem formularza „Zwroty i reklamacje" dostępnego w Sklepie lub mailowo na: support@wb-partners.pl.\n\n' +
-      '4. Warunek formalny: zgłoszenie wymaga podania numeru Zamówienia oraz danych identyfikujących Klienta.\n\n' +
-      '5. Zwrot Produktu: Klient odsyła Produkt niezwłocznie, nie później niż 14 dni od złożenia oświadczenia. Produkt powinien być zwrócony kompletny, w stanie niepogorszonym.\n\n' +
-      '6. Koszty zwrotu Produktu ponosi Klient, chyba że Sprzedawca wyraźnie zgodzi się pokryć te koszty.\n\n' +
-      '7. Zwrot płatności nastąpi nie później niż w terminie 14 dni od dnia otrzymania oświadczenia o odstąpieniu.\n\n' +
-      '8. Prawo odstąpienia nie przysługuje w przypadkach przewidzianych przepisami prawa.',
+      '1. Prawo odstąpienia od Umowy zawartej na odległość przysługuje wyłącznie:\n   a) Konsumentowi,\n   b) Przedsiębiorcy na prawach konsumenta.\n\n' +
+      '2. Konsument oraz Przedsiębiorca na prawach konsumenta mogą odstąpić od Umowy bez podania przyczyny w terminie 14 dni od dnia otrzymania Produktu.\n\n' +
+      '3. Dla zachowania terminu wystarczy wysłanie oświadczenia przed jego upływem.\n\n' +
+      '4. Oświadczenie można złożyć:\n   a) przez formularz „Zwroty i reklamacje”,\n   b) mailowo na: support@wb-partners.pl.\n\n' +
+      '5. Klient zobowiązany jest zwrócić Produkt w terminie 14 dni od dnia odstąpienia od Umowy.\n\n' +
+      '6. Produkt powinien zostać zwrócony kompletny i odpowiednio zabezpieczony na czas transportu.\n\n' +
+      '7. Koszt zwrotu Produktu ponosi Klient, chyba że Sprzedawca postanowi inaczej.\n\n' +
+      '8. Sprzedawca może wstrzymać się ze zwrotem płatności do czasu otrzymania Produktu lub dowodu jego nadania.\n\n' +
+      '9. Klientowi B2B, w szczególności przedsiębiorcy posiadającemu Konto firmowe (B2B) z dostępem do indywidualnych cen hurtowych lub innych warunków handlowych B2B, nie przysługuje prawo odstąpienia od Umowy zawartej na odległość ani zwrot Produktu bez podania przyczyny.\n\n' +
+      '10. Brak prawa do odstąpienia: zgodnie z art. 535 Kodeksu cywilnego, sprzedawca zobowiązuje się przenieść własność i wydać rzecz, a kupujący zobowiązuje się rzecz odebrać i zapłacić cenę. W relacjach B2B obowiązek przyjęcia zwrotu Produktu oraz zwrotu płatności nie istnieje z mocy prawa, chyba że Strony wyraźnie postanowią inaczej.\n\n' +
+      '11. Sprzedawca może dobrowolnie wyrazić zgodę na przyjęcie zwrotu od Klienta B2B, jednak nie stanowi to obowiązku Sprzedawcy ani podstawy do powstania po stronie Klienta B2B roszczenia o przyjęcie zwrotu lub zwrot płatności.',
   },
   {
-    title: '§ 9. Reklamacje i szkody',
+    title: '§ 9. Reklamacje',
     content:
-      '1. Sprzedawca odpowiada wobec Klienta za zgodność Produktu z Umową na zasadach wynikających z przepisów prawa.\n\n' +
-      '2. Zgłoszenie reklamacji:\n   a) za pośrednictwem formularza „Zwroty i reklamacje" dostępnego w Sklepie albo mailowo: support@wb-partners.pl,\n   b) reklamacja powinna zawierać: numer Zamówienia, opis problemu, żądanie Klienta, dane kontaktowe.\n\n' +
-      '3. Zaleca się dołączenie zdjęć dokumentujących problem.\n\n' +
-      '4. Termin rozpatrzenia: Sprzedawca udzieli odpowiedzi w terminie 14 dni od dnia otrzymania reklamacji.\n\n' +
-      '5. W przypadku uznania reklamacji Sprzedawca ponosi uzasadnione koszty związane z reklamacją.\n\n' +
-      '6. Szkody w transporcie: Klient powinien sprawdzić stan przesyłki przy odbiorze i niezwłocznie zgłosić szkodę przewoźnikowi.',
+      '1. Sprzedawca odpowiada za zgodność Produktu z Umową zgodnie z obowiązującymi przepisami prawa.\n\n' +
+      '2. Reklamacje można składać:\n   a) przez formularz „Zwroty i reklamacje”,\n   b) mailowo na: support@wb-partners.pl.\n\n' +
+      '3. Reklamacja powinna zawierać:\n   a) numer Zamówienia,\n   b) opis problemu,\n   c) dane kontaktowe,\n   d) żądanie Klienta.\n\n' +
+      '4. Sprzedawca udzieli odpowiedzi w terminie 14 dni w przypadkach wymaganych przepisami prawa.\n\n' +
+      '5. W relacjach z Klientami B2B odpowiedzialność Sprzedawcy z tytułu rękojmi zostaje wyłączona w najszerszym zakresie dopuszczalnym przez przepisy prawa.',
   },
   {
-    title: '§ 10. Ochrona danych osobowych',
+    title: '§ 10. Dane osobowe',
     content:
       '1. Administratorem danych osobowych jest Sprzedawca.\n\n' +
-      '2. Dane osobowe przetwarzane są w celach i na zasadach opisanych w Polityce Prywatności dostępnej w Sklepie.\n\n' +
-      '3. Podanie danych jest dobrowolne, lecz niezbędne do realizacji Zamówienia oraz świadczenia usług w Sklepie.',
+      '2. Dane osobowe przetwarzane są zgodnie z Polityką Prywatności oraz obowiązującymi przepisami prawa.',
   },
   {
-    title: '§ 11. Newsletter i kupony rabatowe',
+    title: '§ 11. Newsletter i promocje',
     content:
-      '1. Newsletter: zapis jest dobrowolny. Zasady zapisu, wypisu oraz ewentualnych benefitów wynikają z komunikatów w Sklepie.\n\n' +
-      '2. Kupony rabatowe:\n   a) kupon po rejestracji – ważny 14 dni,\n   b) kupon po zapisie do newslettera – ważny 30 dni,\n   c) Sprzedawca może przekazywać kody rabatowe w ramach działań marketingowych.\n\n' +
-      '3. Jeżeli warunki kuponu/akcji przewidują ograniczenia, są one wiążące dla Klienta.\n\n' +
-      '4. Sprzedawca może odmówić realizacji kuponu w przypadku uzasadnionego podejrzenia nadużycia.',
+      '1. Zapis do newslettera jest dobrowolny.\n\n' +
+      '2. Sprzedawca może organizować akcje promocyjne i udostępniać kupony rabatowe.\n\n' +
+      '3. Warunki promocji określane są każdorazowo w komunikacie promocyjnym.',
   },
   {
     title: '§ 12. Własność intelektualna',
     content:
-      '1. Wszelkie treści dostępne w Sklepie (teksty, grafiki, zdjęcia, logotypy, elementy UI) stanowią własność Sprzedawcy lub są wykorzystywane na podstawie licencji.\n\n' +
-      '2. Zabrania się kopiowania, rozpowszechniania lub wykorzystywania treści Sklepu w celach komercyjnych bez zgody Sprzedawcy.',
+      '1. Treści dostępne w Sklepie stanowią własność Sprzedawcy lub są wykorzystywane legalnie na podstawie odpowiednich licencji.\n\n' +
+      '2. Zabrania się kopiowania treści Sklepu bez zgody Sprzedawcy.',
   },
   {
-    title: '§ 13. Odpowiedzialność i bezpieczeństwo',
+    title: '§ 13. Odpowiedzialność',
     content:
-      '1. Sprzedawca dokłada należytej staranności, aby informacje prezentowane w Sklepie były aktualne i rzetelne.\n\n' +
-      '2. W przypadku oczywistego błędu cenowego Sprzedawca może odmówić realizacji Zamówienia.\n\n' +
-      '3. Sprzedawca nie ponosi odpowiedzialności za:\n   a) przerwy w działaniu Sklepu wynikające z przyczyn niezależnych,\n   b) korzystanie ze Sklepu w sposób sprzeczny z Regulaminem lub przepisami prawa.\n\n' +
-      '4. Klient zobowiązuje się do korzystania ze Sklepu zgodnie z prawem, dobrymi obyczajami oraz postanowieniami Regulaminu.',
+      '1. Sprzedawca dokłada należytej staranności w celu zapewnienia prawidłowego działania Sklepu.\n\n' +
+      '2. Sprzedawca nie ponosi odpowiedzialności za:\n   a) przerwy techniczne,\n   b) działanie siły wyższej,\n   c) działania podmiotów trzecich niezależnych od Sprzedawcy,\n   d) korzystanie ze Sklepu niezgodnie z Regulaminem.',
   },
   {
     title: '§ 14. Postanowienia końcowe',
     content:
-      '1. Sprzedawca zastrzega sobie prawo do zmiany Regulaminu z ważnych przyczyn.\n\n' +
-      '2. Zmiany Regulaminu wchodzą w życie z dniem publikacji w Sklepie (na stronie internetowej i/lub w aplikacji mobilnej). O istotnych zmianach Regulaminu Sprzedawca poinformuje Klientów za pośrednictwem komunikatu w aplikacji mobilnej lub wiadomości e-mail.\n\n' +
-      '3. W sprawach nieuregulowanych Regulaminem zastosowanie mają przepisy prawa polskiego.\n\n' +
-      '4. Ewentualne spory:\n   a) dla Konsumentów – sąd właściwy zgodnie z przepisami prawa,\n   b) dla Klientów niebędących Konsumentami – sąd właściwy dla siedziby Sprzedawcy.\n\n' +
-      '5. Konsument może skorzystać z pozasądowych sposobów rozpatrywania reklamacji i dochodzenia roszczeń (ADR). Szczegółowe informacje: polubowne.uokik.gov.pl.',
+      '1. Sprzedawca może zmienić Regulamin z ważnych przyczyn, w szczególności:\n   a) zmiany przepisów prawa,\n   b) zmian technologicznych,\n   c) zmian organizacyjnych,\n   d) zmian zasad współpracy B2B.\n\n' +
+      '2. Zmiany Regulaminu nie wpływają na Zamówienia złożone przed ich wejściem w życie.\n\n' +
+      '3. W sprawach nieuregulowanych zastosowanie mają przepisy prawa polskiego.\n\n' +
+      '4. Spory:\n   a) z Konsumentami rozstrzygane są przez sądy właściwe zgodnie z przepisami prawa,\n   b) z Klientami B2B przez sąd właściwy dla siedziby Sprzedawcy.\n\n' +
+      '5. Konsument może korzystać z pozasądowych sposobów rozpatrywania reklamacji i dochodzenia roszczeń zgodnie z informacjami publikowanymi przez UOKiK.',
   },
 ];
 
