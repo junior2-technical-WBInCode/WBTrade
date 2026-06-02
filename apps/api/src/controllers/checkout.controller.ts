@@ -930,7 +930,7 @@ export async function createCheckout(req: Request, res: Response): Promise<void>
         total,
         redirectUrl: `/order/${order.id}/confirmation`,
       });
-    } else if (paymentMethod === 'b2b_transfer') {
+    } else if (paymentMethod === 'b2b_transfer' || paymentMethod === 'b2b_przelew') {
       // B2B bank transfer - validate that user is actually B2B
       if (!userId) {
         res.status(403).json({ message: 'Przelew B2B dostępny tylko dla zalogowanych użytkowników' });
@@ -1014,7 +1014,7 @@ export async function createCheckout(req: Request, res: Response): Promise<void>
               phone: orderForEmail.shippingAddress.phone || undefined,
             },
             orderForEmail.shippingMethod || 'b2b_wysylka_wlasna',
-            'b2b_transfer',
+            paymentMethod,
             false // isPaid - B2B transfer is not paid yet
           ).catch((err) => {
             console.error(`[Checkout] Error sending B2B order confirmation email:`, err);
@@ -1026,7 +1026,7 @@ export async function createCheckout(req: Request, res: Response): Promise<void>
         orderId: order.id,
         orderNumber: order.orderNumber,
         status: 'created',
-        paymentMethod: 'b2b_transfer',
+        paymentMethod: paymentMethod,
         total,
         redirectUrl: `/order/${order.id}/confirmation`,
       });

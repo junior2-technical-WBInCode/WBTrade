@@ -170,7 +170,7 @@ export default function PaymentMethod({ initialData, onSubmit, onBack, isB2b }: 
 
         {/* B2B bank transfer info */}
         {selectedMethod === 'b2b_przelew' && (
-          <div className="mx-4 sm:mx-6 my-3 sm:my-4 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg p-3 sm:p-4">
+          <div className="mx-4 sm:mx-6 my-3 sm:my-4 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg p-3 sm:p-4 space-y-3">
             <div className="flex gap-2">
               <svg className="w-5 h-5 text-blue-500 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
@@ -178,6 +178,31 @@ export default function PaymentMethod({ initialData, onSubmit, onBack, isB2b }: 
               <p className="text-sm text-blue-700 dark:text-blue-300">
                 Zamówienie zostanie przekazane do realizacji po zaksięgowaniu płatności na rachunku Sprzedawcy. Termin płatności: 7 dni od daty złożenia zamówienia.
               </p>
+            </div>
+            <div className="border-t border-blue-200 dark:border-blue-800 pt-2.5">
+              <p className="text-xs font-semibold text-blue-800 dark:text-blue-200 uppercase tracking-wider mb-2">Dane do przelewu tradycyjnego:</p>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs text-blue-700 dark:text-blue-300">
+                <div>
+                  <span className="text-gray-500 dark:text-gray-400 block text-[10px]">Odbiorca:</span>
+                  <span className="font-semibold">WB PARTNERS Sp. z o.o.</span>
+                </div>
+                <div>
+                  <span className="text-gray-500 dark:text-gray-400 block text-[10px]">Adres odbiorcy:</span>
+                  <span>ul. Juliusza Słowackiego 24/11, 35-060 Rzeszów</span>
+                </div>
+                <div>
+                  <span className="text-gray-500 dark:text-gray-400 block text-[10px]">Bank:</span>
+                  <span className="font-semibold">ING</span>
+                </div>
+                <div>
+                  <span className="text-gray-500 dark:text-gray-400 block text-[10px]">Numer konta:</span>
+                  <span className="font-mono font-bold break-all text-[11px] sm:text-xs">19 1050 1445 1000 0090 8466 1967</span>
+                </div>
+                <div className="sm:col-span-2">
+                  <span className="text-gray-500 dark:text-gray-400 block text-[10px]">Tytuł przelewu:</span>
+                  <span className="font-semibold text-orange-600 dark:text-orange-400">Numer zamówienia (zostanie nadany po złożeniu)</span>
+                </div>
+              </div>
             </div>
           </div>
         )}

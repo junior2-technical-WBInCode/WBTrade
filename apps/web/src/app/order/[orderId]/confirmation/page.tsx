@@ -250,6 +250,8 @@ function OrderConfirmationPageContent() {
     google_pay: 'Google Pay',
     apple_pay: 'Apple Pay',
     paypo: 'PayPo',
+    b2b_przelew: 'Przelew bankowy (B2B)',
+    b2b_transfer: 'Przelew bankowy (B2B)',
   };
 
   const statusBadge = () => {
@@ -289,6 +291,71 @@ function OrderConfirmationPageContent() {
 
   // Konfiguracja widoku w zależności od statusu płatności
   const getStatusConfig = () => {
+    const isB2bTransfer = order?.paymentMethod === 'b2b_przelew' || order?.paymentMethod === 'b2b_transfer';
+    
+    if (isB2bTransfer && order?.paymentStatus !== 'PAID') {
+      return {
+        icon: (
+          <div className="inline-flex items-center justify-center w-20 h-20 bg-blue-100 dark:bg-blue-900/30 rounded-full mb-6">
+            <svg className="w-10 h-10 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z" />
+            </svg>
+          </div>
+        ),
+        title: 'Zamówienie zostało złożone!',
+        subtitle: 'Czekamy na zaksięgowanie tradycyjnego przelewu bankowego.',
+        showRetryButton: false,
+        alertBox: (
+          <div className="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg p-5 mb-6 text-left">
+            <h4 className="font-semibold text-blue-900 dark:text-blue-200 text-sm mb-3">🏦 Dane do przelewu tradycyjnego</h4>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm text-blue-800 dark:text-blue-300">
+              <div>
+                <span className="text-gray-500 dark:text-gray-400 block text-xs">Odbiorca:</span>
+                <span className="font-semibold text-gray-900 dark:text-white">WB PARTNERS Sp. z o.o.</span>
+              </div>
+              <div>
+                <span className="text-gray-500 dark:text-gray-400 block text-xs">Adres odbiorcy:</span>
+                <span className="font-medium text-gray-900 dark:text-white">ul. Juliusza Słowackiego 24/11, 35-060 Rzeszów</span>
+              </div>
+              <div>
+                <span className="text-gray-500 dark:text-gray-400 block text-xs">Bank:</span>
+                <span className="font-semibold text-gray-900 dark:text-white">ING</span>
+              </div>
+              <div>
+                <span className="text-gray-500 dark:text-gray-400 block text-xs">Numer konta:</span>
+                <div className="flex items-center gap-2 mt-0.5">
+                  <span className="font-mono font-bold break-all text-gray-900 dark:text-white select-all">19 1050 1445 1000 0090 8466 1967</span>
+                  <button
+                    onClick={() => {
+                      navigator.clipboard.writeText('19105014451000009084661967');
+                      alert('Numer konta został skopiowany do schowka!');
+                    }}
+                    className="p-1 text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300 shrink-0"
+                    title="Kopiuj numer konta"
+                  >
+                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3" />
+                    </svg>
+                  </button>
+                </div>
+              </div>
+              <div>
+                <span className="text-gray-500 dark:text-gray-400 block text-xs">Tytuł przelewu:</span>
+                <span className="font-mono font-bold text-orange-600 dark:text-orange-400">#{order?.orderNumber}</span>
+              </div>
+              <div>
+                <span className="text-gray-500 dark:text-gray-400 block text-xs">Kwota do zapłaty:</span>
+                <span className="font-bold text-orange-600 dark:text-orange-400">{Number(order?.total || 0).toFixed(2).replace('.', ',')} zł</span>
+              </div>
+            </div>
+            <p className="mt-4 pt-3 border-t border-blue-200 dark:border-blue-800 text-xs text-blue-700 dark:text-blue-400 italic">
+              Wskazówka: Po zaksięgowaniu wpłaty na naszym rachunku, zamówienie zostanie skierowane do realizacji, a Ty otrzymasz powiadomienie mailowe.
+            </p>
+          </div>
+        )
+      };
+    }
+
     switch (order?.paymentStatus) {
       case 'PAID':
         return {
