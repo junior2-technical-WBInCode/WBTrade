@@ -579,6 +579,8 @@ export class EmailService {
     const paymentMethodNames: Record<string, string> = {
       'cod': 'Płatność przy odbiorze', 'blik': 'BLIK', 'card': 'Karta płatnicza',
       'transfer': 'Przelew bankowy', 'przelewy24': 'Przelewy24', 'payu': 'PayU',
+      'b2b_przelew': 'Przelew bankowy (B2B)',
+      'b2b_transfer': 'Przelew bankowy (B2B)',
     };
     const shippingDisplay = shippingMethodNames[shippingMethod] || shippingMethod;
     const paymentDisplay = paymentMethodNames[paymentMethod] || paymentMethod;
@@ -597,6 +599,46 @@ export class EmailService {
     const paymentBadge = isPaid
       ? '<span style="color: #16a34a; font-weight: 700;">✓ Opłacone</span>'
       : '<span style="color: #f59e0b; font-weight: 600;">⏳ Oczekuje</span>';
+
+    const isB2bTransfer = paymentMethod === 'b2b_przelew' || paymentMethod === 'b2b_transfer';
+    const b2bTransferDetailsHtml = (isB2bTransfer && !isPaid)
+      ? `
+        <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="margin: 0 0 24px 0;">
+          <tr>
+            <td style="background-color: #eff6ff; border: 1px solid #bfdbfe; border-radius: 12px; padding: 16px 20px;">
+              <p style="margin: 0 0 10px; color: #1e3a8a; font-size: 15px; font-weight: 700;">🏦 Dane do przelewu tradycyjnego</p>
+              <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="font-size: 14px; color: #1e293b; line-height: 1.6;">
+                <tr>
+                  <td width="35%" style="color: #64748b; padding: 3px 0; font-size: 13px;">Odbiorca:</td>
+                  <td style="font-weight: 600; padding: 3px 0; color: #1e293b;">WB PARTNERS Sp. z o.o.</td>
+                </tr>
+                <tr>
+                  <td style="color: #64748b; padding: 3px 0; font-size: 13px;">Adres odbiorcy:</td>
+                  <td style="font-weight: 500; padding: 3px 0; color: #1e293b;">ul. Juliusza Słowackiego 24/11, 35-060 Rzeszów</td>
+                </tr>
+                <tr>
+                  <td style="color: #64748b; padding: 3px 0; font-size: 13px;">Bank:</td>
+                  <td style="font-weight: 600; padding: 3px 0; color: #1e293b;">ING</td>
+                </tr>
+                <tr>
+                  <td style="color: #64748b; padding: 3px 0; font-size: 13px;">Numer konta:</td>
+                  <td style="font-family: monospace; font-weight: 700; padding: 3px 0; color: #1e3a8a; font-size: 15px; letter-spacing: 0.5px;">19 1050 1445 1000 0090 8466 1967</td>
+                </tr>
+                <tr>
+                  <td style="color: #64748b; padding: 3px 0; font-size: 13px;">Tytuł przelewu:</td>
+                  <td style="font-family: monospace; font-weight: 700; padding: 3px 0; color: #ea580c; font-size: 15px;">#${escapeHtml(orderNumber)}</td>
+                </tr>
+                <tr>
+                  <td style="color: #64748b; padding: 3px 0; font-size: 13px;">Kwota:</td>
+                  <td style="font-weight: 700; padding: 3px 0; color: #ea580c; font-size: 15px;">${total.toFixed(2)} zł</td>
+                </tr>
+              </table>
+              <p style="margin: 10px 0 0; color: #1e3a8a; font-size: 12px; font-style: italic;">Zamówienie zostanie przekazane do realizacji po zaksięgowaniu wpłaty.</p>
+            </td>
+          </tr>
+        </table>
+      `
+      : '';
 
     return emailWrapper({
       title: '✅ Dziękujemy za zamówienie!',
@@ -631,7 +673,7 @@ export class EmailService {
         </table>
 
         <!-- Shipping + Payment -->
-        <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="margin: 24px 0;">
+        <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="margin: 24px 0 12px 0;">
           <tr>
             <td style="background-color: #f8fafc; border-radius: 12px; padding: 16px 20px; vertical-align: top;" width="50%">
               <p style="margin: 0 0 8px; font-size: 13px; font-weight: 700; color: #64748b; text-transform: uppercase; letter-spacing: 0.5px;">📍 Adres dostawy</p>
@@ -652,6 +694,8 @@ export class EmailService {
           </tr>
         </table>
 
+        ${b2bTransferDetailsHtml}
+
         ${ctaButton('📋 Szczegóły zamówienia', orderUrl)}
         ${helpSection('kontakt@wb-trade.pl')}
       `,
@@ -665,7 +709,18 @@ export class EmailService {
     shippingMethod: string, paymentMethod: string, isPaid: boolean, orderUrl: string
   ): string {
     const il = items.map(i => `- ${i.name}${i.variant ? ` (${i.variant})` : ''} x${i.quantity} = ${i.total.toFixed(2)} zł`).join('\n');
-    return `Cześć ${customerName},\n\nDziękujemy za zamówienie #${orderNumber}!\n\nStatus: ${isPaid ? 'Opłacone' : 'Oczekuje na płatność'}\n\nProdukty:\n${il}\n\nRazem: ${total.toFixed(2)} zł\n\nAdres dostawy:\n${shippingAddress.firstName} ${shippingAddress.lastName}\n${shippingAddress.street}\n${shippingAddress.postalCode} ${shippingAddress.city}\n\nDostawa: ${shippingMethod}\nPłatność: ${paymentMethod}\n\nSzczegóły: ${orderUrl}\n\nPozdrawiamy,\nZespół WB Trade`;
+    const isB2bTransfer = paymentMethod === 'b2b_przelew' || paymentMethod === 'b2b_transfer';
+    const b2bTransferDetailsText = (isB2bTransfer && !isPaid)
+      ? `\n🏦 DANE DO PRZELEWU TRADYCYJNEGO:\nOdbiorca: WB PARTNERS Sp. z o.o.\nAdres: ul. Juliusza Słowackiego 24/11, 35-060 Rzeszów\nBank: ING\nNumer konta: 19 1050 1445 1000 0090 8466 1967\nTytuł przelewu: #${orderNumber}\nKwota: ${total.toFixed(2)} zł\n\nZamówienie zostanie przekazane do realizacji po zaksięgowaniu wpłaty.\n`
+      : '';
+    const paymentMethodNames: Record<string, string> = {
+      'cod': 'Płatność przy odbiorze', 'blik': 'BLIK', 'card': 'Karta płatnicza',
+      'transfer': 'Przelew bankowy', 'przelewy24': 'Przelewy24', 'payu': 'PayU',
+      'b2b_przelew': 'Przelew bankowy (B2B)',
+      'b2b_transfer': 'Przelew bankowy (B2B)',
+    };
+    const paymentDisplay = paymentMethodNames[paymentMethod] || paymentMethod;
+    return `Cześć ${customerName},\n\nDziękujemy za zamówienie #${orderNumber}!\n\nStatus: ${isPaid ? 'Opłacone' : 'Oczekuje na płatność'}\n${b2bTransferDetailsText}\nProdukty:\n${il}\n\nRazem: ${total.toFixed(2)} zł\n\nAdres dostawy:\n${shippingAddress.firstName} ${shippingAddress.lastName}\n${shippingAddress.street}\n${shippingAddress.postalCode} ${shippingAddress.city}\n\nDostawa: ${shippingMethod}\nPłatność: ${paymentDisplay}\n\nSzczegóły: ${orderUrl}\n\nPozdrawiamy,\nZespół WB Trade`;
   }
 
   // ──────────────────────────────────────

@@ -74,6 +74,8 @@ const paymentMethodNames: Record<string, string> = {
   google_pay: 'Google Pay',
   apple_pay: 'Apple Pay',
   paypo: 'PayPo',
+  b2b_przelew: 'Przelew bankowy (B2B)',
+  b2b_transfer: 'Przelew bankowy (B2B)',
 };
 
 function getPaymentMethodName(method: string): string {
@@ -1061,6 +1063,53 @@ export default function OrderDetailsPage() {
                     {getPaymentStatusBadge(order.paymentStatus)}
                   </div>
                 </div>
+
+                {/* Traditional transfer details */}
+                {((order.paymentMethod === 'b2b_przelew' || order.paymentMethod === 'b2b_transfer') && order.paymentStatus !== 'PAID') && (
+                  <div className="mt-4 pt-4 border-t border-gray-100 dark:border-secondary-700">
+                    <h4 className="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wide mb-2">Dane do przelewu tradycyjnego</h4>
+                    <div className="p-3 bg-blue-50 dark:bg-blue-900/20 rounded-lg text-xs space-y-2 text-blue-950 dark:text-blue-200">
+                      <div>
+                        <span className="text-gray-500 dark:text-gray-400 block">Odbiorca:</span>
+                        <span className="font-semibold text-gray-900 dark:text-white">WB PARTNERS Sp. z o.o.</span>
+                      </div>
+                      <div>
+                        <span className="text-gray-500 dark:text-gray-400 block">Adres odbiorcy:</span>
+                        <span className="font-medium text-gray-900 dark:text-white">ul. Juliusza Słowackiego 24/11, 35-060 Rzeszów</span>
+                      </div>
+                      <div>
+                        <span className="text-gray-500 dark:text-gray-400 block">Bank:</span>
+                        <span className="font-semibold text-gray-900 dark:text-white">ING</span>
+                      </div>
+                      <div>
+                        <span className="text-gray-500 dark:text-gray-400 block">Numer konta:</span>
+                        <div className="flex items-center gap-1.5 mt-0.5">
+                          <span className="font-mono font-bold break-all select-all text-gray-900 dark:text-white">19 1050 1445 1000 0090 8466 1967</span>
+                          <button
+                            onClick={() => {
+                              navigator.clipboard.writeText('19105014451000009084661967');
+                              alert('Numer konta został skopiowany do schowka!');
+                            }}
+                            className="p-0.5 text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300 shrink-0"
+                            title="Kopiuj numer konta"
+                          >
+                            <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3" />
+                            </svg>
+                          </button>
+                        </div>
+                      </div>
+                      <div>
+                        <span className="text-gray-500 dark:text-gray-400 block">Tytuł przelewu:</span>
+                        <span className="font-mono font-bold text-orange-600 dark:text-orange-400">#{order.orderNumber}</span>
+                      </div>
+                      <div>
+                        <span className="text-gray-500 dark:text-gray-400 block">Kwota do zapłaty:</span>
+                        <span className="font-semibold text-orange-600 dark:text-orange-400">{Number(order.total).toFixed(2).replace('.', ',')} zł</span>
+                      </div>
+                    </div>
+                  </div>
+                )}
 
                 {/* Billing Address */}
                 {order.billingAddress && (
