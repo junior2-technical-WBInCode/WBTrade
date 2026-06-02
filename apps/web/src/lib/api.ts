@@ -611,6 +611,9 @@ export interface Order {
   notes?: string;
   // Invoice preference
   wantInvoice?: boolean;
+  addToCollectiveInvoice?: boolean;
+  collectiveInvoiceNumber?: string;
+  collectiveInvoiceDate?: string;
   invoiceNumber?: string;
   invoiceUrl?: string;
   // Business order fields
@@ -699,6 +702,12 @@ export const ordersApi = {
       };
       order: Order;
     }>(`/orders/${id}/request-refund`, { reason }),
+
+  generateCollectiveInvoice: (orderIds: string[]) =>
+    api.post<{ success: boolean; collectiveInvoiceNumber: string }>('/orders/collective-invoice', { orderIds }),
+
+  getCollectiveInvoice: (number: string) =>
+    api.get<Order[]>(`/orders/collective-invoice/${encodeURIComponent(number)}`),
 };
 
 // ============================================
@@ -1173,6 +1182,7 @@ export interface CheckoutRequest {
   packageShipping?: PackageShippingRequest[];
   // Invoice preference
   wantInvoice?: boolean;
+  addToCollectiveInvoice?: boolean;
   // Guest checkout fields
   guestEmail?: string;
   guestFirstName?: string;

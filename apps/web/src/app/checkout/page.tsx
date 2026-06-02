@@ -89,6 +89,7 @@ export interface CheckoutData {
   acceptDataProcessing: boolean;
   acceptNewsletter: boolean;
   wantInvoice: boolean;
+  addToCollectiveInvoice: boolean;
 }
 
 const initialAddress: AddressData = {
@@ -172,6 +173,7 @@ function CheckoutPageContent() {
     acceptDataProcessing: false,
     acceptNewsletter: false,
     wantInvoice: false,
+    addToCollectiveInvoice: false,
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState('');
@@ -401,6 +403,7 @@ function CheckoutPageContent() {
           customerNotes: '',
           acceptTerms: checkoutData.acceptTerms,
           wantInvoice: checkoutData.wantInvoice,
+          addToCollectiveInvoice: false, // Guests cannot use B2B collective invoices
           // Only include selected items (Empik-style selection)
           selectedItemIds: checkoutItems.map(item => item.id),
           packageShipping: checkoutData.shipping.packageShipping?.map(pkg => ({
@@ -509,6 +512,7 @@ function CheckoutPageContent() {
         customerNotes: '',
         acceptTerms: checkoutData.acceptTerms,
         wantInvoice: checkoutData.wantInvoice,
+        addToCollectiveInvoice: checkoutData.addToCollectiveInvoice,
         // Only include selected items (Empik-style selection)
         selectedItemIds: checkoutItems.map(item => item.id),
         packageShipping: checkoutData.shipping.packageShipping?.map(pkg => ({
@@ -778,6 +782,9 @@ function CheckoutPageContent() {
                 }
                 onWantInvoiceChange={(wantInvoice) =>
                   setCheckoutData(prev => ({ ...prev, wantInvoice }))
+                }
+                onAddToCollectiveInvoiceChange={(addToCollectiveInvoice) =>
+                  setCheckoutData(prev => ({ ...prev, addToCollectiveInvoice }))
                 }
                 onPlaceOrder={handlePlaceOrder}
                 isSubmitting={isSubmitting}

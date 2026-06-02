@@ -359,6 +359,7 @@ export async function createCheckout(req: Request, res: Response): Promise<void>
       selectedItemIds,
       // Invoice preference
       wantInvoice,
+      addToCollectiveInvoice,
       // Guest checkout fields
       guestEmail,
       guestFirstName,
@@ -800,6 +801,7 @@ export async function createCheckout(req: Request, res: Response): Promise<void>
       discount,
       // Invoice preference
       wantInvoice: wantInvoice || false,
+      addToCollectiveInvoice: addToCollectiveInvoice || false,
       // Business order fields (for FV00 suffix)
       billingNip,
       billingCompanyName,
