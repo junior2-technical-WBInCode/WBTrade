@@ -77,7 +77,7 @@ export interface PackageShippingSelection {
 }
 
 export interface PaymentData {
-  method: 'payu' | 'imoje' | 'card' | 'blik' | 'transfer' | 'google_pay' | 'apple_pay' | 'paypo' | 'b2b_przelew';
+  method: 'payu' | 'imoje' | 'card' | 'blik' | 'transfer' | 'google_pay' | 'apple_pay' | 'paypo' | 'b2b_przelew' | 'b2b_transfer';
   extraFee: number;
 }
 

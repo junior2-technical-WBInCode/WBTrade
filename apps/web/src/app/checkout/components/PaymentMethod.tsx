@@ -12,7 +12,7 @@ interface PaymentMethodProps {
   isB2b?: boolean;
 }
 
-type PaymentId = 'payu' | 'imoje' | 'b2b_przelew';
+type PaymentId = 'payu' | 'imoje' | 'b2b_przelew' | 'b2b_transfer';
 
 interface PaymentOption {
   id: PaymentId;
@@ -38,7 +38,7 @@ const paymentOptions: PaymentOption[] = [
 ];
 
 const b2bPaymentOption: PaymentOption = {
-  id: 'b2b_przelew',
+  id: 'b2b_transfer',
   name: 'Przelew bankowy (B2B)',
   extraFee: 0,
   description: 'Termin płatności 7 dni od daty zamówienia'
@@ -75,6 +75,7 @@ const PaymentIcon = ({ id }: { id: PaymentId }) => {
         <span className="px-2 py-1 bg-[#00A651] text-white text-xs font-bold rounded">imoje</span>
       );
     }
+    case 'b2b_transfer':
     case 'b2b_przelew':
       return (
         <span className="px-2 py-1 bg-blue-600 text-white text-xs font-bold rounded">B2B</span>
@@ -169,7 +170,7 @@ export default function PaymentMethod({ initialData, onSubmit, onBack, isB2b }: 
         </div>
 
         {/* B2B bank transfer info */}
-        {selectedMethod === 'b2b_przelew' && (
+        {(selectedMethod === 'b2b_transfer' || selectedMethod === 'b2b_przelew') && (
           <div className="mx-4 sm:mx-6 my-3 sm:my-4 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg p-3 sm:p-4 space-y-3">
             <div className="flex gap-2">
               <svg className="w-5 h-5 text-blue-500 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
