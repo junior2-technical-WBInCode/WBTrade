@@ -2,11 +2,14 @@
 
 import React, { useState, useEffect } from 'react';
 import { AddressData } from '../page';
+import { useAuth } from '@/contexts/AuthContext';
 
 interface AddressFormProps {
   initialData: AddressData;
   onSubmit: (data: AddressData) => void;
   isGuestCheckout?: boolean;
+  addToCollectiveInvoice?: boolean;
+  onAddToCollectiveInvoiceChange?: (value: boolean) => void;
 }
 
 interface SavedAddress {
@@ -103,7 +106,15 @@ function InputField({
   );
 }
 
-export default function AddressForm({ initialData, onSubmit, isGuestCheckout = false }: AddressFormProps) {
+export default function AddressForm({ 
+  initialData, 
+  onSubmit, 
+  isGuestCheckout = false,
+  addToCollectiveInvoice,
+  onAddToCollectiveInvoiceChange
+}: AddressFormProps) {
+  const { user } = useAuth();
+  const isB2bUser = user && (user as any).b2bStatus === 'APPROVED';
   const [formData, setFormData] = useState<AddressData>(initialData);
   const [errors, setErrors] = useState<Partial<Record<keyof AddressData, string>>>({});
   const [selectedCountry, setSelectedCountry] = useState(countries[0]);
@@ -890,6 +901,27 @@ export default function AddressForm({ initialData, onSubmit, isGuestCheckout = f
                   />
                 </div>
               </div>
+
+              {isB2bUser && onAddToCollectiveInvoiceChange && (
+                <div className="mt-4 p-3 bg-orange-50 dark:bg-orange-950/20 border border-orange-100 dark:border-orange-900/30 rounded-lg">
+                  <label className="flex items-start gap-2.5 cursor-pointer">
+                    <input
+                      type="checkbox"
+                      checked={addToCollectiveInvoice || false}
+                      onChange={(e) => onAddToCollectiveInvoiceChange(e.target.checked)}
+                      className="mt-1 h-4 w-4 text-orange-500 focus:ring-orange-500 border-gray-300 dark:border-secondary-600 rounded shrink-0 dark:bg-secondary-700"
+                    />
+                    <div>
+                      <span className="text-sm font-medium text-gray-800 dark:text-gray-200">
+                        🧾 Chcę dodać to zamówienie do jednej faktury zbiorczej
+                      </span>
+                      <p className="text-xs text-gray-500 dark:text-gray-400 mt-0.5">
+                        Indywidualna faktura nie wygeneruje się po opłaceniu zamówienia. Połączysz je z innymi w jedną zbiorczą fakturę w panelu klienta.
+                      </p>
+                    </div>
+                  </label>
+                </div>
+              )}
             </div>
           </div>
         )}
