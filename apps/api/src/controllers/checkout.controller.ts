@@ -497,6 +497,7 @@ export async function createCheckout(req: Request, res: Response): Promise<void>
       });
       const serverPackages = serverShippingResult.packagesWithOptions;
       
+      let b2bCharged = false;
       // Match each client-submitted package to server-calculated packages and override prices
       for (let i = 0; i < packageShipping.length; i++) {
         const clientPkg = packageShipping[i];
@@ -511,10 +512,19 @@ export async function createCheckout(req: Request, res: Response): Promise<void>
           
           if (serverMethod) {
             // Override client price with server-calculated price
+            let calculatedPrice = serverMethod.price;
+            if (clientPkg.method === 'b2b_wysylka_wlasna') {
+              if (b2bCharged) {
+                calculatedPrice = 0;
+              } else {
+                b2bCharged = true;
+              }
+            }
+            
             const clientPrice = clientPkg.price;
-            clientPkg.price = serverMethod.price;
-            if (clientPrice !== serverMethod.price) {
-              console.warn(`⚠️ SECURITY: Shipping price mismatch for package ${clientPkg.packageId}! Client sent: ${clientPrice}, server calculated: ${serverMethod.price}`);
+            clientPkg.price = calculatedPrice;
+            if (clientPrice !== calculatedPrice) {
+              console.warn(`⚠️ SECURITY: Shipping price mismatch for package ${clientPkg.packageId}! Client sent: ${clientPrice}, server calculated: ${calculatedPrice}`);
             }
           } else {
             // Client selected a method that's not available — reject

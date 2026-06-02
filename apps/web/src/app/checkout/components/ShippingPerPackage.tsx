@@ -206,11 +206,19 @@ export default function ShippingPerPackage({
     methods: Record<string, ShippingMethodId>
   ): number => {
     let total = 0;
+    let b2bCharged = false;
     for (const pkgOpt of packages) {
       const selectedMethodId = methods[pkgOpt.package.id];
       const method = pkgOpt.shippingMethods.find(m => m.id === selectedMethodId && m.available);
       if (method) {
-        total += method.price;
+        if (selectedMethodId === 'b2b_wysylka_wlasna') {
+          if (!b2bCharged) {
+            total += method.price;
+            b2bCharged = true;
+          }
+        } else {
+          total += method.price;
+        }
       }
     }
     return roundMoney(total);
@@ -383,6 +391,7 @@ export default function ShippingPerPackage({
     // Build package shipping selections
     // If a package has multiple paczkomat slots, create separate entries for each
     const packageShipping: PackageShippingSelection[] = [];
+    let b2bCharged = false;
     
     for (const pkgOpt of packagesWithOptions) {
       const methodId = selectedMethods[pkgOpt.package.id];
@@ -390,6 +399,15 @@ export default function ShippingPerPackage({
       const selections = paczkomatSelections[pkgOpt.package.id] || [];
       const hasCustomAddr = useCustomAddress[pkgOpt.package.id] && methodId !== 'inpost_paczkomat';
       const paczkomatCount = pkgOpt.package.paczkomatPackageCount || 1;
+      
+      let calculatedPrice = method?.price || 0;
+      if (methodId === 'b2b_wysylka_wlasna') {
+        if (b2bCharged) {
+          calculatedPrice = 0;
+        } else {
+          b2bCharged = true;
+        }
+      }
       
       // If using paczkomat with multiple slots, create separate entries
       if (methodId === 'inpost_paczkomat' && paczkomatCount > 1) {
@@ -421,7 +439,7 @@ export default function ShippingPerPackage({
           packageId: pkgOpt.package.id,
           wholesaler: pkgOpt.package.wholesaler || undefined,
           method: methodId,
-          price: method?.price || 0,
+          price: calculatedPrice,
           paczkomatCode: methodId === 'inpost_paczkomat' ? selections[0]?.code : undefined,
           paczkomatAddress: methodId === 'inpost_paczkomat' ? selections[0]?.address : undefined,
           items: pkgOpt.package.items.map(item => ({
@@ -595,7 +613,23 @@ export default function ShippingPerPackage({
                 </div>
                 {selectedMethod && (
                   <div className="text-right">
-                    <div className="text-lg font-bold text-gray-900 dark:text-white">{selectedMethod.price.toFixed(2).replace('.', ',')} zł</div>
+                    <div className="text-lg font-bold text-gray-900 dark:text-white">
+                      {(() => {
+                        if (selectedMethod.id === 'b2b_wysylka_wlasna') {
+                          let isAlreadyCharged = false;
+                          for (let i = 0; i < pkgIndex; i++) {
+                            if (selectedMethods[packagesWithOptions[i].package.id] === 'b2b_wysylka_wlasna') {
+                              isAlreadyCharged = true;
+                              break;
+                            }
+                          }
+                          if (isAlreadyCharged) {
+                            return '0,00 zł';
+                          }
+                        }
+                        return `${selectedMethod.price.toFixed(2).replace('.', ',')} zł`;
+                      })()}
+                    </div>
                     <div className="text-xs text-gray-500 dark:text-gray-400">{selectedMethod.name}</div>
                   </div>
                 )}
@@ -698,7 +732,23 @@ export default function ShippingPerPackage({
 
                         {/* Price */}
                         <span className="text-gray-900 dark:text-white font-bold text-base whitespace-nowrap">
-                          {method.price.toFixed(2).replace('.', ',')} zł
+                          {(() => {
+                            if (method.id === 'b2b_wysylka_wlasna') {
+                              // Find if B2B is selected in any package that comes before this one in the packages list
+                              const currentPkgIndex = packagesWithOptions.findIndex(p => p.package.id === pkgOpt.package.id);
+                              let isAlreadyCharged = false;
+                              for (let i = 0; i < currentPkgIndex; i++) {
+                                if (selectedMethods[packagesWithOptions[i].package.id] === 'b2b_wysylka_wlasna') {
+                                  isAlreadyCharged = true;
+                                  break;
+                                }
+                              }
+                              if (isAlreadyCharged) {
+                                return '0,00 zł';
+                              }
+                            }
+                            return `${method.price.toFixed(2).replace('.', ',')} zł`;
+                          })()}
                         </span>
                       </div>
                     </label>
