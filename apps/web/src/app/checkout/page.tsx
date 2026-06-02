@@ -743,6 +743,10 @@ function CheckoutPageContent() {
                 initialData={checkoutData.address}
                 onSubmit={handleAddressSubmit}
                 isGuestCheckout={isGuestCheckout}
+                addToCollectiveInvoice={checkoutData.addToCollectiveInvoice}
+                onAddToCollectiveInvoiceChange={(addToCollectiveInvoice) =>
+                  setCheckoutData(prev => ({ ...prev, addToCollectiveInvoice }))
+                }
               />
             )}
 
