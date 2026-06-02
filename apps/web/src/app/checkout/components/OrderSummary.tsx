@@ -2,6 +2,7 @@
 
 import React from 'react';
 import Image from 'next/image';
+import { useAuth } from '@/contexts/AuthContext';
 import { CheckoutData, AddressData, ShippingData, PaymentData } from '../page';
 
 interface OrderSummaryProps {
@@ -18,6 +19,7 @@ interface OrderSummaryProps {
   onDataProcessingChange: (accepted: boolean) => void;
   onNewsletterChange: (accepted: boolean) => void;
   onWantInvoiceChange: (wantInvoice: boolean) => void;
+  onAddToCollectiveInvoiceChange: (addToCollectiveInvoice: boolean) => void;
   onPlaceOrder: () => void;
   isSubmitting: boolean;
 }
@@ -52,10 +54,13 @@ export default function OrderSummary({
   onDataProcessingChange,
   onNewsletterChange,
   onWantInvoiceChange,
+  onAddToCollectiveInvoiceChange,
   onPlaceOrder,
   isSubmitting,
 }: OrderSummaryProps) {
   const { address, shipping, payment } = checkoutData;
+  const { user } = useAuth();
+  const isB2bUser = user && (user as any).b2bStatus === 'APPROVED';
 
   const formatAddress = (addr: AddressData, isBilling = false) => {
     if (isBilling && addr.differentBillingAddress) {
@@ -313,25 +318,43 @@ export default function OrderSummary({
           </span>
         </label>
 
-        <div className="flex items-start justify-between gap-2">
-          <label className="flex items-start gap-2 sm:gap-3 cursor-pointer flex-1">
-            <input
-              type="checkbox"
-              checked={checkoutData.wantInvoice}
-              onChange={(e) => onWantInvoiceChange(e.target.checked)}
-              className="mt-0.5 sm:mt-1 h-4 w-4 text-orange-500 focus:ring-orange-500 border-gray-300 dark:border-secondary-600 rounded shrink-0 dark:bg-secondary-700"
-            />
-            <span className="text-xs sm:text-sm text-gray-700 dark:text-gray-300">
-              🧾 Chcę otrzymać fakturę VAT {checkoutData.address.differentBillingAddress && checkoutData.address.billingNip ? '' : '(podaj dane firmy w adresie)'}
-            </span>
-          </label>
-          <button
-            type="button"
-            onClick={() => onEditStep(1)}
-            className="text-xs sm:text-sm text-orange-500 hover:text-orange-600 font-medium shrink-0"
-          >
-            {checkoutData.address.differentBillingAddress && checkoutData.address.billingNip ? 'Zmień' : 'Dodaj'}
-          </button>
+        <div className="flex flex-col gap-2">
+          <div className="flex items-start justify-between gap-2">
+            <label className="flex items-start gap-2 sm:gap-3 cursor-pointer flex-1">
+              <input
+                type="checkbox"
+                checked={checkoutData.wantInvoice}
+                onChange={(e) => onWantInvoiceChange(e.target.checked)}
+                className="mt-0.5 sm:mt-1 h-4 w-4 text-orange-500 focus:ring-orange-500 border-gray-300 dark:border-secondary-600 rounded shrink-0 dark:bg-secondary-700"
+              />
+              <span className="text-xs sm:text-sm text-gray-700 dark:text-gray-300">
+                🧾 Chcę otrzymać fakturę VAT {checkoutData.address.differentBillingAddress && checkoutData.address.billingNip ? '' : '(podaj dane firmy w adresie)'}
+              </span>
+            </label>
+            <button
+              type="button"
+              onClick={() => onEditStep(1)}
+              className="text-xs sm:text-sm text-orange-500 hover:text-orange-600 font-medium shrink-0"
+            >
+              {checkoutData.address.differentBillingAddress && checkoutData.address.billingNip ? 'Zmień' : 'Dodaj'}
+            </button>
+          </div>
+
+          {checkoutData.wantInvoice && isB2bUser && (
+            <div className="pl-6 sm:pl-7 mt-1">
+              <label className="flex items-start gap-2 sm:gap-3 cursor-pointer">
+                <input
+                  type="checkbox"
+                  checked={checkoutData.addToCollectiveInvoice || false}
+                  onChange={(e) => onAddToCollectiveInvoiceChange(e.target.checked)}
+                  className="mt-0.5 sm:mt-1 h-4 w-4 text-orange-500 focus:ring-orange-500 border-gray-300 dark:border-secondary-600 rounded shrink-0 dark:bg-secondary-700"
+                />
+                <span className="text-xs sm:text-sm text-gray-600 dark:text-gray-400">
+                  Chcę dodać to zamówienie do jednej faktury zbiorczej (faktura nie wygeneruje się po opłaceniu, połączysz ją później w panelu klienta)
+                </span>
+              </label>
+            </div>
+          )}
         </div>
       </div>
 

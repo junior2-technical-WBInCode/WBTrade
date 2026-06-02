@@ -893,3 +893,149 @@ export async function permanentDeleteOrders(req: Request, res: Response): Promis
     res.status(400).json({ message: error.message || 'Error deleting orders' });
   }
 }
+
+/**
+ * Generate a collective invoice for multiple orders
+ * @route POST /api/orders/collective-invoice
+ */
+export async function generateCollectiveInvoice(req: Request, res: Response): Promise<void> {
+  try {
+    const userId = req.user?.userId;
+    if (!userId) {
+      res.status(401).json({ message: 'Wymagane uwierzytelnienie' });
+      return;
+    }
+
+    const { orderIds } = req.body;
+    if (!orderIds || !Array.isArray(orderIds) || orderIds.length === 0) {
+      res.status(400).json({ message: 'Lista identyfikatorów zamówień jest wymagana' });
+      return;
+    }
+
+    const now = new Date();
+    const year = now.getFullYear();
+    const month = String(now.getMonth() + 1).padStart(2, '0');
+    const prefix = `FVZ/${year}/${month}/`;
+
+    const result = await prisma.$transaction(async (tx) => {
+      // Find orders
+      const orders = await tx.order.findMany({
+        where: {
+          id: { in: orderIds },
+          userId,
+          deletedAt: null,
+        },
+      });
+
+      if (orders.length !== orderIds.length) {
+        throw new Error('Niektóre zamówienia nie zostały znalezione lub nie należą do Twojego konta.');
+      }
+
+      // Validate orders
+      for (const order of orders) {
+        if (!order.wantInvoice) {
+          throw new Error(`Zamówienie ${order.orderNumber} nie ma zaznaczonej opcji faktury.`);
+        }
+        if (order.paymentStatus !== 'PAID') {
+          throw new Error(`Zamówienie ${order.orderNumber} nie jest opłacone.`);
+        }
+        if (order.collectiveInvoiceNumber) {
+          throw new Error(`Zamówienie ${order.orderNumber} zostało już dodane do faktury zbiorczej ${order.collectiveInvoiceNumber}.`);
+        }
+      }
+
+      // Count existing collective invoice groups in this prefix to get next index
+      const groups = await tx.order.groupBy({
+        by: ['collectiveInvoiceNumber'],
+        where: {
+          collectiveInvoiceNumber: { startsWith: prefix },
+        },
+      });
+
+      const nextIndex = String(groups.length + 1).padStart(4, '0');
+      const collectiveInvoiceNumber = `${prefix}${nextIndex}`;
+      const collectiveInvoiceDate = now;
+
+      // Update orders
+      await tx.order.updateMany({
+        where: {
+          id: { in: orderIds },
+        },
+        data: {
+          collectiveInvoiceNumber,
+          collectiveInvoiceDate,
+        },
+      });
+
+      return { collectiveInvoiceNumber };
+    });
+
+    res.status(200).json({ success: true, collectiveInvoiceNumber: result.collectiveInvoiceNumber });
+  } catch (error: any) {
+    console.error('[CollectiveInvoice] Error generating:', error);
+    res.status(400).json({ message: error.message || 'Błąd podczas generowania faktury zbiorczej' });
+  }
+}
+
+/**
+ * Get orders for a specific collective invoice
+ * @route GET /api/orders/collective-invoice/:number
+ */
+export async function getCollectiveInvoice(req: Request, res: Response): Promise<void> {
+  try {
+    const userId = req.user?.userId;
+    const isAdmin = req.user?.role === 'ADMIN';
+    if (!userId) {
+      res.status(401).json({ message: 'Wymagane uwierzytelnienie' });
+      return;
+    }
+
+    const { number } = req.params;
+    if (!number) {
+      res.status(400).json({ message: 'Numer faktury zbiorczej jest wymagany' });
+      return;
+    }
+
+    const decodedNumber = decodeURIComponent(number);
+
+    const orders = await prisma.order.findMany({
+      where: {
+        collectiveInvoiceNumber: decodedNumber,
+        ...(isAdmin ? {} : { userId }),
+        deletedAt: null,
+      },
+      include: {
+        items: {
+          include: {
+            variant: {
+              include: {
+                product: {
+                  select: {
+                    id: true,
+                    name: true,
+                    slug: true,
+                    tags: true,
+                    images: { orderBy: { order: 'asc' }, take: 1 },
+                  },
+                },
+              },
+            },
+          },
+        },
+        shippingAddress: true,
+        billingAddress: true,
+      },
+      orderBy: { createdAt: 'asc' },
+    });
+
+    if (orders.length === 0) {
+      res.status(404).json({ message: 'Nie znaleziono zamówień dla tej faktury zbiorczej.' });
+      return;
+    }
+
+    res.status(200).json(orders);
+  } catch (error: any) {
+    console.error('[CollectiveInvoice] Error getting:', error);
+    res.status(500).json({ message: 'Błąd podczas pobierania faktury zbiorczej' });
+  }
+}

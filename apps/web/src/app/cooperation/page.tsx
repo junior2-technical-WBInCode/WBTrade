@@ -208,12 +208,7 @@ export default function CooperationPage() {
                       </svg>
                       Dedykowany cennik hurtowy
                     </li>
-                    <li className="flex items-start gap-2">
-                      <svg className="w-5 h-5 text-green-500 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                      </svg>
-                      Indywidualny mnożnik cenowy
-                    </li>
+                    
                     <li className="flex items-start gap-2">
                       <svg className="w-5 h-5 text-green-500 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
@@ -235,13 +230,13 @@ export default function CooperationPage() {
                       <svg className="w-5 h-5 text-green-500 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                       </svg>
-                      Płatność przelewem — termin 7 dni
+                      Płatność przelewem — z możliwością odroczenia zapłaty
                     </li>
                     <li className="flex items-start gap-2">
                       <svg className="w-5 h-5 text-green-500 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                       </svg>
-                      Faktura VAT do każdego zamówienia
+                      Możliwość otrzymywania zbiorczej Faktury VAT z wielu zamówień
                     </li>
                   </ul>
                 </div>

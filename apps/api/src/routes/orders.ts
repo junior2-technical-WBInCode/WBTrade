@@ -1,11 +1,17 @@
 import { Router } from 'express';
-import { createOrder, getOrder, updateOrder, deleteOrder, getAllOrders, getUserOrders, refundOrder, restoreOrder, simulatePayment, checkRefundEligibility, requestRefund, getOrderTracking, syncOrderDelivery, updateTrackingNumber, getPendingCancellations, approveCancellation, rejectCancellation, requestCancellation, softDeleteOrder, restoreFromArchive, getArchivedOrders, cleanupArchive, permanentDeleteOrders } from '../controllers/orders.controller';
+import { createOrder, getOrder, updateOrder, deleteOrder, getAllOrders, getUserOrders, refundOrder, restoreOrder, simulatePayment, checkRefundEligibility, requestRefund, getOrderTracking, syncOrderDelivery, updateTrackingNumber, getPendingCancellations, approveCancellation, rejectCancellation, requestCancellation, softDeleteOrder, restoreFromArchive, getArchivedOrders, cleanupArchive, permanentDeleteOrders, generateCollectiveInvoice, getCollectiveInvoice } from '../controllers/orders.controller';
 import { authGuard, adminOnly, optionalAuth } from '../middleware/auth.middleware';
 
 const router = Router();
 
 // Route to get current user's orders (must be before /:id to avoid conflicts)
 router.get('/', authGuard, getUserOrders);
+
+// Route to generate a collective invoice
+router.post('/collective-invoice', authGuard, generateCollectiveInvoice);
+
+// Route to get a collective invoice
+router.get('/collective-invoice/:number', authGuard, getCollectiveInvoice);
 
 // Route to get all orders (admin)
 router.get('/admin/all', authGuard, adminOnly, getAllOrders);

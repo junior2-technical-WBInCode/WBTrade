@@ -344,6 +344,14 @@ export class BaselinkerService {
   }
 
   /**
+   * Get invoices from Baselinker
+   */
+  async getInvoices(params?: any): Promise<any[]> {
+    const provider = await this.createProvider();
+    return provider.getInvoices(params);
+  }
+
+  /**
    * Trigger sync (creates sync log and starts sync)
    * @param type - 'full', 'products', 'categories', 'stock', 'images'
    * @param mode - 'new-only' (tylko nowe produkty, bez stanów 0), 'update-only' (tylko aktualizacja istniejących), 'full-resync' (pełna resynchronizacja)
@@ -3152,14 +3160,6 @@ export class BaselinkerService {
         error: error instanceof Error ? error.message : 'Unknown error',
       };
     }
-  }
-
-  /**
-   * Get invoices from Baselinker (works with any connected invoicing system)
-   */
-  async getInvoices(params?: { date_from?: number; series_id?: number }) {
-    const provider = await this.createProvider();
-    return provider.getInvoices(params);
   }
 }
 

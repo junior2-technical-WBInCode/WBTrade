@@ -81,6 +81,7 @@ interface CreateOrderData {
   guestPhone?: string;
   // Invoice preference
   wantInvoice?: boolean;
+  addToCollectiveInvoice?: boolean;
   // Business order fields (for FV00 suffix)
   billingNip?: string;
   billingCompanyName?: string;
@@ -285,6 +286,7 @@ export class OrdersService {
           total,
           customerNotes: data.customerNotes,
           wantInvoice: data.wantInvoice || false,
+          addToCollectiveInvoice: data.addToCollectiveInvoice || false,
           // Business order fields (FV00 suffix)
           billingNip: data.billingNip || null,
           billingCompanyName: data.billingCompanyName || null,
