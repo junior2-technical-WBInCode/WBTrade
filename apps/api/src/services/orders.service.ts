@@ -510,10 +510,18 @@ export class OrdersService {
         }
       }
 
+      // Check if order is transitioning to paid status (CONFIRMED, PROCESSING, SHIPPED, DELIVERED)
+      // and paymentStatus is not already PAID
+      const paidStatuses = ['CONFIRMED', 'PROCESSING', 'SHIPPED', 'DELIVERED'];
+      const shouldMarkAsPaid = paidStatuses.includes(status) && currentOrder.paymentStatus !== 'PAID';
+
       // Update order status
       const order = await tx.order.update({
         where: { id },
-        data: { status },
+        data: { 
+          status,
+          ...(shouldMarkAsPaid ? { paymentStatus: 'PAID' } : {}),
+        },
         include: { items: true },
       });
 
