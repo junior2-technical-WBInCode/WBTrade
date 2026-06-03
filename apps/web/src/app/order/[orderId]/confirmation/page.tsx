@@ -291,7 +291,7 @@ function OrderConfirmationPageContent() {
 
   // Konfiguracja widoku w zależności od statusu płatności
   const getStatusConfig = () => {
-    const isB2bTransfer = order?.paymentMethod === 'b2b_przelew' || order?.paymentMethod === 'b2b_transfer';
+    const isB2bTransfer = order?.paymentMethod === 'b2b_przelew' || order?.paymentMethod === 'b2b_transfer' || order?.paymentMethod === 'bank_transfer' || order?.paymentMethod === 'transfer';
     
     if (isB2bTransfer && order?.paymentStatus !== 'PAID') {
       return {

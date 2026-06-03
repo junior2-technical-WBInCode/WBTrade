@@ -497,6 +497,7 @@ export async function createCheckout(req: Request, res: Response): Promise<void>
       });
       const serverPackages = serverShippingResult.packagesWithOptions;
       
+      let b2bCharged = false;
       // Match each client-submitted package to server-calculated packages and override prices
       for (let i = 0; i < packageShipping.length; i++) {
         const clientPkg = packageShipping[i];
@@ -511,10 +512,19 @@ export async function createCheckout(req: Request, res: Response): Promise<void>
           
           if (serverMethod) {
             // Override client price with server-calculated price
+            let calculatedPrice = serverMethod.price;
+            if (clientPkg.method === 'b2b_wysylka_wlasna') {
+              if (b2bCharged) {
+                calculatedPrice = 0;
+              } else {
+                b2bCharged = true;
+              }
+            }
+            
             const clientPrice = clientPkg.price;
-            clientPkg.price = serverMethod.price;
-            if (clientPrice !== serverMethod.price) {
-              console.warn(`⚠️ SECURITY: Shipping price mismatch for package ${clientPkg.packageId}! Client sent: ${clientPrice}, server calculated: ${serverMethod.price}`);
+            clientPkg.price = calculatedPrice;
+            if (clientPrice !== calculatedPrice) {
+              console.warn(`⚠️ SECURITY: Shipping price mismatch for package ${clientPkg.packageId}! Client sent: ${clientPrice}, server calculated: ${calculatedPrice}`);
             }
           } else {
             // Client selected a method that's not available — reject
@@ -930,7 +940,7 @@ export async function createCheckout(req: Request, res: Response): Promise<void>
         total,
         redirectUrl: `/order/${order.id}/confirmation`,
       });
-    } else if (paymentMethod === 'b2b_transfer' || paymentMethod === 'b2b_przelew') {
+    } else if (paymentMethod === 'b2b_transfer' || paymentMethod === 'b2b_przelew' || paymentMethod === 'bank_transfer' || paymentMethod === 'transfer') {
       // B2B bank transfer - validate that user is actually B2B
       if (!userId) {
         res.status(403).json({ message: 'Przelew B2B dostępny tylko dla zalogowanych użytkowników' });
@@ -1273,6 +1283,12 @@ export async function retryPayment(req: Request, res: Response): Promise<void> {
 
     if (order.status === 'CANCELLED' || order.status === 'REFUNDED') {
       res.status(400).json({ message: 'Cannot pay for cancelled or refunded order' });
+      return;
+    }
+
+    // Check if order has offline payment method
+    if (['b2b_transfer', 'b2b_przelew', 'cod', 'bank_transfer', 'transfer'].includes(order.paymentMethod)) {
+      res.status(400).json({ message: 'Ten typ płatności nie obsługuje ponownej płatności online' });
       return;
     }
 

@@ -442,7 +442,7 @@ export default function OrderDetailsPage() {
                 <p className="text-gray-500 dark:text-gray-400 text-sm ml-8">Złożone {formatOrderDate(order.createdAt)}</p>
               </div>
               <div className="flex flex-wrap gap-3 ml-8 sm:ml-0">
-                {order.paymentStatus === 'PENDING' && order.status !== 'CANCELLED' && (
+                {order.paymentStatus === 'PENDING' && order.status !== 'CANCELLED' && !['cod', 'b2b_transfer', 'b2b_przelew', 'bank_transfer', 'transfer'].includes(order.paymentMethod) && (
                   <Link 
                     href={`/order/${order.id}/payment`}
                     className="px-4 py-2 bg-orange-500 text-white rounded-lg text-sm font-medium hover:bg-orange-600 transition-colors"

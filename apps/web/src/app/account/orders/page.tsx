@@ -384,7 +384,7 @@ export default function OrdersPage() {
                               Śledź przesyłkę
                             </button>
                           )}
-                          {order.paymentStatus === 'PENDING' && order.status !== 'CANCELLED' && (
+                          {order.paymentStatus === 'PENDING' && order.status !== 'CANCELLED' && !['cod', 'b2b_transfer', 'b2b_przelew', 'bank_transfer', 'transfer'].includes(order.paymentMethod) && (
                             <button 
                               onClick={() => handlePayNow(order.id)}
                               disabled={simulatingPayment === order.id}

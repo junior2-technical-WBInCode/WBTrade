@@ -49,7 +49,7 @@ export default function PaymentMethod({ onSubmit, onBack }: PaymentMethodProps) 
         const response = await api.get<{ paymentMethods: any[] }>('/checkout/payment/methods');
         if (response.paymentMethods && response.paymentMethods.length > 0) {
           const mapped: PaymentOption[] = response.paymentMethods.map((m: any) => ({
-            id: m.type || m.id,
+            id: m.id || m.type,
             name: m.name,
             description: m.description || 'Płatność online',
             icon: 'shield-checkmark-outline' as keyof typeof Ionicons.glyphMap,

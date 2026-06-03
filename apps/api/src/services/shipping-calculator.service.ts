@@ -1039,14 +1039,17 @@ export class ShippingCalculatorService {
       }
       
       // Set default selected method
+      // Dla partnerów B2B - domyślnie wysyłka własna B2B
       // Dla paczek gabarytowych - wymuszona wysyłka gabaryt
       // Dla standardowych z "Tylko kurier" - DPD
       // Dla standardowych z "Paczkomaty i Kurier" lub bez tagów - paczkomat jeśli dostępny
-      const defaultMethod = pkg.type === 'gabaryt' 
-        ? 'wysylka_gabaryt' 
-        : pkg.isCourierOnly 
-          ? 'dpd_kurier'
-          : (pkg.isPaczkomatAvailable ? 'inpost_paczkomat' : 'inpost_kurier');
+      const defaultMethod = options?.isB2b
+        ? 'b2b_wysylka_wlasna'
+        : (pkg.type === 'gabaryt' 
+          ? 'wysylka_gabaryt' 
+          : pkg.isCourierOnly 
+            ? 'dpd_kurier'
+            : (pkg.isPaczkomatAvailable ? 'inpost_paczkomat' : 'inpost_kurier'));
       
       // B2B shipping option
       if (options?.isB2b) {
@@ -1071,10 +1074,18 @@ export class ShippingCalculatorService {
     
     // Calculate initial total with default methods
     let totalShippingCost = 0;
+    let b2bCharged = false;
     for (const pkgOpt of packagesWithOptions) {
       const selectedMethod = pkgOpt.shippingMethods.find(m => m.id === pkgOpt.selectedMethod && m.available);
       if (selectedMethod) {
-        totalShippingCost += selectedMethod.price;
+        if (pkgOpt.selectedMethod === 'b2b_wysylka_wlasna') {
+          if (!b2bCharged) {
+            totalShippingCost += selectedMethod.price;
+            b2bCharged = true;
+          }
+        } else {
+          totalShippingCost += selectedMethod.price;
+        }
       }
     }
     
