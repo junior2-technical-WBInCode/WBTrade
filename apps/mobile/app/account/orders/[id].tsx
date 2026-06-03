@@ -557,7 +557,7 @@ export default function OrderDetailScreen() {
         {order.status !== 'CANCELLED' && order.status !== 'REFUNDED' && order.status !== 'DELIVERED' && (
           <View style={styles.section}>
             <Text style={styles.sectionTitle}>Akcje</Text>
-            {(order.paymentStatus === 'PENDING' || order.paymentStatus === 'FAILED') && order.paymentMethod !== 'cod' && (
+            {(order.paymentStatus === 'PENDING' || order.paymentStatus === 'FAILED') && !['cod', 'b2b_transfer', 'b2b_przelew', 'bank_transfer', 'transfer'].includes(order.paymentMethod) && (
               <TouchableOpacity
                 style={[styles.actionBtn, { backgroundColor: colors.tint }]}
                 onPress={handleRetryPayment}

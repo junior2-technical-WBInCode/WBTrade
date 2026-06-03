@@ -940,7 +940,7 @@ export async function createCheckout(req: Request, res: Response): Promise<void>
         total,
         redirectUrl: `/order/${order.id}/confirmation`,
       });
-    } else if (paymentMethod === 'b2b_transfer' || paymentMethod === 'b2b_przelew') {
+    } else if (paymentMethod === 'b2b_transfer' || paymentMethod === 'b2b_przelew' || paymentMethod === 'bank_transfer' || paymentMethod === 'transfer') {
       // B2B bank transfer - validate that user is actually B2B
       if (!userId) {
         res.status(403).json({ message: 'Przelew B2B dostępny tylko dla zalogowanych użytkowników' });
@@ -1283,6 +1283,12 @@ export async function retryPayment(req: Request, res: Response): Promise<void> {
 
     if (order.status === 'CANCELLED' || order.status === 'REFUNDED') {
       res.status(400).json({ message: 'Cannot pay for cancelled or refunded order' });
+      return;
+    }
+
+    // Check if order has offline payment method
+    if (['b2b_transfer', 'b2b_przelew', 'cod', 'bank_transfer', 'transfer'].includes(order.paymentMethod)) {
+      res.status(400).json({ message: 'Ten typ płatności nie obsługuje ponownej płatności online' });
       return;
     }
 
