@@ -6,6 +6,7 @@ import { loyaltyService } from '../services/loyalty.service';
 import { deliveryTrackingService } from '../services/delivery-tracking.service';
 import { emailService } from '../services/email.service';
 import { prisma } from '../db';
+import { baselinkerOrdersService } from '../services/baselinker-orders.service';
 
 const ordersService = new OrdersService();
 
@@ -286,18 +287,27 @@ export async function updateOrder(req: Request, res: Response): Promise<void> {
       return;
     }
     
-    // Get current status before update (for email notification)
+    // Get current status before update (for email notification and payment status change detection)
     const currentOrder = await prisma.order.findUnique({
       where: { id },
-      select: { status: true },
+      select: { status: true, paymentStatus: true },
     });
     const previousStatus = currentOrder?.status || 'UNKNOWN';
+    const previousPaymentStatus = currentOrder?.paymentStatus || 'PENDING';
 
     const order = await ordersService.updateStatus(id, validation.data.status, validation.data.note);
 
     if (!order) {
       res.status(404).json({ message: 'Zamówienie nie zostało znalezione' });
       return;
+    }
+
+    // If order transitioned to PAID manually, sync status to Baselinker
+    if (order.paymentStatus === 'PAID' && previousPaymentStatus !== 'PAID') {
+      console.log(`[OrdersController] Order ${order.orderNumber} manually marked as paid. Syncing to Baselinker.`);
+      baselinkerOrdersService.markOrderAsPaid(order.id).catch((err) => {
+        console.error(`[OrdersController] Error marking order ${order.orderNumber} as paid in BaseLinker:`, err);
+      });
     }
 
     // Trigger loyalty recalculation when order becomes DELIVERED + PAID
