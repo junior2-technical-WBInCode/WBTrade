@@ -7,6 +7,7 @@ import Footer from '../../components/Footer';
 import CartPackageView from '../../components/CartPackageView';
 import { useCart } from '../../contexts/CartContext';
 import { productsApi, checkoutApi, carouselsApi, Product } from '../../lib/api';
+import { useAuth } from '../../contexts/AuthContext';
 import CartCouponSection from './components/CartCouponSection';
 import { roundMoney } from '../../lib/currency';
 import { trackViewCart, cartItemToGA4 } from '../../lib/analytics';
@@ -14,8 +15,10 @@ import ProductCard from '../../components/ProductCard';
 
 export default function CartPage() {
   const { cart, loading, error, updateQuantity, removeFromCart, clearCart, addToCart, applyCoupon, removeCoupon } = useCart();
+  const { user } = useAuth();
+  const isB2bUser = user && (user as any).b2bStatus === 'APPROVED';
   const [selectedItems, setSelectedItems] = useState<Set<string>>(new Set());
-  const [shippingPrices, setShippingPrices] = useState<Record<string, number>>({});
+  const [shippingPrices, setShippingPrices] = useState<Record<string, { price: number; methodId: string }>>({});
   const [totalShippingCost, setTotalShippingCost] = useState<number>(0);
   const [loadingShipping, setLoadingShipping] = useState(false);
   const [bestsellers, setBestsellers] = useState<Product[]>([]);
@@ -67,16 +70,30 @@ export default function CartPage() {
         const response = await checkoutApi.getShippingPerPackage(items, cartSubtotal);
         
         // Build shipping prices per wholesaler - use LOWEST available price
-        const prices: Record<string, number> = {};
+        const prices: Record<string, { price: number; methodId: string }> = {};
         let lowestTotal = 0;
+        let b2bChargedInLowest = false;
+        
         for (const pkg of response.packagesWithOptions) {
           const wholesaler = pkg.package.wholesaler || 'default';
           // Get the lowest available shipping price for this package
           const availableMethods = pkg.shippingMethods.filter((m: any) => m.available);
           if (availableMethods.length > 0) {
-            const lowestPrice = Math.min(...availableMethods.map((m: any) => m.price));
-            prices[wholesaler] = lowestPrice;
-            lowestTotal += lowestPrice;
+            const lowestMethod = availableMethods.reduce((min: any, m: any) => m.price < min.price ? m : min, availableMethods[0]);
+            
+            prices[wholesaler] = {
+              price: lowestMethod.price,
+              methodId: lowestMethod.id,
+            };
+            
+            if (lowestMethod.id === 'b2b_wysylka_wlasna') {
+              if (!b2bChargedInLowest) {
+                lowestTotal += lowestMethod.price;
+                b2bChargedInLowest = true;
+              }
+            } else {
+              lowestTotal += lowestMethod.price;
+            }
           }
         }
         setShippingPrices(prices);
@@ -153,9 +170,31 @@ export default function CartPage() {
     // Use total shipping cost from API (calculated properly for all packages)
     // Only show shipping when all items are selected, otherwise recalculate would be needed
     const allSelected = selectedItems.size === cart.items.length;
-    const shipping = roundMoney(allSelected ? totalShippingCost : 
-      Array.from(new Set(selectedCartItems.map(item => item.variant.product?.wholesaler || 'default')))
-        .reduce((sum, ws) => sum + (shippingPrices[ws] || 0), 0));
+    const shipping = roundMoney(
+      allSelected
+        ? totalShippingCost
+        : (() => {
+            const selectedWholesalers = Array.from(
+              new Set(selectedCartItems.map(item => item.variant.product?.wholesaler || 'default'))
+            );
+            let total = 0;
+            let b2bCharged = false;
+            for (const ws of selectedWholesalers) {
+              const info = shippingPrices[ws];
+              if (info) {
+                if (info.methodId === 'b2b_wysylka_wlasna') {
+                  if (!b2bCharged) {
+                    total += info.price;
+                    b2bCharged = true;
+                  }
+                } else {
+                  total += info.price;
+                }
+              }
+            }
+            return total;
+          })()
+    );
     
     return {
       subtotal,

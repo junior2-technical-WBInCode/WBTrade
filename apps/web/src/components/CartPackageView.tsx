@@ -5,6 +5,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { CartItem, checkoutApi } from '../lib/api';
 import { roundMoney } from '../lib/currency';
+import { useAuth } from '../contexts/AuthContext';
 
 // Placeholder SVG for failed images
 const PLACEHOLDER_IMAGE = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400' viewBox='0 0 400 400'%3E%3Crect fill='%23f3f4f6' width='400' height='400'/%3E%3Cpath fill='%23d1d5db' d='M160 150h80v100h-80z'/%3E%3Ccircle fill='%23d1d5db' cx='180' cy='130' r='20'/%3E%3Cpath fill='%23e5e7eb' d='M120 250l60-80 40 50 40-30 60 60v50H120z'/%3E%3C/svg%3E";
@@ -30,7 +31,7 @@ interface CartPackageViewProps {
   selectedItems: Set<string>;
   onSelectionChange: (itemId: string, selected: boolean) => void;
   onSelectAll: (selected: boolean) => void;
-  shippingPrices?: Record<string, number>;
+  shippingPrices?: Record<string, any>;
   isCompact?: boolean;
 }
 
@@ -65,6 +66,8 @@ export default function CartPackageView({
   shippingPrices = {},
   isCompact = false,
 }: CartPackageViewProps) {
+  const { user } = useAuth();
+  const isB2bUser = user && (user as any).b2bStatus === 'APPROVED';
   const [updatingId, setUpdatingId] = useState<string | null>(null);
   const [quantityInputs, setQuantityInputs] = useState<Record<string, string>>({});
   const [failedImages, setFailedImages] = useState<Set<string>>(new Set());
@@ -101,10 +104,35 @@ export default function CartPackageView({
       warehouseSubtotals[warehouseName] = (warehouseSubtotals[warehouseName] || 0) + subtotal;
     }
 
+    let b2bChargedInPackages = false;
+
     return Object.entries(grouped).map(([wholesaler, packageItems], index) => {
       const config = getWholesalerConfig(wholesaler);
       const subtotal = subtotalByWholesaler[wholesaler];
       const warehouseSubtotal = warehouseSubtotals[config.name] || subtotal;
+      
+      const shippingInfo = shippingPrices[wholesaler];
+      let shippingPrice = 0;
+      let shippingMethodId = '';
+      let displayB2bIncluded = false;
+
+      if (shippingInfo) {
+        if (typeof shippingInfo === 'object') {
+          shippingPrice = shippingInfo.price;
+          shippingMethodId = shippingInfo.methodId;
+        } else {
+          shippingPrice = shippingInfo;
+        }
+      }
+
+      if (isB2bUser && shippingMethodId === 'b2b_wysylka_wlasna') {
+        if (b2bChargedInPackages) {
+          shippingPrice = 0;
+          displayB2bIncluded = true;
+        } else {
+          b2bChargedInPackages = true;
+        }
+      }
       
       return {
         id: `pkg-${index}`,
@@ -118,11 +146,12 @@ export default function CartPackageView({
         })),
         subtotal,
         warehouseSubtotal,
-        shippingPrice: shippingPrices[wholesaler] || 0,
+        shippingPrice,
         shippingMethod: 'Kurier',
+        displayB2bIncluded,
       };
     });
-  }, [items, selectedItems, shippingPrices]);
+  }, [items, selectedItems, shippingPrices, isB2bUser]);
 
   const allSelected = items.length > 0 && items.every(item => selectedItems.has(item.id));
   const someSelected = items.some(item => selectedItems.has(item.id));
@@ -382,8 +411,8 @@ export default function CartPackageView({
             })}
           </div>
 
-          {/* Shipping Info with Free Shipping Progress */}
-          <div className="bg-orange-50 dark:bg-orange-900/30 px-3 sm:px-4 py-2.5 sm:py-3 border-t border-orange-100 dark:border-orange-800">
+            {/* Shipping Info with Free Shipping Progress */}
+            <div className="bg-orange-50 dark:bg-orange-900/30 px-3 sm:px-4 py-2.5 sm:py-3 border-t border-orange-100 dark:border-orange-800">
             <div className="flex items-center justify-between gap-2 mb-2">
               <div className="flex items-center gap-1.5 sm:gap-2 text-xs sm:text-sm">
                 <svg className="w-4 h-4 sm:w-5 sm:h-5 text-orange-500 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -403,8 +432,10 @@ export default function CartPackageView({
                 </div>
               </div>
               <div className="text-right">
-                {pkg.warehouseSubtotal >= 300 ? (
+                {pkg.warehouseSubtotal >= 300 && !isB2bUser ? (
                   <span className="font-semibold text-green-600 dark:text-green-400 text-sm sm:text-base">GRATIS!</span>
+                ) : pkg.displayB2bIncluded ? (
+                  <span className="text-gray-500 dark:text-gray-400 text-xs sm:text-sm font-medium">w cenie 1. paczki</span>
                 ) : pkg.shippingPrice > 0 ? (
                   <span className="font-semibold text-orange-600 dark:text-orange-400 text-sm sm:text-base">{pkg.shippingPrice.toFixed(2).replace('.', ',')} zł</span>
                 ) : (
@@ -414,7 +445,7 @@ export default function CartPackageView({
             </div>
             
             {/* Free shipping progress bar per warehouse */}
-            {pkg.warehouseSubtotal < 300 && (
+            {pkg.warehouseSubtotal < 300 && !isB2bUser && (
               <div className="space-y-1">
                 <div className="h-1.5 bg-orange-200 dark:bg-orange-800 rounded-full overflow-hidden">
                   <div 
