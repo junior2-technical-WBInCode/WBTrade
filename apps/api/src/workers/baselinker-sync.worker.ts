@@ -217,6 +217,8 @@ export async function scheduleBaselinkerSync(): Promise<void> {
   console.log('✅ Baselinker stock sync scheduled (every 2 hours)');
 
   // Add price sync job from Baselinker API - every 2 hours at :30
+  // DISABLED: We now sync prices directly from product XML feeds via sync-feed-prices script.
+  /*
   await queue.add(
     'sync-price',
     {
@@ -230,8 +232,9 @@ export async function scheduleBaselinkerSync(): Promise<void> {
       jobId: 'baselinker-price-sync',
     }
   );
-
+  
   console.log('✅ Baselinker price sync scheduled (every 2 hours at :30)');
+  */
 }
 
 /**
