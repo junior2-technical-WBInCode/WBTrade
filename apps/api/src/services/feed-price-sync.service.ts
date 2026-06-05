@@ -218,13 +218,20 @@ export class FeedPriceSyncService {
       const feedItemsBySkuMap = new Map<string, { wholesalePrice: number; srp?: number }>();
 
       if (wholesalerKey === 'leker') {
-        const oNodes = this.findNodes(parsedObj, 'o');
-        console.log(`Found ${oNodes.length} elements in Leker feed.`);
-        for (const node of oNodes) {
-          const price = parseFloat(this.getAttr(node, 'price') || '0');
-          const ean = this.getAttrValueFromAttrs(node, 'EAN');
-          if (ean && price > 0) {
-            feedItemsMap.set(ean, { wholesalePrice: price });
+        const pNodes = this.findNodes(parsedObj, 'p');
+        console.log(`Found ${pNodes.length} elements in Leker feed.`);
+        for (const node of pNodes) {
+          const priceNode = node.price;
+          const bruttoPrice = priceNode ? parseFloat(priceNode.brutto || '0') : 0;
+          const ean = node.ean13 ? String(node.ean13).trim() : null;
+          const id = node.id ? String(node.id).trim() : null;
+          const reference = node.reference ? String(node.reference).trim() : null;
+
+          if (bruttoPrice > 0) {
+            const data = { wholesalePrice: bruttoPrice };
+            if (ean) feedItemsMap.set(ean, data);
+            if (id) feedItemsBySkuMap.set('LEKER-' + id, data);
+            if (reference) feedItemsBySkuMap.set('LEKER-' + reference, data);
           }
         }
       } 
