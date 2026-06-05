@@ -2,7 +2,7 @@ import { feedPriceSyncService } from '../services/feed-price-sync.service';
 import { prisma } from '../db';
 
 const FEED_URLS: Record<string, string> = {
-  'leker': 'https://b2b.leker.pl/xml/base_all_drop_pln_pl.xml',
+  'leker': 'https://b2b.leker.pl/xml/drop_pln_pl_light.xml',
   'btp': 'https://ext.btp.link/Gateway/ExportData/ProductCatalogue?Format=Xml&u=7C93A576-737A-4E62-B0AD-C2CB40FAB893&uc=A694FB15-1C0E-4A1C-81B8-6423BB43547A',
   'hp': 'https://www.hurtowniaprzemyslowa.pl/xml/baselinker.xml',
   'dofirmy': 'https://cloud.appstore.mamezi.pl/feeds/shop4184b3ea00a6457ce3777d0ddab35ee5753c7c72/doFirmyPrivateApp01-pl_PL.xml',
