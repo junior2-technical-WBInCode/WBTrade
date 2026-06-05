@@ -466,84 +466,95 @@ export class FeedPriceSyncService {
         const changedProductIds = new Set<string>();
         let count = 0;
 
-        for (const item of updatesList) {
-          count++;
-          try {
-            const compareAt = srpMap.get(item.id) ?? null;
-            if (item.isVariant) {
-              // Get variant to find parent product ID
-              const dbVariant = dbVariants.find(v => v.id === item.id);
-              if (dbVariant?.productId) {
-                changedProductIds.add(dbVariant.productId);
+        // Process in batches of 30 to be very fast but avoid Neon connection pool exhaust
+        const BATCH_SIZE = 30;
+        for (let i = 0; i < updatesList.length; i += BATCH_SIZE) {
+          const batch = updatesList.slice(i, i + BATCH_SIZE);
+          await Promise.all(
+            batch.map(async (item) => {
+              try {
+                const compareAt = srpMap.get(item.id) ?? null;
+                if (item.isVariant) {
+                  const dbVariant = dbVariants.find(v => v.id === item.id);
+                  if (dbVariant?.productId) {
+                    changedProductIds.add(dbVariant.productId);
+                  }
+
+                  await prisma.productVariant.update({
+                    where: { id: item.id },
+                    data: { compareAtPrice: compareAt },
+                  });
+
+                  await priceHistoryService.updateVariantPrice({
+                    variantId: item.id,
+                    newPrice: item.newPrice,
+                    source: PriceChangeSource.IMPORT,
+                    reason: `Auto sync z feedu XML (${wholesalerKey})`,
+                  });
+                } else {
+                  changedProductIds.add(item.id);
+
+                  await prisma.product.update({
+                    where: { id: item.id },
+                    data: { compareAtPrice: compareAt },
+                  });
+
+                  await priceHistoryService.updateProductPrice({
+                    productId: item.id,
+                    newPrice: item.newPrice,
+                    source: PriceChangeSource.IMPORT,
+                    reason: `Auto sync z feedu XML (${wholesalerKey})`,
+                  });
+                }
+
+                updated++;
+                const currentCount = ++count;
+                if (currentCount % 100 === 0 || currentCount <= 5) {
+                  console.log(`[${currentCount}/${updatesList.length}] Updated ${item.sku} to ${item.newPrice} PLN`);
+                }
+              } catch (err: any) {
+                console.error(`Error updating price for ${item.sku}:`, err.message);
+                errors.push(`Update error ${item.sku}: ${err.message}`);
               }
-
-              // Update compareAtPrice first if needed
-              await prisma.productVariant.update({
-                where: { id: item.id },
-                data: { compareAtPrice: compareAt },
-              });
-
-              // Update variant price (Omnibus history handles the price field)
-              await priceHistoryService.updateVariantPrice({
-                variantId: item.id,
-                newPrice: item.newPrice,
-                source: PriceChangeSource.IMPORT,
-                reason: `Auto sync z feedu XML (${wholesalerKey})`,
-              });
-            } else {
-              changedProductIds.add(item.id);
-
-              // Update compareAtPrice first
-              await prisma.product.update({
-                where: { id: item.id },
-                data: { compareAtPrice: compareAt },
-              });
-
-              // Update product price (Omnibus)
-              await priceHistoryService.updateProductPrice({
-                productId: item.id,
-                newPrice: item.newPrice,
-                source: PriceChangeSource.IMPORT,
-                reason: `Auto sync z feedu XML (${wholesalerKey})`,
-              });
-            }
-
-            updated++;
-            if (count % 100 === 0 || count <= 5) {
-              console.log(`[${count}/${updatesList.length}] Updated ${item.sku} to ${item.newPrice} PLN`);
-            }
-          } catch (err: any) {
-            console.error(`Error updating price for ${item.sku}:`, err.message);
-            errors.push(`Update error ${item.sku}: ${err.message}`);
-          }
+            })
+          );
         }
 
         // Also update compareAtPrice for matched items whose price didn't change but compareAtPrice did
         let compareAtOnlyCount = 0;
+        const compareAtOnlyList: Array<{ id: string; srpVal: number | null }> = [];
         for (const [id, srpVal] of srpMap.entries()) {
           const hasPriceChange = updatesList.some(u => u.id === id);
           if (!hasPriceChange) {
-            // Check if it's variant or product
-            const dbVar = dbVariants.find(v => v.id === id);
-            try {
-              if (dbVar) {
-                await prisma.productVariant.update({
-                  where: { id },
-                  data: { compareAtPrice: srpVal },
-                });
-                changedProductIds.add(dbVar.productId);
-              } else {
-                await prisma.product.update({
-                  where: { id },
-                  data: { compareAtPrice: srpVal },
-                });
-                changedProductIds.add(id);
-              }
-              compareAtOnlyCount++;
-            } catch (err: any) {
-              errors.push(`CompareAt update error ${id}: ${err.message}`);
-            }
+            compareAtOnlyList.push({ id, srpVal });
           }
+        }
+
+        for (let i = 0; i < compareAtOnlyList.length; i += BATCH_SIZE) {
+          const batch = compareAtOnlyList.slice(i, i + BATCH_SIZE);
+          await Promise.all(
+            batch.map(async ({ id, srpVal }) => {
+              const dbVar = dbVariants.find(v => v.id === id);
+              try {
+                if (dbVar) {
+                  await prisma.productVariant.update({
+                    where: { id },
+                    data: { compareAtPrice: srpVal },
+                  });
+                  changedProductIds.add(dbVar.productId);
+                } else {
+                  await prisma.product.update({
+                    where: { id },
+                    data: { compareAtPrice: srpVal },
+                  });
+                  changedProductIds.add(id);
+                }
+                compareAtOnlyCount++;
+              } catch (err: any) {
+                errors.push(`CompareAt update error ${id}: ${err.message}`);
+              }
+            })
+          );
         }
         if (compareAtOnlyCount > 0) {
           console.log(`Updated compareAtPrice only for ${compareAtOnlyCount} products/variants.`);
