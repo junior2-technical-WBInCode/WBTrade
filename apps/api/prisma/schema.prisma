@@ -40,6 +40,7 @@ model User {
   // B2B fields
   b2bStatus                  B2bStatus          @default(NONE) @map("b2b_status")
   b2bPriceMultiplier         Decimal?           @db.Decimal(4, 2) @map("b2b_price_multiplier")
+  b2bWholesalerRules         Json?              @default("{}") @map("b2b_wholesaler_rules")
   b2bApprovedAt              DateTime?          @map("b2b_approved_at")
   b2bApprovedBy              String?            @map("b2b_approved_by")
   b2bNotes                   String?            @map("b2b_notes")

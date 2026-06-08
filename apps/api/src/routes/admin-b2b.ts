@@ -76,15 +76,35 @@ router.post('/applications/:userId/revoke', async (req: Request, res: Response):
 });
 
 /**
- * PUT /api/admin/b2b/partners/:userId/multiplier - Update B2B price multiplier
+ * PUT /api/admin/b2b/partners/:userId/multiplier - Update B2B price multiplier and wholesaler rules
  */
-const multiplierSchema = z.object({ multiplier: z.number().min(1.0).max(5.0) });
+const ruleSchema = z.object({
+  priceFrom: z.number(),
+  priceTo: z.number(),
+  multiplier: z.number(),
+  addToPrice: z.number(),
+});
+
+const wholesalerConfigSchema = z.object({
+  divider: z.number(),
+  rules: z.array(ruleSchema),
+});
+
+const multiplierSchema = z.object({
+  multiplier: z.number().min(1.0).max(5.0),
+  wholesalerRules: z.record(z.string(), wholesalerConfigSchema).optional(),
+});
 
 router.put('/partners/:userId/multiplier', async (req: Request, res: Response): Promise<void> => {
   try {
-    const { multiplier } = multiplierSchema.parse(req.body);
-    const result = await b2bService.updateMultiplier(req.params.userId, multiplier, req.user!.userId);
-    res.json({ message: 'Mnożnik zaktualizowany', ...result });
+    const { multiplier, wholesalerRules } = multiplierSchema.parse(req.body);
+    const result = await b2bService.updateMultiplier(
+      req.params.userId,
+      multiplier,
+      req.user!.userId,
+      wholesalerRules
+    );
+    res.json({ message: 'Mnożnik i reguły zaktualizowane', ...result });
   } catch (error: any) {
     res.status(400).json({ message: error.message });
   }

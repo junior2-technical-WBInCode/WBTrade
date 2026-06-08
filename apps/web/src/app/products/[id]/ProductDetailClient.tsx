@@ -19,6 +19,70 @@ import AddToListModal from '../../../components/AddToListModal';
 import { PLACEHOLDER_IMAGE, getProductBrand, getProductBrandSlug } from '../../../components/productUtils';
 import { getProxiedImageUrl } from '../../../lib/image-proxy';
 
+function getWholesalerKey(baselinkerProductId?: string | null, sku?: string | null, tags?: string[]): string | null {
+  if (baselinkerProductId) {
+    const parts = baselinkerProductId.split('-');
+    if (parts.length > 1) {
+      return parts[0].toLowerCase();
+    }
+  }
+  if (sku) {
+    const skuLower = sku.toLowerCase();
+    if (skuLower.startsWith('leker')) return 'leker';
+    if (skuLower.startsWith('btp')) return 'btp';
+    if (skuLower.startsWith('hp')) return 'hp';
+    if (skuLower.startsWith('dofirmy')) return 'dofirmy';
+  }
+  if (tags && tags.length > 0) {
+    const WHOLESALER_PATTERN = /^(hurtownia[:\-_](.+)|Ikonka|BTP|HP|Gastro|Horeca|Hurtownia\s+Przemysłowa|Leker|Forcetop|DoFirmy)$/i;
+    for (const tag of tags) {
+      const match = tag.match(WHOLESALER_PATTERN);
+      if (match) {
+        const key = (match[2] || match[1]).toLowerCase();
+        if (key === 'ikonka') return 'ikonka';
+        if (key === 'gastronomia' || key === 'gastro') return 'gastro';
+        return key;
+      }
+    }
+  }
+  return null;
+}
+
+function calculateClientB2bPrice(
+  storePrice: number,
+  globalMultiplier: number,
+  wholesalerRules?: any,
+  baselinkerProductId?: string | null,
+  sku?: string | null,
+  tags?: string[]
+): number {
+  if (storePrice <= 0) return 0;
+  
+  const whKey = getWholesalerKey(baselinkerProductId, sku, tags);
+  if (whKey && wholesalerRules && wholesalerRules[whKey]) {
+    const config = wholesalerRules[whKey];
+    if (config && Array.isArray(config.rules) && config.rules.length > 0) {
+      const rawWholesale = storePrice / 1.35;
+      const b2bDivider = parseFloat(config.divider) || 1.0;
+      const b2bBasePrice = rawWholesale / b2bDivider;
+      
+      let b2bPrice = b2bBasePrice;
+      const sortedRules = [...config.rules].sort((a, b) => a.priceFrom - b.priceFrom);
+      for (const rule of sortedRules) {
+        if (b2bBasePrice >= rule.priceFrom && b2bBasePrice <= rule.priceTo) {
+          b2bPrice = b2bBasePrice * rule.multiplier + rule.addToPrice;
+          break;
+        }
+      }
+      return Math.floor(b2bPrice) + 0.99;
+    }
+  }
+
+  const basePrice = storePrice / 1.35;
+  const b2bPrice = basePrice * globalMultiplier;
+  return Math.floor(b2bPrice) + 0.99;
+}
+
 interface ProductDetailClientProps {
   product: Product;
 }
@@ -431,10 +495,24 @@ export default function ProductDetailClient({ product }: ProductDetailClientProp
 
   // B2B price transformation (show B2B prices for APPROVED and SUSPENDED partners)
   const isB2b = user && ((user as any).b2bStatus === 'APPROVED' || (user as any).b2bStatus === 'SUSPENDED');
-  const b2bMultiplier = isB2b ? ((user as any).b2bPriceMultiplier || 1.10) : null;
-  const effectivePrice = isB2b && b2bMultiplier
-    ? Math.floor((rawEffectivePrice / 1.35) * b2bMultiplier) + 0.99
-    : rawEffectivePrice;
+  
+  let effectivePrice = rawEffectivePrice;
+  if (isB2b) {
+    if ((product as any).isB2bPrice) {
+      effectivePrice = rawEffectivePrice;
+    } else {
+      const globalMultiplier = (user as any).b2bPriceMultiplier || 1.10;
+      const wholesalerRules = (user as any).b2bWholesalerRules;
+      effectivePrice = calculateClientB2bPrice(
+        rawEffectivePrice,
+        globalMultiplier,
+        wholesalerRules,
+        (product as any).baselinkerProductId,
+        selectedVariant?.sku || product.sku,
+        (product as any).tags
+      );
+    }
+  }
   
   const hasDiscount = !isB2b && product.compareAtPrice && Number(product.compareAtPrice) > Number(effectivePrice);
   const discountPercent = hasDiscount 

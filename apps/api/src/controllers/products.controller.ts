@@ -150,7 +150,9 @@ export async function getProducts(req: Request, res: Response): Promise<void> {
     if (req.user?.userId) {
       const b2bInfo = await getB2bUserInfo(req.user.userId);
       if (b2bInfo) {
-        result.products = result.products.map((p: any) => applyB2bPricing(p, b2bInfo.multiplier));
+        result.products = await Promise.all(
+          result.products.map((p: any) => applyB2bPricing(p, b2bInfo))
+        );
       }
     }
 
@@ -180,7 +182,7 @@ export async function getProductById(req: Request, res: Response): Promise<void>
       const b2bInfo = await getB2bUserInfo(req.user.userId);
       console.log(`[B2B DEBUG] b2bInfo:`, b2bInfo);
       if (b2bInfo) {
-        product = applyB2bPricing(product, b2bInfo.multiplier);
+        product = await applyB2bPricing(product, b2bInfo);
       }
     }
 
@@ -213,7 +215,7 @@ export async function getProductBySlug(req: Request, res: Response): Promise<voi
     if (req.user?.userId) {
       const b2bInfo = await getB2bUserInfo(req.user.userId);
       if (b2bInfo) {
-        product = applyB2bPricing(product, b2bInfo.multiplier);
+        product = await applyB2bPricing(product, b2bInfo);
       }
     }
 

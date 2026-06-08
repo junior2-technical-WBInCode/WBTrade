@@ -1,7 +1,7 @@
 import prisma from '../db';
 import { ProductStatus } from '@prisma/client';
 import { Response } from 'express';
-import { calculateB2bPrice } from './b2b-pricing.service';
+import { calculateB2bPriceForProduct } from './b2b-pricing.service';
 
 const HIDDEN_TAGS = ['błąd zdjęcia', 'błąd zdjęcia '];
 const DELIVERY_TAGS = [
@@ -45,6 +45,7 @@ interface FeedProduct {
   price: any;
   barcode: string | null;
   tags: string[];
+  baselinkerProductId: string | null;
   baselinkerCategoryPath: string | null;
   images: { url: string }[];
   category: { name: string } | null;
@@ -66,7 +67,7 @@ function getBrand(product: FeedProduct): string {
   return brandTag ? brandTag.replace('brand:', '').trim() : '';
 }
 
-async function fetchProducts(skip: number, batchSize: number) {
+async function fetchProducts(skip: number, batchSize: number): Promise<FeedProduct[]> {
   return prisma.product.findMany({
     where: {
       status: ProductStatus.ACTIVE,
@@ -83,6 +84,7 @@ async function fetchProducts(skip: number, batchSize: number) {
       price: true,
       barcode: true,
       tags: true,
+      baselinkerProductId: true,
       baselinkerCategoryPath: true,
       images: {
         select: { url: true },
@@ -103,13 +105,17 @@ async function fetchProducts(skip: number, batchSize: number) {
     },
     skip,
     take: batchSize,
-  });
+  }) as unknown as Promise<FeedProduct[]>;
 }
 
 /**
- * Stream B2B XML feed with user-specific pricing
+ * Stream B2B XML feed with user-specific pricing rules
  */
-export async function streamB2bXmlFeed(baseUrl: string, multiplier: number, res: Response): Promise<void> {
+export async function streamB2bXmlFeed(
+  baseUrl: string,
+  b2bInfo: { multiplier: number; wholesalerRules: any },
+  res: Response
+): Promise<void> {
   const BATCH_SIZE = 200;
   let skip = 0;
   let hasMore = true;
@@ -133,7 +139,12 @@ export async function streamB2bXmlFeed(baseUrl: string, multiplier: number, res:
       if (!primaryImage) continue;
 
       const storePrice = Number(product.price);
-      const b2bPrice = calculateB2bPrice(storePrice, multiplier);
+      const b2bPrice = await calculateB2bPriceForProduct(
+        storePrice,
+        product.baselinkerProductId,
+        product.sku,
+        b2bInfo
+      );
       if (b2bPrice <= 0) continue;
 
       const category = product.baselinkerCategoryPath || product.category?.name || '';
@@ -182,9 +193,13 @@ export async function streamB2bXmlFeed(baseUrl: string, multiplier: number, res:
 }
 
 /**
- * Stream B2B CSV feed with user-specific pricing
+ * Stream B2B CSV feed with user-specific pricing rules
  */
-export async function streamB2bCsvFeed(baseUrl: string, multiplier: number, res: Response): Promise<void> {
+export async function streamB2bCsvFeed(
+  baseUrl: string,
+  b2bInfo: { multiplier: number; wholesalerRules: any },
+  res: Response
+): Promise<void> {
   const BATCH_SIZE = 200;
   let skip = 0;
   let hasMore = true;
@@ -208,7 +223,12 @@ export async function streamB2bCsvFeed(baseUrl: string, multiplier: number, res:
       if (!primaryImage) continue;
 
       const storePrice = Number(product.price);
-      const b2bPrice = calculateB2bPrice(storePrice, multiplier);
+      const b2bPrice = await calculateB2bPriceForProduct(
+        storePrice,
+        product.baselinkerProductId,
+        product.sku,
+        b2bInfo
+      );
       if (b2bPrice <= 0) continue;
 
       const category = product.baselinkerCategoryPath || product.category?.name || '';
