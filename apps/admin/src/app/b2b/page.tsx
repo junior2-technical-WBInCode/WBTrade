@@ -175,7 +175,7 @@ export default function AdminB2bPage() {
 
   const openEditModal = (app: B2bApplication) => {
     setEditingPartner(app);
-    setModalMultiplier(app.b2bPriceMultiplier || 1.10);
+    setModalMultiplier(app.b2bPriceMultiplier ? Number(app.b2bPriceMultiplier) : 1.10);
     setModalRules(app.b2bWholesalerRules ? JSON.parse(JSON.stringify(app.b2bWholesalerRules)) : {});
     setActiveModalTab('general');
   };
@@ -537,7 +537,7 @@ export default function AdminB2bPage() {
                         <div className="text-center py-16 space-y-4">
                           <p className="text-sm text-gray-400">
                             Brak indywidualnych reguł dla hurtowni <strong className="text-gray-200">{wh.name}</strong>.
-                            Używany jest mnożnik główny (×{modalMultiplier.toFixed(2)}).
+                            Używany jest mnożnik główny (×{Number(modalMultiplier).toFixed(2)}).
                           </p>
                           <button
                             type="button"
