@@ -879,35 +879,57 @@ export default function OrderDetailPage({ params }: { params: Promise<{ id: stri
               </div>
             )}
 
-            {order.b2bShippingLabel && (
-              <div className="mt-3 p-3 bg-slate-700/50 rounded-lg border border-orange-500/30">
-                <p className="text-sm text-gray-400 mb-2">Etykieta B2B (przesłana przez klienta):</p>
-                <button
-                  onClick={async () => {
-                    const token = getAuthToken();
-                    const res = await fetch(`${API_URL}/b2b-labels/${order.id}`, {
-                      headers: { Authorization: `Bearer ${token}` },
-                    });
-                    if (res.ok) {
-                      const blob = await res.blob();
-                      const disposition = res.headers.get('content-disposition') || '';
-                      const match = disposition.match(/filename="(.+?)"/);
-                      const filename = match ? match[1] : `etykieta-${order.orderNumber}`;
-                      const url = URL.createObjectURL(blob);
-                      const a = document.createElement('a');
-                      a.href = url;
-                      a.download = filename;
-                      a.click();
-                      URL.revokeObjectURL(url);
-                    }
-                  }}
-                  className="flex items-center gap-2 px-3 py-2 bg-orange-500/20 text-orange-400 hover:bg-orange-500/30 rounded-lg text-sm transition-colors"
-                >
-                  <FileText className="w-4 h-4" />
-                  Pobierz etykietę
-                </button>
-              </div>
-            )}
+            {order.b2bShippingLabel && (() => {
+              const parseLabels = (raw: string | null | undefined): string[] => {
+                if (!raw) return [];
+                if (raw.startsWith('[') && raw.endsWith(']')) {
+                  try {
+                    return JSON.parse(raw) as string[];
+                  } catch {
+                    return [raw];
+                  }
+                }
+                return [raw];
+              };
+              const labels = parseLabels(order.b2bShippingLabel);
+              return labels.length > 0 ? (
+                <div className="mt-3 p-3 bg-slate-700/50 rounded-lg border border-orange-500/30 space-y-2">
+                  <p className="text-sm text-gray-400 mb-2">Etykiety B2B (przesłane przez klienta):</p>
+                  <div className="space-y-2">
+                    {labels.map((label, idx) => {
+                      const ext = label.split('.').pop() || 'pdf';
+                      return (
+                        <button
+                          key={idx}
+                          onClick={async () => {
+                            const token = getAuthToken();
+                            const res = await fetch(`${API_URL}/b2b-labels/${order.id}?filename=${label}`, {
+                              headers: { Authorization: `Bearer ${token}` },
+                            });
+                            if (res.ok) {
+                              const blob = await res.blob();
+                              const disposition = res.headers.get('content-disposition') || '';
+                              const match = disposition.match(/filename="(.+?)"/);
+                              const filename = match ? match[1] : `etykieta-${order.orderNumber}-${idx + 1}.${ext}`;
+                              const url = URL.createObjectURL(blob);
+                              const a = document.createElement('a');
+                              a.href = url;
+                              a.download = filename;
+                              a.click();
+                              URL.revokeObjectURL(url);
+                            }
+                          }}
+                          className="flex items-center gap-2 px-3 py-2 bg-orange-500/20 text-orange-400 hover:bg-orange-500/30 rounded-lg text-sm transition-colors w-full text-left"
+                        >
+                          <FileText className="w-4 h-4" />
+                          Pobierz etykietę #{idx + 1} ({ext.toUpperCase()})
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
+              ) : null;
+            })()}
           </div>
 
           {/* Refund Info */}
