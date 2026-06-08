@@ -167,6 +167,7 @@ interface UserResponse {
   // B2B fields
   b2bStatus?: string;
   b2bPriceMultiplier?: number;
+  b2bWholesalerRules?: any;
 }
 
 interface RegisterResult {
@@ -992,6 +993,7 @@ export class SecureAuthService {
     companyPostalCode?: string | null;
     b2bStatus?: any;
     b2bPriceMultiplier?: any;
+    b2bWholesalerRules?: any;
   }): UserResponse {
     return {
       id: user.id,
@@ -1009,6 +1011,7 @@ export class SecureAuthService {
       companyPostalCode: user.companyPostalCode,
       b2bStatus: user.b2bStatus || undefined,
       b2bPriceMultiplier: user.b2bPriceMultiplier ? Number(user.b2bPriceMultiplier) : undefined,
+      b2bWholesalerRules: user.b2bWholesalerRules || undefined,
     };
   }
 

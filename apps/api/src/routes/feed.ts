@@ -275,7 +275,7 @@ router.get('/b2b/xml', authGuard, async (req: Request, res: Response) => {
       'Transfer-Encoding': 'chunked',
     });
 
-    await streamB2bXmlFeed(baseUrl, b2bInfo.multiplier, res);
+    await streamB2bXmlFeed(baseUrl, b2bInfo, res);
   } catch (error) {
     console.error('Error generating B2B XML feed:', error);
     if (!res.headersSent) {
@@ -308,7 +308,7 @@ router.get('/b2b/csv', authGuard, async (req: Request, res: Response) => {
       'Transfer-Encoding': 'chunked',
     });
 
-    await streamB2bCsvFeed(baseUrl, b2bInfo.multiplier, res);
+    await streamB2bCsvFeed(baseUrl, b2bInfo, res);
   } catch (error) {
     console.error('Error generating B2B CSV feed:', error);
     if (!res.headersSent) {

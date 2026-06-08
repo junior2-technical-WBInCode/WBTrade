@@ -55,6 +55,7 @@ interface UserResponse {
   // B2B fields
   b2bStatus?: string | null;
   b2bPriceMultiplier?: any;
+  b2bWholesalerRules?: any;
 }
 
 // Constants
@@ -513,6 +514,7 @@ export class AuthService {
     companyPostalCode?: string | null;
     b2bStatus?: string | null;
     b2bPriceMultiplier?: any;
+    b2bWholesalerRules?: any;
   }): UserResponse {
     const { password, ...sanitized } = user;
     return sanitized as UserResponse;

@@ -5,7 +5,7 @@ import { popularityService } from './popularity.service';
 import { roundMoney, addMoney, subtractMoney } from '../lib/currency';
 import { createBaselinkerProvider } from '../providers/baselinker';
 import { decryptToken } from '../lib/encryption';
-import { getB2bUserInfo, calculateB2bPrice } from './b2b-pricing.service';
+import { getB2bUserInfo, calculateB2bPriceForProduct } from './b2b-pricing.service';
 
 // Courier name mapping for display
 const COURIER_NAMES: Record<string, string> = {
@@ -216,12 +216,17 @@ export class OrdersService {
       data.items.map(async (item) => {
         const variant = await prisma.productVariant.findUnique({
           where: { id: item.variantId },
-          include: { product: { select: { name: true } } },
+          include: { product: { select: { name: true, baselinkerProductId: true } } },
         });
         let realPrice = variant ? Number(variant.price) : item.unitPrice;
         // Apply B2B pricing for B2B partners
-        if (b2bInfo) {
-          realPrice = calculateB2bPrice(realPrice, b2bInfo.multiplier);
+        if (b2bInfo && variant) {
+          realPrice = await calculateB2bPriceForProduct(
+            realPrice,
+            variant.product.baselinkerProductId,
+            variant.sku,
+            b2bInfo
+          );
         }
         if (variant && !b2bInfo && Math.abs(realPrice - item.unitPrice) > 0.01) {
           console.warn(`[SECURITY] Price mismatch for variant ${item.variantId}: client sent ${item.unitPrice}, DB price is ${realPrice}`);

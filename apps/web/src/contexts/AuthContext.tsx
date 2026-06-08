@@ -19,6 +19,7 @@ interface User {
   // B2B fields
   b2bStatus?: string;
   b2bPriceMultiplier?: number;
+  b2bWholesalerRules?: any;
 }
 
 interface AuthTokens {

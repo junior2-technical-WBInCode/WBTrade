@@ -1,7 +1,7 @@
 import { prisma } from '../db';
 import { roundMoney } from '../lib/currency';
 import { saleCampaignService } from './sale-campaign.service';
-import { getB2bUserInfo, calculateB2bPrice } from './b2b-pricing.service';
+import { getB2bUserInfo, calculateB2bPriceForProduct } from './b2b-pricing.service';
 
 export interface CartWithItems {
   id: string;
@@ -570,6 +570,7 @@ export class CartService {
                 slug: true,
                 price: true,
                 tags: true,
+                baselinkerProductId: true,
                 images: {
                   orderBy: { order: 'asc' as const },
                   take: 1,
@@ -612,52 +613,58 @@ export class CartService {
    */
   private async formatCart(cart: any): Promise<CartWithItems> {
     // Check if cart belongs to a B2B user
-    let b2bMultiplier: number | null = null;
+    let b2bInfo: any = null;
     if (cart.userId) {
-      const b2bInfo = await getB2bUserInfo(cart.userId);
-      if (b2bInfo) b2bMultiplier = b2bInfo.multiplier;
+      b2bInfo = await getB2bUserInfo(cart.userId);
     }
 
-    const items: CartItemWithProduct[] = cart.items.map((item: any) => {
-      // Use variant price, but fallback to product price if variant price is 0
-      const variantPrice = Number(item.variant.price);
-      const productPrice = Number(item.variant.product.price || 0);
-      let effectivePrice = variantPrice > 0 ? variantPrice : productPrice;
+    const items: CartItemWithProduct[] = await Promise.all(
+      cart.items.map(async (item: any) => {
+        // Use variant price, but fallback to product price if variant price is 0
+        const variantPrice = Number(item.variant.price);
+        const productPrice = Number(item.variant.product.price || 0);
+        let effectivePrice = variantPrice > 0 ? variantPrice : productPrice;
 
-      // Apply B2B pricing
-      if (b2bMultiplier) {
-        effectivePrice = calculateB2bPrice(effectivePrice, b2bMultiplier);
-      }
-      const tags = item.variant.product.tags || [];
-      const wholesaler = this.getWholesaler(tags);
-      
-      return {
-        id: item.id,
-        quantity: item.quantity,
-        variant: {
-          id: item.variant.id,
-          name: item.variant.name,
-          sku: item.variant.sku,
-          price: effectivePrice,
-          compareAtPrice: item.variant.compareAtPrice
-            ? Number(item.variant.compareAtPrice)
-            : null,
-          attributes: item.variant.attributes,
-          product: {
-            id: item.variant.product.id,
-            name: item.variant.product.name,
-            slug: item.variant.product.slug,
-            images: item.variant.product.images,
-            tags: tags,
-            wholesaler: wholesaler,
+        // Apply B2B pricing
+        if (b2bInfo) {
+          effectivePrice = await calculateB2bPriceForProduct(
+            effectivePrice,
+            item.variant.product.baselinkerProductId,
+            item.variant.sku,
+            b2bInfo
+          );
+        }
+        const tags = item.variant.product.tags || [];
+        const wholesaler = this.getWholesaler(tags);
+        
+        return {
+          id: item.id,
+          quantity: item.quantity,
+          variant: {
+            id: item.variant.id,
+            name: item.variant.name,
+            sku: item.variant.sku,
+            price: effectivePrice,
+            compareAtPrice: item.variant.compareAtPrice
+              ? Number(item.variant.compareAtPrice)
+              : null,
+            attributes: item.variant.attributes,
+            product: {
+              id: item.variant.product.id,
+              name: item.variant.product.name,
+              slug: item.variant.product.slug,
+              images: item.variant.product.images,
+              tags: tags,
+              wholesaler: wholesaler,
+            },
+            inventory: item.variant.inventory.map((inv: any) => ({
+              quantity: inv.quantity,
+              reserved: inv.reserved,
+            })),
           },
-          inventory: item.variant.inventory.map((inv: any) => ({
-            quantity: inv.quantity,
-            reserved: inv.reserved,
-          })),
-        },
-      };
-    });
+        };
+      })
+    );
 
     const subtotal = roundMoney(items.reduce(
       (sum, item) => sum + item.variant.price * item.quantity,

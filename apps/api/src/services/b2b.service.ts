@@ -17,6 +17,7 @@ export class B2bService {
         nip: true,
         b2bApprovedAt: true,
         b2bPriceMultiplier: true,
+        b2bWholesalerRules: true,
         role: true,
       },
     });
@@ -29,6 +30,7 @@ export class B2bService {
       nip: user.nip,
       approvedAt: user.b2bApprovedAt,
       priceMultiplier: user.b2bPriceMultiplier ? Number(user.b2bPriceMultiplier) : null,
+      b2bWholesalerRules: user.b2bWholesalerRules,
       isB2b: user.role === 'B2B_PARTNER',
     };
   }
@@ -197,7 +199,7 @@ export class B2bService {
   /**
    * Update B2B price multiplier for a user (admin action)
    */
-  async updateMultiplier(userId: string, multiplier: number, adminId: string) {
+  async updateMultiplier(userId: string, multiplier: number, adminId: string, wholesalerRules?: any) {
     if (multiplier < 1.0 || multiplier > 5.0) {
       throw new Error('Mnożnik musi być pomiędzy 1.00 a 5.00');
     }
@@ -208,12 +210,17 @@ export class B2bService {
       throw new Error('Użytkownik nie jest partnerem B2B');
     }
 
+    const updateData: any = { b2bPriceMultiplier: multiplier };
+    if (wholesalerRules !== undefined) {
+      updateData.b2bWholesalerRules = wholesalerRules;
+    }
+
     await prisma.user.update({
       where: { id: userId },
-      data: { b2bPriceMultiplier: multiplier },
+      data: updateData,
     });
 
-    return { multiplier };
+    return { multiplier, wholesalerRules };
   }
 
   /**
@@ -242,6 +249,7 @@ export class B2bService {
         companyPostalCode: true,
         b2bStatus: true,
         b2bPriceMultiplier: true,
+        b2bWholesalerRules: true,
         b2bApprovedAt: true,
         b2bApprovedBy: true,
         b2bNotes: true,
@@ -268,6 +276,7 @@ export class B2bService {
         nip: true,
         b2bStatus: true,
         b2bPriceMultiplier: true,
+        b2bWholesalerRules: true,
         b2bApprovedAt: true,
         b2bNotes: true,
         createdAt: true,
