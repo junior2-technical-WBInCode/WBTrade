@@ -14,6 +14,19 @@ if (!fs.existsSync(labelsDir)) {
   fs.mkdirSync(labelsDir, { recursive: true });
 }
 
+// Helper to parse stored labels
+function parseLabels(b2bShippingLabel: string | null | undefined): string[] {
+  if (!b2bShippingLabel) return [];
+  if (b2bShippingLabel.startsWith('[') && b2bShippingLabel.endsWith(']')) {
+    try {
+      return JSON.parse(b2bShippingLabel) as string[];
+    } catch {
+      return [b2bShippingLabel];
+    }
+  }
+  return [b2bShippingLabel];
+}
+
 // Storage for label files
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
@@ -51,21 +64,39 @@ const upload = multer({
  * POST /api/b2b-labels/:orderId
  * Upload a shipping label for a B2B order (user must own the order)
  */
-router.post('/:orderId', authGuard, upload.single('label'), async (req: Request, res: Response) => {
+router.post('/:orderId', authGuard, upload.array('label', 100), async (req: Request, res: Response) => {
   try {
     const { orderId } = req.params;
     const userId = req.user!.userId;
+    const files = req.files as Express.Multer.File[];
 
-    if (!req.file) {
-      res.status(400).json({ error: 'Nie przesłano pliku' });
+    if (!files || files.length === 0) {
+      res.status(400).json({ error: 'Nie przesłano plików' });
       return;
     }
 
-    // Validate uploaded file path is within labels directory
-    const uploadedFilePath = path.resolve(req.file.path);
-    if (!uploadedFilePath.startsWith(path.resolve(labelsDir))) {
-      res.status(400).json({ error: 'Nieprawidłowa ścieżka pliku' });
-      return;
+    // Clean up function in case of error/rejection
+    const cleanUpFiles = () => {
+      for (const file of files) {
+        try {
+          const uploadedFilePath = path.resolve(file.path);
+          if (fs.existsSync(uploadedFilePath)) {
+            fs.unlinkSync(uploadedFilePath);
+          }
+        } catch (err) {
+          console.error('Error cleaning up file:', err);
+        }
+      }
+    };
+
+    // Validate uploaded files paths are within labels directory
+    for (const file of files) {
+      const uploadedFilePath = path.resolve(file.path);
+      if (!uploadedFilePath.startsWith(path.resolve(labelsDir))) {
+        cleanUpFiles();
+        res.status(400).json({ error: 'Nieprawidłowa ścieżka pliku' });
+        return;
+      }
     }
 
     // Verify order belongs to user and uses B2B shipping
@@ -75,41 +106,35 @@ router.post('/:orderId', authGuard, upload.single('label'), async (req: Request,
     });
 
     if (!order) {
-      // Clean up uploaded file
-      fs.unlinkSync(uploadedFilePath);
+      cleanUpFiles();
       res.status(404).json({ error: 'Zamówienie nie znalezione' });
       return;
     }
 
     if (order.shippingMethod !== 'b2b_wysylka_wlasna') {
-      fs.unlinkSync(uploadedFilePath);
+      cleanUpFiles();
       res.status(400).json({ error: 'To zamówienie nie korzysta z wysyłki własnej B2B' });
       return;
     }
 
-    // Remove old label file if exists
-    if (order.b2bShippingLabel) {
-      const sanitizedOld = path.basename(order.b2bShippingLabel);
-      const oldPath = path.join(labelsDir, sanitizedOld);
-      if (fs.existsSync(oldPath)) {
-        fs.unlinkSync(oldPath);
-      }
-    }
+    // Append new filenames to existing ones
+    const currentLabels = parseLabels(order.b2bShippingLabel);
+    const newFilenames = files.map(file => file.filename);
+    const updatedLabels = [...currentLabels, ...newFilenames];
 
-    // Save filename to order
+    // Save filenames to order as JSON array
     await prisma.order.update({
       where: { id: orderId },
-      data: { b2bShippingLabel: req.file.filename },
+      data: { b2bShippingLabel: JSON.stringify(updatedLabels) },
     });
 
     res.json({
       success: true,
-      filename: req.file.filename,
-      originalName: req.file.originalname,
+      filenames: newFilenames,
     });
   } catch (error) {
-    console.error('Error uploading B2B label:', error);
-    res.status(500).json({ error: 'Nie udało się przesłać etykiety' });
+    console.error('Error uploading B2B labels:', error);
+    res.status(500).json({ error: 'Nie udało się przesłać etykiet' });
   }
 });
 
@@ -139,7 +164,26 @@ router.get('/:orderId', authGuard, async (req: Request, res: Response) => {
       return;
     }
 
-    const sanitizedLabel = path.basename(order.b2bShippingLabel);
+    const labels = parseLabels(order.b2bShippingLabel);
+    if (labels.length === 0) {
+      res.status(404).json({ error: 'Brak przypisanych etykiet' });
+      return;
+    }
+
+    // Get requested filename or default to first one
+    const requestedFilename = req.query.filename as string;
+    let filenameToServe = labels[0];
+
+    if (requestedFilename) {
+      const match = labels.find(l => l === requestedFilename || path.basename(l) === path.basename(requestedFilename));
+      if (!match) {
+        res.status(404).json({ error: 'Żądana etykieta nie została znaleziona w tym zamówieniu' });
+        return;
+      }
+      filenameToServe = match;
+    }
+
+    const sanitizedLabel = path.basename(filenameToServe);
     const filePath = path.join(labelsDir, sanitizedLabel);
     if (!fs.existsSync(filePath)) {
       res.status(404).json({ error: 'Plik etykiety nie istnieje' });
@@ -148,7 +192,11 @@ router.get('/:orderId', authGuard, async (req: Request, res: Response) => {
 
     const ext = path.extname(sanitizedLabel).toLowerCase();
     const contentType = ext === '.pdf' ? 'application/pdf' : `image/${ext.replace('.', '')}`;
-    const downloadName = `etykieta-${order.orderNumber}${ext}`;
+    
+    // Create download name with index or filename
+    const fileIndex = labels.indexOf(filenameToServe);
+    const indexSuffix = fileIndex >= 0 ? `-${fileIndex + 1}` : '';
+    const downloadName = `etykieta-${order.orderNumber}${indexSuffix}${ext}`;
 
     res.set({
       'Content-Type': contentType,
@@ -182,16 +230,51 @@ router.delete('/:orderId', authGuard, async (req: Request, res: Response) => {
       return;
     }
 
-    const sanitizedLabel = path.basename(order.b2bShippingLabel);
-    const filePath = path.join(labelsDir, sanitizedLabel);
-    if (fs.existsSync(filePath)) {
-      fs.unlinkSync(filePath);
+    const labels = parseLabels(order.b2bShippingLabel);
+    if (labels.length === 0) {
+      res.status(404).json({ error: 'Etykieta nie znaleziona' });
+      return;
     }
 
-    await prisma.order.update({
-      where: { id: orderId },
-      data: { b2bShippingLabel: null },
-    });
+    const requestedFilename = req.query.filename as string;
+
+    if (requestedFilename) {
+      const match = labels.find(l => l === requestedFilename || path.basename(l) === path.basename(requestedFilename));
+      if (!match) {
+        res.status(404).json({ error: 'Żądana etykieta nie została znaleziona w tym zamówieniu' });
+        return;
+      }
+
+      // Delete physical file
+      const sanitizedLabel = path.basename(match);
+      const filePath = path.join(labelsDir, sanitizedLabel);
+      if (fs.existsSync(filePath)) {
+        fs.unlinkSync(filePath);
+      }
+
+      // Filter out deleted filename
+      const remainingLabels = labels.filter(l => l !== match);
+      await prisma.order.update({
+        where: { id: orderId },
+        data: {
+          b2bShippingLabel: remainingLabels.length > 0 ? JSON.stringify(remainingLabels) : null
+        },
+      });
+    } else {
+      // Delete all files associated
+      for (const label of labels) {
+        const sanitizedLabel = path.basename(label);
+        const filePath = path.join(labelsDir, sanitizedLabel);
+        if (fs.existsSync(filePath)) {
+          fs.unlinkSync(filePath);
+        }
+      }
+
+      await prisma.order.update({
+        where: { id: orderId },
+        data: { b2bShippingLabel: null },
+      });
+    }
 
     res.json({ success: true });
   } catch (error) {
