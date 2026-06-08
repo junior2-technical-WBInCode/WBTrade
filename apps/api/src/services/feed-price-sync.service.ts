@@ -86,11 +86,17 @@ export class FeedPriceSyncService {
   private async getFeedContent(urlOrPath: string): Promise<string> {
     if (urlOrPath.startsWith('http://') || urlOrPath.startsWith('https://')) {
       console.log(`Downloading feed from: ${urlOrPath}`);
-      const response = await fetch(urlOrPath);
-      if (!response.ok) {
-        throw new Error(`Failed to download feed. Status: ${response.status} ${response.statusText}`);
+      const controller = new AbortController();
+      const timeout = setTimeout(() => controller.abort(), 5 * 60 * 1000); // 5 min timeout
+      try {
+        const response = await fetch(urlOrPath, { signal: controller.signal });
+        if (!response.ok) {
+          throw new Error(`Failed to download feed. Status: ${response.status} ${response.statusText}`);
+        }
+        return await response.text();
+      } finally {
+        clearTimeout(timeout);
       }
-      return await response.text();
     } else {
       console.log(`Reading feed from local file: ${urlOrPath}`);
       const fs = require('fs');
