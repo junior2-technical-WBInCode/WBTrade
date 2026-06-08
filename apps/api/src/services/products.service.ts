@@ -1701,49 +1701,107 @@ export class ProductsService {
   }
 
   /**
-   * Count products per main category (and subcategories) with given filters applied.
-   * Returns { [categorySlug]: count } for all main categories.
+   * Count products per category (and subcategories) with given filters applied.
+   * Returns { [categorySlug]: count } for all active categories.
    */
   private async getCategoryCounts(baseFilter: Prisma.ProductWhereInput): Promise<Record<string, number>> {
-    // Get main categories (those with order > 0, no parent)
-    const mainCategories = await prisma.category.findMany({
-      where: { parentId: null, order: { gt: 0 } },
-      include: {
-        children: {
-          include: {
-            children: true,
-          },
-        },
+    const HIDDEN_CATEGORY_NAMES = [
+      'do zrobienia',
+      'kategoria tymczasowa',
+      '*kategoria tymczasowa',
+      'hurtownia sportowa',
+      '- hurtownia sportowa',
+      '-hurtownia sportowa',
+      'import z pmsport',
+      'w przygotowaniu'
+    ];
+
+    // 1. Fetch active categories
+    const categories = await prisma.category.findMany({
+      where: { 
+        isActive: true,
+        name: { notIn: HIDDEN_CATEGORY_NAMES, mode: 'insensitive' },
       },
+      select: {
+        id: true,
+        name: true,
+        slug: true,
+        parentId: true,
+      }
     });
 
-    // For each main category, count products matching base filter + in that category tree
-    // Remove any existing categoryId filter from baseFilter
+    // 2. Remove any existing categoryId filter from baseFilter
     const { categoryId: _removed, ...filterWithoutCategory } = baseFilter;
 
-    const counts = await Promise.all(
-      mainCategories.map(async (cat) => {
-        const categoryIds = [cat.id];
-        cat.children.forEach((child) => {
-          categoryIds.push(child.id);
-          child.children.forEach((grandchild) => {
-            categoryIds.push(grandchild.id);
-          });
-        });
-        const count = await prisma.product.count({
-          where: {
-            ...filterWithoutCategory,
-            categoryId: { in: categoryIds },
-          },
-        });
-        return { slug: cat.slug, count };
-      })
-    );
+    // 3. Group products by categoryId in a single query
+    const groupedCounts = await prisma.product.groupBy({
+      by: ['categoryId'],
+      where: {
+        ...filterWithoutCategory,
+        categoryId: { not: null },
+      },
+      _count: { id: true },
+    });
+
+    const productCountsMap = new Map<string, number>();
+    for (const group of groupedCounts) {
+      if (group.categoryId) {
+        productCountsMap.set(group.categoryId, group._count.id);
+      }
+    }
+
+    // 4. Roll up counts in-memory using parent-child map
+    const childrenMap = new Map<string | null, typeof categories>();
+    for (const cat of categories) {
+      const parentId = cat.parentId;
+      if (!childrenMap.has(parentId)) {
+        childrenMap.set(parentId, []);
+      }
+      childrenMap.get(parentId)!.push(cat);
+    }
+
+    const getDescendants = (id: string): string[] => {
+      const list: string[] = [id];
+      const children = childrenMap.get(id) || [];
+      for (const child of children) {
+        list.push(...getDescendants(child.id));
+      }
+      return list;
+    };
+
+    const prefixes = ['btp-', 'hp-', 'leker-', 'ikonka-', 'dofirmy-'];
+    const getMatchingCategoryIds = (slug: string): string[] => {
+      const matchedCategories = categories.filter(c => 
+        c.slug === slug || prefixes.some(prefix => c.slug.startsWith(`${prefix}${slug}`))
+      );
+      const matchedIds: string[] = [];
+      for (const mc of matchedCategories) {
+        matchedIds.push(...getDescendants(mc.id));
+      }
+      return [...new Set(matchedIds)];
+    };
+
+    const rawCountMap = new Map<string, number>();
+    for (const cat of categories) {
+      const matchedIds = getMatchingCategoryIds(cat.slug);
+      const totalCount = matchedIds.reduce((sum, id) => sum + (productCountsMap.get(id) || 0), 0);
+      rawCountMap.set(cat.id, totalCount);
+    }
+
+    // Deduplicate by name (case-insensitive) just like categories.service.ts does
+    const nameCountsMap = new Map<string, number>();
+    for (const cat of categories) {
+      const nameKey = cat.name.toLowerCase().trim();
+      const count = rawCountMap.get(cat.id) || 0;
+      nameCountsMap.set(nameKey, (nameCountsMap.get(nameKey) || 0) + count);
+    }
 
     const result: Record<string, number> = {};
-    for (const { slug, count } of counts) {
-      result[slug] = count;
+    for (const cat of categories) {
+      const nameKey = cat.name.toLowerCase().trim();
+      result[cat.slug] = nameCountsMap.get(nameKey) || 0;
     }
+
     return result;
   }
 
