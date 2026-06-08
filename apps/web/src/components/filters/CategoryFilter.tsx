@@ -110,7 +110,7 @@ function CategoryFilterContent({ categoryCounts }: CategoryFilterProps) {
             {cleanCategoryName(category.name)}
             {(() => {
               const count = categoryCounts?.[category.slug] ?? category.productCount;
-              return count !== undefined && count > 0 ? (
+              return count !== undefined ? (
                 <span className="text-gray-400 dark:text-gray-500 text-xs ml-1">({count.toLocaleString()})</span>
               ) : null;
             })()}
