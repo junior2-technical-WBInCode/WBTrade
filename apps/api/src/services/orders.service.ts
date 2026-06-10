@@ -266,7 +266,7 @@ export class OrdersService {
     const tax = 0; // VAT already included in prices
     const total = roundMoney(subtotal + shipping - discount);
 
-    return prisma.$transaction(async (tx) => {
+    const order = await prisma.$transaction(async (tx) => {
       // NOTE: Coupon usedCount is incremented when payment is confirmed (payment.service.ts)
       // NOT here at order creation, to prevent coupon loss on unpaid/abandoned orders
       
@@ -354,24 +354,26 @@ export class OrdersService {
         });
       }
 
-      // Sync order to Baselinker immediately with "Nieopłacone" status
-      // This is done outside transaction to not block order creation
-      setTimeout(() => {
-        baselinkerOrdersService.syncOrderToBaselinker(order.id, { skipPaymentCheck: true })
-          .then((syncResult) => {
-            if (syncResult.success) {
-              console.log(`[OrdersService] Order ${order.orderNumber} synced to Baselinker as unpaid (BL ID: ${syncResult.baselinkerOrderId})`);
-            } else {
-              console.error(`[OrdersService] Failed to sync order ${order.orderNumber} to Baselinker:`, syncResult.error);
-            }
-          })
-          .catch((err) => {
-            console.error(`[OrdersService] Baselinker sync error for order ${order.orderNumber}:`, err);
-          });
-      }, 100);
-
       return order;
     });
+
+    // Sync order to Baselinker immediately with "Nieopłacone" status
+    // This is done outside transaction to not block order creation, and after transaction commits to avoid race conditions.
+    setTimeout(() => {
+      baselinkerOrdersService.syncOrderToBaselinker(order.id, { skipPaymentCheck: true })
+        .then((syncResult) => {
+          if (syncResult.success) {
+            console.log(`[OrdersService] Order ${order.orderNumber} synced to Baselinker as unpaid (BL ID: ${syncResult.baselinkerOrderId})`);
+          } else {
+            console.error(`[OrdersService] Failed to sync order ${order.orderNumber} to Baselinker:`, syncResult.error);
+          }
+        })
+        .catch((err) => {
+          console.error(`[OrdersService] Baselinker sync error for order ${order.orderNumber}:`, err);
+        });
+    }, 100);
+
+    return order;
   }
 
   /**
