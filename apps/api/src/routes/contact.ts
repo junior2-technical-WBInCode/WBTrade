@@ -45,13 +45,23 @@ async function checkComplaintEligibility(orderNumber: string): Promise<{
   // Try to find by orderNumber first, then by ID
   let order = await prisma.order.findUnique({
     where: { orderNumber: sanitizedOrderNumber },
-    select: { id: true, status: true, orderNumber: true },
+    select: {
+      id: true,
+      status: true,
+      orderNumber: true,
+      user: { select: { role: true } },
+    },
   });
 
   if (!order) {
     order = await prisma.order.findUnique({
       where: { id: sanitizedOrderNumber },
-      select: { id: true, status: true, orderNumber: true },
+      select: {
+        id: true,
+        status: true,
+        orderNumber: true,
+        user: { select: { role: true } },
+      },
     });
   }
 
@@ -59,9 +69,17 @@ async function checkComplaintEligibility(orderNumber: string): Promise<{
     return { eligible: false, reason: 'Zamówienie nie zostało znalezione' };
   }
 
-  // Only DELIVERED or SHIPPED orders can have complaints filed
-  if (!['DELIVERED', 'SHIPPED'].includes(order.status)) {
-    return { eligible: false, reason: 'Reklamację można zgłosić tylko dla zamówień dostarczonych lub w trakcie dostawy' };
+  const isB2B = order.user?.role === 'B2B_PARTNER';
+  const allowedStatuses = isB2B ? ['DELIVERED', 'SHIPPED', 'CONFIRMED'] : ['DELIVERED', 'SHIPPED'];
+
+  // Only DELIVERED, SHIPPED (and CONFIRMED for B2B) orders can have complaints filed
+  if (!allowedStatuses.includes(order.status)) {
+    return {
+      eligible: false,
+      reason: isB2B
+        ? 'Reklamację można zgłosić tylko dla zamówień opłaconych, dostarczonych lub w trakcie dostawy'
+        : 'Reklamację można zgłosić tylko dla zamówień dostarczonych lub w trakcie dostawy',
+    };
   }
 
   // Already refunded
@@ -102,6 +120,7 @@ router.get('/return-eligibility/:orderNumber', async (req: Request, res: Respons
     let order = await prisma.order.findUnique({
       where: { orderNumber: sanitized },
       include: {
+        user: { select: { role: true } },
         statusHistory: {
           where: { status: 'DELIVERED' },
           orderBy: { createdAt: 'desc' as const },
@@ -113,6 +132,7 @@ router.get('/return-eligibility/:orderNumber', async (req: Request, res: Respons
       order = await prisma.order.findUnique({
         where: { id: sanitized },
         include: {
+          user: { select: { role: true } },
           statusHistory: {
             where: { status: 'DELIVERED' },
             orderBy: { createdAt: 'desc' as const },
@@ -126,7 +146,10 @@ router.get('/return-eligibility/:orderNumber', async (req: Request, res: Respons
       return res.json({ eligible: false, reason: 'Zamówienie nie zostało znalezione' });
     }
 
-    if (!['DELIVERED', 'SHIPPED'].includes(order.status)) {
+    const isB2B = order.user?.role === 'B2B_PARTNER';
+    const allowedStatuses = isB2B ? ['DELIVERED', 'SHIPPED', 'CONFIRMED'] : ['DELIVERED', 'SHIPPED'];
+
+    if (!allowedStatuses.includes(order.status)) {
       return res.json({ eligible: false, reason: 'Zamówienie nie może zostać zwrócone w obecnym statusie' });
     }
 
@@ -522,6 +545,7 @@ router.post('/return-request', optionalAuth, async (req: Request, res: Response)
       select: {
         id: true, status: true, orderNumber: true, userId: true, guestEmail: true,
         items: { select: { id: true, quantity: true } },
+        user: { select: { role: true } },
       },
     });
 
@@ -531,6 +555,7 @@ router.post('/return-request', optionalAuth, async (req: Request, res: Response)
         select: {
           id: true, status: true, orderNumber: true, userId: true, guestEmail: true,
           items: { select: { id: true, quantity: true } },
+          user: { select: { role: true } },
         },
       });
     }
@@ -539,12 +564,15 @@ router.post('/return-request', optionalAuth, async (req: Request, res: Response)
       return res.status(400).json({ success: false, message: 'Zamówienie nie zostało znalezione' });
     }
 
-    if (!['DELIVERED', 'SHIPPED'].includes(order.status)) {
+    const isB2B = (order as any).user?.role === 'B2B_PARTNER';
+    const allowedStatuses = isB2B ? ['DELIVERED', 'SHIPPED', 'CONFIRMED'] : ['DELIVERED', 'SHIPPED'];
+
+    if (!allowedStatuses.includes(order.status)) {
       return res.status(400).json({
         success: false,
         message: type === 'RETURN'
-          ? 'Zwrot można zgłosić tylko dla zamówień dostarczonych lub w trakcie dostawy'
-          : 'Reklamację można zgłosić tylko dla zamówień dostarczonych lub w trakcie dostawy',
+          ? (isB2B ? 'Zwrot można zgłosić dla zamówień opłaconych, dostarczonych lub w drodze' : 'Zwrot można zgłosić tylko dla zamówień dostarczonych lub w trakcie dostawy')
+          : (isB2B ? 'Reklamację można zgłosić dla zamówień opłaconych, dostarczonych lub w drodze' : 'Reklamację można zgłosić tylko dla zamówień dostarczonych lub w trakcie dostawy'),
       });
     }
 
