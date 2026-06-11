@@ -664,6 +664,7 @@ export class OrdersService {
     let order = await prisma.order.findUnique({
       where: { id },
       include: {
+        user: { select: { role: true } },
         statusHistory: {
           where: { status: 'DELIVERED' },
           orderBy: { createdAt: 'desc' },
@@ -677,6 +678,7 @@ export class OrdersService {
       order = await prisma.order.findUnique({
         where: { orderNumber: id },
         include: {
+          user: { select: { role: true } },
           statusHistory: {
             where: { status: 'DELIVERED' },
             orderBy: { createdAt: 'desc' },
@@ -692,8 +694,11 @@ export class OrdersService {
 
     // Ownership is verified in the controller (authGuard / guest email check)
 
-    // Only DELIVERED or SHIPPED orders can be refunded
-    if (!['DELIVERED', 'SHIPPED'].includes(order.status)) {
+    const isB2B = order.user?.role === 'B2B_PARTNER';
+    const allowedStatuses = isB2B ? ['DELIVERED', 'SHIPPED', 'CONFIRMED'] : ['DELIVERED', 'SHIPPED'];
+
+    // Only DELIVERED, SHIPPED (and CONFIRMED for B2B) orders can be refunded
+    if (!allowedStatuses.includes(order.status)) {
       return { eligible: false, reason: 'Zamówienie nie może zostać zwrócone w obecnym statusie' };
     }
 
@@ -860,13 +865,19 @@ export class OrdersService {
     return prisma.$transaction(async (tx) => {
       const order = await tx.order.findUnique({
         where: { id },
-        include: { items: true },
+        include: {
+          items: true,
+          user: { select: { role: true } },
+        },
       });
 
       if (!order) return null;
 
-      // Only allow refund for delivered or shipped orders
-      if (!['DELIVERED', 'SHIPPED'].includes(order.status)) {
+      const isB2B = order.user?.role === 'B2B_PARTNER';
+      const allowedStatuses = isB2B ? ['DELIVERED', 'SHIPPED', 'CONFIRMED'] : ['DELIVERED', 'SHIPPED'];
+
+      // Only allow refund for delivered, shipped (and CONFIRMED for B2B) orders
+      if (!allowedStatuses.includes(order.status)) {
         throw new Error('Order cannot be refunded in current status');
       }
 
@@ -877,11 +888,12 @@ export class OrdersService {
 
         await tx.inventory.updateMany({
           where: { variantId: item.variantId },
-          data: {
+          data: wasShipped ? {
             // Add stock back (it was decremented on shipment)
             quantity: { increment: item.quantity },
-            // If somehow reservation still exists (e.g. direct status change), clear it
-            ...(wasShipped ? {} : { reserved: { decrement: item.quantity } }),
+          } : {
+            // Release reservation (it was reserved but never shipped in DB)
+            reserved: { decrement: item.quantity },
           },
         });
       }
