@@ -236,8 +236,16 @@ export class FeedPriceSyncService {
           if (bruttoPrice > 0) {
             const data = { wholesalePrice: bruttoPrice };
             if (ean) feedItemsMap.set(ean, data);
-            if (id) feedItemsBySkuMap.set('LEKER-' + id, data);
-            if (reference) feedItemsBySkuMap.set('LEKER-' + reference, data);
+            if (id) {
+              feedItemsBySkuMap.set('LEKER-' + id, data);
+              feedItemsBySkuMap.set('leker-' + id, data);
+              feedItemsBySkuMap.set(id, data);
+            }
+            if (reference) {
+              feedItemsBySkuMap.set('LEKER-' + reference, data);
+              feedItemsBySkuMap.set('leker-' + reference, data);
+              feedItemsBySkuMap.set(reference, data);
+            }
           }
         }
       } 
@@ -256,8 +264,16 @@ export class FeedPriceSyncService {
           if (grossPrice > 0) {
             const data = { wholesalePrice: grossPrice, srp: retailPrice > 0 ? retailPrice : undefined };
             if (ean) feedItemsMap.set(ean, data);
-            if (manufacturerCode) feedItemsBySkuMap.set('BTP-' + manufacturerCode, data);
-            if (supplierCode) feedItemsBySkuMap.set('BTP-' + supplierCode, data);
+            if (manufacturerCode) {
+              feedItemsBySkuMap.set('BTP-' + manufacturerCode, data);
+              feedItemsBySkuMap.set('btp-' + manufacturerCode, data);
+              feedItemsBySkuMap.set(manufacturerCode, data);
+            }
+            if (supplierCode) {
+              feedItemsBySkuMap.set('BTP-' + supplierCode, data);
+              feedItemsBySkuMap.set('btp-' + supplierCode, data);
+              feedItemsBySkuMap.set(supplierCode, data);
+            }
           }
         }
       } 
@@ -268,7 +284,10 @@ export class FeedPriceSyncService {
           const price = parseFloat(this.getAttr(node, 'price') || '0');
           const id = this.getAttr(node, 'id');
           if (id && price > 0) {
-            feedItemsBySkuMap.set(id, { wholesalePrice: price });
+            const data = { wholesalePrice: price };
+            feedItemsBySkuMap.set(id, data);
+            feedItemsBySkuMap.set('hp-' + id, data);
+            feedItemsBySkuMap.set('HP-' + id, data);
           }
         }
       } 
@@ -282,9 +301,13 @@ export class FeedPriceSyncService {
           if (code && price > 0) {
             const data = { wholesalePrice: price };
             feedItemsBySkuMap.set('DOFIRMY-' + code, data);
+            feedItemsBySkuMap.set('dofirmy-' + code, data);
+            feedItemsBySkuMap.set(code, data);
             if (ean) {
               feedItemsMap.set(ean, data);
               feedItemsBySkuMap.set('DOFIRMY-' + ean, data);
+              feedItemsBySkuMap.set('dofirmy-' + ean, data);
+              feedItemsBySkuMap.set(ean, data);
             }
           }
         }
@@ -301,8 +324,17 @@ export class FeedPriceSyncService {
 
           if (priceGross > 0) {
             const data = { wholesalePrice: priceGross, srp: srpGross > 0 ? srpGross : undefined };
-            if (codeProducer) feedItemsMap.set(codeProducer, data);
-            if (codeExternal) feedItemsBySkuMap.set('POLZOO-' + codeExternal, data);
+            if (codeProducer) {
+              feedItemsMap.set(codeProducer, data);
+              feedItemsBySkuMap.set(codeProducer, data);
+              feedItemsBySkuMap.set('POLZOO-' + codeProducer, data);
+              feedItemsBySkuMap.set('polzoo-' + codeProducer, data);
+            }
+            if (codeExternal) {
+              feedItemsBySkuMap.set('POLZOO-' + codeExternal, data);
+              feedItemsBySkuMap.set('polzoo-' + codeExternal, data);
+              feedItemsBySkuMap.set(codeExternal, data);
+            }
           }
         }
       } 
@@ -317,7 +349,11 @@ export class FeedPriceSyncService {
           if (price > 0) {
             const data = { wholesalePrice: price };
             if (ean) feedItemsMap.set(ean, data);
-            if (symbol) feedItemsBySkuMap.set('HK-' + symbol, data);
+            if (symbol) {
+              feedItemsBySkuMap.set('HK-' + symbol, data);
+              feedItemsBySkuMap.set('hk-' + symbol, data);
+              feedItemsBySkuMap.set(symbol, data);
+            }
           }
         }
       }
@@ -341,13 +377,21 @@ export class FeedPriceSyncService {
           if (grossPrice > 0) {
             const data = { wholesalePrice: grossPrice, srp: srpGross > 0 ? srpGross : undefined };
             const prodId = prodNode.id ? String(prodNode.id).trim() : null;
-            if (prodId) feedItemsBySkuMap.set('HS-' + prodId, data);
+            if (prodId) {
+              feedItemsBySkuMap.set('HS-' + prodId, data);
+              feedItemsBySkuMap.set('hs-' + prodId, data);
+              feedItemsBySkuMap.set(prodId, data);
+            }
 
             for (const item of itemNodes) {
               const ean = this.getAttr(item, 'ean');
               const uid = this.getAttr(item, 'uid');
               if (ean) feedItemsMap.set(ean, data);
-              if (uid) feedItemsBySkuMap.set('HS-' + uid, data);
+              if (uid) {
+                feedItemsBySkuMap.set('HS-' + uid, data);
+                feedItemsBySkuMap.set('hs-' + uid, data);
+                feedItemsBySkuMap.set(uid, data);
+              }
             }
           }
         }
