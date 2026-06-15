@@ -334,6 +334,7 @@ export interface ProductVariant {
   name: string;
   sku: string;
   price: number;
+  compareAtPrice?: number | null;
   lowestPrice30Days?: number; // Omnibus - najniższa cena z ostatnich 30 dni
   stock: number;
   attributes: Record<string, string>;
