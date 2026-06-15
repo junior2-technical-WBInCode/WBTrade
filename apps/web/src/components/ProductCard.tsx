@@ -109,26 +109,35 @@ export default memo(function ProductCard({ product, showDelivery = false, showWi
   // B2B price transformation (show B2B prices for APPROVED and SUSPENDED partners)
   const isB2b = user && ((user as any).b2bStatus === 'APPROVED' || (user as any).b2bStatus === 'SUSPENDED');
   
-  let displayPrice = Number(product.price);
+  const firstVariant = product.variants?.[0];
+  const variantPrice = firstVariant?.price ? Number(firstVariant.price) : 0;
+  const productPrice = Number(product.price) || 0;
+  const rawEffectivePrice = variantPrice > 0 ? variantPrice : productPrice;
+
+  let displayPrice = rawEffectivePrice;
   if (isB2b) {
     if ((product as any).isB2bPrice) {
-      displayPrice = Number(product.price);
+      displayPrice = rawEffectivePrice;
     } else {
       const globalMultiplier = (user as any).b2bPriceMultiplier || 1.10;
       const wholesalerRules = (user as any).b2bWholesalerRules;
       displayPrice = calculateClientB2bPrice(
-        Number(product.price),
+        rawEffectivePrice,
         globalMultiplier,
         wholesalerRules,
         (product as any).baselinkerProductId,
-        product.sku,
+        firstVariant?.sku || product.sku,
         product.tags
       );
     }
   }
 
-  const hasDiscount = !isB2b && product.compareAtPrice && Number(product.compareAtPrice) > Number(product.price);
-  const discountPercent = !isB2b ? calculateDiscountPercent(product.price, product.compareAtPrice) : 0;
+  const variantCompareAtPrice = firstVariant?.compareAtPrice ? Number(firstVariant.compareAtPrice) : 0;
+  const productCompareAtPrice = product.compareAtPrice ? Number(product.compareAtPrice) : 0;
+  const rawCompareAtPrice = variantCompareAtPrice > 0 ? variantCompareAtPrice : productCompareAtPrice;
+
+  const hasDiscount = !isB2b && rawCompareAtPrice > 0 && rawCompareAtPrice > rawEffectivePrice;
+  const discountPercent = !isB2b ? calculateDiscountPercent(rawEffectivePrice, rawCompareAtPrice) : 0;
 
   const { isInWishlist, toggleWishlist } = useWishlist();
   const { addToCart } = useCart();
@@ -146,8 +155,8 @@ export default memo(function ProductCard({ product, showDelivery = false, showWi
       id: product.id,
       variantId: firstVariant?.id,
       name: product.name,
-      price: String(product.price),
-      compareAtPrice: product.compareAtPrice ? String(product.compareAtPrice) : undefined,
+      price: String(rawEffectivePrice),
+      compareAtPrice: rawCompareAtPrice > 0 ? String(rawCompareAtPrice) : undefined,
       image: mainImage,
     });
   };
@@ -163,7 +172,7 @@ export default memo(function ProductCard({ product, showDelivery = false, showWi
         {
           productId: product.id,
           name: product.name,
-          price: String(product.price),
+          price: String(rawEffectivePrice),
           image: mainImage,
           quantity: 1,
           sku: product.sku,
