@@ -6,7 +6,8 @@ import { useRouter } from 'next/navigation';
 import { Product } from '../lib/api';
 import { useWishlist } from '../contexts/WishlistContext';
 import { useCart } from '../contexts/CartContext';
-import { PLACEHOLDER_IMAGE, WAREHOUSE_LOCATIONS, getWarehouseLocation, calculateDiscountPercent, getProductBrand, getProductBrandSlug } from './productUtils';
+import { useAuth } from '../contexts/AuthContext';
+import { PLACEHOLDER_IMAGE, WAREHOUSE_LOCATIONS, getWarehouseLocation, calculateDiscountPercent, getProductBrand, getProductBrandSlug, calculateClientB2bPrice } from './productUtils';
 
 export interface ProductListCardProps {
   product: Product;
@@ -29,9 +30,42 @@ export default memo(function ProductListCard({ product, showWishlist = true, vie
   const [imgError, setImgError] = useState(false);
   const [isAdding, setIsAdding] = useState(false);
   const [added, setAdded] = useState(false);
+  const { user } = useAuth();
+  
   const mainImage = imgError || !product.images?.[0]?.url ? PLACEHOLDER_IMAGE : product.images[0].url;
-  const hasDiscount = product.compareAtPrice && Number(product.compareAtPrice) > Number(product.price);
-  const discountPercent = calculateDiscountPercent(product.price, product.compareAtPrice);
+  
+  // B2B price transformation (show B2B prices for APPROVED and SUSPENDED partners)
+  const isB2b = user && ((user as any).b2bStatus === 'APPROVED' || (user as any).b2bStatus === 'SUSPENDED');
+  
+  const firstVariant = product.variants?.[0];
+  const variantPrice = firstVariant?.price ? Number(firstVariant.price) : 0;
+  const productPrice = Number(product.price) || 0;
+  const rawEffectivePrice = variantPrice > 0 ? variantPrice : productPrice;
+
+  let displayPrice = rawEffectivePrice;
+  if (isB2b) {
+    if ((product as any).isB2bPrice) {
+      displayPrice = rawEffectivePrice;
+    } else {
+      const globalMultiplier = (user as any).b2bPriceMultiplier || 1.10;
+      const wholesalerRules = (user as any).b2bWholesalerRules;
+      displayPrice = calculateClientB2bPrice(
+        rawEffectivePrice,
+        globalMultiplier,
+        wholesalerRules,
+        (product as any).baselinkerProductId,
+        firstVariant?.sku || product.sku,
+        product.tags
+      );
+    }
+  }
+
+  const variantCompareAtPrice = firstVariant?.compareAtPrice ? Number(firstVariant.compareAtPrice) : 0;
+  const productCompareAtPrice = product.compareAtPrice ? Number(product.compareAtPrice) : 0;
+  const rawCompareAtPrice = variantCompareAtPrice > 0 ? variantCompareAtPrice : productCompareAtPrice;
+
+  const hasDiscount = !isB2b && rawCompareAtPrice > 0 && rawCompareAtPrice > rawEffectivePrice;
+  const discountPercent = !isB2b ? calculateDiscountPercent(rawEffectivePrice, rawCompareAtPrice) : 0;
   
   // Demo data for display
   const storeName = product.storeName || 'TopStore';
@@ -53,8 +87,8 @@ export default memo(function ProductListCard({ product, showWishlist = true, vie
       id: product.id,
       variantId: firstVariant?.id,
       name: product.name,
-      price: String(product.price),
-      compareAtPrice: product.compareAtPrice ? String(product.compareAtPrice) : undefined,
+      price: String(rawEffectivePrice),
+      compareAtPrice: rawCompareAtPrice > 0 ? String(rawCompareAtPrice) : undefined,
       image: mainImage,
     });
   };
@@ -71,7 +105,7 @@ export default memo(function ProductListCard({ product, showWishlist = true, vie
       await addToCart(firstVariant.id, 1, {
         name: product.name,
         image: mainImage,
-        price: String(product.price),
+        price: String(displayPrice),
         quantity: 1,
         productId: product.id,
         sku: product.sku,
@@ -194,11 +228,16 @@ export default memo(function ProductListCard({ product, showWishlist = true, vie
             {/* Price */}
             <div className="flex flex-wrap items-baseline gap-2 mb-2">
               <span className="text-lg font-bold text-secondary-900 dark:text-white">
-                {Number(product.price).toFixed(2).replace('.', ',')} zł
+                {displayPrice.toFixed(2).replace('.', ',')} zł
               </span>
               {hasDiscount && (
                 <span className="text-sm text-gray-400 dark:text-secondary-500 line-through">
-                  {Number(product.compareAtPrice).toFixed(2).replace('.', ',')} zł
+                  {rawCompareAtPrice.toFixed(2).replace('.', ',')} zł
+                </span>
+              )}
+              {isB2b && (
+                <span className="text-[10px] text-blue-600 dark:text-blue-400 font-medium">
+                  cena B2B
                 </span>
               )}
             </div>
@@ -395,11 +434,16 @@ export default memo(function ProductListCard({ product, showWishlist = true, vie
           {/* Price */}
           <div className="flex flex-wrap items-baseline gap-1 sm:gap-2 mb-1 sm:mb-2">
             <span className="text-sm sm:text-lg font-bold text-secondary-900 dark:text-white">
-              {Number(product.price).toFixed(2).replace('.', ',')} zł
+              {displayPrice.toFixed(2).replace('.', ',')} zł
             </span>
             {hasDiscount && (
               <span className="text-xs sm:text-sm text-gray-400 dark:text-secondary-500 line-through">
-                {Number(product.compareAtPrice).toFixed(2).replace('.', ',')} zł
+                {rawCompareAtPrice.toFixed(2).replace('.', ',')} zł
+              </span>
+            )}
+            {isB2b && (
+              <span className="text-[10px] sm:text-xs text-blue-600 dark:text-blue-400 font-medium">
+                cena B2B
               </span>
             )}
           </div>
