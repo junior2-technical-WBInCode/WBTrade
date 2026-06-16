@@ -85,6 +85,12 @@ export default async function ProductPage({ params }: ProductPageProps) {
     notFound();
   }
 
+  console.log('[SSR ProductPage] fetched product:', {
+    id: product.id,
+    sku: product.sku,
+    baselinkerProductId: (product as any).baselinkerProductId,
+  });
+
   // Map server product to client Product shape
   const clientProduct = {
     ...product,
@@ -96,4 +102,4 @@ export default async function ProductPage({ params }: ProductPageProps) {
   };
 
   return <ProductDetailClient product={clientProduct as any} />;
-}
+}
