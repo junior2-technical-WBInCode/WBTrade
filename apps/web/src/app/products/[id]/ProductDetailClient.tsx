@@ -49,8 +49,13 @@ function getWholesalerKey(baselinkerProductId?: string | null, sku?: string | nu
     }
   }
   
-  if (key === 'hk') return 'hurtownia-kuchenna';
-  if (key === 'hs') return 'hurtownia-sportowa';
+  if (key === 'hk' || key === 'hurtownia-kuchenna' || key === 'kuchenna') return 'hurtownia-kuchenna';
+  if (key === 'hs' || key === 'hurtownia-sportowa' || key === 'sportowa') return 'hurtownia-sportowa';
+  if (key === 'hp' || key === 'hurtownia-przemysłowa' || key === 'hurtownia przemysłowa' || key === 'przemysłowa') return 'hp';
+  if (key === 'polzoo') return 'polzoo';
+  if (key === 'btp' || key === 'forcetop') return 'btp';
+  if (key === 'leker') return 'leker';
+  if (key === 'dofirmy') return 'dofirmy';
   return key;
 }
 
@@ -65,6 +70,16 @@ function calculateClientB2bPrice(
   if (storePrice <= 0) return 0;
   
   const whKey = getWholesalerKey(baselinkerProductId, sku, tags);
+  console.log('[DEBUG Client calculateClientB2bPrice]', {
+    storePrice,
+    globalMultiplier,
+    baselinkerProductId,
+    sku,
+    tags,
+    whKey,
+    hasRules: !!(wholesalerRules && whKey && wholesalerRules[whKey])
+  });
+
   if (whKey && wholesalerRules && wholesalerRules[whKey]) {
     const config = wholesalerRules[whKey];
     if (config && Array.isArray(config.rules) && config.rules.length > 0) {
@@ -88,6 +103,7 @@ function calculateClientB2bPrice(
   const b2bPrice = basePrice * globalMultiplier;
   return Math.floor(b2bPrice) + 0.99;
 }
+
 
 interface ProductDetailClientProps {
   product: Product;

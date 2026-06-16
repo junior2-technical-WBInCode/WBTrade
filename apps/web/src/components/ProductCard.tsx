@@ -41,8 +41,13 @@ function getWholesalerKey(baselinkerProductId?: string | null, sku?: string | nu
     }
   }
   
-  if (key === 'hk') return 'hurtownia-kuchenna';
-  if (key === 'hs') return 'hurtownia-sportowa';
+  if (key === 'hk' || key === 'hurtownia-kuchenna' || key === 'kuchenna') return 'hurtownia-kuchenna';
+  if (key === 'hs' || key === 'hurtownia-sportowa' || key === 'sportowa') return 'hurtownia-sportowa';
+  if (key === 'hp' || key === 'hurtownia-przemysłowa' || key === 'hurtownia przemysłowa' || key === 'przemysłowa') return 'hp';
+  if (key === 'polzoo') return 'polzoo';
+  if (key === 'btp' || key === 'forcetop') return 'btp';
+  if (key === 'leker') return 'leker';
+  if (key === 'dofirmy') return 'dofirmy';
   return key;
 }
 
