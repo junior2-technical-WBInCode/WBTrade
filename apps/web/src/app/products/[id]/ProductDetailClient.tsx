@@ -16,93 +16,10 @@ import { useAuth } from '../../../contexts/AuthContext';
 import { cleanCategoryName } from '../../../lib/categories';
 import { trackViewItem, toGA4Item } from '../../../lib/analytics';
 import AddToListModal from '../../../components/AddToListModal';
-import { PLACEHOLDER_IMAGE, getProductBrand, getProductBrandSlug } from '../../../components/productUtils';
+import { PLACEHOLDER_IMAGE, getProductBrand, getProductBrandSlug, getWholesalerKey, calculateClientB2bPrice } from '../../../components/productUtils';
 import { getProxiedImageUrl } from '../../../lib/image-proxy';
 
-function getWholesalerKey(baselinkerProductId?: string | null, sku?: string | null, tags?: string[]): string | null {
-  let key: string | null = null;
-  if (baselinkerProductId) {
-    const parts = baselinkerProductId.split('-');
-    if (parts.length > 1) {
-      key = parts[0].toLowerCase();
-    }
-  }
-  if (!key && sku) {
-    const skuLower = sku.toLowerCase();
-    if (skuLower.startsWith('leker')) key = 'leker';
-    else if (skuLower.startsWith('btp')) key = 'btp';
-    else if (skuLower.startsWith('hp')) key = 'hp';
-    else if (skuLower.startsWith('dofirmy')) key = 'dofirmy';
-    else if (skuLower.startsWith('hk') || skuLower.startsWith('hurtownia-kuchenna')) key = 'hurtownia-kuchenna';
-    else if (skuLower.startsWith('hs') || skuLower.startsWith('hurtownia-sportowa')) key = 'hurtownia-sportowa';
-    else if (skuLower.startsWith('polzoo')) key = 'polzoo';
-  }
-  if (!key && tags && tags.length > 0) {
-    const WHOLESALER_PATTERN = /^(hurtownia[:\-_](.+)|Ikonka|BTP|HP|Gastro|Horeca|Hurtownia\s+Przemysłowa|Leker|Forcetop|DoFirmy|PolZoo)$/i;
-    for (const tag of tags) {
-      const match = tag.match(WHOLESALER_PATTERN);
-      if (match) {
-        key = (match[2] || match[1]).toLowerCase();
-        if (key === 'ikonka') key = 'ikonka';
-        else if (key === 'gastronomia' || key === 'gastro') key = 'gastro';
-      }
-    }
-  }
-  
-  if (key === 'hk' || key === 'hurtownia-kuchenna' || key === 'kuchenna') return 'hurtownia-kuchenna';
-  if (key === 'hs' || key === 'hurtownia-sportowa' || key === 'sportowa') return 'hurtownia-sportowa';
-  if (key === 'hp' || key === 'hurtownia-przemysłowa' || key === 'hurtownia przemysłowa' || key === 'przemysłowa') return 'hp';
-  if (key === 'polzoo') return 'polzoo';
-  if (key === 'btp' || key === 'forcetop') return 'btp';
-  if (key === 'leker') return 'leker';
-  if (key === 'dofirmy') return 'dofirmy';
-  return key;
-}
 
-function calculateClientB2bPrice(
-  storePrice: number,
-  globalMultiplier: number,
-  wholesalerRules?: any,
-  baselinkerProductId?: string | null,
-  sku?: string | null,
-  tags?: string[]
-): number {
-  if (storePrice <= 0) return 0;
-  
-  const whKey = getWholesalerKey(baselinkerProductId, sku, tags);
-  console.log('[DEBUG Client calculateClientB2bPrice]', {
-    storePrice,
-    globalMultiplier,
-    baselinkerProductId,
-    sku,
-    tags,
-    whKey,
-    hasRules: !!(wholesalerRules && whKey && wholesalerRules[whKey])
-  });
-
-  if (whKey && wholesalerRules && wholesalerRules[whKey]) {
-    const config = wholesalerRules[whKey];
-    if (config && Array.isArray(config.rules) && config.rules.length > 0) {
-      const rawWholesale = storePrice / 1.35;
-      const b2bDivider = parseFloat(config.divider) || 1.0;
-      const b2bBasePrice = rawWholesale / b2bDivider;
-      
-      let b2bPrice = b2bBasePrice;
-      const sortedRules = [...config.rules].sort((a, b) => a.priceFrom - b.priceFrom);
-      for (const rule of sortedRules) {
-        if (b2bBasePrice >= rule.priceFrom && b2bBasePrice <= rule.priceTo) {
-          b2bPrice = b2bBasePrice * rule.multiplier + rule.addToPrice;
-          break;
-        }
-      }
-      return Math.floor(b2bPrice) + 0.99;
-    }
-  }
-
-  const basePrice = storePrice / 1.35;
-  const b2bPrice = basePrice * globalMultiplier;
-  return Math.floor(b2bPrice) + 0.99;
-}
 
 
 interface ProductDetailClientProps {
@@ -272,7 +189,7 @@ export default function ProductDetailClient({ product }: ProductDetailClientProp
       await addToCart(selectedVariant.id, quantity, {
         name: product.name,
         image: productImage,
-        price: String(selectedVariant.price || product.price),
+        price: String(effectivePrice),
         quantity: quantity,
         productId: product.id,
         sku: product.sku,
@@ -299,7 +216,7 @@ export default function ProductDetailClient({ product }: ProductDetailClientProp
       await addToCart(selectedVariant.id, quantity, {
         name: product.name,
         image: product.images?.[0]?.url || '',
-        price: String(selectedVariant.price || product.price),
+        price: String(effectivePrice),
         quantity: quantity,
         productId: product.id,
         sku: product.sku,
@@ -698,6 +615,16 @@ export default function ProductDetailClient({ product }: ProductDetailClientProp
                 <span className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white">
                   {Number(effectivePrice).toFixed(2).replace('.', ',')} zł
                 </span>
+                {process.env.NODE_ENV !== 'production' && (
+                  <div className="w-full text-xs text-red-600 bg-red-100/80 p-2 rounded mt-1 font-mono leading-relaxed" style={{ gridColumn: '1 / -1' }}>
+                    [DEBUG B2B] whKey: {String(getWholesalerKey((product as any).baselinkerProductId, selectedVariant?.sku || product.sku, (product as any).tags))} |
+                    hasRules: {String(!!(user && (user as any).b2bWholesalerRules))} |
+                    hasHPConfig: {String(!!(user && (user as any).b2bWholesalerRules?.['hp']))} |
+                    globalMult: {String((user as any)?.b2bPriceMultiplier)} |
+                    baselinkerProductId: {String((product as any).baselinkerProductId)} |
+                    sku: {String(selectedVariant?.sku || product.sku)}
+                  </div>
+                )}
                 {hasDiscount && (
                   <>
                     <span className="text-sm sm:text-lg text-gray-400 line-through">

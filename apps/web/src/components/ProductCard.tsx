@@ -8,83 +8,10 @@ import { Product } from '../lib/api';
 import { useWishlist } from '../contexts/WishlistContext';
 import { useCart } from '../contexts/CartContext';
 import { useAuth } from '../contexts/AuthContext';
-import { PLACEHOLDER_IMAGE, WAREHOUSE_LOCATIONS, getWarehouseLocation, calculateDiscountPercent, getProductBrand, getProductBrandSlug } from './productUtils';
+import { PLACEHOLDER_IMAGE, WAREHOUSE_LOCATIONS, getWarehouseLocation, calculateDiscountPercent, getProductBrand, getProductBrandSlug, getWholesalerKey, calculateClientB2bPrice } from './productUtils';
 import { getProxiedImageUrl } from '../lib/image-proxy';
 
-function getWholesalerKey(baselinkerProductId?: string | null, sku?: string | null, tags?: string[]): string | null {
-  let key: string | null = null;
-  if (baselinkerProductId) {
-    const parts = baselinkerProductId.split('-');
-    if (parts.length > 1) {
-      key = parts[0].toLowerCase();
-    }
-  }
-  if (!key && sku) {
-    const skuLower = sku.toLowerCase();
-    if (skuLower.startsWith('leker')) key = 'leker';
-    else if (skuLower.startsWith('btp')) key = 'btp';
-    else if (skuLower.startsWith('hp')) key = 'hp';
-    else if (skuLower.startsWith('dofirmy')) key = 'dofirmy';
-    else if (skuLower.startsWith('hk') || skuLower.startsWith('hurtownia-kuchenna')) key = 'hurtownia-kuchenna';
-    else if (skuLower.startsWith('hs') || skuLower.startsWith('hurtownia-sportowa')) key = 'hurtownia-sportowa';
-    else if (skuLower.startsWith('polzoo')) key = 'polzoo';
-  }
-  if (!key && tags && tags.length > 0) {
-    const WHOLESALER_PATTERN = /^(hurtownia[:\-_](.+)|Ikonka|BTP|HP|Gastro|Horeca|Hurtownia\s+Przemysłowa|Leker|Forcetop|DoFirmy|PolZoo)$/i;
-    for (const tag of tags) {
-      const match = tag.match(WHOLESALER_PATTERN);
-      if (match) {
-        key = (match[2] || match[1]).toLowerCase();
-        if (key === 'ikonka') key = 'ikonka';
-        else if (key === 'gastronomia' || key === 'gastro') key = 'gastro';
-      }
-    }
-  }
-  
-  if (key === 'hk' || key === 'hurtownia-kuchenna' || key === 'kuchenna') return 'hurtownia-kuchenna';
-  if (key === 'hs' || key === 'hurtownia-sportowa' || key === 'sportowa') return 'hurtownia-sportowa';
-  if (key === 'hp' || key === 'hurtownia-przemysłowa' || key === 'hurtownia przemysłowa' || key === 'przemysłowa') return 'hp';
-  if (key === 'polzoo') return 'polzoo';
-  if (key === 'btp' || key === 'forcetop') return 'btp';
-  if (key === 'leker') return 'leker';
-  if (key === 'dofirmy') return 'dofirmy';
-  return key;
-}
 
-function calculateClientB2bPrice(
-  storePrice: number,
-  globalMultiplier: number,
-  wholesalerRules?: any,
-  baselinkerProductId?: string | null,
-  sku?: string | null,
-  tags?: string[]
-): number {
-  if (storePrice <= 0) return 0;
-  
-  const whKey = getWholesalerKey(baselinkerProductId, sku, tags);
-  if (whKey && wholesalerRules && wholesalerRules[whKey]) {
-    const config = wholesalerRules[whKey];
-    if (config && Array.isArray(config.rules) && config.rules.length > 0) {
-      const rawWholesale = storePrice / 1.35;
-      const b2bDivider = parseFloat(config.divider) || 1.0;
-      const b2bBasePrice = rawWholesale / b2bDivider;
-      
-      let b2bPrice = b2bBasePrice;
-      const sortedRules = [...config.rules].sort((a, b) => a.priceFrom - b.priceFrom);
-      for (const rule of sortedRules) {
-        if (b2bBasePrice >= rule.priceFrom && b2bBasePrice <= rule.priceTo) {
-          b2bPrice = b2bBasePrice * rule.multiplier + rule.addToPrice;
-          break;
-        }
-      }
-      return Math.floor(b2bPrice) + 0.99;
-    }
-  }
-
-  const basePrice = storePrice / 1.35;
-  const b2bPrice = basePrice * globalMultiplier;
-  return Math.floor(b2bPrice) + 0.99;
-}
 
 // Cart icon
 const CartIcon = ({ className }: { className?: string }) => (
@@ -140,6 +67,17 @@ export default memo(function ProductCard({ product, showDelivery = false, showWi
         firstVariant?.sku || product.sku,
         product.tags
       );
+      if (product.sku === '1000225' || product.sku?.includes('1000225') || firstVariant?.sku?.includes('1000225')) {
+        console.log('[DEBUG ProductCard pricing]', {
+          sku: product.sku,
+          firstVariantSku: firstVariant?.sku,
+          baselinkerProductId: (product as any).baselinkerProductId,
+          tags: product.tags,
+          whKey: getWholesalerKey((product as any).baselinkerProductId, firstVariant?.sku || product.sku, product.tags),
+          hasRules: !!(wholesalerRules && wholesalerRules[getWholesalerKey((product as any).baselinkerProductId, firstVariant?.sku || product.sku, product.tags) || '']),
+          displayPrice,
+        });
+      }
     }
   }
 
@@ -183,7 +121,7 @@ export default memo(function ProductCard({ product, showDelivery = false, showWi
         {
           productId: product.id,
           name: product.name,
-          price: String(rawEffectivePrice),
+          price: String(displayPrice),
           image: mainImage,
           quantity: 1,
           sku: product.sku,
