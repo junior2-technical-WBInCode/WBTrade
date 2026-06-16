@@ -141,13 +141,13 @@ export function reverseRetailPriceToWholesale(
       // Use 1.0 tolerance for boundary rounding errors
       const tolerance = 1.0;
       if (basePrice >= (rule.priceFrom - tolerance) && basePrice <= (rule.priceTo + tolerance)) {
-        return basePrice * retailDivider;
+        return basePrice;
       }
     }
   }
 
   // Fallback: reverse using the standard STORE_BASE_MULTIPLIER (1.35)
-  return (retailPrice / STORE_BASE_MULTIPLIER) * retailDivider;
+  return (retailPrice / STORE_BASE_MULTIPLIER);
 }
 
 /**

@@ -420,7 +420,17 @@ export async function getBestsellers(req: Request, res: Response): Promise<void>
     const category = req.query.category as string | undefined;
     const days = parseInt(req.query.days as string) || 90;
 
-    const products = await productsService.getBestsellers({ limit, category, days });
+    let products = await productsService.getBestsellers({ limit, category, days });
+
+    if (req.user?.userId) {
+      const b2bInfo = await getB2bUserInfo(req.user.userId);
+      if (b2bInfo) {
+        products = await Promise.all(
+          products.map((p: any) => applyB2bPricing(p, b2bInfo))
+        );
+      }
+    }
+
     res.status(200).json({ products });
   } catch (error) {
     console.error('Error fetching bestsellers:', error);
@@ -438,7 +448,17 @@ export async function getFeatured(req: Request, res: Response): Promise<void> {
       ? (req.query.productIds as string).split(',')
       : undefined;
 
-    const products = await productsService.getFeatured({ limit, productIds });
+    let products = await productsService.getFeatured({ limit, productIds });
+
+    if (req.user?.userId) {
+      const b2bInfo = await getB2bUserInfo(req.user.userId);
+      if (b2bInfo) {
+        products = await Promise.all(
+          products.map((p: any) => applyB2bPricing(p, b2bInfo))
+        );
+      }
+    }
+
     res.status(200).json({ products });
   } catch (error) {
     console.error('Error fetching featured products:', error);
@@ -454,7 +474,17 @@ export async function getSeasonal(req: Request, res: Response): Promise<void> {
     const limit = parseInt(req.query.limit as string) || 20;
     const season = req.query.season as 'spring' | 'summer' | 'autumn' | 'winter' | undefined;
 
-    const products = await productsService.getSeasonal({ limit, season });
+    let products = await productsService.getSeasonal({ limit, season });
+
+    if (req.user?.userId) {
+      const b2bInfo = await getB2bUserInfo(req.user.userId);
+      if (b2bInfo) {
+        products = await Promise.all(
+          products.map((p: any) => applyB2bPricing(p, b2bInfo))
+        );
+      }
+    }
+
     res.status(200).json({ products });
   } catch (error) {
     console.error('Error fetching seasonal products:', error);
@@ -467,7 +497,15 @@ export async function getSeasonal(req: Request, res: Response): Promise<void> {
  */
 export async function getMostWishlisted(req: Request, res: Response): Promise<void> {
   try {
-    const product = await productsService.getMostWishlisted();
+    let product = await productsService.getMostWishlisted();
+
+    if (product && req.user?.userId) {
+      const b2bInfo = await getB2bUserInfo(req.user.userId);
+      if (b2bInfo) {
+        product = await applyB2bPricing(product, b2bInfo);
+      }
+    }
+
     res.status(200).json({ product });
   } catch (error) {
     console.error('Error fetching most wishlisted product:', error);
@@ -483,7 +521,17 @@ export async function getNewProducts(req: Request, res: Response): Promise<void>
     const limit = parseInt(req.query.limit as string) || 20;
     const days = parseInt(req.query.days as string) || 14;
 
-    const products = await productsService.getNewProducts({ limit, days });
+    let products = await productsService.getNewProducts({ limit, days });
+
+    if (req.user?.userId) {
+      const b2bInfo = await getB2bUserInfo(req.user.userId);
+      if (b2bInfo) {
+        products = await Promise.all(
+          products.map((p: any) => applyB2bPricing(p, b2bInfo))
+        );
+      }
+    }
+
     res.status(200).json({ products });
   } catch (error) {
     console.error('Error fetching new products:', error);
@@ -498,7 +546,17 @@ export async function getToys(req: Request, res: Response): Promise<void> {
   try {
     const limit = parseInt(req.query.limit as string) || 20;
 
-    const products = await productsService.getToys({ limit });
+    let products = await productsService.getToys({ limit });
+
+    if (req.user?.userId) {
+      const b2bInfo = await getB2bUserInfo(req.user.userId);
+      if (b2bInfo) {
+        products = await Promise.all(
+          products.map((p: any) => applyB2bPricing(p, b2bInfo))
+        );
+      }
+    }
+
     res.status(200).json({ products });
   } catch (error) {
     console.error('Error fetching toys products:', error);
@@ -515,6 +573,16 @@ export async function getTopRated(req: Request, res: Response): Promise<void> {
     const minReviews = parseInt(req.query.minReviews as string) || 1;
 
     const result = await productsService.getTopRated({ limit, minReviews });
+
+    if (req.user?.userId) {
+      const b2bInfo = await getB2bUserInfo(req.user.userId);
+      if (b2bInfo) {
+        result.products = await Promise.all(
+          result.products.map((p: any) => applyB2bPricing(p, b2bInfo))
+        );
+      }
+    }
+
     res.status(200).json(result);
   } catch (error) {
     console.error('Error fetching top-rated products:', error);
@@ -537,6 +605,16 @@ export async function getSameWarehouseProducts(req: Request, res: Response): Pro
     }
 
     const result = await productsService.getSameWarehouseProducts(productId, { limit });
+
+    if (req.user?.userId) {
+      const b2bInfo = await getB2bUserInfo(req.user.userId);
+      if (b2bInfo && result.products) {
+        result.products = await Promise.all(
+          result.products.map((p: any) => applyB2bPricing(p, b2bInfo))
+        );
+      }
+    }
+
     res.status(200).json(result);
   } catch (error) {
     console.error('Error fetching same warehouse products:', error);
@@ -561,7 +639,17 @@ export async function getProductsByIds(req: Request, res: Response): Promise<voi
       return;
     }
 
-    const products = await productsService.getByIds(ids);
+    let products = await productsService.getByIds(ids);
+
+    if (req.user?.userId) {
+      const b2bInfo = await getB2bUserInfo(req.user.userId);
+      if (b2bInfo) {
+        products = await Promise.all(
+          products.map((p: any) => applyB2bPricing(p, b2bInfo))
+        );
+      }
+    }
+
     res.status(200).json({ products });
   } catch (error) {
     console.error('Error fetching products by IDs:', error);

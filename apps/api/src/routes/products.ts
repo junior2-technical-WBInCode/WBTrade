@@ -35,31 +35,31 @@ router.get('/', optionalAuth, getProducts);
 router.get('/filters', getFilters);
 
 // Route to get bestsellers (based on actual sales data)
-router.get('/bestsellers', getBestsellers);
+router.get('/bestsellers', optionalAuth, getBestsellers);
 
 // Route to get featured products (admin-curated or fallback)
-router.get('/featured', getFeatured);
+router.get('/featured', optionalAuth, getFeatured);
 
 // Route to get seasonal products
-router.get('/seasonal', getSeasonal);
+router.get('/seasonal', optionalAuth, getSeasonal);
 
 // Route to get new products (added in last 14 days)
-router.get('/new-arrivals', getNewProducts);
+router.get('/new-arrivals', optionalAuth, getNewProducts);
 
 // Route to get toys carousel products (manual + automatic from toys category)
-router.get('/toys', getToys);
+router.get('/toys', optionalAuth, getToys);
 
 // Route to get the most wishlisted product (Product of the Day)
-router.get('/most-wishlisted', getMostWishlisted);
+router.get('/most-wishlisted', optionalAuth, getMostWishlisted);
 
 // Route to get top-rated products
-router.get('/top-rated', getTopRated);
+router.get('/top-rated', optionalAuth, getTopRated);
 
 // Route to get multiple products by IDs (batch - avoids N+1 requests)
-router.post('/batch', getProductsByIds);
+router.post('/batch', optionalAuth, getProductsByIds);
 
 // Route to get products from the same warehouse (for "Zamów w jednej przesyłce")
-router.get('/same-warehouse/:productId', getSameWarehouseProducts);
+router.get('/same-warehouse/:productId', optionalAuth, getSameWarehouseProducts);
 
 // Route to get all brands
 router.get('/brands', getBrands);
