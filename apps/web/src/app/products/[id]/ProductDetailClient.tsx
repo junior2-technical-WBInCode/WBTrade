@@ -20,32 +20,38 @@ import { PLACEHOLDER_IMAGE, getProductBrand, getProductBrandSlug } from '../../.
 import { getProxiedImageUrl } from '../../../lib/image-proxy';
 
 function getWholesalerKey(baselinkerProductId?: string | null, sku?: string | null, tags?: string[]): string | null {
+  let key: string | null = null;
   if (baselinkerProductId) {
     const parts = baselinkerProductId.split('-');
     if (parts.length > 1) {
-      return parts[0].toLowerCase();
+      key = parts[0].toLowerCase();
     }
   }
-  if (sku) {
+  if (!key && sku) {
     const skuLower = sku.toLowerCase();
-    if (skuLower.startsWith('leker')) return 'leker';
-    if (skuLower.startsWith('btp')) return 'btp';
-    if (skuLower.startsWith('hp')) return 'hp';
-    if (skuLower.startsWith('dofirmy')) return 'dofirmy';
+    if (skuLower.startsWith('leker')) key = 'leker';
+    else if (skuLower.startsWith('btp')) key = 'btp';
+    else if (skuLower.startsWith('hp')) key = 'hp';
+    else if (skuLower.startsWith('dofirmy')) key = 'dofirmy';
+    else if (skuLower.startsWith('hk') || skuLower.startsWith('hurtownia-kuchenna')) key = 'hurtownia-kuchenna';
+    else if (skuLower.startsWith('hs') || skuLower.startsWith('hurtownia-sportowa')) key = 'hurtownia-sportowa';
+    else if (skuLower.startsWith('polzoo')) key = 'polzoo';
   }
-  if (tags && tags.length > 0) {
-    const WHOLESALER_PATTERN = /^(hurtownia[:\-_](.+)|Ikonka|BTP|HP|Gastro|Horeca|Hurtownia\s+Przemysłowa|Leker|Forcetop|DoFirmy)$/i;
+  if (!key && tags && tags.length > 0) {
+    const WHOLESALER_PATTERN = /^(hurtownia[:\-_](.+)|Ikonka|BTP|HP|Gastro|Horeca|Hurtownia\s+Przemysłowa|Leker|Forcetop|DoFirmy|PolZoo)$/i;
     for (const tag of tags) {
       const match = tag.match(WHOLESALER_PATTERN);
       if (match) {
-        const key = (match[2] || match[1]).toLowerCase();
-        if (key === 'ikonka') return 'ikonka';
-        if (key === 'gastronomia' || key === 'gastro') return 'gastro';
-        return key;
+        key = (match[2] || match[1]).toLowerCase();
+        if (key === 'ikonka') key = 'ikonka';
+        else if (key === 'gastronomia' || key === 'gastro') key = 'gastro';
       }
     }
   }
-  return null;
+  
+  if (key === 'hk') return 'hurtownia-kuchenna';
+  if (key === 'hs') return 'hurtownia-sportowa';
+  return key;
 }
 
 function calculateClientB2bPrice(
