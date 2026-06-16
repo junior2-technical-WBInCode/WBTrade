@@ -615,16 +615,15 @@ export default function ProductDetailClient({ product }: ProductDetailClientProp
                 <span className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white">
                   {Number(effectivePrice).toFixed(2).replace('.', ',')} zł
                 </span>
-                {process.env.NODE_ENV !== 'production' && (
                   <div className="w-full text-xs text-red-600 bg-red-100/80 p-2 rounded mt-1 font-mono leading-relaxed" style={{ gridColumn: '1 / -1' }}>
                     [DEBUG B2B] whKey: {String(getWholesalerKey((product as any).baselinkerProductId, selectedVariant?.sku || product.sku, (product as any).tags))} |
                     hasRules: {String(!!(user && (user as any).b2bWholesalerRules))} |
                     hasHPConfig: {String(!!(user && (user as any).b2bWholesalerRules?.['hp']))} |
                     globalMult: {String((user as any)?.b2bPriceMultiplier)} |
                     baselinkerProductId: {String((product as any).baselinkerProductId)} |
-                    sku: {String(selectedVariant?.sku || product.sku)}
+                    sku: {String(selectedVariant?.sku || product.sku)} |
+                    tags: {JSON.stringify((product as any).tags)}
                   </div>
-                )}
                 {hasDiscount && (
                   <>
                     <span className="text-sm sm:text-lg text-gray-400 line-through">

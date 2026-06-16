@@ -124,6 +124,14 @@ export class SecureAuthController {
           lastName: result.user.lastName,
           role: result.user.role,
           emailVerified: result.user.emailVerified,
+          companyName: result.user.companyName,
+          nip: result.user.nip,
+          companyStreet: result.user.companyStreet,
+          companyCity: result.user.companyCity,
+          companyPostalCode: result.user.companyPostalCode,
+          b2bStatus: (result.user as any).b2bStatus || null,
+          b2bPriceMultiplier: (result.user as any).b2bPriceMultiplier || null,
+          b2bWholesalerRules: (result.user as any).b2bWholesalerRules || null,
         },
         tokens: result.tokens,
         requiresEmailVerification: !result.user.emailVerified,
@@ -536,6 +544,7 @@ export class SecureAuthController {
           companyPostalCode: user.companyPostalCode,
           b2bStatus: (user as any).b2bStatus || null,
           b2bPriceMultiplier: (user as any).b2bPriceMultiplier || null,
+          b2bWholesalerRules: (user as any).b2bWholesalerRules || null,
         },
       });
     } catch (error) {
@@ -718,6 +727,9 @@ export class SecureAuthController {
           companyStreet: updatedUser.companyStreet,
           companyCity: updatedUser.companyCity,
           companyPostalCode: updatedUser.companyPostalCode,
+          b2bStatus: (updatedUser as any).b2bStatus || null,
+          b2bPriceMultiplier: (updatedUser as any).b2bPriceMultiplier || null,
+          b2bWholesalerRules: (updatedUser as any).b2bWholesalerRules || null,
         },
       });
     } catch (error) {
