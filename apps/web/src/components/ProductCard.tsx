@@ -65,7 +65,8 @@ export default memo(function ProductCard({ product, showDelivery = false, showWi
         wholesalerRules,
         (product as any).baselinkerProductId,
         firstVariant?.sku || product.sku,
-        product.tags
+        product.tags,
+        (firstVariant as any)?.purchasePrice || (product as any).purchasePrice
       );
       if (product.sku === '1000225' || product.sku?.includes('1000225') || firstVariant?.sku?.includes('1000225')) {
         console.log('[DEBUG ProductCard pricing]', {

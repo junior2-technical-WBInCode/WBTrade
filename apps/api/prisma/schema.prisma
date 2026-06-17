@@ -117,6 +117,7 @@ model Product {
   status                 ProductStatus    @default(DRAFT)
   price                  Decimal          @db.Decimal(10, 2)
   compareAtPrice         Decimal?         @map("compare_at_price") @db.Decimal(10, 2)
+  purchasePrice          Decimal?         @map("purchase_price") @db.Decimal(10, 2)
   metaTitle              String?          @map("meta_title")
   metaDescription        String?          @map("meta_description")
   createdAt              DateTime         @default(now()) @map("created_at")
@@ -235,6 +236,7 @@ model ProductVariant {
   barcode             String?
   price               Decimal         @db.Decimal(10, 2)
   compareAtPrice      Decimal?        @map("compare_at_price") @db.Decimal(10, 2)
+  purchasePrice       Decimal?        @map("purchase_price") @db.Decimal(10, 2)
   attributes          Json            @default("{}")
   createdAt           DateTime        @default(now()) @map("created_at")
   updatedAt           DateTime        @updatedAt @map("updated_at")

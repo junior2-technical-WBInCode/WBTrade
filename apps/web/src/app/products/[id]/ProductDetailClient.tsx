@@ -448,7 +448,8 @@ export default function ProductDetailClient({ product }: ProductDetailClientProp
         wholesalerRules,
         (product as any).baselinkerProductId,
         selectedVariant?.sku || product.sku,
-        (product as any).tags
+        (product as any).tags,
+        (selectedVariant as any)?.purchasePrice || (product as any).purchasePrice
       );
     }
   }

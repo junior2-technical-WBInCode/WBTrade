@@ -208,12 +208,16 @@ export function calculateClientB2bPrice(
   wholesalerRules?: any,
   baselinkerProductId?: string | null,
   sku?: string | null,
-  tags?: string[]
+  tags?: string[],
+  purchasePrice?: number | string | null
 ): number {
   if (storePrice <= 0) return 0;
   
+  const purchasePriceNum = purchasePrice ? Number(purchasePrice) : 0;
   const whKey = getWholesalerKey(baselinkerProductId, sku, tags);
-  const rawWholesale = reverseRetailPriceToWholesale(storePrice, whKey);
+  const rawWholesale = purchasePriceNum > 0 
+    ? purchasePriceNum 
+    : reverseRetailPriceToWholesale(storePrice, whKey);
   
   if (whKey && wholesalerRules && wholesalerRules[whKey]) {
     const config = wholesalerRules[whKey];

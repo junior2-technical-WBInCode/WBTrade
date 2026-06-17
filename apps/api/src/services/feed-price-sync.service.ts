@@ -13,6 +13,11 @@ interface PriceUpdateItem {
   name: string;
   currentPrice: number;
   newPrice: number;
+  purchasePrice: number;
+  compareAtPrice: number | null;
+  hasPriceChanged: boolean;
+  hasCompareAtChanged: boolean;
+  hasPurchasePriceChanged: boolean;
 }
 
 export class FeedPriceSyncService {
@@ -186,10 +191,12 @@ export class FeedPriceSyncService {
       // We will perform mapping in-memory to be fast
       console.log('Loading active products and variants from database...');
       
+      const prefixFilter = config.skuPrefix || config.prefix;
+
       const dbProducts = await prisma.product.findMany({
         where: {
           status: 'ACTIVE',
-          ...(config.skuPrefix ? { sku: { startsWith: config.skuPrefix } } : {}),
+          ...(prefixFilter ? { sku: { startsWith: prefixFilter, mode: 'insensitive' } } : {}),
         },
         select: {
           id: true,
@@ -197,6 +204,7 @@ export class FeedPriceSyncService {
           barcode: true,
           price: true,
           compareAtPrice: true,
+          purchasePrice: true,
           name: true,
         },
       });
@@ -204,7 +212,7 @@ export class FeedPriceSyncService {
       const dbVariants = await prisma.productVariant.findMany({
         where: {
           product: { status: 'ACTIVE' },
-          ...(config.skuPrefix ? { sku: { startsWith: config.skuPrefix } } : {}),
+          ...(prefixFilter ? { sku: { startsWith: prefixFilter, mode: 'insensitive' } } : {}),
         },
         select: {
           id: true,
@@ -213,6 +221,7 @@ export class FeedPriceSyncService {
           barcode: true,
           price: true,
           compareAtPrice: true,
+          purchasePrice: true,
           name: true,
         },
       });
@@ -399,7 +408,6 @@ export class FeedPriceSyncService {
 
       // 6. Match DB items and calculate new prices
       const updatesList: PriceUpdateItem[] = [];
-      const srpMap = new Map<string, number | null>(); // Maps item ID to compareAtPrice
 
       // Match Products
       for (const product of dbProducts) {
@@ -428,10 +436,14 @@ export class FeedPriceSyncService {
             targetCompareAtPrice = this.roundPriceTo99(match.srp);
           }
 
+          const currentPurchasePrice = product.purchasePrice ? Number(product.purchasePrice) : null;
+          const newPurchasePrice = match.wholesalePrice;
+
           const hasPriceChanged = Math.abs(currentPriceNum - finalPrice) > 0.005;
           const hasCompareAtChanged = Math.abs(Number(product.compareAtPrice || 0) - (targetCompareAtPrice || 0)) > 0.005;
+          const hasPurchasePriceChanged = currentPurchasePrice === null || Math.abs(currentPurchasePrice - newPurchasePrice) > 0.005;
 
-          if (hasPriceChanged) {
+          if (hasPriceChanged || hasCompareAtChanged || hasPurchasePriceChanged) {
             updatesList.push({
               id: product.id,
               isVariant: false,
@@ -439,11 +451,12 @@ export class FeedPriceSyncService {
               name: product.name,
               currentPrice: currentPriceNum,
               newPrice: finalPrice,
+              purchasePrice: newPurchasePrice,
+              compareAtPrice: targetCompareAtPrice,
+              hasPriceChanged,
+              hasCompareAtChanged,
+              hasPurchasePriceChanged,
             });
-            srpMap.set(product.id, targetCompareAtPrice);
-          } else if (hasCompareAtChanged) {
-            // Price didn't change, but compareAtPrice should be updated
-            srpMap.set(product.id, targetCompareAtPrice);
           }
         } else {
           skipped++;
@@ -478,10 +491,14 @@ export class FeedPriceSyncService {
               targetCompareAtPrice = this.roundPriceTo99(match.srp);
             }
 
+            const currentPurchasePrice = variant.purchasePrice ? Number(variant.purchasePrice) : null;
+            const newPurchasePrice = match.wholesalePrice;
+
             const hasPriceChanged = Math.abs(currentPriceNum - finalPrice) > 0.005;
             const hasCompareAtChanged = Math.abs(Number(variant.compareAtPrice || 0) - (targetCompareAtPrice || 0)) > 0.005;
+            const hasPurchasePriceChanged = currentPurchasePrice === null || Math.abs(currentPurchasePrice - newPurchasePrice) > 0.005;
 
-            if (hasPriceChanged) {
+            if (hasPriceChanged || hasCompareAtChanged || hasPurchasePriceChanged) {
               updatesList.push({
                 id: variant.id,
                 isVariant: true,
@@ -489,10 +506,12 @@ export class FeedPriceSyncService {
                 name: variant.name,
                 currentPrice: currentPriceNum,
                 newPrice: finalPrice,
+                purchasePrice: newPurchasePrice,
+                compareAtPrice: targetCompareAtPrice,
+                hasPriceChanged,
+                hasCompareAtChanged,
+                hasPurchasePriceChanged,
               });
-              srpMap.set(variant.id, targetCompareAtPrice);
-            } else if (hasCompareAtChanged) {
-              srpMap.set(variant.id, targetCompareAtPrice);
             }
           } else {
             skipped++;
@@ -502,14 +521,16 @@ export class FeedPriceSyncService {
         }
       }
 
-      console.log(`Matching complete. Checked: ${processed}, Matched in XML: ${matched}, Price Changes Detected: ${updatesList.length}`);
+      console.log(`Matching complete. Checked: ${processed}, Matched in XML: ${matched}, Changes Detected: ${updatesList.length}`);
 
       // 7. Perform DB updates (only if not dry run)
       if (dryRun) {
-        console.log('--- DRY RUN: Printing first 10 price changes ---');
+        console.log('--- DRY RUN: Printing first 10 changes ---');
         updatesList.slice(0, 10).forEach(u => {
-          const srp = srpMap.get(u.id);
-          console.log(`[DRY] ${u.isVariant ? 'Variant' : 'Product'} ${u.sku} "${u.name}": ${u.currentPrice} PLN -> ${u.newPrice} PLN (compareAt: ${srp ?? 'null'})`);
+          console.log(`[DRY] ${u.isVariant ? 'Variant' : 'Product'} ${u.sku} "${u.name}":
+  Price: ${u.currentPrice} PLN -> ${u.newPrice} PLN (changed: ${u.hasPriceChanged})
+  PurchasePrice: ${u.purchasePrice} PLN (changed: ${u.hasPurchasePriceChanged})
+  CompareAtPrice: ${u.compareAtPrice ?? 'null'} PLN (changed: ${u.hasCompareAtChanged})`);
         });
         updated = updatesList.length;
       } else {
@@ -523,91 +544,66 @@ export class FeedPriceSyncService {
           await Promise.all(
             batch.map(async (item) => {
               try {
-                const compareAt = srpMap.get(item.id) ?? null;
+                const updateData: any = {};
+                if (item.hasCompareAtChanged) {
+                  updateData.compareAtPrice = item.compareAtPrice;
+                }
+                if (item.hasPurchasePriceChanged) {
+                  updateData.purchasePrice = item.purchasePrice;
+                }
+
                 if (item.isVariant) {
                   const dbVariant = dbVariants.find(v => v.id === item.id);
                   if (dbVariant?.productId) {
                     changedProductIds.add(dbVariant.productId);
                   }
 
-                  await prisma.productVariant.update({
-                    where: { id: item.id },
-                    data: { compareAtPrice: compareAt },
-                  });
+                  if (Object.keys(updateData).length > 0) {
+                    await prisma.productVariant.update({
+                      where: { id: item.id },
+                      data: updateData,
+                    });
+                  }
 
-                  await priceHistoryService.updateVariantPrice({
-                    variantId: item.id,
-                    newPrice: item.newPrice,
-                    source: PriceChangeSource.IMPORT,
-                    reason: `Auto sync z feedu XML (${wholesalerKey})`,
-                  });
+                  if (item.hasPriceChanged) {
+                    await priceHistoryService.updateVariantPrice({
+                      variantId: item.id,
+                      newPrice: item.newPrice,
+                      source: PriceChangeSource.IMPORT,
+                      reason: `Auto sync z feedu XML (${wholesalerKey})`,
+                    });
+                  }
                 } else {
                   changedProductIds.add(item.id);
 
-                  await prisma.product.update({
-                    where: { id: item.id },
-                    data: { compareAtPrice: compareAt },
-                  });
+                  if (Object.keys(updateData).length > 0) {
+                    await prisma.product.update({
+                      where: { id: item.id },
+                      data: updateData,
+                    });
+                  }
 
-                  await priceHistoryService.updateProductPrice({
-                    productId: item.id,
-                    newPrice: item.newPrice,
-                    source: PriceChangeSource.IMPORT,
-                    reason: `Auto sync z feedu XML (${wholesalerKey})`,
-                  });
+                  if (item.hasPriceChanged) {
+                    await priceHistoryService.updateProductPrice({
+                      productId: item.id,
+                      newPrice: item.newPrice,
+                      source: PriceChangeSource.IMPORT,
+                      reason: `Auto sync z feedu XML (${wholesalerKey})`,
+                    });
+                  }
                 }
 
                 updated++;
                 const currentCount = ++count;
                 if (currentCount % 100 === 0 || currentCount <= 5) {
-                  console.log(`[${currentCount}/${updatesList.length}] Updated ${item.sku} to ${item.newPrice} PLN`);
+                  console.log(`[${currentCount}/${updatesList.length}] Updated ${item.sku} (price: ${item.newPrice}, purchase: ${item.purchasePrice})`);
                 }
               } catch (err: any) {
-                console.error(`Error updating price for ${item.sku}:`, err.message);
+                console.error(`Error updating price/purchasePrice for ${item.sku}:`, err.message);
                 errors.push(`Update error ${item.sku}: ${err.message}`);
               }
             })
           );
-        }
-
-        // Also update compareAtPrice for matched items whose price didn't change but compareAtPrice did
-        let compareAtOnlyCount = 0;
-        const compareAtOnlyList: Array<{ id: string; srpVal: number | null }> = [];
-        for (const [id, srpVal] of srpMap.entries()) {
-          const hasPriceChange = updatesList.some(u => u.id === id);
-          if (!hasPriceChange) {
-            compareAtOnlyList.push({ id, srpVal });
-          }
-        }
-
-        for (let i = 0; i < compareAtOnlyList.length; i += BATCH_SIZE) {
-          const batch = compareAtOnlyList.slice(i, i + BATCH_SIZE);
-          await Promise.all(
-            batch.map(async ({ id, srpVal }) => {
-              const dbVar = dbVariants.find(v => v.id === id);
-              try {
-                if (dbVar) {
-                  await prisma.productVariant.update({
-                    where: { id },
-                    data: { compareAtPrice: srpVal },
-                  });
-                  changedProductIds.add(dbVar.productId);
-                } else {
-                  await prisma.product.update({
-                    where: { id },
-                    data: { compareAtPrice: srpVal },
-                  });
-                  changedProductIds.add(id);
-                }
-                compareAtOnlyCount++;
-              } catch (err: any) {
-                errors.push(`CompareAt update error ${id}: ${err.message}`);
-              }
-            })
-          );
-        }
-        if (compareAtOnlyCount > 0) {
-          console.log(`Updated compareAtPrice only for ${compareAtOnlyCount} products/variants.`);
         }
 
         // 8. Update parent product prices to be the minimum of their active variants' prices

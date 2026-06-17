@@ -55,7 +55,8 @@ export default memo(function ProductListCard({ product, showWishlist = true, vie
         wholesalerRules,
         (product as any).baselinkerProductId,
         firstVariant?.sku || product.sku,
-        product.tags
+        product.tags,
+        (firstVariant as any)?.purchasePrice || (product as any).purchasePrice
       );
     }
   }
