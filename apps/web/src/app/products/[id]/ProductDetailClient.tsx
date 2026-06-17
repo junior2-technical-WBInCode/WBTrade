@@ -625,6 +625,11 @@ export default function ProductDetailClient({ product }: ProductDetailClientProp
                     </span>
                   </>
                 )}
+                {isB2b && (
+                  <span className="text-xs sm:text-sm text-blue-600 dark:text-blue-400 font-medium bg-blue-50 dark:bg-blue-950/30 px-2 py-0.5 rounded">
+                    cena B2B
+                  </span>
+                )}
               </div>
 
               {/* Lowest Price Info - Omnibus Directive */}
