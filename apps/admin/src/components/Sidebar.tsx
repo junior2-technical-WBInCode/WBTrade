@@ -115,6 +115,7 @@ const navSections: NavSection[] = [
         submenu: [
           { title: 'Lista produktów', href: '/products' },
           { title: 'Kategorie', href: '/categories' },
+          { title: 'Monitorowanie cen', href: '/products/monitoring' },
         ],
       },
       {

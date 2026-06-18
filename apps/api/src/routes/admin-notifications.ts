@@ -32,6 +32,7 @@ router.get('/', async (req: Request, res: Response) => {
       returnComplaintTickets,
       customerMessages,
       pendingDelayAlerts,
+      priceAlerts,
     ] = await Promise.all([
       // Nowe zamówienia w ciągu ostatnich 24h
       prisma.order.findMany({
@@ -185,6 +186,25 @@ router.get('/', async (req: Request, res: Response) => {
         orderBy: { detectedAt: 'desc' },
         take: 10,
       }),
+
+      // Otwarte alerty cenowe (ostatnie 7 dni)
+      prisma.productPriceAlert.findMany({
+        where: {
+          isRead: false,
+          createdAt: { gte: last7d },
+        },
+        include: {
+          monitor: {
+            include: {
+              product: {
+                select: { name: true, sku: true },
+              },
+            },
+          },
+        },
+        orderBy: { createdAt: 'desc' },
+        take: 20,
+      }),
     ]);
 
     // Helper: get customer name (supports guest orders)
@@ -321,6 +341,26 @@ router.get('/', async (req: Request, res: Response) => {
         link: `/products`,
         priority: r.rating <= 2 ? 'medium' : 'low',
         createdAt: r.createdAt,
+      });
+    });
+
+    // Alerty cenowe — średni priorytet
+    priceAlerts.forEach((alert) => {
+      const product = alert.monitor.product;
+      const oldPrice = Number(alert.oldPrice).toFixed(2);
+      const newPrice = Number(alert.newPrice).toFixed(2);
+      const diff = (Number(alert.newPrice) - Number(alert.oldPrice));
+      const direction = diff > 0 ? 'wzrosła' : 'spadła';
+      const diffFormatted = Math.abs(diff).toFixed(2);
+
+      notifications.push({
+        id: `price-alert-${alert.id}`,
+        type: 'price_alert',
+        title: 'Zmiana ceny produktu',
+        message: `${product.name} (SKU: ${product.sku}) — cena ${direction} z ${oldPrice} zł do ${newPrice} zł (Różnica: ${diff > 0 ? '+' : '-'}${diffFormatted} zł)`,
+        link: `/products/monitoring`,
+        priority: 'medium',
+        createdAt: alert.createdAt,
       });
     });
 

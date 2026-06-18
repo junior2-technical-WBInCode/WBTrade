@@ -144,6 +144,7 @@ model Product {
   wishlistItems          WishlistItem[]
   shoppingListItems      ShoppingListItem[]
   saleCampaignProducts   SaleCampaignProduct[]
+  priceMonitor           ProductPriceMonitor?
 
   @@index([slug])
   @@index([sku])
@@ -1193,3 +1194,34 @@ model Wholesaler {
   @@index([sortOrder])
   @@map("wholesalers")
 }
+
+model ProductPriceMonitor {
+  id              String              @id @default(cuid())
+  productId       String              @unique @map("product_id")
+  alertOnIncrease Boolean             @default(true) @map("alert_on_increase")
+  alertOnDecrease Boolean             @default(true) @map("alert_on_decrease")
+  createdAt       DateTime            @default(now()) @map("created_at")
+  updatedAt       DateTime            @updatedAt @map("updated_at")
+
+  product         Product             @relation(fields: [productId], references: [id], onDelete: Cascade)
+  alerts          ProductPriceAlert[]
+
+  @@index([productId])
+  @@map("product_price_monitors")
+}
+
+model ProductPriceAlert {
+  id           String              @id @default(cuid())
+  monitorId    String              @map("monitor_id")
+  oldPrice     Decimal             @map("old_price") @db.Decimal(10, 2)
+  newPrice     Decimal             @map("new_price") @db.Decimal(10, 2)
+  isRead       Boolean             @default(false) @map("is_read")
+  createdAt    DateTime            @default(now()) @map("created_at")
+
+  monitor      ProductPriceMonitor @relation(fields: [monitorId], references: [id], onDelete: Cascade)
+
+  @@index([monitorId])
+  @@index([createdAt])
+  @@map("product_price_alerts")
+}
+
