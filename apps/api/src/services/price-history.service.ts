@@ -129,6 +129,24 @@ export class PriceHistoryService {
           where: { id: productId },
           data: { price: newPriceDecimal }
         });
+
+        // 3a. Sprawdź alerty monitorowania cen
+        const monitor = await tx.productPriceMonitor.findUnique({
+          where: { productId }
+        });
+        if (monitor) {
+          const isIncrease = newPriceDecimal.greaterThan(oldPrice);
+          const isDecrease = newPriceDecimal.lessThan(oldPrice);
+          if ((isIncrease && monitor.alertOnIncrease) || (isDecrease && monitor.alertOnDecrease)) {
+            await tx.productPriceAlert.create({
+              data: {
+                monitorId: monitor.id,
+                oldPrice,
+                newPrice: newPriceDecimal
+              }
+            });
+          }
+        }
       }
       
       // 4. Przelicz lowestPrice30Days (nawet jeśli cena się nie zmieniła - dla spójności)
@@ -207,6 +225,24 @@ export class PriceHistoryService {
           where: { id: variantId },
           data: { price: newPriceDecimal }
         });
+
+        // 3a. Sprawdź alerty monitorowania cen dla produktu nadrzędnego
+        const monitor = await tx.productPriceMonitor.findUnique({
+          where: { productId: variant.productId }
+        });
+        if (monitor) {
+          const isIncrease = newPriceDecimal.greaterThan(oldPrice);
+          const isDecrease = newPriceDecimal.lessThan(oldPrice);
+          if ((isIncrease && monitor.alertOnIncrease) || (isDecrease && monitor.alertOnDecrease)) {
+            await tx.productPriceAlert.create({
+              data: {
+                monitorId: monitor.id,
+                oldPrice,
+                newPrice: newPriceDecimal
+              }
+            });
+          }
+        }
       }
       
       // 4. Przelicz lowestPrice30Days dla wariantu

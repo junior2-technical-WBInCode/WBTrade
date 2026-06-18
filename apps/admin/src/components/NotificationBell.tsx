@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect, useRef, useCallback } from 'react';
-import { Bell, ShoppingCart, AlertTriangle, UserPlus, MessageSquare, Star, ArrowLeft, X, CheckCheck, Eye, RotateCcw, Volume2, VolumeX } from 'lucide-react';
+import { Bell, ShoppingCart, AlertTriangle, UserPlus, MessageSquare, Star, ArrowLeft, X, CheckCheck, Eye, RotateCcw, Volume2, VolumeX, TrendingUp } from 'lucide-react';
 import { getAuthToken } from '@/lib/api';
 import Link from 'next/link';
 
@@ -47,6 +47,7 @@ const typeConfig: Record<string, { icon: any; color: string }> = {
   new_user: { icon: UserPlus, color: 'text-blue-400 bg-blue-400/10' },
   review: { icon: Star, color: 'text-purple-400 bg-purple-400/10' },
   return_request: { icon: RotateCcw, color: 'text-pink-400 bg-pink-400/10' },
+  price_alert: { icon: TrendingUp, color: 'text-orange-400 bg-orange-400/10' },
 };
 
 const priorityDot: Record<string, string> = {
@@ -282,7 +283,8 @@ export default function NotificationBell() {
     new_order: 5,
     new_user: 6,
     review: 7,
-    low_stock: 8,
+    price_alert: 8,
+    low_stock: 9,
   };
   const sortedNotifications = [...notifications].sort((a, b) => {
     const aPrio = typePriority[a.type] ?? 3;
