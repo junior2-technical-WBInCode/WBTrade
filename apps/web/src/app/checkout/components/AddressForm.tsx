@@ -345,6 +345,17 @@ export default function AddressForm({
         if (!/^\d{2}-\d{3}$/.test(value)) return 'Format: XX-XXX';
         return '';
       
+      case 'billingCompanyName':
+        if (!value.trim()) return 'Nazwa firmy jest wymagana';
+        if (value.trim().length < 2) return 'Nazwa firmy musi mieć min. 2 znaki';
+        return '';
+
+      case 'billingNip':
+        if (!value.trim()) return 'NIP jest wymagany';
+        const cleanNip = value.replace(/[\s-]/g, '');
+        if (!/^(?:[a-zA-Z]{2})?\d{10}$/.test(cleanNip)) return 'Niepoprawny format NIP (wymagane 10 cyfr)';
+        return '';
+
       case 'billingStreet':
         if (!value.trim()) return 'Ulica do faktury jest wymagana';
         if (value.trim().length < 3) return 'Podaj pełny adres';
@@ -416,6 +427,12 @@ export default function AddressForm({
     if (cityError) newErrors.city = cityError;
 
     if (formData.differentBillingAddress) {
+      const billingCompanyNameError = validateField('billingCompanyName', formData.billingCompanyName || '');
+      if (billingCompanyNameError) newErrors.billingCompanyName = billingCompanyNameError;
+
+      const billingNipError = validateField('billingNip', formData.billingNip || '');
+      if (billingNipError) newErrors.billingNip = billingNipError;
+
       const billingStreetError = validateField('billingStreet', formData.billingStreet || '');
       if (billingStreetError) newErrors.billingStreet = billingStreetError;
 
@@ -817,7 +834,10 @@ export default function AddressForm({
                   name="billingCompanyName"
                   value={formData.billingCompanyName || ''}
                   onChange={handleChange}
+                  onBlur={handleBlur}
                   label="Nazwa firmy"
+                  error={errors.billingCompanyName}
+                  required
                   placeholder="np. Firma Sp. z o.o."
                 />
                 <InputField
@@ -825,7 +845,10 @@ export default function AddressForm({
                   name="billingNip"
                   value={formData.billingNip || ''}
                   onChange={handleChange}
+                  onBlur={handleBlur}
                   label="NIP"
+                  error={errors.billingNip}
+                  required
                   placeholder="np. 1234567890"
                   maxLength={13}
                 />
