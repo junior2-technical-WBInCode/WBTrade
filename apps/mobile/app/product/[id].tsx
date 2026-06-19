@@ -1094,7 +1094,7 @@ export default function ProductDetailScreen() {
 
           {/* SKU */}
           {product.sku && (
-            <Text style={styles.sku}>SKU: {product.sku.replace(/^(hp-|leker-|btp-|dofirmy-|outlet-|ikonka-)/i, '')}</Text>
+            <Text style={styles.sku}>SKU: {product.sku.replace(/^(hp-|leker-|btp-|dofirmy-|outlet-|ikonka-|hk-|hs-|polzoo-)/i, '')}</Text>
           )}
 
           {/* Manufacturer / GPSR link */}
@@ -1315,11 +1315,16 @@ export default function ProductDetailScreen() {
           {(() => {
             const tags: string[] = (product as any).tags || [];
             let warehouseCity = '';
-            if (tags.some(t => t.toLowerCase().includes('hurtownia przemysłowa'))) warehouseCity = 'Zielonej Górze';
+            const skuLower = product.sku?.toLowerCase() || '';
+            if (tags.some(t => t.toLowerCase() === 'rzeszów' || t.toLowerCase() === 'outlet') || skuLower.startsWith('outlet-')) warehouseCity = 'Rzeszowie';
+            else if (tags.some(t => t.toLowerCase().includes('hurtownia przemysłowa')) || skuLower.startsWith('hp-')) warehouseCity = 'Zielonej Górze';
+            else if (tags.some(t => t.toLowerCase().includes('hurtownia sportowa')) || skuLower.startsWith('hs-')) warehouseCity = 'Zielonej Górze';
             else if (tags.some(t => t.toLowerCase() === 'ikonka')) warehouseCity = 'Białymstoku';
-            else if (tags.some(t => t.toLowerCase() === 'leker')) warehouseCity = 'Chynowie';
-            else if (tags.some(t => t.toLowerCase() === 'btp')) warehouseCity = 'Chotowie';
-            else if (tags.some(t => t.toLowerCase() === 'dofirmy')) warehouseCity = 'Koszalinie';
+            else if (tags.some(t => t.toLowerCase() === 'leker') || skuLower.startsWith('leker-')) warehouseCity = 'Chynowie';
+            else if (tags.some(t => t.toLowerCase() === 'btp') || skuLower.startsWith('btp-')) warehouseCity = 'Chotowie';
+            else if (tags.some(t => t.toLowerCase() === 'dofirmy') || skuLower.startsWith('dofirmy-')) warehouseCity = 'Koszalinie';
+            else if (tags.some(t => t.toLowerCase().includes('hurtownia kuchenna')) || skuLower.startsWith('hk-')) warehouseCity = 'Warszawie';
+            else if (tags.some(t => t.toLowerCase() === 'polzoo') || skuLower.startsWith('polzoo-')) warehouseCity = 'Rykach';
 
             const productPrice = price;
             const freeThreshold = 300;

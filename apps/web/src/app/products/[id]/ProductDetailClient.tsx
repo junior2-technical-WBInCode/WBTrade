@@ -579,7 +579,7 @@ export default function ProductDetailClient({ product }: ProductDetailClientProp
               {/* SKU */}
               {product?.sku && (
                 <p className="text-xs text-gray-500 dark:text-gray-400 mb-2 sm:mb-3">
-                  SKU: <span className="font-mono">{product.sku.replace(/^(hp-|leker-|btp-|dofirmy-|outlet-|ikonka-)/i, '')}</span>
+                  SKU: <span className="font-mono">{product.sku.replace(/^(hp-|leker-|btp-|dofirmy-|outlet-|ikonka-|hk-|hs-|polzoo-)/i, '')}</span>
                 </p>
               )}
 
@@ -872,6 +872,8 @@ export default function ProductDetailClient({ product }: ProductDetailClientProp
                   warehouseCity = 'Rzeszowie';
                 } else if (tags.some(t => t.toLowerCase().includes('hurtownia przemysłowa')) || blId.startsWith('hp-')) {
                   warehouseCity = 'Zielonej Górze';
+                } else if (tags.some(t => t.toLowerCase().includes('hurtownia sportowa')) || blId.startsWith('hs-')) {
+                  warehouseCity = 'Zielonej Górze';
                 } else if (tags.some(t => t.toLowerCase() === 'ikonka')) {
                   warehouseCity = 'Białymstoku';
                 } else if (tags.some(t => t.toLowerCase() === 'leker') || blId.startsWith('leker-')) {
@@ -881,7 +883,9 @@ export default function ProductDetailClient({ product }: ProductDetailClientProp
                 } else if (tags.some(t => t.toLowerCase() === 'dofirmy') || blId.startsWith('dofirmy-')) {
                   warehouseCity = 'Koszalinie';
                 } else if (tags.some(t => t.toLowerCase().includes('hurtownia kuchenna')) || blId.startsWith('hk-')) {
-                  warehouseCity = 'Hurtowni Kuchennej';
+                  warehouseCity = 'Warszawie';
+                } else if (tags.some(t => t.toLowerCase() === 'polzoo') || blId.startsWith('polzoo-')) {
+                  warehouseCity = 'Rykach';
                 }
                 
                 if (!warehouseCity) return null;
