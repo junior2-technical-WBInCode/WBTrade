@@ -251,6 +251,38 @@ function filterProductsWithPackageInfo(products: any[]): any[] {
 }
 
 export class ProductsService {
+  private async getPhantomVariantIds(): Promise<string[]> {
+    const phantomVariants = await prisma.$queryRaw<Array<{ variant_id: string }>>`
+      SELECT variant_id AS "variant_id" FROM inventory WHERE quantity > 0 AND quantity <= reserved
+    `;
+    return phantomVariants.map(v => v.variant_id);
+  }
+
+  private async getStockCondition(): Promise<any> {
+    const phantomVariantIds = await this.getPhantomVariantIds();
+    if (phantomVariantIds.length > 0) {
+      return {
+        some: {
+          id: { notIn: phantomVariantIds },
+          inventory: {
+            some: {
+              quantity: { gt: 0 }
+            }
+          }
+        }
+      };
+    }
+    return {
+      some: {
+        inventory: {
+          some: {
+            quantity: { gt: 0 }
+          }
+        }
+      }
+    };
+  }
+
   /**
    * Check if a category exists by ID
    */
@@ -266,7 +298,8 @@ export class ProductsService {
    * Get all descendant category IDs for a given category slug or ID (including the category itself)
    */
   private async getAllCategoryIds(categorySlugOrId: string): Promise<string[]> {
-    const prefixes = ['btp-', 'hp-', 'leker-', 'ikonka-', 'dofirmy-'];
+    const wholesalers = await wholesalerConfigService.getAll();
+    const prefixes = wholesalers.map(w => w.prefix).filter(Boolean);
 
     // Find ALL matching categories at once: exact slug + supplier prefixes
     // This ensures product listing aggregates products from all supplier variants
@@ -391,15 +424,7 @@ export class ProductsService {
       // Always filter out products with price <= 0
       price: { gt: 0 },
       // Produkty MUSZĄ mieć stan magazynowy > 0
-      variants: {
-        some: {
-          inventory: {
-            some: {
-              quantity: { gt: 0 }
-            }
-          }
-        }
-      },
+      variants: await this.getStockCondition(),
       // Produkty MUSZĄ mieć tag dostawy ORAZ kategorię z Baselinker
       AND: [
         // Tag dostawy - nie pokazuj produktów z tylko tagiem hurtowni
@@ -814,15 +839,7 @@ export class ProductsService {
         where: {
           id: { in: productIds },
           // Dodatkowy filtr: produkty muszą mieć stan > 0
-          variants: {
-            some: {
-              inventory: {
-                some: {
-                  quantity: { gt: 0 }
-                }
-              }
-            }
-          },
+          variants: await this.getStockCondition(),
           // Produkty MUSZĄ mieć tag dostawy ORAZ kategorię z Baselinker
           AND: [
             { tags: { hasSome: DELIVERY_TAGS } },
@@ -917,15 +934,7 @@ export class ProductsService {
       // Produkty MUSZĄ mieć cenę > 0
       price: { gt: 0 },
       // Produkty MUSZĄ mieć stan magazynowy > 0
-      variants: {
-        some: {
-          inventory: {
-            some: {
-              quantity: { gt: 0 }
-            }
-          }
-        }
-      },
+      variants: await this.getStockCondition(),
       // Produkty MUSZĄ mieć tag dostawy ORAZ kategorię z Baselinker
       AND: [
         { tags: { hasSome: DELIVERY_TAGS } },
@@ -1408,15 +1417,7 @@ export class ProductsService {
     const baseWhere: Prisma.ProductWhereInput = {
       status: 'ACTIVE',
       price: { gt: 0 },
-      variants: {
-        some: {
-          inventory: {
-            some: {
-              quantity: { gt: 0 }
-            }
-          }
-        }
-      },
+      variants: await this.getStockCondition(),
       AND: [
         { tags: { hasSome: DELIVERY_TAGS } },
         { category: { baselinkerCategoryId: { not: null } } },
@@ -1653,15 +1654,7 @@ export class ProductsService {
     const whereBase: Prisma.ProductWhereInput = customWhere || {
       status: 'ACTIVE',
       price: { gt: 0 },
-      variants: {
-        some: {
-          inventory: {
-            some: {
-              quantity: { gt: 0 }
-            }
-          }
-        }
-      },
+      variants: await this.getStockCondition(),
       AND: [
         { tags: { hasSome: DELIVERY_TAGS } },
         { category: { baselinkerCategoryId: { not: null } } },
@@ -1761,7 +1754,8 @@ export class ProductsService {
       return list;
     };
 
-    const prefixes = ['btp-', 'hp-', 'leker-', 'ikonka-', 'dofirmy-'];
+    const wholesalers = await wholesalerConfigService.getAll();
+    const prefixes = wholesalers.map(w => w.prefix).filter(Boolean);
     const getMatchingCategoryIds = (slug: string): string[] => {
       const matchedCategories = categories.filter(c => 
         c.slug === slug || prefixes.some(prefix => c.slug.startsWith(`${prefix}${slug}`))
@@ -2539,15 +2533,7 @@ export class ProductsService {
       ...(isOutlet ? {} : { OR: DELIVERY_TAGS.map(tag => ({ tags: { has: tag } })) }),
       ...(isOutlet ? {} : { baselinkerCategoryPath: { not: null } }),
       ...(isOutlet ? {} : PACKAGE_FILTER_WHERE),
-      variants: {
-        some: {
-          inventory: {
-            some: {
-              quantity: { gt: 0 },
-            },
-          },
-        },
-      },
+      variants: await this.getStockCondition(),
     };
 
     const includeRelations = {
@@ -2646,7 +2632,7 @@ export class ProductsService {
       where: {
         status: 'ACTIVE',
         price: { gt: 0 },
-        variants: { some: { inventory: { some: { quantity: { gt: 0 } } } } },
+        variants: await this.getStockCondition(),
         AND: [
           { tags: { hasSome: DELIVERY_TAGS } },
           { category: { baselinkerCategoryId: { not: null } } },
@@ -2692,7 +2678,7 @@ export class ProductsService {
           manufacturer: { slug },
           status: 'ACTIVE',
           price: { gt: 0 },
-          variants: { some: { inventory: { some: { quantity: { gt: 0 } } } } },
+          variants: await this.getStockCondition(),
           AND: [
             { tags: { hasSome: DELIVERY_TAGS } },
             { category: { baselinkerCategoryId: { not: null } } },

@@ -733,9 +733,10 @@ export class BaselinkerService {
         'kategoria tymczasowa', 'do zrobienia',
       ]);
 
-      // Also block categories that match warehouse/inventory names (dynamic)
+      let legacyPrefixes: string[] = ['hp-', 'btp-', 'leker-', 'outlet-'];
       try {
         const wholesalers = await wholesalerConfigService.getAll();
+        legacyPrefixes = [...new Set([...wholesalers.map(w => w.prefix).filter(Boolean), 'outlet-'])];
         for (const w of wholesalers) {
           BLOCKED_CATEGORY_NAMES.add(w.name.trim().toLowerCase());
           for (const alias of w.aliases) {
@@ -802,7 +803,7 @@ export class BaselinkerService {
           // If no exact match, check for legacy prefixed versions (hp-, btp-, leker-, outlet-)
           // and migrate them to use the plain ID
           if (!existing) {
-            for (const prefix of ['hp-', 'btp-', 'leker-', 'outlet-']) {
+            for (const prefix of legacyPrefixes) {
               const prefixed = await prisma.category.findUnique({
                 where: { baselinkerCategoryId: `${prefix}${categoryId}` }
               });
@@ -952,7 +953,7 @@ export class BaselinkerService {
         try {
           // If no exact match, check for legacy prefixed versions
           if (!existing) {
-            for (const prefix of ['hp-', 'btp-', 'leker-', 'outlet-']) {
+            for (const prefix of legacyPrefixes) {
               const prefixed = await prisma.category.findUnique({
                 where: { baselinkerCategoryId: `${prefix}${categoryId}` }
               });
@@ -1027,7 +1028,9 @@ export class BaselinkerService {
     if (category) return category;
     
     // Try with warehouse prefixes
-    for (const prefix of ['btp-', 'hp-', 'leker-', 'outlet-']) {
+    const wholesalers = await wholesalerConfigService.getAll();
+    const prefixes = [...new Set([...wholesalers.map(w => w.prefix).filter(Boolean), 'outlet-'])];
+    for (const prefix of prefixes) {
       category = await prisma.category.findUnique({
         where: { baselinkerCategoryId: `${prefix}${baselinkerCategoryId}` },
       });
