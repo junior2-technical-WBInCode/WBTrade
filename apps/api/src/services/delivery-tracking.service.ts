@@ -12,6 +12,7 @@ import { prisma } from '../db';
 import { decryptToken } from '../lib/encryption';
 import { createBaselinkerProvider } from '../providers/baselinker';
 import type { BaselinkerOrderPackage } from '../providers/baselinker/baselinker-provider.interface';
+import { ordersService } from './orders.service';
 
 /**
  * Safely get Baselinker API token: try decryption first, fall back to env var.
@@ -223,31 +224,26 @@ export class DeliveryTrackingService {
             impliedOrderStatus !== order.status &&
             this.isStatusProgression(order.status, impliedOrderStatus);
 
-          await prisma.$transaction(async (tx) => {
-            // Update order with delivery info
-            await tx.order.update({
-              where: { id: order.id },
-              data: updateData,
-            });
-
-            // Update order status if delivery status implies progression
-            if (shouldUpdateOrderStatus) {
-              await tx.order.update({
-                where: { id: order.id },
-                data: { status: impliedOrderStatus as any },
-              });
-
-              await tx.orderStatusHistory.create({
-                data: {
-                  orderId: order.id,
-                  status: impliedOrderStatus as any,
-                  note: `Auto-sync: status dostawy "${this.getStatusLabel(packageInfo.deliveryStatus)}" → ${impliedOrderStatus}`,
-                },
-              });
-
-              console.log(`[DeliveryTracking] Order ${order.orderNumber}: ${order.status} → ${impliedOrderStatus} (delivery: ${packageInfo.deliveryStatus})`);
-            }
+          // Update order with delivery info
+          await prisma.order.update({
+            where: { id: order.id },
+            data: updateData,
           });
+
+          // Update order status if delivery status implies progression via state machine
+          if (shouldUpdateOrderStatus) {
+            const note = `Auto-sync: status dostawy "${this.getStatusLabel(packageInfo.deliveryStatus)}" → ${impliedOrderStatus}`;
+            
+            if (impliedOrderStatus === 'CANCELLED') {
+              await ordersService.cancel(order.id, true);
+            } else if (impliedOrderStatus === 'REFUNDED') {
+              await ordersService.refund(order.id, note);
+            } else {
+              await ordersService.updateStatus(order.id, impliedOrderStatus as any, note, 'SYSTEM_COURIER');
+            }
+
+            console.log(`[DeliveryTracking] Order ${order.orderNumber}: ${order.status} → ${impliedOrderStatus} (delivery: ${packageInfo.deliveryStatus})`);
+          }
 
           console.log(`[DeliveryTracking] Order ${order.orderNumber}: delivery="${this.getStatusLabel(packageInfo.deliveryStatus)}" tracking=${packageInfo.trackingNumber || '-'}`);
           result.updated++;

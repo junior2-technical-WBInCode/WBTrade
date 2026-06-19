@@ -26,6 +26,11 @@ interface MeiliProduct {
   image: string | null;
   status: string;
   createdAt: number;
+  tags: string[];
+  popularityScore: number;
+  inStock: boolean;
+  hasBaselinkerCategory: boolean;
+  categoryIsActive: boolean;
 }
 
 async function syncProductsToMeilisearch() {
@@ -51,9 +56,10 @@ async function syncProductsToMeilisearch() {
     
     await meiliClient.index(PRODUCTS_INDEX).updateSearchableAttributes([
       'name',
-      'description',
       'sku',
       'categoryName',
+      'brand',
+      'tags',
     ]);
 
     await meiliClient.index(PRODUCTS_INDEX).updateFilterableAttributes([
@@ -61,22 +67,32 @@ async function syncProductsToMeilisearch() {
       'categoryName',
       'price',
       'status',
+      'brand',
+      'color',
+      'size',
+      'material',
+      'inStock',
+      'hasDiscount',
       'tags',
+      'hasBaselinkerCategory',
+      'categoryIsActive',
     ]);
 
     await meiliClient.index(PRODUCTS_INDEX).updateSortableAttributes([
       'price',
       'name',
       'createdAt',
+      'popularity',
       'popularityScore',
+      'rating',
       'id',
     ]);
 
     await meiliClient.index(PRODUCTS_INDEX).updateTypoTolerance({
       enabled: true,
       minWordSizeForTypos: {
-        oneTypo: 3,
-        twoTypos: 6,
+        oneTypo: 7,
+        twoTypos: 9,
       },
     });
 
@@ -97,6 +113,11 @@ async function syncProductsToMeilisearch() {
         include: {
           images: { orderBy: { order: 'asc' }, take: 1 },
           category: true,
+          variants: {
+            include: {
+              inventory: true,
+            },
+          },
         },
       });
 
@@ -115,6 +136,9 @@ async function syncProductsToMeilisearch() {
         createdAt: product.createdAt.getTime(),
         tags: product.tags || [],
         popularityScore: product.popularityScore || 0,
+        inStock: product.variants.some(v => v.inventory.some(i => (i.quantity - i.reserved) > 0)),
+        hasBaselinkerCategory: !!product.category?.baselinkerCategoryId,
+        categoryIsActive: product.category?.isActive !== false,
       }));
 
       const task = await meiliClient.index(PRODUCTS_INDEX).addDocuments(documents);

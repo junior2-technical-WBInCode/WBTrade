@@ -569,7 +569,7 @@ export class SearchService {
         categoryIsActive: product.category?.isActive !== false,
         tags: product.tags || [],
         popularityScore: product.popularityScore || 0,
-        inStock: product.variants.some(v => v.inventory.some(i => i.quantity > 0)),
+        inStock: product.variants.some(v => v.inventory.some(i => (i.quantity - i.reserved) > 0)),
       }));
 
       const task = await index.addDocuments(documents);
@@ -616,7 +616,7 @@ export class SearchService {
       categoryIsActive: product.category?.isActive !== false,
       tags: product.tags || [],
       popularityScore: product.popularityScore || 0,
-      inStock: product.variants.some(v => v.inventory.some(i => i.quantity > 0)),
+      inStock: product.variants.some(v => v.inventory.some(i => (i.quantity - i.reserved) > 0)),
     };
 
     const index = getProductsIndex();

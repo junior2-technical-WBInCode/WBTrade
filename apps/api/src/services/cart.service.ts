@@ -2,6 +2,7 @@ import { prisma } from '../db';
 import { roundMoney } from '../lib/currency';
 import { saleCampaignService } from './sale-campaign.service';
 import { getB2bUserInfo, calculateB2bPriceForProduct } from './b2b-pricing.service';
+import { wholesalerConfigService } from './wholesaler-config.service';
 
 export interface CartWithItems {
   id: string;
@@ -588,7 +589,7 @@ export class CartService {
    * Get wholesaler from product tags
    * Priority: Rzeszów/Outlet > other wholesalers (for outlet products shipped from Rzeszów)
    */
-  private getWholesaler(tags: string[]): string | null {
+  private getWholesaler(tags: string[], wholesalerRegex: RegExp): string | null {
     // First check for Rzeszów/Outlet - these have priority over other wholesalers
     for (const tag of tags) {
       if (/^(Rzeszów|Outlet)$/i.test(tag)) {
@@ -597,9 +598,8 @@ export class CartService {
     }
     
     // Then check for other wholesaler tags
-    const WHOLESALER_PATTERN = /^(hurtownia[:\-_](.+)|Ikonka|BTP|HP|Gastro|Horeca|Hurtownia\s+Przemysłowa|Leker|Forcetop|DoFirmy)$/i;
     for (const tag of tags) {
-      const match = tag.match(WHOLESALER_PATTERN);
+      const match = tag.match(wholesalerRegex);
       if (match) {
         // Return the captured group if present (e.g., "HP" from "hurtownia:HP"), or the whole match
         return match[2] || match[1];
@@ -616,6 +616,22 @@ export class CartService {
     let b2bInfo: any = null;
     if (cart.userId) {
       b2bInfo = await getB2bUserInfo(cart.userId);
+    }
+
+    // Build dynamic wholesaler pattern regex
+    let wholesalerRegex = /^(hurtownia[:\-_](.+)|Ikonka|BTP|HP|Gastro|Horeca|Hurtownia\s+Przemysłowa|Leker|Forcetop|DoFirmy)$/i;
+    try {
+      const wholesalers = await wholesalerConfigService.getAll();
+      const names: string[] = [];
+      for (const w of wholesalers) {
+        names.push(w.name);
+        names.push(...w.aliases);
+      }
+      const escaped = names.map(n => n.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'));
+      const pattern = `^(hurtownia[:\\-_](.+)|${escaped.join('|')})$`;
+      wholesalerRegex = new RegExp(pattern, 'i');
+    } catch (e) {
+      console.warn('[CartService] Could not build dynamic wholesaler regex:', e);
     }
 
     const items: CartItemWithProduct[] = await Promise.all(
@@ -635,7 +651,7 @@ export class CartService {
           );
         }
         const tags = item.variant.product.tags || [];
-        const wholesaler = this.getWholesaler(tags);
+        const wholesaler = this.getWholesaler(tags, wholesalerRegex);
         
         return {
           id: item.id,

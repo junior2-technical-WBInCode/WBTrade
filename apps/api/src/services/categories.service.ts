@@ -1,5 +1,6 @@
 import { prisma } from '../db';
 import { getCachedCategoryTree, setCachedCategoryTree } from '../lib/cache';
+import { wholesalerConfigService } from './wholesaler-config.service';
 
 // Tagi dostawy - produkty MUSZĄ mieć przynajmniej jeden z tych tagów żeby być widoczne
 const DELIVERY_TAGS = [
@@ -90,6 +91,38 @@ export interface CategoryWithChildren {
 }
 
 export class CategoriesService {
+  private async getPhantomVariantIds(): Promise<string[]> {
+    const phantomVariants = await prisma.$queryRaw<Array<{ variant_id: string }>>`
+      SELECT variant_id AS "variant_id" FROM inventory WHERE quantity > 0 AND quantity <= reserved
+    `;
+    return phantomVariants.map(v => v.variant_id);
+  }
+
+  private async getStockCondition(): Promise<any> {
+    const phantomVariantIds = await this.getPhantomVariantIds();
+    if (phantomVariantIds.length > 0) {
+      return {
+        some: {
+          id: { notIn: phantomVariantIds },
+          inventory: {
+            some: {
+              quantity: { gt: 0 }
+            }
+          }
+        }
+      };
+    }
+    return {
+      some: {
+        inventory: {
+          some: {
+            quantity: { gt: 0 }
+          }
+        }
+      }
+    };
+  }
+
   /**
    * Get all category IDs matching a slug — finds ALL categories whose slug CONTAINS
    * the search term (catches supplier-specific slugs like leker-zabawki-1234, btp-gadzety etc.)
@@ -97,7 +130,8 @@ export class CategoriesService {
    * MUST use same logic as products.service.ts getAllCategoryIds.
    */
   private async getAllMatchingCategoryIds(slug: string): Promise<string[]> {
-    const prefixes = ['btp-', 'hp-', 'leker-', 'ikonka-'];
+    const wholesalers = await wholesalerConfigService.getAll();
+    const prefixes = wholesalers.map(w => w.prefix).filter(Boolean);
 
     // Find ALL matching categories: exact slug + supplier prefixes
     // NOTE: Do NOT use `contains` here — it causes false matches between unrelated
@@ -161,9 +195,11 @@ export class CategoriesService {
       return 0;
     }
 
+    const stockCondition = await this.getStockCondition();
     return prisma.product.count({
       where: {
         ...VISIBLE_PRODUCT_WHERE,
+        variants: stockCondition,
         categoryId,
       },
     });
@@ -186,20 +222,13 @@ export class CategoriesService {
     }
 
     // Krok 1: Szybki COUNT z groupBy — nie ładuje wierszy do pamięci
+    const stockCondition = await this.getStockCondition();
     const groupedCounts = await prisma.product.groupBy({
       by: ['categoryId'],
       where: {
         categoryId: { in: filteredCategoryIds },
         price: { gt: 0 },
-        variants: {
-          some: {
-            inventory: {
-              some: {
-                quantity: { gt: 0 }
-              }
-            }
-          }
-        },
+        variants: stockCondition,
         tags: { hasSome: DELIVERY_TAGS },
         NOT: {
           tags: { hasSome: HIDDEN_TAGS }
@@ -225,15 +254,7 @@ export class CategoriesService {
         where: {
           categoryId: { in: filteredCategoryIds },
           price: { gt: 0 },
-          variants: {
-            some: {
-              inventory: {
-                some: {
-                  quantity: { gt: 0 }
-                }
-              }
-            }
-          },
+          variants: stockCondition,
           tags: { hasSome: DELIVERY_TAGS },
           NOT: {
             tags: { hasSome: HIDDEN_TAGS }

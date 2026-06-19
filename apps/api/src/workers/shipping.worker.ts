@@ -6,6 +6,7 @@
 import { Worker, Job } from 'bullmq';
 import { QUEUE_NAMES, queueConnection, queueEmail, ShippingJobData } from '../lib/queue';
 import { prisma } from '../db';
+import { ordersService } from '../services/orders.service';
 
 // Carrier configurations (mock)
 const CARRIERS = {
@@ -59,22 +60,16 @@ async function generateShippingLabel(
   const trackingNumber = `${carrier.toUpperCase()}${Date.now()}${Math.random().toString(36).substr(2, 4).toUpperCase()}`;
   const labelUrl = `https://storage.wbtrade.pl/labels/${orderId}-${trackingNumber}.pdf`;
   
+  // Run status progression through state machine to subtract/reserve stock
+  const note = `Etykieta ${CARRIERS[carrier as CarrierCode]?.name || carrier} wygenerowana. Nr przesyłki: ${trackingNumber}`;
+  await ordersService.updateStatus(orderId, 'PROCESSING', note, 'SYSTEM_SHIPPING');
+
   // Update order with tracking information
   await prisma.order.update({
     where: { id: orderId },
     data: {
       trackingNumber,
       // shippingLabelUrl: labelUrl, // If field exists
-      status: 'PROCESSING',
-    },
-  });
-  
-  // Add status history
-  await prisma.orderStatusHistory.create({
-    data: {
-      orderId,
-      status: 'PROCESSING',
-      note: `Etykieta ${CARRIERS[carrier as CarrierCode]?.name || carrier} wygenerowana. Nr przesyłki: ${trackingNumber}`,
     },
   });
   
@@ -117,18 +112,7 @@ async function trackShipment(
   
   // If delivered, update order status and notify customer
   if (randomStatus === 'delivered') {
-    await prisma.order.update({
-      where: { id: orderId },
-      data: { status: 'DELIVERED' },
-    });
-    
-    await prisma.orderStatusHistory.create({
-      data: {
-        orderId,
-        status: 'DELIVERED',
-        note: 'Przesyłka dostarczona',
-      },
-    });
+    await ordersService.updateStatus(orderId, 'DELIVERED', 'Przesyłka dostarczona', 'SYSTEM_SHIPPING');
     
     // Notify customer
     if (order.user) {

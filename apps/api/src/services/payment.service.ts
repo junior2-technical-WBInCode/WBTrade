@@ -22,6 +22,7 @@ import { prisma } from '../db';
 import { baselinkerOrdersService } from './baselinker-orders.service';
 import { popularityService } from './popularity.service';
 import { emailService } from './email.service';
+import { ordersService } from './orders.service';
 
 // Provider configurations from environment
 const providerConfigs: Record<PaymentProviderId, Partial<PaymentProviderConfig>> = {
@@ -403,16 +404,20 @@ export class PaymentService {
         }
       }
 
+      const note = `Payment ${result.status}${result.transactionId ? ` (Transaction: ${result.transactionId})` : ''}`;
+
+      // If status is transitioning to CANCELLED, run cancellation logic (forceCancel = true)
+      if (newOrderStatus === 'CANCELLED') {
+        await ordersService.cancel(order.id, true);
+      } else if (newOrderStatus) {
+        // Run status progression through state machine to subtract/reserve stock
+        await ordersService.updateStatus(order.id, newOrderStatus as any, note, 'SYSTEM_PAYMENT');
+      }
+
+      // Update payment details directly
       const updateData: any = {
         paymentStatus: newPaymentStatus as any,
       };
-      
-      // Only update order status if payment succeeded or failed
-      if (newOrderStatus) {
-        updateData.status = newOrderStatus as any;
-      }
-
-      // Update payment method if we got the actual method used from provider
       if (result.paymentMethodUsed) {
         updateData.paymentMethod = result.paymentMethodUsed;
       }
@@ -420,14 +425,6 @@ export class PaymentService {
       await prisma.order.update({
         where: { id: order.id },
         data: updateData,
-      });
-
-      await prisma.orderStatusHistory.create({
-        data: {
-          orderId: order.id,
-          status: (newOrderStatus || order.status) as any,
-          note: `Payment ${result.status}${result.transactionId ? ` (Transaction: ${result.transactionId})` : ''}`,
-        },
       });
 
       console.log(`Order ${order.id} updated successfully`);
@@ -582,11 +579,11 @@ export class PaymentService {
    */
   async createCODPayment(orderId: string, amount: number): Promise<PaymentSession> {
     // COD is handled differently - no external payment session
+    await ordersService.updateStatus(orderId, 'PROCESSING', 'Płatność przy odbiorze (COD)', 'SYSTEM_PAYMENT');
     await prisma.order.update({
       where: { id: orderId },
       data: {
         paymentMethod: 'cod',
-        status: 'PROCESSING', // Move to processing without payment
       },
     });
 

@@ -7,7 +7,7 @@ import { Worker, Job } from 'bullmq';
 import { QUEUE_NAMES, queueConnection, queueEmail } from '../lib/queue';
 import { prisma } from '../db';
 import { invalidateInventoryCache } from '../lib/cache';
-import { PaymentStatus } from '@prisma/client';
+import { PaymentStatus, StockMovementType } from '@prisma/client';
 
 interface InventorySyncJobData {
   type: 'sync-all' | 'sync-location' | 'low-stock-check' | 'reservation-cleanup';
@@ -163,11 +163,20 @@ async function cleanupExpiredReservations(): Promise<{ released: number; failedP
       await prisma.$transaction(async (tx) => {
         // Release reservations for each item
         for (const item of order.items) {
-          // Find inventory with reservation
+          // Find the reserve movement to identify the correct warehouse location
+          const reserveMovement = await tx.stockMovement.findFirst({
+            where: {
+              variantId: item.variantId,
+              type: StockMovementType.RESERVE,
+              reference: order.orderNumber,
+            },
+          });
+
+          const locationId = reserveMovement?.toLocationId;
           const inventory = await tx.inventory.findFirst({
             where: {
               variantId: item.variantId,
-              reserved: { gte: item.quantity },
+              ...(locationId && { locationId }),
             },
           });
 
@@ -176,6 +185,17 @@ async function cleanupExpiredReservations(): Promise<{ released: number; failedP
               where: { id: inventory.id },
               data: {
                 reserved: { decrement: item.quantity },
+              },
+            });
+
+            await tx.stockMovement.create({
+              data: {
+                variantId: item.variantId,
+                type: StockMovementType.RELEASE,
+                quantity: item.quantity, // Positive for release
+                fromLocationId: inventory.locationId,
+                reference: order.orderNumber,
+                notes: `Automatyczne zwolnienie rezerwacji - przekroczony czas na płatność dla zamówienia ${order.orderNumber}`,
               },
             });
 
@@ -232,17 +252,73 @@ async function syncAllInventory(): Promise<{ synced: number }> {
   let synced = 0;
 
   for (const record of inventoryRecords) {
-    // Recalculate from stock movements
-    const movements = await prisma.stockMovement.aggregate({
+    // Find all movements for this variant and location
+    const movements = await prisma.stockMovement.findMany({
       where: {
         variantId: record.variantId,
         OR: [
-          { toLocationId: record.locationId },
           { fromLocationId: record.locationId },
+          { toLocationId: record.locationId },
         ],
       },
-      _sum: {
-        quantity: true,
+    });
+
+    let computedQuantity = 0;
+    let computedReserved = 0;
+
+    for (const m of movements) {
+      const absQty = Math.abs(m.quantity);
+
+      // Physical stock quantity calculation
+      if (m.type === 'RECEIVE') {
+        if (m.toLocationId === record.locationId) {
+          computedQuantity += absQty;
+        }
+      } else if (m.type === 'SHIP') {
+        if (m.fromLocationId === record.locationId) {
+          computedQuantity -= absQty;
+        }
+      } else if (m.type === 'TRANSFER') {
+        if (m.toLocationId === record.locationId) {
+          computedQuantity += absQty;
+        }
+        if (m.fromLocationId === record.locationId) {
+          computedQuantity -= absQty;
+        }
+      } else if (m.type === 'ADJUST') {
+        if (m.toLocationId === record.locationId) {
+          // ADJUST contains the difference (can be positive or negative)
+          computedQuantity += m.quantity;
+        }
+      }
+
+      // Reservation quantity calculation
+      if (m.type === 'RESERVE') {
+        if (m.toLocationId === record.locationId || m.fromLocationId === record.locationId) {
+          computedReserved += absQty;
+        }
+      } else if (m.type === 'RELEASE') {
+        if (m.fromLocationId === record.locationId) {
+          computedReserved -= absQty;
+        }
+      } else if (m.type === 'SHIP') {
+        // If SHIP has order reference, it releases reservation
+        if (m.fromLocationId === record.locationId && m.reference?.startsWith('WB-')) {
+          computedReserved -= absQty;
+        }
+      }
+    }
+
+    // Ensure values are not negative
+    computedQuantity = Math.max(0, computedQuantity);
+    computedReserved = Math.max(0, computedReserved);
+
+    // Update database
+    await prisma.inventory.update({
+      where: { id: record.id },
+      data: {
+        quantity: computedQuantity,
+        reserved: computedReserved,
       },
     });
 
