@@ -348,14 +348,25 @@ export class BaselinkerOrdersService {
     }
 
     // Add billing/invoice data
-    if (order.billingAddress) {
-      blOrder.invoice_fullname = `${order.billingAddress.firstName} ${order.billingAddress.lastName}`;
-      blOrder.invoice_company = order.billingAddress.companyName || '';
-      blOrder.invoice_nip = order.billingAddress.nip || '';
-      blOrder.invoice_address = order.billingAddress.street;
-      blOrder.invoice_city = order.billingAddress.city;
-      blOrder.invoice_postcode = order.billingAddress.postalCode;
-      blOrder.invoice_country_code = order.billingAddress.country || 'PL';
+    const isBusiness = order.isBusinessOrder || !!order.billingNip;
+    const invoiceAddress = order.billingAddress || order.shippingAddress;
+
+    if (invoiceAddress || isBusiness) {
+      const invoiceFullName = invoiceAddress 
+        ? `${invoiceAddress.firstName} ${invoiceAddress.lastName}`.trim() 
+        : `${order.guestFirstName || ''} ${order.guestLastName || ''}`.trim();
+
+      blOrder.invoice_fullname = invoiceFullName;
+      blOrder.invoice_company = isBusiness 
+        ? (order.billingCompanyName || invoiceAddress?.companyName || '') 
+        : (invoiceAddress?.companyName || '');
+      blOrder.invoice_nip = isBusiness 
+        ? (order.billingNip || invoiceAddress?.nip || '') 
+        : (invoiceAddress?.nip || '');
+      blOrder.invoice_address = invoiceAddress?.street || '';
+      blOrder.invoice_city = invoiceAddress?.city || '';
+      blOrder.invoice_postcode = invoiceAddress?.postalCode || '';
+      blOrder.invoice_country_code = invoiceAddress?.country || 'PL';
       // IMPORTANT: Always send want_invoice=false to Baselinker so Fakturownia
       // does NOT auto-create invoices. Invoices are created manually.
       // The wantInvoice flag is still saved in our DB for reference.
@@ -586,7 +597,10 @@ export class BaselinkerOrdersService {
 
       if (!order) return { success: false, error: 'Order not found' };
 
-      const buyerName = order.billingAddress
+      const isBusiness = order.isBusinessOrder || !!order.billingNip;
+      const buyerName = isBusiness && order.billingCompanyName
+        ? order.billingCompanyName
+        : order.billingAddress
         ? `${order.billingAddress.firstName} ${order.billingAddress.lastName}`
         : order.user
         ? `${order.user.firstName} ${order.user.lastName}`

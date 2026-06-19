@@ -11,6 +11,7 @@ import { decryptToken } from '../lib/encryption';
 import { createBaselinkerProvider } from '../providers/baselinker';
 import type { BaselinkerOrderResponse } from '../providers/baselinker/baselinker-provider.interface';
 import { OrderStatus } from '@prisma/client';
+import { ordersService } from './orders.service';
 
 /**
  * Safely get Baselinker API token: try decryption first, fall back to env var.
@@ -282,31 +283,24 @@ export class OrderStatusSyncService {
    * Update order status in database
    */
   private async updateOrderStatus(update: OrderStatusUpdate): Promise<void> {
-    await prisma.$transaction(async (tx) => {
-      // Update order
-      const updateData: any = {
-        status: update.newStatus,
-      };
+    const note = `Status zsynchronizowany z Baselinkera (BL status -> ${update.newStatus})`;
 
-      // Set tracking number if provided and shipping
-      if (update.trackingNumber && update.newStatus === 'SHIPPED') {
-        updateData.trackingNumber = update.trackingNumber;
-      }
+    // Run appropriate method based on state transition to execute inventory / reservation logic
+    if (update.newStatus === 'CANCELLED') {
+      await ordersService.cancel(update.orderId, true); // forceCancel = true to bypass B2B approval
+    } else if (update.newStatus === 'REFUNDED') {
+      await ordersService.refund(update.orderId, note);
+    } else {
+      await ordersService.updateStatus(update.orderId, update.newStatus, note, 'SYSTEM_BASELINKER');
+    }
 
-      await tx.order.update({
+    // Set tracking number if provided and shipping
+    if (update.trackingNumber && update.newStatus === 'SHIPPED') {
+      await prisma.order.update({
         where: { id: update.orderId },
-        data: updateData,
+        data: { trackingNumber: update.trackingNumber },
       });
-
-      // Add status history
-      await tx.orderStatusHistory.create({
-        data: {
-          orderId: update.orderId,
-          status: update.newStatus,
-          note: `Status zsynchronizowany z Baselinkera (BL status -> ${update.newStatus})`,
-        },
-      });
-    });
+    }
 
     // TODO: Send email notification for SHIPPED/DELIVERED status changes
   }
