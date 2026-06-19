@@ -76,6 +76,7 @@ export interface Product {
   wholesaler?: string | null;
   storeName?: string;
   deliveryInfo?: string;
+  warehouseLocation?: string | null;
   createdAt?: string;
   updatedAt?: string;
 }

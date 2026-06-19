@@ -9,7 +9,7 @@ const CENEO_MULTIPLIER = 1.1;
 // Price conversion factor: reverse current multiplier, apply Ceneo multiplier
 const PRICE_FACTOR = CENEO_MULTIPLIER / CURRENT_MULTIPLIER;
 
-const HIDDEN_TAGS = ['błąd zdjęcia', 'błąd zdjęcia '];
+const HIDDEN_TAGS = ['błąd zdjęcia', 'błąd zdjęcia ', 'nie wrzucać-zabronione'];
 const DELIVERY_TAGS = [
   'Paczkomaty i Kurier', 'paczkomaty i kurier',
   'Tylko kurier', 'tylko kurier',
@@ -152,6 +152,7 @@ export async function streamCeneoFeed(baseUrl: string, res: Response): Promise<v
         NOT: { tags: { hasSome: HIDDEN_TAGS } },
         tags: { hasSome: DELIVERY_TAGS },
         images: { some: {} },
+        category: { isActive: true },
         OR: [
           { NOT: { tags: { hasSome: PACZKOMAT_TAGS } } },
           { tags: { hasSome: PACKAGE_TAGS } },

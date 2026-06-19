@@ -1,0 +1,141 @@
+{
+  "producenci": [
+    {
+      "internal_name": NaN,
+      "producer_name": NaN,
+      "country_code": NaN,
+      "city": NaN,
+      "postal_code": NaN,
+      "street": NaN,
+      "email": NaN,
+      "phone_number": NaN,
+      "contact_form_url": NaN,
+      "Unnamed: 9": NaN,
+      "Unnamed: 10": "Ningbo Viga International Co., Ltd. | 20F.588 CANGHAI ROAD, 315040 NINGBO, CHINA | sales@vigatoys.com"
+    },
+    {
+      "internal_name": NaN,
+      "producer_name": NaN,
+      "country_code": NaN,
+      "city": NaN,
+      "postal_code": NaN,
+      "street": NaN,
+      "email": NaN,
+      "phone_number": NaN,
+      "contact_form_url": NaN,
+      "Unnamed: 9": NaN,
+      "Unnamed: 10": "WOOPIE Kozicka Sp.Komandytowa | ul.Południowa 29A 05-540 Jeziórko, Polska | woopie@woopie.toys"
+    },
+    {
+      "internal_name": NaN,
+      "producer_name": NaN,
+      "country_code": NaN,
+      "city": NaN,
+      "postal_code": NaN,
+      "street": NaN,
+      "email": NaN,
+      "phone_number": NaN,
+      "contact_form_url": NaN,
+      "Unnamed: 9": NaN,
+      "Unnamed: 10": NaN
+    },
+    {
+      "internal_name": NaN,
+      "producer_name": NaN,
+      "country_code": NaN,
+      "city": NaN,
+      "postal_code": NaN,
+      "street": NaN,
+      "email": NaN,
+      "phone_number": NaN,
+      "contact_form_url": NaN,
+      "Unnamed: 9": NaN,
+      "Unnamed: 10": "Carpenters Manufactory Limited | Huang Jin Ji Industrial zone, Shang Jie Village, Qi Shi Town, Dong Guan City, Guang Dong Province, China | mkt8@masterkidz.com"
+    },
+    {
+      "internal_name": NaN,
+      "producer_name": NaN,
+      "country_code": NaN,
+      "city": NaN,
+      "postal_code": NaN,
+      "street": NaN,
+      "email": NaN,
+      "phone_number": NaN,
+      "contact_form_url": NaN,
+      "Unnamed: 9": NaN,
+      "Unnamed: 10": "Plastiques Falquet & Cie 22 rue Jean Mermoz, 01100 OYONNAX , France | contact@falquet.fr"
+    }
+  ],
+  "osoby": [
+    {
+      "internal_name": NaN,
+      "person_name": NaN,
+      "country_code": NaN,
+      "city": NaN,
+      "postal_code": NaN,
+      "street": NaN,
+      "email": NaN,
+      "phone_number": NaN,
+      "contact_form_url": NaN,
+      "Unnamed: 9": NaN,
+      "Unnamed: 10": "GPSR",
+      "Unnamed: 11": "Osoba odpowiedzialna"
+    },
+    {
+      "internal_name": NaN,
+      "person_name": NaN,
+      "country_code": NaN,
+      "city": NaN,
+      "postal_code": NaN,
+      "street": NaN,
+      "email": NaN,
+      "phone_number": NaN,
+      "contact_form_url": NaN,
+      "Unnamed: 9": NaN,
+      "Unnamed: 10": "Ningbo Viga International Co., Ltd. | 20F.588 CANGHAI ROAD, 315040 NINGBO, CHINA | sales@vigatoys.com",
+      "Unnamed: 11": "IBTK Kozicka Sp. Komandytowa | ul. Południowa 29A, 05-540 Jeziórko, Polska | ibtk@ibtk.pl"
+    },
+    {
+      "internal_name": NaN,
+      "person_name": NaN,
+      "country_code": NaN,
+      "city": NaN,
+      "postal_code": NaN,
+      "street": NaN,
+      "email": NaN,
+      "phone_number": NaN,
+      "contact_form_url": NaN,
+      "Unnamed: 9": NaN,
+      "Unnamed: 10": "WOOPIE Kozicka Sp.Komandytowa | ul.Południowa 29A 05-540 Jeziórko, Polska | woopie@woopie.toys",
+      "Unnamed: 11": "Producent z siedzibą w UE"
+    },
+    {
+      "internal_name": NaN,
+      "person_name": NaN,
+      "country_code": NaN,
+      "city": NaN,
+      "postal_code": NaN,
+      "street": NaN,
+      "email": NaN,
+      "phone_number": NaN,
+      "contact_form_url": NaN,
+      "Unnamed: 9": NaN,
+      "Unnamed: 10": "WOOPIE Kozicka Sp.Komandytowa | ul.Południowa 29A 05-540 Jeziórko, Polska | woopie@woopie.toys",
+      "Unnamed: 11": "WOOPIE Kozicka Sp. Komandytowa  | ul. Południowa 29A  05-540 Jeziórko, Polska  | woopie@woopie.toys"
+    },
+    {
+      "internal_name": NaN,
+      "person_name": NaN,
+      "country_code": NaN,
+      "city": NaN,
+      "postal_code": NaN,
+      "street": NaN,
+      "email": NaN,
+      "phone_number": NaN,
+      "contact_form_url": NaN,
+      "Unnamed: 9": NaN,
+      "Unnamed: 10": "WOOPIE Kozicka Sp.Komandytowa | ul.Południowa 29A 05-540 Jeziórko, Polska | woopie@woopie.toys",
+      "Unnamed: 11": "WOOPIE Kozicka Sp. Komandytowa  | ul. Południowa 29A  05-540 Jeziórko, Polska  | woopie@woopie.toys"
+    }
+  ]
+}

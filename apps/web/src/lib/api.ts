@@ -319,6 +319,7 @@ export interface Product {
   reviewCount?: number;
   storeName?: string;
   deliveryInfo?: string;
+  warehouseLocation?: string | null;
 }
 
 export interface ProductImage {

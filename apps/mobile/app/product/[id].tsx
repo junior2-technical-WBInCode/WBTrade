@@ -35,6 +35,17 @@ import type { Product, ProductVariant } from '../../services/types';
 
 const { width: SCREEN_WIDTH } = Dimensions.get('window');
 
+const CITY_LOCATIVE_MAP: Record<string, string> = {
+  'Zielona Góra': 'Zielonej Górze',
+  'Warszawa': 'Warszawie',
+  'Ryki': 'Rykach',
+  'Chynów': 'Chynowie',
+  'Chotów': 'Chotowie',
+  'Koszalin': 'Koszalinie',
+  'Białystok': 'Białymstoku',
+  'Rzeszów': 'Rzeszowie',
+};
+
 // Decode HTML entities
 function decodeEntities(text: string): string {
   return text
@@ -1315,16 +1326,23 @@ export default function ProductDetailScreen() {
           {(() => {
             const tags: string[] = (product as any).tags || [];
             let warehouseCity = '';
-            const skuLower = product.sku?.toLowerCase() || '';
-            if (tags.some(t => t.toLowerCase() === 'rzeszów' || t.toLowerCase() === 'outlet') || skuLower.startsWith('outlet-')) warehouseCity = 'Rzeszowie';
-            else if (tags.some(t => t.toLowerCase().includes('hurtownia przemysłowa')) || skuLower.startsWith('hp-')) warehouseCity = 'Zielonej Górze';
-            else if (tags.some(t => t.toLowerCase().includes('hurtownia sportowa')) || skuLower.startsWith('hs-')) warehouseCity = 'Zielonej Górze';
-            else if (tags.some(t => t.toLowerCase() === 'ikonka')) warehouseCity = 'Białymstoku';
-            else if (tags.some(t => t.toLowerCase() === 'leker') || skuLower.startsWith('leker-')) warehouseCity = 'Chynowie';
-            else if (tags.some(t => t.toLowerCase() === 'btp') || skuLower.startsWith('btp-')) warehouseCity = 'Chotowie';
-            else if (tags.some(t => t.toLowerCase() === 'dofirmy') || skuLower.startsWith('dofirmy-')) warehouseCity = 'Koszalinie';
-            else if (tags.some(t => t.toLowerCase().includes('hurtownia kuchenna')) || skuLower.startsWith('hk-')) warehouseCity = 'Warszawie';
-            else if (tags.some(t => t.toLowerCase() === 'polzoo') || skuLower.startsWith('polzoo-')) warehouseCity = 'Rykach';
+            
+            if (product.warehouseLocation) {
+              warehouseCity = CITY_LOCATIVE_MAP[product.warehouseLocation] || product.warehouseLocation;
+            }
+            
+            if (!warehouseCity) {
+              const skuLower = product.sku?.toLowerCase() || '';
+              if (tags.some(t => t.toLowerCase() === 'rzeszów' || t.toLowerCase() === 'outlet') || skuLower.startsWith('outlet-')) warehouseCity = 'Rzeszowie';
+              else if (tags.some(t => t.toLowerCase().includes('hurtownia przemysłowa')) || skuLower.startsWith('hp-')) warehouseCity = 'Zielonej Górze';
+              else if (tags.some(t => t.toLowerCase().includes('hurtownia sportowa')) || skuLower.startsWith('hs-')) warehouseCity = 'Zielonej Górze';
+              else if (tags.some(t => t.toLowerCase() === 'ikonka')) warehouseCity = 'Białymstoku';
+              else if (tags.some(t => t.toLowerCase() === 'leker') || skuLower.startsWith('leker-')) warehouseCity = 'Chynowie';
+              else if (tags.some(t => t.toLowerCase() === 'btp') || skuLower.startsWith('btp-')) warehouseCity = 'Chotowie';
+              else if (tags.some(t => t.toLowerCase() === 'dofirmy') || skuLower.startsWith('dofirmy-')) warehouseCity = 'Koszalinie';
+              else if (tags.some(t => t.toLowerCase().includes('hurtownia kuchenna')) || skuLower.startsWith('hk-')) warehouseCity = 'Warszawie';
+              else if (tags.some(t => t.toLowerCase() === 'polzoo') || skuLower.startsWith('polzoo-')) warehouseCity = 'Rykach';
+            }
 
             const productPrice = price;
             const freeThreshold = 300;

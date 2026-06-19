@@ -3,7 +3,7 @@ import { ProductStatus } from '@prisma/client';
 import { Response } from 'express';
 
 // Tags that hide products from the storefront (must match products.service.ts)
-const HIDDEN_TAGS = ['błąd zdjęcia', 'błąd zdjęcia '];
+const HIDDEN_TAGS = ['błąd zdjęcia', 'błąd zdjęcia ', 'nie wrzucać-zabronione'];
 
 // Delivery tags — products MUST have at least one to be visible
 const DELIVERY_TAGS = [
@@ -220,6 +220,7 @@ export async function streamGoogleMerchantFeed(baseUrl: string, res: Response): 
         NOT: { tags: { hasSome: HIDDEN_TAGS } },
         tags: { hasSome: DELIVERY_TAGS },
         images: { some: {} },
+        category: { isActive: true },
         // Paczkomat filter: if product has paczkomat tag, it MUST also have package tag
         // Without this, product page returns 404 → Google flags "page unavailable"
         OR: [
@@ -314,6 +315,7 @@ export async function generateGoogleMerchantFeed(baseUrl: string): Promise<strin
         NOT: { tags: { hasSome: HIDDEN_TAGS } },
         tags: { hasSome: DELIVERY_TAGS },
         images: { some: {} },
+        category: { isActive: true },
         OR: [
           { NOT: { tags: { hasSome: PACZKOMAT_TAGS } } },
           { tags: { hasSome: PACKAGE_TAGS } },
@@ -420,6 +422,7 @@ export async function streamFilteredGoogleMerchantFeed(
         tags: { hasSome: DELIVERY_TAGS },
         images: { some: {} },
         categoryId: { in: categoryIds },
+        category: { isActive: true },
         OR: [
           { NOT: { tags: { hasSome: PACZKOMAT_TAGS } } },
           { tags: { hasSome: PACKAGE_TAGS } },

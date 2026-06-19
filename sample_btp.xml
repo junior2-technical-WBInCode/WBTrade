@@ -1,0 +1,2978 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Document-ProductCatalogue>
+  <ProductCatalogue-Header>
+    <ProductCatalogueNumber>ProdCatalogueNo_2623295</ProductCatalogueNumber>
+    <ProductCatalogueDate>2026-06-05</ProductCatalogueDate>
+    <PeriodStartDate>2026-06-05</PeriodStartDate>
+    <PeriodStartTime>07:58</PeriodStartTime>
+    <PeriodEndDate>2026-06-05</PeriodEndDate>
+    <DocumentFunctionCode>N</DocumentFunctionCode>
+    <CatalogueCurrency>PLN</CatalogueCurrency>
+    <CatalogueLanguageId>PL</CatalogueLanguageId>
+  </ProductCatalogue-Header>
+  <ProductCatalogue-Parties>
+    <Buyer>
+      <Name>WB PARTNERS Sp. z o.o.</Name>
+      <ILN />
+    </Buyer>
+    <Seller>
+      <Name>Forcetop</Name>
+    </Seller>
+  </ProductCatalogue-Parties>
+  <ProductCatalogue-Lines>
+    <Line>
+      <Line-Item>
+        <LineNumber>1</LineNumber>
+        <LineType>4</LineType>
+        <EAN>6950941460774</EAN>
+        <ItemDescription><![CDATA[X-Doria Dash - Etui iPhone X (Black Leather)]]></ItemDescription>
+        <LongItemDescription><![CDATA[X-Doria Dash to przede wszystkim wyjątkowo eleganckie etui, wyróżniające się piękną estetyką oraz dbałością o każdy szczegół. Jednoczęściowa konstrukcja etui zapewnia bardzo dobrą ochronę urządzenia przed zadrapaniami czy porysowaniem. Przyjemny w dotyku i gładki TPU gwarantuje ochronę smartfona z tyłu oraz po bokach, dbając jednocześnie o jego przyciski. <br><br>Etui podzielono na dwie części, z czego dolna o oryginalnej fakturze nie tylko pięknie się prezentuje i współgra z obudową urządzenia, ale również zapewnia pewny chwyt. Górna, gładka powierzchnia jest całkowicie przezroczysta, ukazując skrywany smartfon.<br><br>Cechy produktu:<br>· Ochrona tyłu oraz boków urządzenia (również przycisków)<br>· Jednoczęściowa konstrukcja etui<br>· Przyjemny w dotyku TPU<br>· Wyjątkowa dolna faktura zapewniająca pewny chwyt i oryginalny wygląd<br>· Przezroczysta górna powierzchnia<br>· Etui kompatybilne z bezprzewodowym ładowaniem<br>· Etui kompatybilne z Apple Pay]]></LongItemDescription>
+        <SupplierItemCode>10097</SupplierItemCode>
+        <ManufacturerItemCode>460774</ManufacturerItemCode>
+        <ProductGroup>Telefony i akcesoria</ProductGroup>
+        <ProductGroupName>Telefony i akcesoria</ProductGroupName>
+        <ProductGroupCode>10027</ProductGroupCode>
+        <PrimaryProductGroup>Elektronika</PrimaryProductGroup>
+        <PrimaryProductGroupName>Elektronika</PrimaryProductGroupName>
+        <PrimaryProductGroupCode>10031</PrimaryProductGroupCode>
+        <ItemType>CU</ItemType>
+        <BrandCode>10134</BrandCode>
+        <BrandName>X-Doria</BrandName>
+        <ProductType>M</ProductType>
+        <Weight>0.05</Weight>
+        <UnitOfMeasure>PCE</UnitOfMeasure>
+        <UnitNetPrice>9.0000</UnitNetPrice>
+        <UnitRetailPrice>16.2500</UnitRetailPrice>
+        <TaxRate>23.0000</TaxRate>
+        <TaxCategoryCode>S</TaxCategoryCode>
+        <ItemTaxRate>23.0000000000</ItemTaxRate>
+        <ItemTaxCategoryCode>A</ItemTaxCategoryCode>
+        <CustomsTariffNumber>3926909790</CustomsTariffNumber>
+        <Guarantee>24</Guarantee>
+        <Specification>
+          <Attributes>
+            <Attribute>
+              <Id>7</Id>
+              <Name>Kompatybilność</Name>
+              <Description><![CDATA[]]></Description>
+              <DataType>String 256</DataType>
+              <RequiresTranslation>true</RequiresTranslation>
+              <Values>
+                <Value>
+                  <Id>60</Id>
+                  <Value><![CDATA[Apple iPhone X]]></Value>
+                  <DisplayValue><![CDATA[Apple iPhone X]]></DisplayValue>
+                  <Description><![CDATA[]]></Description>
+                </Value>
+              </Values>
+            </Attribute>
+            <Attribute>
+              <Id>5</Id>
+              <Name>Materiał główny</Name>
+              <Description><![CDATA[]]></Description>
+              <DataType>String 256</DataType>
+              <RequiresTranslation>true</RequiresTranslation>
+              <Values>
+                <Value>
+                  <Id>48</Id>
+                  <Value><![CDATA[TPU (termoplastyczny poliuretan)]]></Value>
+                  <DisplayValue><![CDATA[TPU (termoplastyczny poliuretan)]]></DisplayValue>
+                  <Description><![CDATA[]]></Description>
+                </Value>
+              </Values>
+            </Attribute>
+            <Attribute>
+              <Id>3</Id>
+              <Name>Kolor bazowy</Name>
+              <Description><![CDATA[]]></Description>
+              <DataType>String 256</DataType>
+              <RequiresTranslation>true</RequiresTranslation>
+              <Values>
+                <Value>
+                  <Id>22</Id>
+                  <Value><![CDATA[czarny]]></Value>
+                  <DisplayValue><![CDATA[czarny]]></DisplayValue>
+                  <Description><![CDATA[]]></Description>
+                </Value>
+              </Values>
+            </Attribute>
+            <Attribute>
+              <Id>6</Id>
+              <Name>Funkcjonalność</Name>
+              <Description><![CDATA[]]></Description>
+              <DataType>String 256</DataType>
+              <RequiresTranslation>true</RequiresTranslation>
+              <Values>
+                <Value>
+                  <Id>52</Id>
+                  <Value><![CDATA[ochrona tyłu i boków]]></Value>
+                  <DisplayValue><![CDATA[ochrona tyłu i boków]]></DisplayValue>
+                  <Description><![CDATA[]]></Description>
+                </Value>
+              </Values>
+            </Attribute>
+            <Attribute>
+              <Id>13</Id>
+              <Name>Kolor dodatkowy</Name>
+              <Description><![CDATA[]]></Description>
+              <DataType>String 256</DataType>
+              <RequiresTranslation>true</RequiresTranslation>
+              <Values>
+                <Value>
+                  <Id>109</Id>
+                  <Value><![CDATA[przezroczysty]]></Value>
+                  <DisplayValue><![CDATA[przezroczysty]]></DisplayValue>
+                  <Description><![CDATA[]]></Description>
+                </Value>
+              </Values>
+            </Attribute>
+            <Attribute>
+              <Id>1845</Id>
+              <Name>Rodzaj etui</Name>
+              <Description><![CDATA[]]></Description>
+              <DataType>String 256</DataType>
+              <RequiresTranslation>true</RequiresTranslation>
+              <Values>
+                <Value>
+                  <Id>1535</Id>
+                  <Value><![CDATA[Plecki]]></Value>
+                  <DisplayValue><![CDATA[Plecki]]></DisplayValue>
+                  <Description><![CDATA[]]></Description>
+                </Value>
+              </Values>
+            </Attribute>
+            <Attribute>
+              <Id>11</Id>
+              <Name>Wzór</Name>
+              <Description><![CDATA[]]></Description>
+              <DataType>String 256</DataType>
+              <RequiresTranslation>true</RequiresTranslation>
+              <Values>
+                <Value>
+                  <Id>90</Id>
+                  <Value><![CDATA[Inny]]></Value>
+                  <DisplayValue><![CDATA[Inny]]></DisplayValue>
+                  <Description><![CDATA[]]></Description>
+                </Value>
+              </Values>
+            </Attribute>
+            <Attribute>
+              <Id>1860</Id>
+              <Name>GPSR</Name>
+              <Description><![CDATA[]]></Description>
+              <DataType>String 256</DataType>
+              <RequiresTranslation>true</RequiresTranslation>
+              <Values>
+                <Value>
+                  <Id>728297</Id>
+                  <Value><![CDATA[FORCETOP Sp. z o.o., Chotów 24B, 63-460 Chotów PL, office@forcetop.com, +48 625940000]]></Value>
+                  <DisplayValue><![CDATA[FORCETOP Sp. z o.o., Chotów 24B, 63-460 Chotów PL, office@forcetop.com, +48 625940000]]></DisplayValue>
+                  <Description><![CDATA[]]></Description>
+                </Value>
+              </Values>
+            </Attribute>
+          </Attributes>
+        </Specification>
+        <Pictures>
+          <Picture>
+            <Id>63610f09-5e51-ec11-91ad-2cea7fb072aa</Id>
+            <Url>https://pub.btp.pro/Public/Resource/ItemPic2/63610F09-5E51-EC11-91AD-2CEA7FB072AA.jpg</Url>
+            <Description><![CDATA[]]></Description>
+          </Picture>
+          <Picture>
+            <Id>69610f09-5e51-ec11-91ad-2cea7fb072aa</Id>
+            <Url>https://pub.btp.pro/Public/Resource/ItemPic2/69610F09-5E51-EC11-91AD-2CEA7FB072AA.jpg</Url>
+            <Description><![CDATA[]]></Description>
+          </Picture>
+          <Picture>
+            <Id>6a610f09-5e51-ec11-91ad-2cea7fb072aa</Id>
+            <Url>https://pub.btp.pro/Public/Resource/ItemPic2/6A610F09-5E51-EC11-91AD-2CEA7FB072AA.jpg</Url>
+            <Description><![CDATA[]]></Description>
+          </Picture>
+          <Picture>
+            <Id>6b610f09-5e51-ec11-91ad-2cea7fb072aa</Id>
+            <Url>https://pub.btp.pro/Public/Resource/ItemPic2/6B610F09-5E51-EC11-91AD-2CEA7FB072AA.jpg</Url>
+            <Description><![CDATA[]]></Description>
+          </Picture>
+          <Picture>
+            <Id>6c610f09-5e51-ec11-91ad-2cea7fb072aa</Id>
+            <Url>https://pub.btp.pro/Public/Resource/ItemPic2/6C610F09-5E51-EC11-91AD-2CEA7FB072AA.jpg</Url>
+            <Description><![CDATA[]]></Description>
+          </Picture>
+          <Picture>
+            <Id>72610f09-5e51-ec11-91ad-2cea7fb072aa</Id>
+            <Url>https://pub.btp.pro/Public/Resource/ItemPic2/72610F09-5E51-EC11-91AD-2CEA7FB072AA.jpg</Url>
+            <Description><![CDATA[]]></Description>
+          </Picture>
+          <Picture>
+            <Id>73610f09-5e51-ec11-91ad-2cea7fb072aa</Id>
+            <Url>https://pub.btp.pro/Public/Resource/ItemPic2/73610F09-5E51-EC11-91AD-2CEA7FB072AA.jpg</Url>
+            <Description><![CDATA[]]></Description>
+          </Picture>
+          <Picture>
+            <Id>74610f09-5e51-ec11-91ad-2cea7fb072aa</Id>
+            <Url>https://pub.btp.pro/Public/Resource/ItemPic2/74610F09-5E51-EC11-91AD-2CEA7FB072AA.jpg</Url>
+            <Description><![CDATA[]]></Description>
+          </Picture>
+          <Picture>
+            <Id>75610f09-5e51-ec11-91ad-2cea7fb072aa</Id>
+            <Url>https://pub.btp.pro/Public/Resource/ItemPic2/75610F09-5E51-EC11-91AD-2CEA7FB072AA.jpg</Url>
+            <Description><![CDATA[]]></Description>
+          </Picture>
+          <Picture>
+            <Id>64610f09-5e51-ec11-91ad-2cea7fb072aa</Id>
+            <Url>https://pub.btp.pro/Public/Resource/ItemPic2/64610F09-5E51-EC11-91AD-2CEA7FB072AA.jpg</Url>
+            <Description><![CDATA[]]></Description>
+          </Picture>
+          <Picture>
+            <Id>65610f09-5e51-ec11-91ad-2cea7fb072aa</Id>
+            <Url>https://pub.btp.pro/Public/Resource/ItemPic2/65610F09-5E51-EC11-91AD-2CEA7FB072AA.jpg</Url>
+            <Description><![CDATA[]]></Description>
+          </Picture>
+          <Picture>
+            <Id>66610f09-5e51-ec11-91ad-2cea7fb072aa</Id>
+            <Url>https://pub.btp.pro/Public/Resource/ItemPic2/66610F09-5E51-EC11-91AD-2CEA7FB072AA.jpg</Url>
+            <Description><![CDATA[]]></Description>
+          </Picture>
+          <Picture>
+            <Id>67610f09-5e51-ec11-91ad-2cea7fb072aa</Id>
+            <Url>https://pub.btp.pro/Public/Resource/ItemPic2/67610F09-5E51-EC11-91AD-2CEA7FB072AA.jpg</Url>
+            <Description><![CDATA[]]></Description>
+          </Picture>
+          <Picture>
+            <Id>68610f09-5e51-ec11-91ad-2cea7fb072aa</Id>
+            <Url>https://pub.btp.pro/Public/Resource/ItemPic2/68610F09-5E51-EC11-91AD-2CEA7FB072AA.jpg</Url>
+            <Description><![CDATA[]]></Description>
+          </Picture>
+        </Pictures>
+      </Line-Item>
+    </Line>
+    <Line>
+      <Line-Item>
+        <LineNumber>2</LineNumber>
+        <LineType>4</LineType>
+        <EAN>6950941460781</EAN>
+        <ItemDescription><![CDATA[X-Doria Dash - Etui iPhone X (Ballistic Nylon)]]></ItemDescription>
+        <LongItemDescription><![CDATA[X-Doria Dash to przede wszystkim wyjątkowo eleganckie etui, wyróżniające się piękną estetyką oraz dbałością o każdy szczegół. Jednoczęściowa konstrukcja etui zapewnia bardzo dobrą ochronę urządzenia przed zadrapaniami czy porysowaniem. Przyjemny w dotyku i gładki TPU gwarantuje ochronę smartfona z tyłu oraz po bokach, dbając jednocześnie o jego przyciski. <br><br>Etui podzielono na dwie części, z czego dolna o oryginalnej fakturze nie tylko pięknie się prezentuje i współgra z obudową urządzenia, ale również zapewnia pewny chwyt. Górna, gładka powierzchnia jest całkowicie przezroczysta, ukazując skrywany smartfon.<br><br>Cechy produktu:<br>· Ochrona tyłu oraz boków urządzenia (również przycisków)<br>· Jednoczęściowa konstrukcja etui<br>· Przyjemny w dotyku TPU<br>· Wyjątkowa dolna faktura zapewniająca pewny chwyt i oryginalny wygląd<br>· Przezroczysta górna powierzchnia<br>· Etui kompatybilne z bezprzewodowym ładowaniem<br>· Etui kompatybilne z Apple Pay]]></LongItemDescription>
+        <SupplierItemCode>10098</SupplierItemCode>
+        <ManufacturerItemCode>460781</ManufacturerItemCode>
+        <ProductGroup>Telefony i akcesoria</ProductGroup>
+        <ProductGroupName>Telefony i akcesoria</ProductGroupName>
+        <ProductGroupCode>10027</ProductGroupCode>
+        <PrimaryProductGroup>Elektronika</PrimaryProductGroup>
+        <PrimaryProductGroupName>Elektronika</PrimaryProductGroupName>
+        <PrimaryProductGroupCode>10031</PrimaryProductGroupCode>
+        <ItemType>CU</ItemType>
+        <BrandCode>10134</BrandCode>
+        <BrandName>X-Doria</BrandName>
+        <ProductType>M</ProductType>
+        <Weight>0.05</Weight>
+        <UnitOfMeasure>PCE</UnitOfMeasure>
+        <UnitNetPrice>9.0000</UnitNetPrice>
+        <UnitRetailPrice>16.2500</UnitRetailPrice>
+        <TaxRate>23.0000</TaxRate>
+        <TaxCategoryCode>S</TaxCategoryCode>
+        <ItemTaxRate>23.0000000000</ItemTaxRate>
+        <ItemTaxCategoryCode>A</ItemTaxCategoryCode>
+        <CustomsTariffNumber>3926909790</CustomsTariffNumber>
+        <Guarantee>24</Guarantee>
+        <Specification>
+          <Attributes>
+            <Attribute>
+              <Id>7</Id>
+              <Name>Kompatybilność</Name>
+              <Description><![CDATA[]]></Description>
+              <DataType>String 256</DataType>
+              <RequiresTranslation>true</RequiresTranslation>
+              <Values>
+                <Value>
+                  <Id>60</Id>
+                  <Value><![CDATA[Apple iPhone X]]></Value>
+                  <DisplayValue><![CDATA[Apple iPhone X]]></DisplayValue>
+                  <Description><![CDATA[]]></Description>
+                </Value>
+              </Values>
+            </Attribute>
+            <Attribute>
+              <Id>5</Id>
+              <Name>Materiał główny</Name>
+              <Description><![CDATA[]]></Description>
+              <DataType>String 256</DataType>
+              <RequiresTranslation>true</RequiresTranslation>
+              <Values>
+                <Value>
+                  <Id>48</Id>
+                  <Value><![CDATA[TPU (termoplastyczny poliuretan)]]></Value>
+                  <DisplayValue><![CDATA[TPU (termoplastyczny poliuretan)]]></DisplayValue>
+                  <Description><![CDATA[]]></Description>
+                </Value>
+              </Values>
+            </Attribute>
+            <Attribute>
+              <Id>3</Id>
+              <Name>Kolor bazowy</Name>
+              <Description><![CDATA[]]></Description>
+              <DataType>String 256</DataType>
+              <RequiresTranslation>true</RequiresTranslation>
+              <Values>
+                <Value>
+                  <Id>34</Id>
+                  <Value><![CDATA[szary]]></Value>
+                  <DisplayValue><![CDATA[szary]]></DisplayValue>
+                  <Description><![CDATA[]]></Description>
+                </Value>
+              </Values>
+            </Attribute>
+            <Attribute>
+              <Id>6</Id>
+              <Name>Funkcjonalność</Name>
+              <Description><![CDATA[]]></Description>
+              <DataType>String 256</DataType>
+              <RequiresTranslation>true</RequiresTranslation>
+              <Values>
+                <Value>
+                  <Id>52</Id>
+                  <Value><![CDATA[ochrona tyłu i boków]]></Value>
+                  <DisplayValue><![CDATA[ochrona tyłu i boków]]></DisplayValue>
+                  <Description><![CDATA[]]></Description>
+                </Value>
+              </Values>
+            </Attribute>
+            <Attribute>
+              <Id>13</Id>
+              <Name>Kolor dodatkowy</Name>
+              <Description><![CDATA[]]></Description>
+              <DataType>String 256</DataType>
+              <RequiresTranslation>true</RequiresTranslation>
+              <Values>
+                <Value>
+                  <Id>109</Id>
+                  <Value><![CDATA[przezroczysty]]></Value>
+                  <DisplayValue><![CDATA[przezroczysty]]></DisplayValue>
+                  <Description><![CDATA[]]></Description>
+                </Value>
+              </Values>
+            </Attribute>
+            <Attribute>
+              <Id>1845</Id>
+              <Name>Rodzaj etui</Name>
+              <Description><![CDATA[]]></Description>
+              <DataType>String 256</DataType>
+              <RequiresTranslation>true</RequiresTranslation>
+              <Values>
+                <Value>
+                  <Id>1535</Id>
+                  <Value><![CDATA[Plecki]]></Value>
+                  <DisplayValue><![CDATA[Plecki]]></DisplayValue>
+                  <Description><![CDATA[]]></Description>
+                </Value>
+              </Values>
+            </Attribute>
+            <Attribute>
+              <Id>11</Id>
+              <Name>Wzór</Name>
+              <Description><![CDATA[]]></Description>
+              <DataType>String 256</DataType>
+              <RequiresTranslation>true</RequiresTranslation>
+              <Values>
+                <Value>
+                  <Id>90</Id>
+                  <Value><![CDATA[Inny]]></Value>
+                  <DisplayValue><![CDATA[Inny]]></DisplayValue>
+                  <Description><![CDATA[]]></Description>
+                </Value>
+              </Values>
+            </Attribute>
+            <Attribute>
+              <Id>1860</Id>
+              <Name>GPSR</Name>
+              <Description><![CDATA[]]></Description>
+              <DataType>String 256</DataType>
+              <RequiresTranslation>true</RequiresTranslation>
+              <Values>
+                <Value>
+                  <Id>728297</Id>
+                  <Value><![CDATA[FORCETOP Sp. z o.o., Chotów 24B, 63-460 Chotów PL, office@forcetop.com, +48 625940000]]></Value>
+                  <DisplayValue><![CDATA[FORCETOP Sp. z o.o., Chotów 24B, 63-460 Chotów PL, office@forcetop.com, +48 625940000]]></DisplayValue>
+                  <Description><![CDATA[]]></Description>
+                </Value>
+              </Values>
+            </Attribute>
+          </Attributes>
+        </Specification>
+        <Pictures>
+          <Picture>
+            <Id>6e610f09-5e51-ec11-91ad-2cea7fb072aa</Id>
+            <Url>https://pub.btp.pro/Public/Resource/ItemPic2/6E610F09-5E51-EC11-91AD-2CEA7FB072AA.jpg</Url>
+            <Description><![CDATA[]]></Description>
+          </Picture>
+          <Picture>
+            <Id>6f610f09-5e51-ec11-91ad-2cea7fb072aa</Id>
+            <Url>https://pub.btp.pro/Public/Resource/ItemPic2/6F610F09-5E51-EC11-91AD-2CEA7FB072AA.jpg</Url>
+            <Description><![CDATA[]]></Description>
+          </Picture>
+          <Picture>
+            <Id>70610f09-5e51-ec11-91ad-2cea7fb072aa</Id>
+            <Url>https://pub.btp.pro/Public/Resource/ItemPic2/70610F09-5E51-EC11-91AD-2CEA7FB072AA.jpg</Url>
+            <Description><![CDATA[]]></Description>
+          </Picture>
+          <Picture>
+            <Id>71610f09-5e51-ec11-91ad-2cea7fb072aa</Id>
+            <Url>https://pub.btp.pro/Public/Resource/ItemPic2/71610F09-5E51-EC11-91AD-2CEA7FB072AA.jpg</Url>
+            <Description><![CDATA[]]></Description>
+          </Picture>
+        </Pictures>
+      </Line-Item>
+    </Line>
+    <Line>
+      <Line-Item>
+        <LineNumber>3</LineNumber>
+        <LineType>4</LineType>
+        <EAN>5050993314276</EAN>
+        <ItemDescription><![CDATA[BUILT Vacuum Insulated Tumbler - Stalowy kubek termiczny z izolacją próżniową 600 ml (Green)]]></ItemDescription>
+        <LongItemDescription><![CDATA[BUILT Vacuum Insulated Tumbler to doskonały kubek termiczny, idealnie nadający się do izolacji oraz przechowywania różnych płynów. Konstrukcja składa się z podwójnych ścian ze stali nierdzewnej 18/8, izolacji próżniowej oraz wygodnego zamknięcia. Stal z jakiej wykonano kubek składa się z 18% chromu oraz 8% niklu, dzięki czemu gwarantuje wysoką twardość oraz wytrzymałość na wszelkie wstrząsy czy uderzenia. Dzięki zastosowaniu próżni, kubek utrzymuje optymalną temperaturę zimnych napojów nawet do 24 godzin, przy 6 godzinach dla gorących napojów. Wygodne zamknięcie pozwala na łatwy dostęp za pomocą przekręcenia pokrywki jedną dłonią. Kubek nie zawiera szkodliwego Bisfenolu A oraz mieści się w standardowych uchwytach na kubki. Jego pojemność wynosi 0,6 l, a dostępność wielu wariantów kolorystycznych pozwala na swobodny wybór odpowiedniego kubka<br><br>Cechy produktu:<br>· Podwójne ścianki z wysokiej klasy stali nierdzewnej 18/8<br>· Konstrukcja uszczelniana próżniowo<br>· Wygodne zamknięcie <br>· Pojemność 0,6 l<br>· Optymalna temperatura dla zimnych napojów (24 h) oraz dla gorących (6 h)<br>· Rozmiar pozwalający na swobodne osadzenie w standardowych uchwytach na kubki<br>· Testowane pod względem obecności ołowiu, lateksu i ftalanów - PVC oraz BPA<br>· Wymiary: 7,62 x 19,68 cm<br>· Sposób pielęgnacji: myć wyłącznie ręcznie<br>· Konstrukcja pokrywki kubka nie gwarantuje jego pełnej szczelności w czasie przenoszenia lub zmiany pozycji kubka w pionie lub poziomie]]></LongItemDescription>
+        <SupplierItemCode>10263</SupplierItemCode>
+        <ManufacturerItemCode>5216180</ManufacturerItemCode>
+        <ProductGroup>Wyposażenie</ProductGroup>
+        <ProductGroupName>Wyposażenie</ProductGroupName>
+        <ProductGroupCode>10033</ProductGroupCode>
+        <PrimaryProductGroup>Dom i ogród</PrimaryProductGroup>
+        <PrimaryProductGroupName>Dom i ogród</PrimaryProductGroupName>
+        <PrimaryProductGroupCode>10032</PrimaryProductGroupCode>
+        <ItemType>CU</ItemType>
+        <BrandCode>10160</BrandCode>
+        <BrandName>Built</BrandName>
+        <ProductType>M</ProductType>
+        <Weight>0.3</Weight>
+        <UnitOfMeasure>PCE</UnitOfMeasure>
+        <UnitNetPrice>39.2600</UnitNetPrice>
+        <UnitRetailPrice>56.1000</UnitRetailPrice>
+        <TaxRate>23.0000</TaxRate>
+        <TaxCategoryCode>S</TaxCategoryCode>
+        <ItemTaxRate>23.0000000000</ItemTaxRate>
+        <ItemTaxCategoryCode>A</ItemTaxCategoryCode>
+        <CustomsTariffNumber>3924900000</CustomsTariffNumber>
+        <Guarantee>24</Guarantee>
+        <Specification>
+          <Attributes>
+            <Attribute>
+              <Id>5</Id>
+              <Name>Materiał główny</Name>
+              <Description><![CDATA[]]></Description>
+              <DataType>String 256</DataType>
+              <RequiresTranslation>true</RequiresTranslation>
+              <Values>
+                <Value>
+                  <Id>186</Id>
+                  <Value><![CDATA[Stal nierdzewna]]></Value>
+                  <DisplayValue><![CDATA[Stal nierdzewna]]></DisplayValue>
+                  <Description><![CDATA[]]></Description>
+                </Value>
+              </Values>
+            </Attribute>
+            <Attribute>
+              <Id>3</Id>
+              <Name>Kolor bazowy</Name>
+              <Description><![CDATA[]]></Description>
+              <DataType>String 256</DataType>
+              <RequiresTranslation>true</RequiresTranslation>
+              <Values>
+                <Value>
+                  <Id>35</Id>
+                  <Value><![CDATA[zielony]]></Value>
+                  <DisplayValue><![CDATA[zielony]]></DisplayValue>
+                  <Description><![CDATA[]]></Description>
+                </Value>
+              </Values>
+            </Attribute>
+            <Attribute>
+              <Id>13</Id>
+              <Name>Kolor dodatkowy</Name>
+              <Description><![CDATA[]]></Description>
+              <DataType>String 256</DataType>
+              <RequiresTranslation>true</RequiresTranslation>
+              <Values>
+                <Value>
+                  <Id>111</Id>
+                  <Value><![CDATA[srebrny]]></Value>
+                  <DisplayValue><![CDATA[srebrny]]></DisplayValue>
+                  <Description><![CDATA[]]></Description>
+                </Value>
+              </Values>
+            </Attribute>
+            <Attribute>
+              <Id>10</Id>
+              <Name>Wymiary</Name>
+              <Description><![CDATA[]]></Description>
+              <DataType>String 256</DataType>
+              <RequiresTranslation>true</RequiresTranslation>
+              <Values>
+                <Value>
+                  <Id>217</Id>
+                  <Value><![CDATA[7,62 x H 19,68 cm]]></Value>
+                  <DisplayValue><![CDATA[7,62 x H 19,68 cm]]></DisplayValue>
+                  <Description><![CDATA[]]></Description>
+                </Value>
+              </Values>
+            </Attribute>
+            <Attribute>
+              <Id>1849</Id>
+              <Name>Pojemność</Name>
+              <Description><![CDATA[]]></Description>
+              <DataType>String 256</DataType>
+              <RequiresTranslation>true</RequiresTranslation>
+              <Values>
+                <Value>
+                  <Id>3740</Id>
+                  <Value><![CDATA[600 ml]]></Value>
+                  <DisplayValue><![CDATA[600 ml]]></DisplayValue>
+                  <Description><![CDATA[]]></Description>
+                </Value>
+              </Values>
+            </Attribute>
+            <Attribute>
+              <Id>1854</Id>
+              <Name>Pojemność (ml)</Name>
+              <Description><![CDATA[]]></Description>
+              <DataType>Integer</DataType>
+              <RequiresTranslation>false</RequiresTranslation>
+              <Values>
+                <Value>
+                  <Id>3741</Id>
+                  <Value><![CDATA[600]]></Value>
+                  <DisplayValue><![CDATA[600]]></DisplayValue>
+                  <Description><![CDATA[]]></Description>
+                </Value>
+              </Values>
+            </Attribute>
+            <Attribute>
+              <Id>11</Id>
+              <Name>Wzór</Name>
+              <Description><![CDATA[]]></Description>
+              <DataType>String 256</DataType>
+              <RequiresTranslation>true</RequiresTranslation>
+              <Values>
+                <Value>
+                  <Id>89</Id>
+                  <Value><![CDATA[Gładki]]></Value>
+                  <DisplayValue><![CDATA[Gładki]]></DisplayValue>
+                  <Description><![CDATA[]]></Description>
+                </Value>
+              </Values>
+            </Attribute>
+            <Attribute>
+              <Id>1860</Id>
+              <Name>GPSR</Name>
+              <Description><![CDATA[]]></Description>
+              <DataType>String 256</DataType>
+              <RequiresTranslation>true</RequiresTranslation>
+              <Values>
+                <Value>
+                  <Id>728297</Id>
+                  <Value><![CDATA[FORCETOP Sp. z o.o., Chotów 24B, 63-460 Chotów PL, office@forcetop.com, +48 625940000]]></Value>
+                  <DisplayValue><![CDATA[FORCETOP Sp. z o.o., Chotów 24B, 63-460 Chotów PL, office@forcetop.com, +48 625940000]]></DisplayValue>
+                  <Description><![CDATA[]]></Description>
+                </Value>
+              </Values>
+            </Attribute>
+          </Attributes>
+        </Specification>
+        <Pictures>
+          <Picture>
+            <Id>9fb6ff14-5e51-ec11-91ad-2cea7fb072aa</Id>
+            <Url>https://pub.btp.pro/Public/Resource/ItemPic2/9FB6FF14-5E51-EC11-91AD-2CEA7FB072AA.jpg</Url>
+            <Description><![CDATA[]]></Description>
+          </Picture>
+          <Picture>
+            <Id>b7b6ff14-5e51-ec11-91ad-2cea7fb072aa</Id>
+            <Url>https://pub.btp.pro/Public/Resource/ItemPic2/B7B6FF14-5E51-EC11-91AD-2CEA7FB072AA.jpg</Url>
+            <Description><![CDATA[]]></Description>
+          </Picture>
+          <Picture>
+            <Id>bab6ff14-5e51-ec11-91ad-2cea7fb072aa</Id>
+            <Url>https://pub.btp.pro/Public/Resource/ItemPic2/BAB6FF14-5E51-EC11-91AD-2CEA7FB072AA.jpg</Url>
+            <Description><![CDATA[]]></Description>
+          </Picture>
+        </Pictures>
+      </Line-Item>
+    </Line>
+    <Line>
+      <Line-Item>
+        <LineNumber>4</LineNumber>
+        <LineType>4</LineType>
+        <EAN>888488284378</EAN>
+        <ItemDescription><![CDATA[Zizo Star Diamond Hybrid Cover - Etui iPhone X (Teal/Black)]]></ItemDescription>
+        <LongItemDescription><![CDATA[Wyjątkowe etui pod względem swojego oryginalnego designu oraz wielopoziomowej ochrony w trosce o bezpieczeństwo Twojego urządzenia, a także zachowaniu jego elegancji.<br><br>Wyróżnij się!<br>Zizo Star Diamond na prawie całej powierzchni przedniego panelu posiada niewielkie kryształki imitujące brylanty, które lśnią w padającym świetle, dodatkowo zapewniając pewniejszy chwyt urządzenia. Kilka dostępnych wariantów kolorystycznych pozwala dobrać odpowiednie etui do swojego telefonu.<br><br>Wielopoziomowa ochrona<br>Wykonane z dwóch uzupełniających się wzajemnie warstw etui, zapewnia najlepszą ochronę oraz wysoką funkcjonalność telefonu. Świetnie absorbujący wstrząsy silikon stanowi wewnętrzną barierę, która idealnie przylega do telefonu z tyłu oraz po bokach, rozpraszając całą siłę uderzenia. Zewnętrzna, twarda powłoka wykonana z polikarbonu dodatkowo osłania konstrukcję smartfona oraz usztywnia całe etui nadając mu oryginalnego kształtu.<br><br>Cechy produktu:<br>· Dwuczęściowa konstrukcja chroniąca tył oraz boki urządzenia<br>· Elastyczny silikon rozpraszający siłę uderzenia<br>· Twardy Polikarbon usztywniający całą konstrukcję, chroniąc jednocześnie przed porysowaniem telefonu<br>· Wyjątkowy design o oryginalnej strukturze<br>· Estetyka zachowująca smukły kształt urządzenia<br>· Kompatybilność: iPhone X<br>· Etui kompatybilne z bezprzewodowym ładowaniem<br>· Etui kompatybilne z Apple Pay]]></LongItemDescription>
+        <SupplierItemCode>10372</SupplierItemCode>
+        <ManufacturerItemCode>DLST-IPHX-TLBK</ManufacturerItemCode>
+        <ProductGroup>Telefony i akcesoria</ProductGroup>
+        <ProductGroupName>Telefony i akcesoria</ProductGroupName>
+        <ProductGroupCode>10027</ProductGroupCode>
+        <PrimaryProductGroup>Elektronika</PrimaryProductGroup>
+        <PrimaryProductGroupName>Elektronika</PrimaryProductGroupName>
+        <PrimaryProductGroupCode>10031</PrimaryProductGroupCode>
+        <ItemType>CU</ItemType>
+        <BrandCode>10024</BrandCode>
+        <BrandName>Zizo</BrandName>
+        <ProductType>M</ProductType>
+        <Weight>0.075</Weight>
+        <UnitOfMeasure>PCE</UnitOfMeasure>
+        <UnitNetPrice>12.3100</UnitNetPrice>
+        <UnitRetailPrice>14.3000</UnitRetailPrice>
+        <TaxRate>23.0000</TaxRate>
+        <TaxCategoryCode>S</TaxCategoryCode>
+        <ItemTaxRate>23.0000000000</ItemTaxRate>
+        <ItemTaxCategoryCode>A</ItemTaxCategoryCode>
+        <CustomsTariffNumber>3926909790</CustomsTariffNumber>
+        <Guarantee>24</Guarantee>
+        <Specification>
+          <Attributes>
+            <Attribute>
+              <Id>7</Id>
+              <Name>Kompatybilność</Name>
+              <Description><![CDATA[]]></Description>
+              <DataType>String 256</DataType>
+              <RequiresTranslation>true</RequiresTranslation>
+              <Values>
+                <Value>
+                  <Id>60</Id>
+                  <Value><![CDATA[Apple iPhone X]]></Value>
+                  <DisplayValue><![CDATA[Apple iPhone X]]></DisplayValue>
+                  <Description><![CDATA[]]></Description>
+                </Value>
+              </Values>
+            </Attribute>
+            <Attribute>
+              <Id>5</Id>
+              <Name>Materiał główny</Name>
+              <Description><![CDATA[]]></Description>
+              <DataType>String 256</DataType>
+              <RequiresTranslation>true</RequiresTranslation>
+              <Values>
+                <Value>
+                  <Id>42</Id>
+                  <Value><![CDATA[Polikarbon]]></Value>
+                  <DisplayValue><![CDATA[Polikarbon]]></DisplayValue>
+                  <Description><![CDATA[]]></Description>
+                </Value>
+              </Values>
+            </Attribute>
+            <Attribute>
+              <Id>12</Id>
+              <Name>Materiał dodatkowy</Name>
+              <Description><![CDATA[]]></Description>
+              <DataType>String 256</DataType>
+              <RequiresTranslation>true</RequiresTranslation>
+              <Values>
+                <Value>
+                  <Id>96</Id>
+                  <Value><![CDATA[Silikon]]></Value>
+                  <DisplayValue><![CDATA[Silikon]]></DisplayValue>
+                  <Description><![CDATA[]]></Description>
+                </Value>
+              </Values>
+            </Attribute>
+            <Attribute>
+              <Id>3</Id>
+              <Name>Kolor bazowy</Name>
+              <Description><![CDATA[]]></Description>
+              <DataType>String 256</DataType>
+              <RequiresTranslation>true</RequiresTranslation>
+              <Values>
+                <Value>
+                  <Id>181</Id>
+                  <Value><![CDATA[morski]]></Value>
+                  <DisplayValue><![CDATA[morski]]></DisplayValue>
+                  <Description><![CDATA[]]></Description>
+                </Value>
+              </Values>
+            </Attribute>
+            <Attribute>
+              <Id>6</Id>
+              <Name>Funkcjonalność</Name>
+              <Description><![CDATA[]]></Description>
+              <DataType>String 256</DataType>
+              <RequiresTranslation>true</RequiresTranslation>
+              <Values>
+                <Value>
+                  <Id>52</Id>
+                  <Value><![CDATA[ochrona tyłu i boków]]></Value>
+                  <DisplayValue><![CDATA[ochrona tyłu i boków]]></DisplayValue>
+                  <Description><![CDATA[]]></Description>
+                </Value>
+              </Values>
+            </Attribute>
+            <Attribute>
+              <Id>13</Id>
+              <Name>Kolor dodatkowy</Name>
+              <Description><![CDATA[]]></Description>
+              <DataType>String 256</DataType>
+              <RequiresTranslation>true</RequiresTranslation>
+              <Values>
+                <Value>
+                  <Id>102</Id>
+                  <Value><![CDATA[czarny]]></Value>
+                  <DisplayValue><![CDATA[czarny]]></DisplayValue>
+                  <Description><![CDATA[]]></Description>
+                </Value>
+              </Values>
+            </Attribute>
+            <Attribute>
+              <Id>1845</Id>
+              <Name>Rodzaj etui</Name>
+              <Description><![CDATA[]]></Description>
+              <DataType>String 256</DataType>
+              <RequiresTranslation>true</RequiresTranslation>
+              <Values>
+                <Value>
+                  <Id>1535</Id>
+                  <Value><![CDATA[Plecki]]></Value>
+                  <DisplayValue><![CDATA[Plecki]]></DisplayValue>
+                  <Description><![CDATA[]]></Description>
+                </Value>
+              </Values>
+            </Attribute>
+            <Attribute>
+              <Id>11</Id>
+              <Name>Wzór</Name>
+              <Description><![CDATA[]]></Description>
+              <DataType>String 256</DataType>
+              <RequiresTranslation>true</RequiresTranslation>
+              <Values>
+                <Value>
+                  <Id>90</Id>
+                  <Value><![CDATA[Inny]]></Value>
+                  <DisplayValue><![CDATA[Inny]]></DisplayValue>
+                  <Description><![CDATA[]]></Description>
+                </Value>
+              </Values>
+            </Attribute>
+            <Attribute>
+              <Id>1860</Id>
+              <Name>GPSR</Name>
+              <Description><![CDATA[]]></Description>
+              <DataType>String 256</DataType>
+              <RequiresTranslation>true</RequiresTranslation>
+              <Values>
+                <Value>
+                  <Id>728297</Id>
+                  <Value><![CDATA[FORCETOP Sp. z o.o., Chotów 24B, 63-460 Chotów PL, office@forcetop.com, +48 625940000]]></Value>
+                  <DisplayValue><![CDATA[FORCETOP Sp. z o.o., Chotów 24B, 63-460 Chotów PL, office@forcetop.com, +48 625940000]]></DisplayValue>
+                  <Description><![CDATA[]]></Description>
+                </Value>
+              </Values>
+            </Attribute>
+          </Attributes>
+        </Specification>
+        <Pictures>
+          <Picture>
+            <Id>75c3ef20-5e51-ec11-91ad-2cea7fb072aa</Id>
+            <Url>https://pub.btp.pro/Public/Resource/ItemPic2/75C3EF20-5E51-EC11-91AD-2CEA7FB072AA.jpg</Url>
+            <Description><![CDATA[]]></Description>
+          </Picture>
+          <Picture>
+            <Id>76c3ef20-5e51-ec11-91ad-2cea7fb072aa</Id>
+            <Url>https://pub.btp.pro/Public/Resource/ItemPic2/76C3EF20-5E51-EC11-91AD-2CEA7FB072AA.jpg</Url>
+            <Description><![CDATA[]]></Description>
+          </Picture>
+          <Picture>
+            <Id>79c3ef20-5e51-ec11-91ad-2cea7fb072aa</Id>
+            <Url>https://pub.btp.pro/Public/Resource/ItemPic2/79C3EF20-5E51-EC11-91AD-2CEA7FB072AA.jpg</Url>
+            <Description><![CDATA[]]></Description>
+          </Picture>
+          <Picture>
+            <Id>7bc3ef20-5e51-ec11-91ad-2cea7fb072aa</Id>
+            <Url>https://pub.btp.pro/Public/Resource/ItemPic2/7BC3EF20-5E51-EC11-91AD-2CEA7FB072AA.jpg</Url>
+            <Description><![CDATA[]]></Description>
+          </Picture>
+          <Picture>
+            <Id>7cc3ef20-5e51-ec11-91ad-2cea7fb072aa</Id>
+            <Url>https://pub.btp.pro/Public/Resource/ItemPic2/7CC3EF20-5E51-EC11-91AD-2CEA7FB072AA.jpg</Url>
+            <Description><![CDATA[]]></Description>
+          </Picture>
+        </Pictures>
+      </Line-Item>
+    </Line>
+    <Line>
+      <Line-Item>
+        <LineNumber>5</LineNumber>
+        <LineType>4</LineType>
+        <EAN>888488284385</EAN>
+        <ItemDescription><![CDATA[Zizo Star Diamond Hybrid Cover - Etui iPhone X (Purple/Black)]]></ItemDescription>
+        <LongItemDescription><![CDATA[Wyjątkowe etui pod względem swojego oryginalnego designu oraz wielopoziomowej ochrony w trosce o bezpieczeństwo Twojego urządzenia, a także zachowaniu jego elegancji.<br><br>Wyróżnij się!<br>Zizo Star Diamond na prawie całej powierzchni przedniego panelu posiada niewielkie kryształki imitujące brylanty, które lśnią w padającym świetle, dodatkowo zapewniając pewniejszy chwyt urządzenia. Kilka dostępnych wariantów kolorystycznych pozwala dobrać odpowiednie etui do swojego telefonu.<br><br>Wielopoziomowa ochrona<br>Wykonane z dwóch uzupełniających się wzajemnie warstw etui, zapewnia najlepszą ochronę oraz wysoką funkcjonalność telefonu. Świetnie absorbujący wstrząsy silikon stanowi wewnętrzną barierę, która idealnie przylega do telefonu z tyłu oraz po bokach, rozpraszając całą siłę uderzenia. Zewnętrzna, twarda powłoka wykonana z polikarbonu dodatkowo osłania konstrukcję smartfona oraz usztywnia całe etui nadając mu oryginalnego kształtu.<br><br>Cechy produktu:<br>· Dwuczęściowa konstrukcja chroniąca tył oraz boki urządzenia<br>· Elastyczny silikon rozpraszający siłę uderzenia<br>· Twardy Polikarbon usztywniający całą konstrukcję, chroniąc jednocześnie przed porysowaniem telefonu<br>· Wyjątkowy design o oryginalnej strukturze<br>· Estetyka zachowująca smukły kształt urządzenia<br>· Kompatybilność: iPhone X<br>· Etui kompatybilne z bezprzewodowym ładowaniem<br>· Etui kompatybilne z Apple Pay]]></LongItemDescription>
+        <SupplierItemCode>10373</SupplierItemCode>
+        <ManufacturerItemCode>DLST-IPHX-PUBK</ManufacturerItemCode>
+        <ProductGroup>Telefony i akcesoria</ProductGroup>
+        <ProductGroupName>Telefony i akcesoria</ProductGroupName>
+        <ProductGroupCode>10027</ProductGroupCode>
+        <PrimaryProductGroup>Elektronika</PrimaryProductGroup>
+        <PrimaryProductGroupName>Elektronika</PrimaryProductGroupName>
+        <PrimaryProductGroupCode>10031</PrimaryProductGroupCode>
+        <ItemType>CU</ItemType>
+        <BrandCode>10024</BrandCode>
+        <BrandName>Zizo</BrandName>
+        <ProductType>M</ProductType>
+        <Weight>0.075</Weight>
+        <UnitOfMeasure>PCE</UnitOfMeasure>
+        <UnitNetPrice>12.3000</UnitNetPrice>
+        <UnitRetailPrice>14.3100</UnitRetailPrice>
+        <TaxRate>23.0000</TaxRate>
+        <TaxCategoryCode>S</TaxCategoryCode>
+        <ItemTaxRate>23.0000000000</ItemTaxRate>
+        <ItemTaxCategoryCode>A</ItemTaxCategoryCode>
+        <CustomsTariffNumber>3926909790</CustomsTariffNumber>
+        <Guarantee>24</Guarantee>
+        <Specification>
+          <Attributes>
+            <Attribute>
+              <Id>7</Id>
+              <Name>Kompatybilność</Name>
+              <Description><![CDATA[]]></Description>
+              <DataType>String 256</DataType>
+              <RequiresTranslation>true</RequiresTranslation>
+              <Values>
+                <Value>
+                  <Id>60</Id>
+                  <Value><![CDATA[Apple iPhone X]]></Value>
+                  <DisplayValue><![CDATA[Apple iPhone X]]></DisplayValue>
+                  <Description><![CDATA[]]></Description>
+                </Value>
+              </Values>
+            </Attribute>
+            <Attribute>
+              <Id>5</Id>
+              <Name>Materiał główny</Name>
+              <Description><![CDATA[]]></Description>
+              <DataType>String 256</DataType>
+              <RequiresTranslation>true</RequiresTranslation>
+              <Values>
+                <Value>
+                  <Id>42</Id>
+                  <Value><![CDATA[Polikarbon]]></Value>
+                  <DisplayValue><![CDATA[Polikarbon]]></DisplayValue>
+                  <Description><![CDATA[]]></Description>
+                </Value>
+              </Values>
+            </Attribute>
+            <Attribute>
+              <Id>12</Id>
+              <Name>Materiał dodatkowy</Name>
+              <Description><![CDATA[]]></Description>
+              <DataType>String 256</DataType>
+              <RequiresTranslation>true</RequiresTranslation>
+              <Values>
+                <Value>
+                  <Id>96</Id>
+                  <Value><![CDATA[Silikon]]></Value>
+                  <DisplayValue><![CDATA[Silikon]]></DisplayValue>
+                  <Description><![CDATA[]]></Description>
+                </Value>
+              </Values>
+            </Attribute>
+            <Attribute>
+              <Id>3</Id>
+              <Name>Kolor bazowy</Name>
+              <Description><![CDATA[]]></Description>
+              <DataType>String 256</DataType>
+              <RequiresTranslation>true</RequiresTranslation>
+              <Values>
+                <Value>
+                  <Id>178</Id>
+                  <Value><![CDATA[fioletowy]]></Value>
+                  <DisplayValue><![CDATA[fioletowy]]></DisplayValue>
+                  <Description><![CDATA[]]></Description>
+                </Value>
+              </Values>
+            </Attribute>
+            <Attribute>
+              <Id>6</Id>
+              <Name>Funkcjonalność</Name>
+              <Description><![CDATA[]]></Description>
+              <DataType>String 256</DataType>
+              <RequiresTranslation>true</RequiresTranslation>
+              <Values>
+                <Value>
+                  <Id>52</Id>
+                  <Value><![CDATA[ochrona tyłu i boków]]></Value>
+                  <DisplayValue><![CDATA[ochrona tyłu i boków]]></DisplayValue>
+                  <Description><![CDATA[]]></Description>
+                </Value>
+              </Values>
+            </Attribute>
+            <Attribute>
+              <Id>13</Id>
+              <Name>Kolor dodatkowy</Name>
+              <Description><![CDATA[]]></Description>
+              <DataType>String 256</DataType>
+              <RequiresTranslation>true</RequiresTranslation>
+              <Values>
+                <Value>
+                  <Id>102</Id>
+                  <Value><![CDATA[czarny]]></Value>
+                  <DisplayValue><![CDATA[czarny]]></DisplayValue>
+                  <Description><![CDATA[]]></Description>
+                </Value>
+              </Values>
+            </Attribute>
+            <Attribute>
+              <Id>1845</Id>
+              <Name>Rodzaj etui</Name>
+              <Description><![CDATA[]]></Description>
+              <DataType>String 256</DataType>
+              <RequiresTranslation>true</RequiresTranslation>
+              <Values>
+                <Value>
+                  <Id>1535</Id>
+                  <Value><![CDATA[Plecki]]></Value>
+                  <DisplayValue><![CDATA[Plecki]]></DisplayValue>
+                  <Description><![CDATA[]]></Description>
+                </Value>
+              </Values>
+            </Attribute>
+            <Attribute>
+              <Id>11</Id>
+              <Name>Wzór</Name>
+              <Description><![CDATA[]]></Description>
+              <DataType>String 256</DataType>
+              <RequiresTranslation>true</RequiresTranslation>
+              <Values>
+                <Value>
+                  <Id>90</Id>
+                  <Value><![CDATA[Inny]]></Value>
+                  <DisplayValue><![CDATA[Inny]]></DisplayValue>
+                  <Description><![CDATA[]]></Description>
+                </Value>
+              </Values>
+            </Attribute>
+            <Attribute>
+              <Id>1860</Id>
+              <Name>GPSR</Name>
+              <Description><![CDATA[]]></Description>
+              <DataType>String 256</DataType>
+              <RequiresTranslation>true</RequiresTranslation>
+              <Values>
+                <Value>
+                  <Id>728297</Id>
+                  <Value><![CDATA[FORCETOP Sp. z o.o., Chotów 24B, 63-460 Chotów PL, office@forcetop.com, +48 625940000]]></Value>
+                  <DisplayValue><![CDATA[FORCETOP Sp. z o.o., Chotów 24B, 63-460 Chotów PL, office@forcetop.com, +48 625940000]]></DisplayValue>
+                  <Description><![CDATA[]]></Description>
+                </Value>
+              </Values>
+            </Attribute>
+          </Attributes>
+        </Specification>
+        <Pictures>
+          <Picture>
+            <Id>66c3ef20-5e51-ec11-91ad-2cea7fb072aa</Id>
+            <Url>https://pub.btp.pro/Public/Resource/ItemPic2/66C3EF20-5E51-EC11-91AD-2CEA7FB072AA.jpg</Url>
+            <Description><![CDATA[]]></Description>
+          </Picture>
+          <Picture>
+            <Id>67c3ef20-5e51-ec11-91ad-2cea7fb072aa</Id>
+            <Url>https://pub.btp.pro/Public/Resource/ItemPic2/67C3EF20-5E51-EC11-91AD-2CEA7FB072AA.jpg</Url>
+            <Description><![CDATA[]]></Description>
+          </Picture>
+          <Picture>
+            <Id>6ac3ef20-5e51-ec11-91ad-2cea7fb072aa</Id>
+            <Url>https://pub.btp.pro/Public/Resource/ItemPic2/6AC3EF20-5E51-EC11-91AD-2CEA7FB072AA.jpg</Url>
+            <Description><![CDATA[]]></Description>
+          </Picture>
+          <Picture>
+            <Id>6fc3ef20-5e51-ec11-91ad-2cea7fb072aa</Id>
+            <Url>https://pub.btp.pro/Public/Resource/ItemPic2/6FC3EF20-5E51-EC11-91AD-2CEA7FB072AA.jpg</Url>
+            <Description><![CDATA[]]></Description>
+          </Picture>
+          <Picture>
+            <Id>70c3ef20-5e51-ec11-91ad-2cea7fb072aa</Id>
+            <Url>https://pub.btp.pro/Public/Resource/ItemPic2/70C3EF20-5E51-EC11-91AD-2CEA7FB072AA.jpg</Url>
+            <Description><![CDATA[]]></Description>
+          </Picture>
+        </Pictures>
+      </Line-Item>
+    </Line>
+    <Line>
+      <Line-Item>
+        <LineNumber>6</LineNumber>
+        <LineType>4</LineType>
+        <EAN>888488284392</EAN>
+        <ItemDescription><![CDATA[Zizo Star Diamond Hybrid Cover - Etui iPhone X (Pink/Black)]]></ItemDescription>
+        <LongItemDescription><![CDATA[Wyjątkowe etui pod względem swojego oryginalnego designu oraz wielopoziomowej ochrony w trosce o bezpieczeństwo Twojego urządzenia, a także zachowaniu jego elegancji.<br><br>Wyróżnij się!<br>Zizo Star Diamond na prawie całej powierzchni przedniego panelu posiada niewielkie kryształki imitujące brylanty, które lśnią w padającym świetle, dodatkowo zapewniając pewniejszy chwyt urządzenia. Kilka dostępnych wariantów kolorystycznych pozwala dobrać odpowiednie etui do swojego telefonu.<br><br>Wielopoziomowa ochrona<br>Wykonane z dwóch uzupełniających się wzajemnie warstw etui, zapewnia najlepszą ochronę oraz wysoką funkcjonalność telefonu. Świetnie absorbujący wstrząsy silikon stanowi wewnętrzną barierę, która idealnie przylega do telefonu z tyłu oraz po bokach, rozpraszając całą siłę uderzenia. Zewnętrzna, twarda powłoka wykonana z polikarbonu dodatkowo osłania konstrukcję smartfona oraz usztywnia całe etui nadając mu oryginalnego kształtu.<br><br>Cechy produktu:<br>· Dwuczęściowa konstrukcja chroniąca tył oraz boki urządzenia<br>· Elastyczny silikon rozpraszający siłę uderzenia<br>· Twardy Polikarbon usztywniający całą konstrukcję, chroniąc jednocześnie przed porysowaniem telefonu<br>· Wyjątkowy design o oryginalnej strukturze<br>· Estetyka zachowująca smukły kształt urządzenia<br>· Kompatybilność: iPhone X<br>· Etui kompatybilne z bezprzewodowym ładowaniem<br>· Etui kompatybilne z Apple Pay]]></LongItemDescription>
+        <SupplierItemCode>10374</SupplierItemCode>
+        <ManufacturerItemCode>DLST-IPHX-PKBK</ManufacturerItemCode>
+        <ProductGroup>Telefony i akcesoria</ProductGroup>
+        <ProductGroupName>Telefony i akcesoria</ProductGroupName>
+        <ProductGroupCode>10027</ProductGroupCode>
+        <PrimaryProductGroup>Elektronika</PrimaryProductGroup>
+        <PrimaryProductGroupName>Elektronika</PrimaryProductGroupName>
+        <PrimaryProductGroupCode>10031</PrimaryProductGroupCode>
+        <ItemType>CU</ItemType>
+        <BrandCode>10024</BrandCode>
+        <BrandName>Zizo</BrandName>
+        <ProductType>M</ProductType>
+        <Weight>0.075</Weight>
+        <UnitOfMeasure>PCE</UnitOfMeasure>
+        <UnitNetPrice>11.1000</UnitNetPrice>
+        <UnitRetailPrice>12.7700</UnitRetailPrice>
+        <TaxRate>23.0000</TaxRate>
+        <TaxCategoryCode>S</TaxCategoryCode>
+        <ItemTaxRate>23.0000000000</ItemTaxRate>
+        <ItemTaxCategoryCode>A</ItemTaxCategoryCode>
+        <CustomsTariffNumber>3926909790</CustomsTariffNumber>
+        <Guarantee>24</Guarantee>
+        <Specification>
+          <Attributes>
+            <Attribute>
+              <Id>7</Id>
+              <Name>Kompatybilność</Name>
+              <Description><![CDATA[]]></Description>
+              <DataType>String 256</DataType>
+              <RequiresTranslation>true</RequiresTranslation>
+              <Values>
+                <Value>
+                  <Id>60</Id>
+                  <Value><![CDATA[Apple iPhone X]]></Value>
+                  <DisplayValue><![CDATA[Apple iPhone X]]></DisplayValue>
+                  <Description><![CDATA[]]></Description>
+                </Value>
+              </Values>
+            </Attribute>
+            <Attribute>
+              <Id>5</Id>
+              <Name>Materiał główny</Name>
+              <Description><![CDATA[]]></Description>
+              <DataType>String 256</DataType>
+              <RequiresTranslation>true</RequiresTranslation>
+              <Values>
+                <Value>
+                  <Id>42</Id>
+                  <Value><![CDATA[Polikarbon]]></Value>
+                  <DisplayValue><![CDATA[Polikarbon]]></DisplayValue>
+                  <Description><![CDATA[]]></Description>
+                </Value>
+              </Values>
+            </Attribute>
+            <Attribute>
+              <Id>12</Id>
+              <Name>Materiał dodatkowy</Name>
+              <Description><![CDATA[]]></Description>
+              <DataType>String 256</DataType>
+              <RequiresTranslation>true</RequiresTranslation>
+              <Values>
+                <Value>
+                  <Id>96</Id>
+                  <Value><![CDATA[Silikon]]></Value>
+                  <DisplayValue><![CDATA[Silikon]]></DisplayValue>
+                  <Description><![CDATA[]]></Description>
+                </Value>
+              </Values>
+            </Attribute>
+            <Attribute>
+              <Id>3</Id>
+              <Name>Kolor bazowy</Name>
+              <Description><![CDATA[]]></Description>
+              <DataType>String 256</DataType>
+              <RequiresTranslation>true</RequiresTranslation>
+              <Values>
+                <Value>
+                  <Id>32</Id>
+                  <Value><![CDATA[różowy]]></Value>
+                  <DisplayValue><![CDATA[różowy]]></DisplayValue>
+                  <Description><![CDATA[]]></Description>
+                </Value>
+              </Values>
+            </Attribute>
+            <Attribute>
+              <Id>6</Id>
+              <Name>Funkcjonalność</Name>
+              <Description><![CDATA[]]></Description>
+              <DataType>String 256</DataType>
+              <RequiresTranslation>true</RequiresTranslation>
+              <Values>
+                <Value>
+                  <Id>52</Id>
+                  <Value><![CDATA[ochrona tyłu i boków]]></Value>
+                  <DisplayValue><![CDATA[ochrona tyłu i boków]]></DisplayValue>
+                  <Description><![CDATA[]]></Description>
+                </Value>
+              </Values>
+            </Attribute>
+            <Attribute>
+              <Id>13</Id>
+              <Name>Kolor dodatkowy</Name>
+              <Description><![CDATA[]]></Description>
+              <DataType>String 256</DataType>
+              <RequiresTranslation>true</RequiresTranslation>
+              <Values>
+                <Value>
+                  <Id>102</Id>
+                  <Value><![CDATA[czarny]]></Value>
+                  <DisplayValue><![CDATA[czarny]]></DisplayValue>
+                  <Description><![CDATA[]]></Description>
+                </Value>
+              </Values>
+            </Attribute>
+            <Attribute>
+              <Id>1845</Id>
+              <Name>Rodzaj etui</Name>
+              <Description><![CDATA[]]></Description>
+              <DataType>String 256</DataType>
+              <RequiresTranslation>true</RequiresTranslation>
+              <Values>
+                <Value>
+                  <Id>1535</Id>
+                  <Value><![CDATA[Plecki]]></Value>
+                  <DisplayValue><![CDATA[Plecki]]></DisplayValue>
+                  <Description><![CDATA[]]></Description>
+                </Value>
+              </Values>
+            </Attribute>
+            <Attribute>
+              <Id>11</Id>
+              <Name>Wzór</Name>
+              <Description><![CDATA[]]></Description>
+              <DataType>String 256</DataType>
+              <RequiresTranslation>true</RequiresTranslation>
+              <Values>
+                <Value>
+                  <Id>90</Id>
+                  <Value><![CDATA[Inny]]></Value>
+                  <DisplayValue><![CDATA[Inny]]></DisplayValue>
+                  <Description><![CDATA[]]></Description>
+                </Value>
+              </Values>
+            </Attribute>
+            <Attribute>
+              <Id>1860</Id>
+              <Name>GPSR</Name>
+              <Description><![CDATA[]]></Description>
+              <DataType>String 256</DataType>
+              <RequiresTranslation>true</RequiresTranslation>
+              <Values>
+                <Value>
+                  <Id>728297</Id>
+                  <Value><![CDATA[FORCETOP Sp. z o.o., Chotów 24B, 63-460 Chotów PL, office@forcetop.com, +48 625940000]]></Value>
+                  <DisplayValue><![CDATA[FORCETOP Sp. z o.o., Chotów 24B, 63-460 Chotów PL, office@forcetop.com, +48 625940000]]></DisplayValue>
+                  <Description><![CDATA[]]></Description>
+                </Value>
+              </Values>
+            </Attribute>
+          </Attributes>
+        </Specification>
+        <Pictures>
+          <Picture>
+            <Id>94c3ef20-5e51-ec11-91ad-2cea7fb072aa</Id>
+            <Url>https://pub.btp.pro/Public/Resource/ItemPic2/94C3EF20-5E51-EC11-91AD-2CEA7FB072AA.jpg</Url>
+            <Description><![CDATA[]]></Description>
+          </Picture>
+          <Picture>
+            <Id>96c3ef20-5e51-ec11-91ad-2cea7fb072aa</Id>
+            <Url>https://pub.btp.pro/Public/Resource/ItemPic2/96C3EF20-5E51-EC11-91AD-2CEA7FB072AA.jpg</Url>
+            <Description><![CDATA[]]></Description>
+          </Picture>
+          <Picture>
+            <Id>98c3ef20-5e51-ec11-91ad-2cea7fb072aa</Id>
+            <Url>https://pub.btp.pro/Public/Resource/ItemPic2/98C3EF20-5E51-EC11-91AD-2CEA7FB072AA.jpg</Url>
+            <Description><![CDATA[]]></Description>
+          </Picture>
+          <Picture>
+            <Id>9ac3ef20-5e51-ec11-91ad-2cea7fb072aa</Id>
+            <Url>https://pub.btp.pro/Public/Resource/ItemPic2/9AC3EF20-5E51-EC11-91AD-2CEA7FB072AA.jpg</Url>
+            <Description><![CDATA[]]></Description>
+          </Picture>
+          <Picture>
+            <Id>9bc3ef20-5e51-ec11-91ad-2cea7fb072aa</Id>
+            <Url>https://pub.btp.pro/Public/Resource/ItemPic2/9BC3EF20-5E51-EC11-91AD-2CEA7FB072AA.jpg</Url>
+            <Description><![CDATA[]]></Description>
+          </Picture>
+        </Pictures>
+      </Line-Item>
+    </Line>
+    <Line>
+      <Line-Item>
+        <LineNumber>7</LineNumber>
+        <LineType>4</LineType>
+        <EAN>888488284408</EAN>
+        <ItemDescription><![CDATA[Zizo Star Diamond Hybrid Cover - Etui iPhone X (Gold/Black)]]></ItemDescription>
+        <LongItemDescription><![CDATA[Wyjątkowe etui pod względem swojego oryginalnego designu oraz wielopoziomowej ochrony w trosce o bezpieczeństwo Twojego urządzenia, a także zachowaniu jego elegancji.<br><br>Wyróżnij się!<br>Zizo Star Diamond na prawie całej powierzchni przedniego panelu posiada niewielkie kryształki imitujące brylanty, które lśnią w padającym świetle, dodatkowo zapewniając pewniejszy chwyt urządzenia. Kilka dostępnych wariantów kolorystycznych pozwala dobrać odpowiednie etui do swojego telefonu.<br><br>Wielopoziomowa ochrona<br>Wykonane z dwóch uzupełniających się wzajemnie warstw etui, zapewnia najlepszą ochronę oraz wysoką funkcjonalność telefonu. Świetnie absorbujący wstrząsy silikon stanowi wewnętrzną barierę, która idealnie przylega do telefonu z tyłu oraz po bokach, rozpraszając całą siłę uderzenia. Zewnętrzna, twarda powłoka wykonana z polikarbonu dodatkowo osłania konstrukcję smartfona oraz usztywnia całe etui nadając mu oryginalnego kształtu.<br><br>Cechy produktu:<br>· Dwuczęściowa konstrukcja chroniąca tył oraz boki urządzenia<br>· Elastyczny silikon rozpraszający siłę uderzenia<br>· Twardy Polikarbon usztywniający całą konstrukcję, chroniąc jednocześnie przed porysowaniem telefonu<br>· Wyjątkowy design o oryginalnej strukturze<br>· Estetyka zachowująca smukły kształt urządzenia<br>· Kompatybilność: iPhone X<br>· Etui kompatybilne z bezprzewodowym ładowaniem<br>· Etui kompatybilne z Apple Pay]]></LongItemDescription>
+        <SupplierItemCode>10375</SupplierItemCode>
+        <ManufacturerItemCode>DLST-IPHX-GDBK</ManufacturerItemCode>
+        <ProductGroup>Telefony i akcesoria</ProductGroup>
+        <ProductGroupName>Telefony i akcesoria</ProductGroupName>
+        <ProductGroupCode>10027</ProductGroupCode>
+        <PrimaryProductGroup>Elektronika</PrimaryProductGroup>
+        <PrimaryProductGroupName>Elektronika</PrimaryProductGroupName>
+        <PrimaryProductGroupCode>10031</PrimaryProductGroupCode>
+        <ItemType>CU</ItemType>
+        <BrandCode>10024</BrandCode>
+        <BrandName>Zizo</BrandName>
+        <ProductType>M</ProductType>
+        <Weight>0.075</Weight>
+        <UnitOfMeasure>PCE</UnitOfMeasure>
+        <UnitNetPrice>12.4400</UnitNetPrice>
+        <UnitRetailPrice>14.3100</UnitRetailPrice>
+        <TaxRate>23.0000</TaxRate>
+        <TaxCategoryCode>S</TaxCategoryCode>
+        <ItemTaxRate>23.0000000000</ItemTaxRate>
+        <ItemTaxCategoryCode>A</ItemTaxCategoryCode>
+        <CustomsTariffNumber>3926909790</CustomsTariffNumber>
+        <Guarantee>24</Guarantee>
+        <Specification>
+          <Attributes>
+            <Attribute>
+              <Id>7</Id>
+              <Name>Kompatybilność</Name>
+              <Description><![CDATA[]]></Description>
+              <DataType>String 256</DataType>
+              <RequiresTranslation>true</RequiresTranslation>
+              <Values>
+                <Value>
+                  <Id>60</Id>
+                  <Value><![CDATA[Apple iPhone X]]></Value>
+                  <DisplayValue><![CDATA[Apple iPhone X]]></DisplayValue>
+                  <Description><![CDATA[]]></Description>
+                </Value>
+              </Values>
+            </Attribute>
+            <Attribute>
+              <Id>5</Id>
+              <Name>Materiał główny</Name>
+              <Description><![CDATA[]]></Description>
+              <DataType>String 256</DataType>
+              <RequiresTranslation>true</RequiresTranslation>
+              <Values>
+                <Value>
+                  <Id>42</Id>
+                  <Value><![CDATA[Polikarbon]]></Value>
+                  <DisplayValue><![CDATA[Polikarbon]]></DisplayValue>
+                  <Description><![CDATA[]]></Description>
+                </Value>
+              </Values>
+            </Attribute>
+            <Attribute>
+              <Id>12</Id>
+              <Name>Materiał dodatkowy</Name>
+              <Description><![CDATA[]]></Description>
+              <DataType>String 256</DataType>
+              <RequiresTranslation>true</RequiresTranslation>
+              <Values>
+                <Value>
+                  <Id>96</Id>
+                  <Value><![CDATA[Silikon]]></Value>
+                  <DisplayValue><![CDATA[Silikon]]></DisplayValue>
+                  <Description><![CDATA[]]></Description>
+                </Value>
+              </Values>
+            </Attribute>
+            <Attribute>
+              <Id>3</Id>
+              <Name>Kolor bazowy</Name>
+              <Description><![CDATA[]]></Description>
+              <DataType>String 256</DataType>
+              <RequiresTranslation>true</RequiresTranslation>
+              <Values>
+                <Value>
+                  <Id>36</Id>
+                  <Value><![CDATA[złoty]]></Value>
+                  <DisplayValue><![CDATA[złoty]]></DisplayValue>
+                  <Description><![CDATA[]]></Description>
+                </Value>
+              </Values>
+            </Attribute>
+            <Attribute>
+              <Id>6</Id>
+              <Name>Funkcjonalność</Name>
+              <Description><![CDATA[]]></Description>
+              <DataType>String 256</DataType>
+              <RequiresTranslation>true</RequiresTranslation>
+              <Values>
+                <Value>
+                  <Id>52</Id>
+                  <Value><![CDATA[ochrona tyłu i boków]]></Value>
+                  <DisplayValue><![CDATA[ochrona tyłu i boków]]></DisplayValue>
+                  <Description><![CDATA[]]></Description>
+                </Value>
+              </Values>
+            </Attribute>
+            <Attribute>
+              <Id>13</Id>
+              <Name>Kolor dodatkowy</Name>
+              <Description><![CDATA[]]></Description>
+              <DataType>String 256</DataType>
+              <RequiresTranslation>true</RequiresTranslation>
+              <Values>
+                <Value>
+                  <Id>102</Id>
+                  <Value><![CDATA[czarny]]></Value>
+                  <DisplayValue><![CDATA[czarny]]></DisplayValue>
+                  <Description><![CDATA[]]></Description>
+                </Value>
+              </Values>
+            </Attribute>
+            <Attribute>
+              <Id>1845</Id>
+              <Name>Rodzaj etui</Name>
+              <Description><![CDATA[]]></Description>
+              <DataType>String 256</DataType>
+              <RequiresTranslation>true</RequiresTranslation>
+              <Values>
+                <Value>
+                  <Id>1535</Id>
+                  <Value><![CDATA[Plecki]]></Value>
+                  <DisplayValue><![CDATA[Plecki]]></DisplayValue>
+                  <Description><![CDATA[]]></Description>
+                </Value>
+              </Values>
+            </Attribute>
+            <Attribute>
+              <Id>11</Id>
+              <Name>Wzór</Name>
+              <Description><![CDATA[]]></Description>
+              <DataType>String 256</DataType>
+              <RequiresTranslation>true</RequiresTranslation>
+              <Values>
+                <Value>
+                  <Id>90</Id>
+                  <Value><![CDATA[Inny]]></Value>
+                  <DisplayValue><![CDATA[Inny]]></DisplayValue>
+                  <Description><![CDATA[]]></Description>
+                </Value>
+              </Values>
+            </Attribute>
+            <Attribute>
+              <Id>1860</Id>
+              <Name>GPSR</Name>
+              <Description><![CDATA[]]></Description>
+              <DataType>String 256</DataType>
+              <RequiresTranslation>true</RequiresTranslation>
+              <Values>
+                <Value>
+                  <Id>728297</Id>
+                  <Value><![CDATA[FORCETOP Sp. z o.o., Chotów 24B, 63-460 Chotów PL, office@forcetop.com, +48 625940000]]></Value>
+                  <DisplayValue><![CDATA[FORCETOP Sp. z o.o., Chotów 24B, 63-460 Chotów PL, office@forcetop.com, +48 625940000]]></DisplayValue>
+                  <Description><![CDATA[]]></Description>
+                </Value>
+              </Values>
+            </Attribute>
+          </Attributes>
+        </Specification>
+        <Pictures>
+          <Picture>
+            <Id>88c3ef20-5e51-ec11-91ad-2cea7fb072aa</Id>
+            <Url>https://pub.btp.pro/Public/Resource/ItemPic2/88C3EF20-5E51-EC11-91AD-2CEA7FB072AA.jpg</Url>
+            <Description><![CDATA[]]></Description>
+          </Picture>
+          <Picture>
+            <Id>8bc3ef20-5e51-ec11-91ad-2cea7fb072aa</Id>
+            <Url>https://pub.btp.pro/Public/Resource/ItemPic2/8BC3EF20-5E51-EC11-91AD-2CEA7FB072AA.jpg</Url>
+            <Description><![CDATA[]]></Description>
+          </Picture>
+          <Picture>
+            <Id>8dc3ef20-5e51-ec11-91ad-2cea7fb072aa</Id>
+            <Url>https://pub.btp.pro/Public/Resource/ItemPic2/8DC3EF20-5E51-EC11-91AD-2CEA7FB072AA.jpg</Url>
+            <Description><![CDATA[]]></Description>
+          </Picture>
+          <Picture>
+            <Id>8fc3ef20-5e51-ec11-91ad-2cea7fb072aa</Id>
+            <Url>https://pub.btp.pro/Public/Resource/ItemPic2/8FC3EF20-5E51-EC11-91AD-2CEA7FB072AA.jpg</Url>
+            <Description><![CDATA[]]></Description>
+          </Picture>
+          <Picture>
+            <Id>90c3ef20-5e51-ec11-91ad-2cea7fb072aa</Id>
+            <Url>https://pub.btp.pro/Public/Resource/ItemPic2/90C3EF20-5E51-EC11-91AD-2CEA7FB072AA.jpg</Url>
+            <Description><![CDATA[]]></Description>
+          </Picture>
+        </Pictures>
+      </Line-Item>
+    </Line>
+    <Line>
+      <Line-Item>
+        <LineNumber>8</LineNumber>
+        <LineType>4</LineType>
+        <EAN>888488284460</EAN>
+        <ItemDescription><![CDATA[Zizo Hybrid Transformer Cover - Pancerne etui iPhone X z podstawką (Hot Pink/Black)]]></ItemDescription>
+        <LongItemDescription><![CDATA[Chroń swój telefon w eleganckim stylu przed zarysowaniem i uderzeniami, zapewniając mu bezpieczeństwo i zachowując jego unikalny design. <br><br>Minimalistyczna budowa, wyjątkowa estetyka<br>Zizo Hybrid Transformer Cover zapewnia doskonałą ochronę przed zadrapaniami oraz uderzeniami telefonu, podczas gdy perfekcyjnie wykonana konstrukcja zachowuje jego elegancki i smukły kształt. Unikalny design bardzo dobrze współgra z obudową telefonu, gwarantując jednocześnie pewny chwyt i przyjemną w dotyku powierzchnię.<br><br>Wielopoziomowa ochrona<br>Wykonane z dwóch uzupełniających się wzajemnie warstw etui, zapewnia najlepszą ochronę oraz wysoką funkcjonalność telefonu. Świetnie absorbujący wstrząsy Tetra Poliuretan stanowi wewnętrzną barierę, która idealnie przylega do telefonu z tyłu oraz po bokach, rozpraszając całą siłę uderzenia. Zewnętrzna, twarda powłoka wykonana z polikarbonu dodatkowo osłania konstrukcję smartfona oraz usztywnia całe etui nadając mu oryginalnego kształtu.<br><br>Wbudowana podstawka, wygodne oglądanie<br>Hybrid Transformer Cover wyposażono w składaną zewnętrzną podstawkę, która pozwala na szybkie i wygodne ustawienie telefonu w poziomie. Taka pozycja umożliwia komfortowe oglądanie filmów na ekranie urządzenia oraz uwalnia nasze ręce, które nie muszą utrzymywać telefonu. Przemyślana konstrukcja umożliwia ekspresowe złożenie podstawki i jej zatrzaśnięcie na tyle etui.<br><br>Cechy produktu:<br>· Dwuczęściowa konstrukcja chroniąca tył oraz boki urządzenia<br>· Elastyczny Tetra Poliuretan rozpraszający siłę uderzenia<br>· Twardy Polikarbon usztywniający całą konstrukcję, chroniąc jednocześnie przed porysowaniem telefonu<br>· Minimalistyczny design o oryginalnej strukturze<br>· Wyjątkowa estetyka zachowująca smukły kształt urządzenia<br>· Wbudowana, składana podstawka umożliwiająca wygodne oglądanie filmów na ekranie smartfona<br>· Kompatybilność: iPhone X<br>· Etui kompatybilne z bezprzewodowym ładowaniem<br>· Etui kompatybilne z Apple Pay]]></LongItemDescription>
+        <SupplierItemCode>10379</SupplierItemCode>
+        <ManufacturerItemCode>HBTFM-IPHX-PKBK</ManufacturerItemCode>
+        <ProductGroup>Telefony i akcesoria</ProductGroup>
+        <ProductGroupName>Telefony i akcesoria</ProductGroupName>
+        <ProductGroupCode>10027</ProductGroupCode>
+        <PrimaryProductGroup>Elektronika</PrimaryProductGroup>
+        <PrimaryProductGroupName>Elektronika</PrimaryProductGroupName>
+        <PrimaryProductGroupCode>10031</PrimaryProductGroupCode>
+        <ItemType>CU</ItemType>
+        <BrandCode>10024</BrandCode>
+        <BrandName>Zizo</BrandName>
+        <ProductType>M</ProductType>
+        <Weight>0.075</Weight>
+        <UnitOfMeasure>PCE</UnitOfMeasure>
+        <UnitNetPrice>9.8400</UnitNetPrice>
+        <UnitRetailPrice>12.1900</UnitRetailPrice>
+        <TaxRate>23.0000</TaxRate>
+        <TaxCategoryCode>S</TaxCategoryCode>
+        <ItemTaxRate>23.0000000000</ItemTaxRate>
+        <ItemTaxCategoryCode>A</ItemTaxCategoryCode>
+        <CustomsTariffNumber>3926909790</CustomsTariffNumber>
+        <Guarantee>24</Guarantee>
+        <Specification>
+          <Attributes>
+            <Attribute>
+              <Id>7</Id>
+              <Name>Kompatybilność</Name>
+              <Description><![CDATA[]]></Description>
+              <DataType>String 256</DataType>
+              <RequiresTranslation>true</RequiresTranslation>
+              <Values>
+                <Value>
+                  <Id>60</Id>
+                  <Value><![CDATA[Apple iPhone X]]></Value>
+                  <DisplayValue><![CDATA[Apple iPhone X]]></DisplayValue>
+                  <Description><![CDATA[]]></Description>
+                </Value>
+              </Values>
+            </Attribute>
+            <Attribute>
+              <Id>5</Id>
+              <Name>Materiał główny</Name>
+              <Description><![CDATA[]]></Description>
+              <DataType>String 256</DataType>
+              <RequiresTranslation>true</RequiresTranslation>
+              <Values>
+                <Value>
+                  <Id>42</Id>
+                  <Value><![CDATA[Polikarbon]]></Value>
+                  <DisplayValue><![CDATA[Polikarbon]]></DisplayValue>
+                  <Description><![CDATA[]]></Description>
+                </Value>
+              </Values>
+            </Attribute>
+            <Attribute>
+              <Id>12</Id>
+              <Name>Materiał dodatkowy</Name>
+              <Description><![CDATA[]]></Description>
+              <DataType>String 256</DataType>
+              <RequiresTranslation>true</RequiresTranslation>
+              <Values>
+                <Value>
+                  <Id>99</Id>
+                  <Value><![CDATA[TPU]]></Value>
+                  <DisplayValue><![CDATA[TPU]]></DisplayValue>
+                  <Description><![CDATA[]]></Description>
+                </Value>
+              </Values>
+            </Attribute>
+            <Attribute>
+              <Id>3</Id>
+              <Name>Kolor bazowy</Name>
+              <Description><![CDATA[]]></Description>
+              <DataType>String 256</DataType>
+              <RequiresTranslation>true</RequiresTranslation>
+              <Values>
+                <Value>
+                  <Id>32</Id>
+                  <Value><![CDATA[różowy]]></Value>
+                  <DisplayValue><![CDATA[różowy]]></DisplayValue>
+                  <Description><![CDATA[]]></Description>
+                </Value>
+              </Values>
+            </Attribute>
+            <Attribute>
+              <Id>6</Id>
+              <Name>Funkcjonalność</Name>
+              <Description><![CDATA[]]></Description>
+              <DataType>String 256</DataType>
+              <RequiresTranslation>true</RequiresTranslation>
+              <Values>
+                <Value>
+                  <Id>52</Id>
+                  <Value><![CDATA[ochrona tyłu i boków]]></Value>
+                  <DisplayValue><![CDATA[ochrona tyłu i boków]]></DisplayValue>
+                  <Description><![CDATA[]]></Description>
+                </Value>
+              </Values>
+            </Attribute>
+            <Attribute>
+              <Id>13</Id>
+              <Name>Kolor dodatkowy</Name>
+              <Description><![CDATA[]]></Description>
+              <DataType>String 256</DataType>
+              <RequiresTranslation>true</RequiresTranslation>
+              <Values>
+                <Value>
+                  <Id>102</Id>
+                  <Value><![CDATA[czarny]]></Value>
+                  <DisplayValue><![CDATA[czarny]]></DisplayValue>
+                  <Description><![CDATA[]]></Description>
+                </Value>
+              </Values>
+            </Attribute>
+            <Attribute>
+              <Id>1845</Id>
+              <Name>Rodzaj etui</Name>
+              <Description><![CDATA[]]></Description>
+              <DataType>String 256</DataType>
+              <RequiresTranslation>true</RequiresTranslation>
+              <Values>
+                <Value>
+                  <Id>3737</Id>
+                  <Value><![CDATA[Pancerne]]></Value>
+                  <DisplayValue><![CDATA[Pancerne]]></DisplayValue>
+                  <Description><![CDATA[]]></Description>
+                </Value>
+              </Values>
+            </Attribute>
+            <Attribute>
+              <Id>11</Id>
+              <Name>Wzór</Name>
+              <Description><![CDATA[]]></Description>
+              <DataType>String 256</DataType>
+              <RequiresTranslation>true</RequiresTranslation>
+              <Values>
+                <Value>
+                  <Id>90</Id>
+                  <Value><![CDATA[Inny]]></Value>
+                  <DisplayValue><![CDATA[Inny]]></DisplayValue>
+                  <Description><![CDATA[]]></Description>
+                </Value>
+              </Values>
+            </Attribute>
+            <Attribute>
+              <Id>1860</Id>
+              <Name>GPSR</Name>
+              <Description><![CDATA[]]></Description>
+              <DataType>String 256</DataType>
+              <RequiresTranslation>true</RequiresTranslation>
+              <Values>
+                <Value>
+                  <Id>728297</Id>
+                  <Value><![CDATA[FORCETOP Sp. z o.o., Chotów 24B, 63-460 Chotów PL, office@forcetop.com, +48 625940000]]></Value>
+                  <DisplayValue><![CDATA[FORCETOP Sp. z o.o., Chotów 24B, 63-460 Chotów PL, office@forcetop.com, +48 625940000]]></DisplayValue>
+                  <Description><![CDATA[]]></Description>
+                </Value>
+              </Values>
+            </Attribute>
+          </Attributes>
+        </Specification>
+        <Pictures>
+          <Picture>
+            <Id>aec3ef20-5e51-ec11-91ad-2cea7fb072aa</Id>
+            <Url>https://pub.btp.pro/Public/Resource/ItemPic2/AEC3EF20-5E51-EC11-91AD-2CEA7FB072AA.jpg</Url>
+            <Description><![CDATA[]]></Description>
+          </Picture>
+          <Picture>
+            <Id>afc3ef20-5e51-ec11-91ad-2cea7fb072aa</Id>
+            <Url>https://pub.btp.pro/Public/Resource/ItemPic2/AFC3EF20-5E51-EC11-91AD-2CEA7FB072AA.jpg</Url>
+            <Description><![CDATA[]]></Description>
+          </Picture>
+          <Picture>
+            <Id>c5c3ef20-5e51-ec11-91ad-2cea7fb072aa</Id>
+            <Url>https://pub.btp.pro/Public/Resource/ItemPic2/C5C3EF20-5E51-EC11-91AD-2CEA7FB072AA.jpg</Url>
+            <Description><![CDATA[]]></Description>
+          </Picture>
+          <Picture>
+            <Id>c7c3ef20-5e51-ec11-91ad-2cea7fb072aa</Id>
+            <Url>https://pub.btp.pro/Public/Resource/ItemPic2/C7C3EF20-5E51-EC11-91AD-2CEA7FB072AA.jpg</Url>
+            <Description><![CDATA[]]></Description>
+          </Picture>
+          <Picture>
+            <Id>c8c3ef20-5e51-ec11-91ad-2cea7fb072aa</Id>
+            <Url>https://pub.btp.pro/Public/Resource/ItemPic2/C8C3EF20-5E51-EC11-91AD-2CEA7FB072AA.jpg</Url>
+            <Description><![CDATA[]]></Description>
+          </Picture>
+          <Picture>
+            <Id>c9c3ef20-5e51-ec11-91ad-2cea7fb072aa</Id>
+            <Url>https://pub.btp.pro/Public/Resource/ItemPic2/C9C3EF20-5E51-EC11-91AD-2CEA7FB072AA.jpg</Url>
+            <Description><![CDATA[]]></Description>
+          </Picture>
+        </Pictures>
+      </Line-Item>
+    </Line>
+    <Line>
+      <Line-Item>
+        <LineNumber>9</LineNumber>
+        <LineType>4</LineType>
+        <EAN>888488290751</EAN>
+        <ItemDescription><![CDATA[Zizo Nebula Wallet Case - Skórzane etui iPhone X z kieszeniami na karty + saszetka na zamek + szkło 9H na ekran (Tan/Brown)]]></ItemDescription>
+        <LongItemDescription><![CDATA[Kolekcja Nebula Zizo pozwala mieć zawsze przy sobie wszystkie swoje istotne rzeczy, bez konieczności posiadania portfela. Etui wykonane z wysokiej jakości wyprawionej skóry zaprojektowano z myślą o ochronie telefonu oraz umożliwieniu wygodnego dostępu do takich dokumentów jak dowód osobisty, prawo jazdy czy kart płatniczych. Zizo Nebula Wallet Case posiada wojskowy stopień ochrony MIL-STD-810G, który pozwala zachować spokój o swoje urządzenie oraz przechowywanie w etui dokumenty. Niezwykle funkcjonalna saszetka na zamek umożliwia bezpieczne przenoszenie ze sobą potrzebnych rzeczy, dodatkowo posiada magnesy na swojej dolnej krawędzi, dzięki czemu zakrywa znajdujące się pod nią kieszenie i solidnie trzyma się etui. Aby zapewnić ochronę na najwyższym poziomie, w zestawie znajduje się szkło ochronne na ekran Zizo Lightning Shield.<br><br>Wygoda użytkowania<br>Szybki i łatwy dostęp do kart płatniczych, dokumentów tożsamości czy środków pieniężnych. Pomimo dostępnych kieszeni i saszetki etui nie traci na smukłości i nie zaburza wyglądu telefonu.<br><br>Zaawansowana ochrona<br>Trwałe oraz silne magnesy troszczą się o bezpieczeństwo Twoich kosztowności. Poza ich ochroną, etui gwarantuje też szybki i wygodny dostęp do nich, a także do funkcjonalności telefonu, które w przypadku innych etui z kieszeniami nieraz bywa utrudnione.<br><br>Kompaktowe, lekkie i szczupłe<br>Wykorzystanie twardej pokrywy z polikarbonu nie tylko gwarantuje wysoką ochronę telefonu, ale również wpływa na zachowanie smukłego profilu całej konstrukcji. Nawet zapełnienie wszystkich dostępnych kieszeni oraz saszetki nie wpływa znacząco na grubość etui, pozwalają na korzystanie z wszystkich jego funkcjonalności, przycisków czy portów.<br><br>Przyjazne dla kieszeni i stylowe<br>Kieszenie i saszetka umiejscowione z tyłu etui wpływają nie tylko na jego wyjątkowy wygląd, ale również pozwalają na łatwe wsuwanie i wysuwanie etui z kieszeni spodni.<br><br>Cechy produktu:<br>· Konstrukcja chroniąca tył oraz boki urządzenia<br>· Twardy Polikarbon usztywniający całą konstrukcję<br>· Wysokiej jakości wyprawiona skóra<br>· Wojskowy stopień ochrony (spełnia lub przewyższa normy MIL-STD-810G)<br>· Dwie kieszenie na karty + zapinana za zamek saszetka<br>· Magnesy mocujące saszetkę nad kieszeniami <br>· Minimalistyczny design o oryginalnej strukturze<br>· Wyjątkowa estetyka zachowująca smukły kształt urządzenia<br>· Hartowane szkło ochronne na ekran o twardości 9H i grubości 0,33 mm (Zizo Lightning Shield)<br>· Kompatybilność: iPhone X]]></LongItemDescription>
+        <SupplierItemCode>10399</SupplierItemCode>
+        <ManufacturerItemCode>NEB-IPH8-TNBR</ManufacturerItemCode>
+        <ProductGroup>Telefony i akcesoria</ProductGroup>
+        <ProductGroupName>Telefony i akcesoria</ProductGroupName>
+        <ProductGroupCode>10027</ProductGroupCode>
+        <PrimaryProductGroup>Elektronika</PrimaryProductGroup>
+        <PrimaryProductGroupName>Elektronika</PrimaryProductGroupName>
+        <PrimaryProductGroupCode>10031</PrimaryProductGroupCode>
+        <ItemType>CU</ItemType>
+        <BrandCode>10024</BrandCode>
+        <BrandName>Zizo</BrandName>
+        <ProductType>M</ProductType>
+        <Weight>0.1</Weight>
+        <UnitOfMeasure>PCE</UnitOfMeasure>
+        <UnitNetPrice>11.0000</UnitNetPrice>
+        <UnitRetailPrice>16.2500</UnitRetailPrice>
+        <TaxRate>23.0000</TaxRate>
+        <TaxCategoryCode>S</TaxCategoryCode>
+        <ItemTaxRate>23.0000000000</ItemTaxRate>
+        <ItemTaxCategoryCode>A</ItemTaxCategoryCode>
+        <CustomsTariffNumber>4202119090</CustomsTariffNumber>
+        <Guarantee>24</Guarantee>
+        <Specification>
+          <Attributes>
+            <Attribute>
+              <Id>7</Id>
+              <Name>Kompatybilność</Name>
+              <Description><![CDATA[]]></Description>
+              <DataType>String 256</DataType>
+              <RequiresTranslation>true</RequiresTranslation>
+              <Values>
+                <Value>
+                  <Id>60</Id>
+                  <Value><![CDATA[Apple iPhone X]]></Value>
+                  <DisplayValue><![CDATA[Apple iPhone X]]></DisplayValue>
+                  <Description><![CDATA[]]></Description>
+                </Value>
+              </Values>
+            </Attribute>
+            <Attribute>
+              <Id>5</Id>
+              <Name>Materiał główny</Name>
+              <Description><![CDATA[]]></Description>
+              <DataType>String 256</DataType>
+              <RequiresTranslation>true</RequiresTranslation>
+              <Values>
+                <Value>
+                  <Id>185</Id>
+                  <Value><![CDATA[Skóra naturalna]]></Value>
+                  <DisplayValue><![CDATA[Skóra naturalna]]></DisplayValue>
+                  <Description><![CDATA[]]></Description>
+                </Value>
+              </Values>
+            </Attribute>
+            <Attribute>
+              <Id>12</Id>
+              <Name>Materiał dodatkowy</Name>
+              <Description><![CDATA[]]></Description>
+              <DataType>String 256</DataType>
+              <RequiresTranslation>true</RequiresTranslation>
+              <Values>
+                <Value>
+                  <Id>93</Id>
+                  <Value><![CDATA[Polikarbon]]></Value>
+                  <DisplayValue><![CDATA[Polikarbon]]></DisplayValue>
+                  <Description><![CDATA[]]></Description>
+                </Value>
+              </Values>
+            </Attribute>
+            <Attribute>
+              <Id>3</Id>
+              <Name>Kolor bazowy</Name>
+              <Description><![CDATA[]]></Description>
+              <DataType>String 256</DataType>
+              <RequiresTranslation>true</RequiresTranslation>
+              <Values>
+                <Value>
+                  <Id>28</Id>
+                  <Value><![CDATA[piaskowy]]></Value>
+                  <DisplayValue><![CDATA[piaskowy]]></DisplayValue>
+                  <Description><![CDATA[]]></Description>
+                </Value>
+              </Values>
+            </Attribute>
+            <Attribute>
+              <Id>6</Id>
+              <Name>Funkcjonalność</Name>
+              <Description><![CDATA[]]></Description>
+              <DataType>String 256</DataType>
+              <RequiresTranslation>true</RequiresTranslation>
+              <Values>
+                <Value>
+                  <Id>50</Id>
+                  <Value><![CDATA[ochrona całego urządzenia]]></Value>
+                  <DisplayValue><![CDATA[ochrona całego urządzenia]]></DisplayValue>
+                  <Description><![CDATA[]]></Description>
+                </Value>
+              </Values>
+            </Attribute>
+            <Attribute>
+              <Id>13</Id>
+              <Name>Kolor dodatkowy</Name>
+              <Description><![CDATA[]]></Description>
+              <DataType>String 256</DataType>
+              <RequiresTranslation>true</RequiresTranslation>
+              <Values>
+                <Value>
+                  <Id>229</Id>
+                  <Value><![CDATA[brązowy]]></Value>
+                  <DisplayValue><![CDATA[brązowy]]></DisplayValue>
+                  <Description><![CDATA[]]></Description>
+                </Value>
+              </Values>
+            </Attribute>
+            <Attribute>
+              <Id>1845</Id>
+              <Name>Rodzaj etui</Name>
+              <Description><![CDATA[]]></Description>
+              <DataType>String 256</DataType>
+              <RequiresTranslation>true</RequiresTranslation>
+              <Values>
+                <Value>
+                  <Id>1535</Id>
+                  <Value><![CDATA[Plecki]]></Value>
+                  <DisplayValue><![CDATA[Plecki]]></DisplayValue>
+                  <Description><![CDATA[]]></Description>
+                </Value>
+              </Values>
+            </Attribute>
+            <Attribute>
+              <Id>11</Id>
+              <Name>Wzór</Name>
+              <Description><![CDATA[]]></Description>
+              <DataType>String 256</DataType>
+              <RequiresTranslation>true</RequiresTranslation>
+              <Values>
+                <Value>
+                  <Id>90</Id>
+                  <Value><![CDATA[Inny]]></Value>
+                  <DisplayValue><![CDATA[Inny]]></DisplayValue>
+                  <Description><![CDATA[]]></Description>
+                </Value>
+              </Values>
+            </Attribute>
+            <Attribute>
+              <Id>14</Id>
+              <Name>Ochrona ekranu w zestawie</Name>
+              <Description><![CDATA[]]></Description>
+              <DataType>String 256</DataType>
+              <RequiresTranslation>true</RequiresTranslation>
+              <Values>
+                <Value>
+                  <Id>115</Id>
+                  <Value><![CDATA[Tak]]></Value>
+                  <DisplayValue><![CDATA[Tak]]></DisplayValue>
+                  <Description><![CDATA[]]></Description>
+                </Value>
+              </Values>
+            </Attribute>
+            <Attribute>
+              <Id>1860</Id>
+              <Name>GPSR</Name>
+              <Description><![CDATA[]]></Description>
+              <DataType>String 256</DataType>
+              <RequiresTranslation>true</RequiresTranslation>
+              <Values>
+                <Value>
+                  <Id>728297</Id>
+                  <Value><![CDATA[FORCETOP Sp. z o.o., Chotów 24B, 63-460 Chotów PL, office@forcetop.com, +48 625940000]]></Value>
+                  <DisplayValue><![CDATA[FORCETOP Sp. z o.o., Chotów 24B, 63-460 Chotów PL, office@forcetop.com, +48 625940000]]></DisplayValue>
+                  <Description><![CDATA[]]></Description>
+                </Value>
+              </Values>
+            </Attribute>
+          </Attributes>
+        </Specification>
+        <Pictures>
+          <Picture>
+            <Id>49c5ef20-5e51-ec11-91ad-2cea7fb072aa</Id>
+            <Url>https://pub.btp.pro/Public/Resource/ItemPic2/49C5EF20-5E51-EC11-91AD-2CEA7FB072AA.jpg</Url>
+            <Description><![CDATA[]]></Description>
+          </Picture>
+          <Picture>
+            <Id>4ac5ef20-5e51-ec11-91ad-2cea7fb072aa</Id>
+            <Url>https://pub.btp.pro/Public/Resource/ItemPic2/4AC5EF20-5E51-EC11-91AD-2CEA7FB072AA.jpg</Url>
+            <Description><![CDATA[]]></Description>
+          </Picture>
+          <Picture>
+            <Id>4bc5ef20-5e51-ec11-91ad-2cea7fb072aa</Id>
+            <Url>https://pub.btp.pro/Public/Resource/ItemPic2/4BC5EF20-5E51-EC11-91AD-2CEA7FB072AA.jpg</Url>
+            <Description><![CDATA[]]></Description>
+          </Picture>
+          <Picture>
+            <Id>4cc5ef20-5e51-ec11-91ad-2cea7fb072aa</Id>
+            <Url>https://pub.btp.pro/Public/Resource/ItemPic2/4CC5EF20-5E51-EC11-91AD-2CEA7FB072AA.jpg</Url>
+            <Description><![CDATA[]]></Description>
+          </Picture>
+          <Picture>
+            <Id>4dc5ef20-5e51-ec11-91ad-2cea7fb072aa</Id>
+            <Url>https://pub.btp.pro/Public/Resource/ItemPic2/4DC5EF20-5E51-EC11-91AD-2CEA7FB072AA.jpg</Url>
+            <Description><![CDATA[]]></Description>
+          </Picture>
+          <Picture>
+            <Id>4ec5ef20-5e51-ec11-91ad-2cea7fb072aa</Id>
+            <Url>https://pub.btp.pro/Public/Resource/ItemPic2/4EC5EF20-5E51-EC11-91AD-2CEA7FB072AA.jpg</Url>
+            <Description><![CDATA[]]></Description>
+          </Picture>
+          <Picture>
+            <Id>4fc5ef20-5e51-ec11-91ad-2cea7fb072aa</Id>
+            <Url>https://pub.btp.pro/Public/Resource/ItemPic2/4FC5EF20-5E51-EC11-91AD-2CEA7FB072AA.jpg</Url>
+            <Description><![CDATA[]]></Description>
+          </Picture>
+          <Picture>
+            <Id>50c5ef20-5e51-ec11-91ad-2cea7fb072aa</Id>
+            <Url>https://pub.btp.pro/Public/Resource/ItemPic2/50C5EF20-5E51-EC11-91AD-2CEA7FB072AA.jpg</Url>
+            <Description><![CDATA[]]></Description>
+          </Picture>
+        </Pictures>
+      </Line-Item>
+    </Line>
+    <Line>
+      <Line-Item>
+        <LineNumber>10</LineNumber>
+        <LineType>4</LineType>
+        <EAN>888488290775</EAN>
+        <ItemDescription><![CDATA[Zizo Nebula Wallet Case - Skórzane etui iPhone X z kieszeniami na karty + saszetka na zamek + szkło 9H na ekran (Light Brown/Brown)]]></ItemDescription>
+        <LongItemDescription><![CDATA[Kolekcja Nebula Zizo pozwala mieć zawsze przy sobie wszystkie swoje istotne rzeczy, bez konieczności posiadania portfela. Etui wykonane z wysokiej jakości wyprawionej skóry zaprojektowano z myślą o ochronie telefonu oraz umożliwieniu wygodnego dostępu do takich dokumentów jak dowód osobisty, prawo jazdy czy kart płatniczych. Zizo Nebula Wallet Case posiada wojskowy stopień ochrony MIL-STD-810G, który pozwala zachować spokój o swoje urządzenie oraz przechowywanie w etui dokumenty. Niezwykle funkcjonalna saszetka na zamek umożliwia bezpieczne przenoszenie ze sobą potrzebnych rzeczy, dodatkowo posiada magnesy na swojej dolnej krawędzi, dzięki czemu zakrywa znajdujące się pod nią kieszenie i solidnie trzyma się etui. Aby zapewnić ochronę na najwyższym poziomie, w zestawie znajduje się szkło ochronne na ekran Zizo Lightning Shield.<br><br>Wygoda użytkowania<br>Szybki i łatwy dostęp do kart płatniczych, dokumentów tożsamości czy środków pieniężnych. Pomimo dostępnych kieszeni i saszetki etui nie traci na smukłości i nie zaburza wyglądu telefonu.<br><br>Zaawansowana ochrona<br>Trwałe oraz silne magnesy troszczą się o bezpieczeństwo Twoich kosztowności. Poza ich ochroną, etui gwarantuje też szybki i wygodny dostęp do nich, a także do funkcjonalności telefonu, które w przypadku innych etui z kieszeniami nieraz bywa utrudnione.<br><br>Kompaktowe, lekkie i szczupłe<br>Wykorzystanie twardej pokrywy z polikarbonu nie tylko gwarantuje wysoką ochronę telefonu, ale również wpływa na zachowanie smukłego profilu całej konstrukcji. Nawet zapełnienie wszystkich dostępnych kieszeni oraz saszetki nie wpływa znacząco na grubość etui, pozwalają na korzystanie z wszystkich jego funkcjonalności, przycisków czy portów.<br><br>Przyjazne dla kieszeni i stylowe<br>Kieszenie i saszetka umiejscowione z tyłu etui wpływają nie tylko na jego wyjątkowy wygląd, ale również pozwalają na łatwe wsuwanie i wysuwanie etui z kieszeni spodni.<br><br>Cechy produktu:<br>· Konstrukcja chroniąca tył oraz boki urządzenia<br>· Twardy Polikarbon usztywniający całą konstrukcję<br>· Wysokiej jakości wyprawiona skóra<br>· Wojskowy stopień ochrony (spełnia lub przewyższa normy MIL-STD-810G)<br>· Dwie kieszenie na karty + zapinana za zamek saszetka<br>· Magnesy mocujące saszetkę nad kieszeniami <br>· Minimalistyczny design o oryginalnej strukturze<br>· Wyjątkowa estetyka zachowująca smukły kształt urządzenia<br>· Hartowane szkło ochronne na ekran o twardości 9H i grubości 0,33 mm (Zizo Lightning Shield)<br>· Kompatybilność: iPhone X]]></LongItemDescription>
+        <SupplierItemCode>10401</SupplierItemCode>
+        <ManufacturerItemCode>NEB-IPH8-LBBR</ManufacturerItemCode>
+        <ProductGroup>Telefony i akcesoria</ProductGroup>
+        <ProductGroupName>Telefony i akcesoria</ProductGroupName>
+        <ProductGroupCode>10027</ProductGroupCode>
+        <PrimaryProductGroup>Elektronika</PrimaryProductGroup>
+        <PrimaryProductGroupName>Elektronika</PrimaryProductGroupName>
+        <PrimaryProductGroupCode>10031</PrimaryProductGroupCode>
+        <ItemType>CU</ItemType>
+        <BrandCode>10024</BrandCode>
+        <BrandName>Zizo</BrandName>
+        <ProductType>M</ProductType>
+        <Weight>0.1</Weight>
+        <UnitOfMeasure>PCE</UnitOfMeasure>
+        <UnitNetPrice>22.0800</UnitNetPrice>
+        <UnitRetailPrice>16.2500</UnitRetailPrice>
+        <TaxRate>23.0000</TaxRate>
+        <TaxCategoryCode>S</TaxCategoryCode>
+        <ItemTaxRate>23.0000000000</ItemTaxRate>
+        <ItemTaxCategoryCode>A</ItemTaxCategoryCode>
+        <CustomsTariffNumber>4202119090</CustomsTariffNumber>
+        <Guarantee>24</Guarantee>
+        <Specification>
+          <Attributes>
+            <Attribute>
+              <Id>7</Id>
+              <Name>Kompatybilność</Name>
+              <Description><![CDATA[]]></Description>
+              <DataType>String 256</DataType>
+              <RequiresTranslation>true</RequiresTranslation>
+              <Values>
+                <Value>
+                  <Id>60</Id>
+                  <Value><![CDATA[Apple iPhone X]]></Value>
+                  <DisplayValue><![CDATA[Apple iPhone X]]></DisplayValue>
+                  <Description><![CDATA[]]></Description>
+                </Value>
+              </Values>
+            </Attribute>
+            <Attribute>
+              <Id>5</Id>
+              <Name>Materiał główny</Name>
+              <Description><![CDATA[]]></Description>
+              <DataType>String 256</DataType>
+              <RequiresTranslation>true</RequiresTranslation>
+              <Values>
+                <Value>
+                  <Id>185</Id>
+                  <Value><![CDATA[Skóra naturalna]]></Value>
+                  <DisplayValue><![CDATA[Skóra naturalna]]></DisplayValue>
+                  <Description><![CDATA[]]></Description>
+                </Value>
+              </Values>
+            </Attribute>
+            <Attribute>
+              <Id>12</Id>
+              <Name>Materiał dodatkowy</Name>
+              <Description><![CDATA[]]></Description>
+              <DataType>String 256</DataType>
+              <RequiresTranslation>true</RequiresTranslation>
+              <Values>
+                <Value>
+                  <Id>93</Id>
+                  <Value><![CDATA[Polikarbon]]></Value>
+                  <DisplayValue><![CDATA[Polikarbon]]></DisplayValue>
+                  <Description><![CDATA[]]></Description>
+                </Value>
+              </Values>
+            </Attribute>
+            <Attribute>
+              <Id>3</Id>
+              <Name>Kolor bazowy</Name>
+              <Description><![CDATA[]]></Description>
+              <DataType>String 256</DataType>
+              <RequiresTranslation>true</RequiresTranslation>
+              <Values>
+                <Value>
+                  <Id>21</Id>
+                  <Value><![CDATA[brązowy]]></Value>
+                  <DisplayValue><![CDATA[brązowy]]></DisplayValue>
+                  <Description><![CDATA[]]></Description>
+                </Value>
+              </Values>
+            </Attribute>
+            <Attribute>
+              <Id>6</Id>
+              <Name>Funkcjonalność</Name>
+              <Description><![CDATA[]]></Description>
+              <DataType>String 256</DataType>
+              <RequiresTranslation>true</RequiresTranslation>
+              <Values>
+                <Value>
+                  <Id>50</Id>
+                  <Value><![CDATA[ochrona całego urządzenia]]></Value>
+                  <DisplayValue><![CDATA[ochrona całego urządzenia]]></DisplayValue>
+                  <Description><![CDATA[]]></Description>
+                </Value>
+              </Values>
+            </Attribute>
+            <Attribute>
+              <Id>1845</Id>
+              <Name>Rodzaj etui</Name>
+              <Description><![CDATA[]]></Description>
+              <DataType>String 256</DataType>
+              <RequiresTranslation>true</RequiresTranslation>
+              <Values>
+                <Value>
+                  <Id>1535</Id>
+                  <Value><![CDATA[Plecki]]></Value>
+                  <DisplayValue><![CDATA[Plecki]]></DisplayValue>
+                  <Description><![CDATA[]]></Description>
+                </Value>
+              </Values>
+            </Attribute>
+            <Attribute>
+              <Id>11</Id>
+              <Name>Wzór</Name>
+              <Description><![CDATA[]]></Description>
+              <DataType>String 256</DataType>
+              <RequiresTranslation>true</RequiresTranslation>
+              <Values>
+                <Value>
+                  <Id>90</Id>
+                  <Value><![CDATA[Inny]]></Value>
+                  <DisplayValue><![CDATA[Inny]]></DisplayValue>
+                  <Description><![CDATA[]]></Description>
+                </Value>
+              </Values>
+            </Attribute>
+            <Attribute>
+              <Id>14</Id>
+              <Name>Ochrona ekranu w zestawie</Name>
+              <Description><![CDATA[]]></Description>
+              <DataType>String 256</DataType>
+              <RequiresTranslation>true</RequiresTranslation>
+              <Values>
+                <Value>
+                  <Id>115</Id>
+                  <Value><![CDATA[Tak]]></Value>
+                  <DisplayValue><![CDATA[Tak]]></DisplayValue>
+                  <Description><![CDATA[]]></Description>
+                </Value>
+              </Values>
+            </Attribute>
+            <Attribute>
+              <Id>1860</Id>
+              <Name>GPSR</Name>
+              <Description><![CDATA[]]></Description>
+              <DataType>String 256</DataType>
+              <RequiresTranslation>true</RequiresTranslation>
+              <Values>
+                <Value>
+                  <Id>728297</Id>
+                  <Value><![CDATA[FORCETOP Sp. z o.o., Chotów 24B, 63-460 Chotów PL, office@forcetop.com, +48 625940000]]></Value>
+                  <DisplayValue><![CDATA[FORCETOP Sp. z o.o., Chotów 24B, 63-460 Chotów PL, office@forcetop.com, +48 625940000]]></DisplayValue>
+                  <Description><![CDATA[]]></Description>
+                </Value>
+              </Values>
+            </Attribute>
+          </Attributes>
+        </Specification>
+        <Pictures>
+          <Picture>
+            <Id>5fc5ef20-5e51-ec11-91ad-2cea7fb072aa</Id>
+            <Url>https://pub.btp.pro/Public/Resource/ItemPic2/5FC5EF20-5E51-EC11-91AD-2CEA7FB072AA.jpg</Url>
+            <Description><![CDATA[]]></Description>
+          </Picture>
+          <Picture>
+            <Id>64c5ef20-5e51-ec11-91ad-2cea7fb072aa</Id>
+            <Url>https://pub.btp.pro/Public/Resource/ItemPic2/64C5EF20-5E51-EC11-91AD-2CEA7FB072AA.jpg</Url>
+            <Description><![CDATA[]]></Description>
+          </Picture>
+          <Picture>
+            <Id>67c5ef20-5e51-ec11-91ad-2cea7fb072aa</Id>
+            <Url>https://pub.btp.pro/Public/Resource/ItemPic2/67C5EF20-5E51-EC11-91AD-2CEA7FB072AA.jpg</Url>
+            <Description><![CDATA[]]></Description>
+          </Picture>
+          <Picture>
+            <Id>6ac5ef20-5e51-ec11-91ad-2cea7fb072aa</Id>
+            <Url>https://pub.btp.pro/Public/Resource/ItemPic2/6AC5EF20-5E51-EC11-91AD-2CEA7FB072AA.jpg</Url>
+            <Description><![CDATA[]]></Description>
+          </Picture>
+          <Picture>
+            <Id>6bc5ef20-5e51-ec11-91ad-2cea7fb072aa</Id>
+            <Url>https://pub.btp.pro/Public/Resource/ItemPic2/6BC5EF20-5E51-EC11-91AD-2CEA7FB072AA.jpg</Url>
+            <Description><![CDATA[]]></Description>
+          </Picture>
+          <Picture>
+            <Id>6dc5ef20-5e51-ec11-91ad-2cea7fb072aa</Id>
+            <Url>https://pub.btp.pro/Public/Resource/ItemPic2/6DC5EF20-5E51-EC11-91AD-2CEA7FB072AA.jpg</Url>
+            <Description><![CDATA[]]></Description>
+          </Picture>
+          <Picture>
+            <Id>8ec5ef20-5e51-ec11-91ad-2cea7fb072aa</Id>
+            <Url>https://pub.btp.pro/Public/Resource/ItemPic2/8EC5EF20-5E51-EC11-91AD-2CEA7FB072AA.jpg</Url>
+            <Description><![CDATA[]]></Description>
+          </Picture>
+          <Picture>
+            <Id>8fc5ef20-5e51-ec11-91ad-2cea7fb072aa</Id>
+            <Url>https://pub.btp.pro/Public/Resource/ItemPic2/8FC5EF20-5E51-EC11-91AD-2CEA7FB072AA.jpg</Url>
+            <Description><![CDATA[]]></Description>
+          </Picture>
+        </Pictures>
+      </Line-Item>
+    </Line>
+    <Line>
+      <Line-Item>
+        <LineNumber>11</LineNumber>
+        <LineType>4</LineType>
+        <EAN>888488290768</EAN>
+        <ItemDescription><![CDATA[Zizo Nebula Wallet Case - Skórzane etui iPhone X z kieszeniami na karty + saszetka na zamek + szkło 9H na ekran (Dark Brown/Brown)]]></ItemDescription>
+        <LongItemDescription><![CDATA[Kolekcja Nebula Zizo pozwala mieć zawsze przy sobie wszystkie swoje istotne rzeczy, bez konieczności posiadania portfela. Etui wykonane z wysokiej jakości wyprawionej skóry zaprojektowano z myślą o ochronie telefonu oraz umożliwieniu wygodnego dostępu do takich dokumentów jak dowód osobisty, prawo jazdy czy kart płatniczych. Zizo Nebula Wallet Case posiada wojskowy stopień ochrony MIL-STD-810G, który pozwala zachować spokój o swoje urządzenie oraz przechowywanie w etui dokumenty. Niezwykle funkcjonalna saszetka na zamek umożliwia bezpieczne przenoszenie ze sobą potrzebnych rzeczy, dodatkowo posiada magnesy na swojej dolnej krawędzi, dzięki czemu zakrywa znajdujące się pod nią kieszenie i solidnie trzyma się etui. Aby zapewnić ochronę na najwyższym poziomie, w zestawie znajduje się szkło ochronne na ekran Zizo Lightning Shield.<br><br>Wygoda użytkowania<br>Szybki i łatwy dostęp do kart płatniczych, dokumentów tożsamości czy środków pieniężnych. Pomimo dostępnych kieszeni i saszetki etui nie traci na smukłości i nie zaburza wyglądu telefonu.<br><br>Zaawansowana ochrona<br>Trwałe oraz silne magnesy troszczą się o bezpieczeństwo Twoich kosztowności. Poza ich ochroną, etui gwarantuje też szybki i wygodny dostęp do nich, a także do funkcjonalności telefonu, które w przypadku innych etui z kieszeniami nieraz bywa utrudnione.<br><br>Kompaktowe, lekkie i szczupłe<br>Wykorzystanie twardej pokrywy z polikarbonu nie tylko gwarantuje wysoką ochronę telefonu, ale również wpływa na zachowanie smukłego profilu całej konstrukcji. Nawet zapełnienie wszystkich dostępnych kieszeni oraz saszetki nie wpływa znacząco na grubość etui, pozwalają na korzystanie z wszystkich jego funkcjonalności, przycisków czy portów.<br><br>Przyjazne dla kieszeni i stylowe<br>Kieszenie i saszetka umiejscowione z tyłu etui wpływają nie tylko na jego wyjątkowy wygląd, ale również pozwalają na łatwe wsuwanie i wysuwanie etui z kieszeni spodni.<br><br>Cechy produktu:<br>· Konstrukcja chroniąca tył oraz boki urządzenia<br>· Twardy Polikarbon usztywniający całą konstrukcję<br>· Wysokiej jakości wyprawiona skóra<br>· Wojskowy stopień ochrony (spełnia lub przewyższa normy MIL-STD-810G)<br>· Dwie kieszenie na karty + zapinana za zamek saszetka<br>· Magnesy mocujące saszetkę nad kieszeniami <br>· Minimalistyczny design o oryginalnej strukturze<br>· Wyjątkowa estetyka zachowująca smukły kształt urządzenia<br>· Hartowane szkło ochronne na ekran o twardości 9H i grubości 0,33 mm (Zizo Lightning Shield)<br>· Kompatybilność: iPhone X]]></LongItemDescription>
+        <SupplierItemCode>10402</SupplierItemCode>
+        <ManufacturerItemCode>NEB-IPH8-DBBR</ManufacturerItemCode>
+        <ProductGroup>Telefony i akcesoria</ProductGroup>
+        <ProductGroupName>Telefony i akcesoria</ProductGroupName>
+        <ProductGroupCode>10027</ProductGroupCode>
+        <PrimaryProductGroup>Elektronika</PrimaryProductGroup>
+        <PrimaryProductGroupName>Elektronika</PrimaryProductGroupName>
+        <PrimaryProductGroupCode>10031</PrimaryProductGroupCode>
+        <ItemType>CU</ItemType>
+        <BrandCode>10024</BrandCode>
+        <BrandName>Zizo</BrandName>
+        <ProductType>M</ProductType>
+        <Weight>0.1</Weight>
+        <UnitOfMeasure>PCE</UnitOfMeasure>
+        <UnitNetPrice>11.0000</UnitNetPrice>
+        <UnitRetailPrice>16.2500</UnitRetailPrice>
+        <TaxRate>23.0000</TaxRate>
+        <TaxCategoryCode>S</TaxCategoryCode>
+        <ItemTaxRate>23.0000000000</ItemTaxRate>
+        <ItemTaxCategoryCode>A</ItemTaxCategoryCode>
+        <CustomsTariffNumber>4202119090</CustomsTariffNumber>
+        <Guarantee>24</Guarantee>
+        <Specification>
+          <Attributes>
+            <Attribute>
+              <Id>7</Id>
+              <Name>Kompatybilność</Name>
+              <Description><![CDATA[]]></Description>
+              <DataType>String 256</DataType>
+              <RequiresTranslation>true</RequiresTranslation>
+              <Values>
+                <Value>
+                  <Id>60</Id>
+                  <Value><![CDATA[Apple iPhone X]]></Value>
+                  <DisplayValue><![CDATA[Apple iPhone X]]></DisplayValue>
+                  <Description><![CDATA[]]></Description>
+                </Value>
+              </Values>
+            </Attribute>
+            <Attribute>
+              <Id>5</Id>
+              <Name>Materiał główny</Name>
+              <Description><![CDATA[]]></Description>
+              <DataType>String 256</DataType>
+              <RequiresTranslation>true</RequiresTranslation>
+              <Values>
+                <Value>
+                  <Id>185</Id>
+                  <Value><![CDATA[Skóra naturalna]]></Value>
+                  <DisplayValue><![CDATA[Skóra naturalna]]></DisplayValue>
+                  <Description><![CDATA[]]></Description>
+                </Value>
+              </Values>
+            </Attribute>
+            <Attribute>
+              <Id>12</Id>
+              <Name>Materiał dodatkowy</Name>
+              <Description><![CDATA[]]></Description>
+              <DataType>String 256</DataType>
+              <RequiresTranslation>true</RequiresTranslation>
+              <Values>
+                <Value>
+                  <Id>93</Id>
+                  <Value><![CDATA[Polikarbon]]></Value>
+                  <DisplayValue><![CDATA[Polikarbon]]></DisplayValue>
+                  <Description><![CDATA[]]></Description>
+                </Value>
+              </Values>
+            </Attribute>
+            <Attribute>
+              <Id>3</Id>
+              <Name>Kolor bazowy</Name>
+              <Description><![CDATA[]]></Description>
+              <DataType>String 256</DataType>
+              <RequiresTranslation>true</RequiresTranslation>
+              <Values>
+                <Value>
+                  <Id>21</Id>
+                  <Value><![CDATA[brązowy]]></Value>
+                  <DisplayValue><![CDATA[brązowy]]></DisplayValue>
+                  <Description><![CDATA[]]></Description>
+                </Value>
+              </Values>
+            </Attribute>
+            <Attribute>
+              <Id>6</Id>
+              <Name>Funkcjonalność</Name>
+              <Description><![CDATA[]]></Description>
+              <DataType>String 256</DataType>
+              <RequiresTranslation>true</RequiresTranslation>
+              <Values>
+                <Value>
+                  <Id>50</Id>
+                  <Value><![CDATA[ochrona całego urządzenia]]></Value>
+                  <DisplayValue><![CDATA[ochrona całego urządzenia]]></DisplayValue>
+                  <Description><![CDATA[]]></Description>
+                </Value>
+              </Values>
+            </Attribute>
+            <Attribute>
+              <Id>1845</Id>
+              <Name>Rodzaj etui</Name>
+              <Description><![CDATA[]]></Description>
+              <DataType>String 256</DataType>
+              <RequiresTranslation>true</RequiresTranslation>
+              <Values>
+                <Value>
+                  <Id>1535</Id>
+                  <Value><![CDATA[Plecki]]></Value>
+                  <DisplayValue><![CDATA[Plecki]]></DisplayValue>
+                  <Description><![CDATA[]]></Description>
+                </Value>
+              </Values>
+            </Attribute>
+            <Attribute>
+              <Id>11</Id>
+              <Name>Wzór</Name>
+              <Description><![CDATA[]]></Description>
+              <DataType>String 256</DataType>
+              <RequiresTranslation>true</RequiresTranslation>
+              <Values>
+                <Value>
+                  <Id>90</Id>
+                  <Value><![CDATA[Inny]]></Value>
+                  <DisplayValue><![CDATA[Inny]]></DisplayValue>
+                  <Description><![CDATA[]]></Description>
+                </Value>
+              </Values>
+            </Attribute>
+            <Attribute>
+              <Id>14</Id>
+              <Name>Ochrona ekranu w zestawie</Name>
+              <Description><![CDATA[]]></Description>
+              <DataType>String 256</DataType>
+              <RequiresTranslation>true</RequiresTranslation>
+              <Values>
+                <Value>
+                  <Id>115</Id>
+                  <Value><![CDATA[Tak]]></Value>
+                  <DisplayValue><![CDATA[Tak]]></DisplayValue>
+                  <Description><![CDATA[]]></Description>
+                </Value>
+              </Values>
+            </Attribute>
+            <Attribute>
+              <Id>1860</Id>
+              <Name>GPSR</Name>
+              <Description><![CDATA[]]></Description>
+              <DataType>String 256</DataType>
+              <RequiresTranslation>true</RequiresTranslation>
+              <Values>
+                <Value>
+                  <Id>728297</Id>
+                  <Value><![CDATA[FORCETOP Sp. z o.o., Chotów 24B, 63-460 Chotów PL, office@forcetop.com, +48 625940000]]></Value>
+                  <DisplayValue><![CDATA[FORCETOP Sp. z o.o., Chotów 24B, 63-460 Chotów PL, office@forcetop.com, +48 625940000]]></DisplayValue>
+                  <Description><![CDATA[]]></Description>
+                </Value>
+              </Values>
+            </Attribute>
+          </Attributes>
+        </Specification>
+        <Pictures>
+          <Picture>
+            <Id>7ec5ef20-5e51-ec11-91ad-2cea7fb072aa</Id>
+            <Url>https://pub.btp.pro/Public/Resource/ItemPic2/7EC5EF20-5E51-EC11-91AD-2CEA7FB072AA.jpg</Url>
+            <Description><![CDATA[]]></Description>
+          </Picture>
+          <Picture>
+            <Id>80c5ef20-5e51-ec11-91ad-2cea7fb072aa</Id>
+            <Url>https://pub.btp.pro/Public/Resource/ItemPic2/80C5EF20-5E51-EC11-91AD-2CEA7FB072AA.jpg</Url>
+            <Description><![CDATA[]]></Description>
+          </Picture>
+          <Picture>
+            <Id>82c5ef20-5e51-ec11-91ad-2cea7fb072aa</Id>
+            <Url>https://pub.btp.pro/Public/Resource/ItemPic2/82C5EF20-5E51-EC11-91AD-2CEA7FB072AA.jpg</Url>
+            <Description><![CDATA[]]></Description>
+          </Picture>
+          <Picture>
+            <Id>85c5ef20-5e51-ec11-91ad-2cea7fb072aa</Id>
+            <Url>https://pub.btp.pro/Public/Resource/ItemPic2/85C5EF20-5E51-EC11-91AD-2CEA7FB072AA.jpg</Url>
+            <Description><![CDATA[]]></Description>
+          </Picture>
+          <Picture>
+            <Id>87c5ef20-5e51-ec11-91ad-2cea7fb072aa</Id>
+            <Url>https://pub.btp.pro/Public/Resource/ItemPic2/87C5EF20-5E51-EC11-91AD-2CEA7FB072AA.jpg</Url>
+            <Description><![CDATA[]]></Description>
+          </Picture>
+          <Picture>
+            <Id>89c5ef20-5e51-ec11-91ad-2cea7fb072aa</Id>
+            <Url>https://pub.btp.pro/Public/Resource/ItemPic2/89C5EF20-5E51-EC11-91AD-2CEA7FB072AA.jpg</Url>
+            <Description><![CDATA[]]></Description>
+          </Picture>
+          <Picture>
+            <Id>8ac5ef20-5e51-ec11-91ad-2cea7fb072aa</Id>
+            <Url>https://pub.btp.pro/Public/Resource/ItemPic2/8AC5EF20-5E51-EC11-91AD-2CEA7FB072AA.jpg</Url>
+            <Description><![CDATA[]]></Description>
+          </Picture>
+          <Picture>
+            <Id>8cc5ef20-5e51-ec11-91ad-2cea7fb072aa</Id>
+            <Url>https://pub.btp.pro/Public/Resource/ItemPic2/8CC5EF20-5E51-EC11-91AD-2CEA7FB072AA.jpg</Url>
+            <Description><![CDATA[]]></Description>
+          </Picture>
+        </Pictures>
+      </Line-Item>
+    </Line>
+    <Line>
+      <Line-Item>
+        <LineNumber>12</LineNumber>
+        <LineType>4</LineType>
+        <EAN>888488285818</EAN>
+        <ItemDescription><![CDATA[Zizo Liquid Glitter Star Case - Etui iPhone X (Pink Flowers)]]></ItemDescription>
+        <LongItemDescription><![CDATA[Zizo Liquid Glitter Star Case to stylowa ochrona z wyjątkowym efektem jaki zapewnia uwięziony w wnętrzu etui brokat.<br><br>Rozbłyśnij z każdym ruchem<br>Wnętrze etui zostało wypełnione cieczą, w której unoszą się tysiące lśniących drobinek brokatu, w różnym kolorze w zależności od modelu etui. Z każdym nawet najmniejszym ruchem płyn przemieszcza się roznosząc brokat po całej powierzchni etui, mieniąc się i błyszcząc, co gwarantuje niesamowity efekt.<br><br>Lekkie jak piórko<br>Niezwykle niska waga całej konstrukcji nie dodaje zbędnych gramów budowie urządzenia, zachowując jego gramaturę.<br> <br>Druga skóra telefonu<br>Wyjątkowa smukłość etui w żaden sposób nie pogrubia smartfona, zachowuje jego elegancki kształt i dbając jednocześnie o jego jak najlepszą ochronę przed zarysowaniem lub zadrapaniem.<br><br>Wybierz swój motyw!<br>Dostępna liczba wariantów graficznych pozwala dopasować etui do swojego urządzenia, a także wybrać jaką grafikę mają opływać lśniące drobiny brokatu.<br><br>Cechy produktu:<br>· Wyjątkowa warstwa brokatu mieniąca się feerią barw w padającym świetle<br>· Smukła i lekka budowa<br>· Ochrona przed zarysowaniem i wstrząsami<br>· Dostęp do wszystkich klawiszy funkcyjnych, gniazd i portów telefonu<br>· Kompatybilność: iPhone X]]></LongItemDescription>
+        <SupplierItemCode>10480</SupplierItemCode>
+        <ManufacturerItemCode>GLST-IPHX-PKFL</ManufacturerItemCode>
+        <ProductGroup>Telefony i akcesoria</ProductGroup>
+        <ProductGroupName>Telefony i akcesoria</ProductGroupName>
+        <ProductGroupCode>10027</ProductGroupCode>
+        <PrimaryProductGroup>Elektronika</PrimaryProductGroup>
+        <PrimaryProductGroupName>Elektronika</PrimaryProductGroupName>
+        <PrimaryProductGroupCode>10031</PrimaryProductGroupCode>
+        <ItemType>CU</ItemType>
+        <BrandCode>10024</BrandCode>
+        <BrandName>Zizo</BrandName>
+        <ProductType>M</ProductType>
+        <Weight>0.075</Weight>
+        <UnitOfMeasure>PCE</UnitOfMeasure>
+        <UnitNetPrice>11.3600</UnitNetPrice>
+        <UnitRetailPrice>13.5900</UnitRetailPrice>
+        <TaxRate>23.0000</TaxRate>
+        <TaxCategoryCode>S</TaxCategoryCode>
+        <ItemTaxRate>23.0000000000</ItemTaxRate>
+        <ItemTaxCategoryCode>A</ItemTaxCategoryCode>
+        <CustomsTariffNumber>3926909790</CustomsTariffNumber>
+        <Guarantee>24</Guarantee>
+        <Specification>
+          <Attributes>
+            <Attribute>
+              <Id>7</Id>
+              <Name>Kompatybilność</Name>
+              <Description><![CDATA[]]></Description>
+              <DataType>String 256</DataType>
+              <RequiresTranslation>true</RequiresTranslation>
+              <Values>
+                <Value>
+                  <Id>60</Id>
+                  <Value><![CDATA[Apple iPhone X]]></Value>
+                  <DisplayValue><![CDATA[Apple iPhone X]]></DisplayValue>
+                  <Description><![CDATA[]]></Description>
+                </Value>
+              </Values>
+            </Attribute>
+            <Attribute>
+              <Id>3</Id>
+              <Name>Kolor bazowy</Name>
+              <Description><![CDATA[]]></Description>
+              <DataType>String 256</DataType>
+              <RequiresTranslation>true</RequiresTranslation>
+              <Values>
+                <Value>
+                  <Id>36</Id>
+                  <Value><![CDATA[złoty]]></Value>
+                  <DisplayValue><![CDATA[złoty]]></DisplayValue>
+                  <Description><![CDATA[]]></Description>
+                </Value>
+              </Values>
+            </Attribute>
+            <Attribute>
+              <Id>6</Id>
+              <Name>Funkcjonalność</Name>
+              <Description><![CDATA[]]></Description>
+              <DataType>String 256</DataType>
+              <RequiresTranslation>true</RequiresTranslation>
+              <Values>
+                <Value>
+                  <Id>52</Id>
+                  <Value><![CDATA[ochrona tyłu i boków]]></Value>
+                  <DisplayValue><![CDATA[ochrona tyłu i boków]]></DisplayValue>
+                  <Description><![CDATA[]]></Description>
+                </Value>
+              </Values>
+            </Attribute>
+            <Attribute>
+              <Id>13</Id>
+              <Name>Kolor dodatkowy</Name>
+              <Description><![CDATA[]]></Description>
+              <DataType>String 256</DataType>
+              <RequiresTranslation>true</RequiresTranslation>
+              <Values>
+                <Value>
+                  <Id>101</Id>
+                  <Value><![CDATA[biały]]></Value>
+                  <DisplayValue><![CDATA[biały]]></DisplayValue>
+                  <Description><![CDATA[]]></Description>
+                </Value>
+              </Values>
+            </Attribute>
+            <Attribute>
+              <Id>1845</Id>
+              <Name>Rodzaj etui</Name>
+              <Description><![CDATA[]]></Description>
+              <DataType>String 256</DataType>
+              <RequiresTranslation>true</RequiresTranslation>
+              <Values>
+                <Value>
+                  <Id>1535</Id>
+                  <Value><![CDATA[Plecki]]></Value>
+                  <DisplayValue><![CDATA[Plecki]]></DisplayValue>
+                  <Description><![CDATA[]]></Description>
+                </Value>
+              </Values>
+            </Attribute>
+            <Attribute>
+              <Id>11</Id>
+              <Name>Wzór</Name>
+              <Description><![CDATA[]]></Description>
+              <DataType>String 256</DataType>
+              <RequiresTranslation>true</RequiresTranslation>
+              <Values>
+                <Value>
+                  <Id>90</Id>
+                  <Value><![CDATA[Inny]]></Value>
+                  <DisplayValue><![CDATA[Inny]]></DisplayValue>
+                  <Description><![CDATA[]]></Description>
+                </Value>
+              </Values>
+            </Attribute>
+            <Attribute>
+              <Id>1860</Id>
+              <Name>GPSR</Name>
+              <Description><![CDATA[]]></Description>
+              <DataType>String 256</DataType>
+              <RequiresTranslation>true</RequiresTranslation>
+              <Values>
+                <Value>
+                  <Id>728297</Id>
+                  <Value><![CDATA[FORCETOP Sp. z o.o., Chotów 24B, 63-460 Chotów PL, office@forcetop.com, +48 625940000]]></Value>
+                  <DisplayValue><![CDATA[FORCETOP Sp. z o.o., Chotów 24B, 63-460 Chotów PL, office@forcetop.com, +48 625940000]]></DisplayValue>
+                  <Description><![CDATA[]]></Description>
+                </Value>
+              </Values>
+            </Attribute>
+          </Attributes>
+        </Specification>
+        <Pictures>
+          <Picture>
+            <Id>52def226-5e51-ec11-91ad-2cea7fb072aa</Id>
+            <Url>https://pub.btp.pro/Public/Resource/ItemPic2/52DEF226-5E51-EC11-91AD-2CEA7FB072AA.jpg</Url>
+            <Description><![CDATA[]]></Description>
+          </Picture>
+          <Picture>
+            <Id>53def226-5e51-ec11-91ad-2cea7fb072aa</Id>
+            <Url>https://pub.btp.pro/Public/Resource/ItemPic2/53DEF226-5E51-EC11-91AD-2CEA7FB072AA.jpg</Url>
+            <Description><![CDATA[]]></Description>
+          </Picture>
+          <Picture>
+            <Id>54def226-5e51-ec11-91ad-2cea7fb072aa</Id>
+            <Url>https://pub.btp.pro/Public/Resource/ItemPic2/54DEF226-5E51-EC11-91AD-2CEA7FB072AA.jpg</Url>
+            <Description><![CDATA[]]></Description>
+          </Picture>
+          <Picture>
+            <Id>55def226-5e51-ec11-91ad-2cea7fb072aa</Id>
+            <Url>https://pub.btp.pro/Public/Resource/ItemPic2/55DEF226-5E51-EC11-91AD-2CEA7FB072AA.jpg</Url>
+            <Description><![CDATA[]]></Description>
+          </Picture>
+        </Pictures>
+      </Line-Item>
+    </Line>
+    <Line>
+      <Line-Item>
+        <LineNumber>13</LineNumber>
+        <LineType>4</LineType>
+        <EAN>888488285788</EAN>
+        <ItemDescription><![CDATA[Zizo Liquid Glitter Star Case - Etui iPhone X (Butterflies)]]></ItemDescription>
+        <LongItemDescription><![CDATA[Zizo Liquid Glitter Star Case to stylowa ochrona z wyjątkowym efektem jaki zapewnia uwięziony w wnętrzu etui brokat.<br><br>Rozbłyśnij z każdym ruchem<br>Wnętrze etui zostało wypełnione cieczą, w której unoszą się tysiące lśniących drobinek brokatu, w różnym kolorze w zależności od modelu etui. Z każdym nawet najmniejszym ruchem płyn przemieszcza się roznosząc brokat po całej powierzchni etui, mieniąc się i błyszcząc, co gwarantuje niesamowity efekt.<br><br>Lekkie jak piórko<br>Niezwykle niska waga całej konstrukcji nie dodaje zbędnych gramów budowie urządzenia, zachowując jego gramaturę.<br> <br>Druga skóra telefonu<br>Wyjątkowa smukłość etui w żaden sposób nie pogrubia smartfona, zachowuje jego elegancki kształt i dbając jednocześnie o jego jak najlepszą ochronę przed zarysowaniem lub zadrapaniem.<br><br>Wybierz swój motyw!<br>Dostępna liczba wariantów graficznych pozwala dopasować etui do swojego urządzenia, a także wybrać jaką grafikę mają opływać lśniące drobiny brokatu.<br><br>Cechy produktu:<br>· Wyjątkowa warstwa brokatu mieniąca się feerią barw w padającym świetle<br>· Smukła i lekka budowa<br>· Ochrona przed zarysowaniem i wstrząsami<br>· Dostęp do wszystkich klawiszy funkcyjnych, gniazd i portów telefonu<br>· Kompatybilność: iPhone X]]></LongItemDescription>
+        <SupplierItemCode>10484</SupplierItemCode>
+        <ManufacturerItemCode>GLST-IPHX-BF</ManufacturerItemCode>
+        <ProductGroup>Telefony i akcesoria</ProductGroup>
+        <ProductGroupName>Telefony i akcesoria</ProductGroupName>
+        <ProductGroupCode>10027</ProductGroupCode>
+        <PrimaryProductGroup>Elektronika</PrimaryProductGroup>
+        <PrimaryProductGroupName>Elektronika</PrimaryProductGroupName>
+        <PrimaryProductGroupCode>10031</PrimaryProductGroupCode>
+        <ItemType>CU</ItemType>
+        <BrandCode>10024</BrandCode>
+        <BrandName>Zizo</BrandName>
+        <ProductType>M</ProductType>
+        <Weight>0.075</Weight>
+        <UnitOfMeasure>PCE</UnitOfMeasure>
+        <UnitNetPrice>14.4100</UnitNetPrice>
+        <UnitRetailPrice>16.4200</UnitRetailPrice>
+        <TaxRate>23.0000</TaxRate>
+        <TaxCategoryCode>S</TaxCategoryCode>
+        <ItemTaxRate>23.0000000000</ItemTaxRate>
+        <ItemTaxCategoryCode>A</ItemTaxCategoryCode>
+        <CustomsTariffNumber>3926909790</CustomsTariffNumber>
+        <Guarantee>24</Guarantee>
+        <Specification>
+          <Attributes>
+            <Attribute>
+              <Id>7</Id>
+              <Name>Kompatybilność</Name>
+              <Description><![CDATA[]]></Description>
+              <DataType>String 256</DataType>
+              <RequiresTranslation>true</RequiresTranslation>
+              <Values>
+                <Value>
+                  <Id>60</Id>
+                  <Value><![CDATA[Apple iPhone X]]></Value>
+                  <DisplayValue><![CDATA[Apple iPhone X]]></DisplayValue>
+                  <Description><![CDATA[]]></Description>
+                </Value>
+              </Values>
+            </Attribute>
+            <Attribute>
+              <Id>3</Id>
+              <Name>Kolor bazowy</Name>
+              <Description><![CDATA[]]></Description>
+              <DataType>String 256</DataType>
+              <RequiresTranslation>true</RequiresTranslation>
+              <Values>
+                <Value>
+                  <Id>36</Id>
+                  <Value><![CDATA[złoty]]></Value>
+                  <DisplayValue><![CDATA[złoty]]></DisplayValue>
+                  <Description><![CDATA[]]></Description>
+                </Value>
+              </Values>
+            </Attribute>
+            <Attribute>
+              <Id>6</Id>
+              <Name>Funkcjonalność</Name>
+              <Description><![CDATA[]]></Description>
+              <DataType>String 256</DataType>
+              <RequiresTranslation>true</RequiresTranslation>
+              <Values>
+                <Value>
+                  <Id>52</Id>
+                  <Value><![CDATA[ochrona tyłu i boków]]></Value>
+                  <DisplayValue><![CDATA[ochrona tyłu i boków]]></DisplayValue>
+                  <Description><![CDATA[]]></Description>
+                </Value>
+              </Values>
+            </Attribute>
+            <Attribute>
+              <Id>13</Id>
+              <Name>Kolor dodatkowy</Name>
+              <Description><![CDATA[]]></Description>
+              <DataType>String 256</DataType>
+              <RequiresTranslation>true</RequiresTranslation>
+              <Values>
+                <Value>
+                  <Id>101</Id>
+                  <Value><![CDATA[biały]]></Value>
+                  <DisplayValue><![CDATA[biały]]></DisplayValue>
+                  <Description><![CDATA[]]></Description>
+                </Value>
+              </Values>
+            </Attribute>
+            <Attribute>
+              <Id>1845</Id>
+              <Name>Rodzaj etui</Name>
+              <Description><![CDATA[]]></Description>
+              <DataType>String 256</DataType>
+              <RequiresTranslation>true</RequiresTranslation>
+              <Values>
+                <Value>
+                  <Id>1535</Id>
+                  <Value><![CDATA[Plecki]]></Value>
+                  <DisplayValue><![CDATA[Plecki]]></DisplayValue>
+                  <Description><![CDATA[]]></Description>
+                </Value>
+              </Values>
+            </Attribute>
+            <Attribute>
+              <Id>11</Id>
+              <Name>Wzór</Name>
+              <Description><![CDATA[]]></Description>
+              <DataType>String 256</DataType>
+              <RequiresTranslation>true</RequiresTranslation>
+              <Values>
+                <Value>
+                  <Id>90</Id>
+                  <Value><![CDATA[Inny]]></Value>
+                  <DisplayValue><![CDATA[Inny]]></DisplayValue>
+                  <Description><![CDATA[]]></Description>
+                </Value>
+              </Values>
+            </Attribute>
+            <Attribute>
+              <Id>1860</Id>
+              <Name>GPSR</Name>
+              <Description><![CDATA[]]></Description>
+              <DataType>String 256</DataType>
+              <RequiresTranslation>true</RequiresTranslation>
+              <Values>
+                <Value>
+                  <Id>728297</Id>
+                  <Value><![CDATA[FORCETOP Sp. z o.o., Chotów 24B, 63-460 Chotów PL, office@forcetop.com, +48 625940000]]></Value>
+                  <DisplayValue><![CDATA[FORCETOP Sp. z o.o., Chotów 24B, 63-460 Chotów PL, office@forcetop.com, +48 625940000]]></DisplayValue>
+                  <Description><![CDATA[]]></Description>
+                </Value>
+              </Values>
+            </Attribute>
+          </Attributes>
+        </Specification>
+        <Pictures>
+          <Picture>
+            <Id>87def226-5e51-ec11-91ad-2cea7fb072aa</Id>
+            <Url>https://pub.btp.pro/Public/Resource/ItemPic2/87DEF226-5E51-EC11-91AD-2CEA7FB072AA.jpg</Url>
+            <Description><![CDATA[]]></Description>
+          </Picture>
+          <Picture>
+            <Id>88def226-5e51-ec11-91ad-2cea7fb072aa</Id>
+            <Url>https://pub.btp.pro/Public/Resource/ItemPic2/88DEF226-5E51-EC11-91AD-2CEA7FB072AA.jpg</Url>
+            <Description><![CDATA[]]></Description>
+          </Picture>
+          <Picture>
+            <Id>89def226-5e51-ec11-91ad-2cea7fb072aa</Id>
+            <Url>https://pub.btp.pro/Public/Resource/ItemPic2/89DEF226-5E51-EC11-91AD-2CEA7FB072AA.jpg</Url>
+            <Description><![CDATA[]]></Description>
+          </Picture>
+          <Picture>
+            <Id>8adef226-5e51-ec11-91ad-2cea7fb072aa</Id>
+            <Url>https://pub.btp.pro/Public/Resource/ItemPic2/8ADEF226-5E51-EC11-91AD-2CEA7FB072AA.jpg</Url>
+            <Description><![CDATA[]]></Description>
+          </Picture>
+        </Pictures>
+      </Line-Item>
+    </Line>
+    <Line>
+      <Line-Item>
+        <LineNumber>14</LineNumber>
+        <LineType>4</LineType>
+        <EAN>888488284521</EAN>
+        <ItemDescription><![CDATA[Zizo TPU Cover - Etui iPhone X (Purple)]]></ItemDescription>
+        <LongItemDescription><![CDATA[Zizo TPU Cover to lekkie oraz smukłe etui chroniące smartfon przed porysowaniem.<br><br>Wykonane w całości z TPU osłania boki oraz tył smartfona przed jego uszkodzeniem na skutek zadrapań lub zarysowań, nie dodając zbędnych gramów całej konstrukcji oraz nie pogrubiają eleganckiej sylwetki urządzenia. Etui zapewnia dostęp do wszystkich klawiszy funkcyjnych, gniazd i portów telefonu nie ograniczając jego funkcjonalności, dzięki czemu można w pełni korzystać ze swojego smartfona.<br><br>Cechy produktu:<br>· Jednoczęściowe etui wykonane w całości z TPU<br>· Ochrona tyłu oraz boków urządzenia przed zarysowaniami lub zadrapaniami<br>· Smukła i lekka konstrukcja<br>· Dostęp do wszystkich klawiszy funkcyjnych, gniazd i portów telefon<br>· Kompatybilność: iPhone X]]></LongItemDescription>
+        <SupplierItemCode>10488</SupplierItemCode>
+        <ManufacturerItemCode>TPU-IPH8-PU</ManufacturerItemCode>
+        <ProductGroup>Telefony i akcesoria</ProductGroup>
+        <ProductGroupName>Telefony i akcesoria</ProductGroupName>
+        <ProductGroupCode>10027</ProductGroupCode>
+        <PrimaryProductGroup>Elektronika</PrimaryProductGroup>
+        <PrimaryProductGroupName>Elektronika</PrimaryProductGroupName>
+        <PrimaryProductGroupCode>10031</PrimaryProductGroupCode>
+        <ItemType>CU</ItemType>
+        <BrandCode>10024</BrandCode>
+        <BrandName>Zizo</BrandName>
+        <ProductType>M</ProductType>
+        <Weight>0.075</Weight>
+        <UnitOfMeasure>PCE</UnitOfMeasure>
+        <UnitNetPrice>4.1700</UnitNetPrice>
+        <UnitRetailPrice>8.1200</UnitRetailPrice>
+        <TaxRate>23.0000</TaxRate>
+        <TaxCategoryCode>S</TaxCategoryCode>
+        <ItemTaxRate>23.0000000000</ItemTaxRate>
+        <ItemTaxCategoryCode>A</ItemTaxCategoryCode>
+        <CustomsTariffNumber>3926909790</CustomsTariffNumber>
+        <Guarantee>24</Guarantee>
+        <Specification>
+          <Attributes>
+            <Attribute>
+              <Id>7</Id>
+              <Name>Kompatybilność</Name>
+              <Description><![CDATA[]]></Description>
+              <DataType>String 256</DataType>
+              <RequiresTranslation>true</RequiresTranslation>
+              <Values>
+                <Value>
+                  <Id>60</Id>
+                  <Value><![CDATA[Apple iPhone X]]></Value>
+                  <DisplayValue><![CDATA[Apple iPhone X]]></DisplayValue>
+                  <Description><![CDATA[]]></Description>
+                </Value>
+              </Values>
+            </Attribute>
+            <Attribute>
+              <Id>5</Id>
+              <Name>Materiał główny</Name>
+              <Description><![CDATA[]]></Description>
+              <DataType>String 256</DataType>
+              <RequiresTranslation>true</RequiresTranslation>
+              <Values>
+                <Value>
+                  <Id>48</Id>
+                  <Value><![CDATA[TPU (termoplastyczny poliuretan)]]></Value>
+                  <DisplayValue><![CDATA[TPU (termoplastyczny poliuretan)]]></DisplayValue>
+                  <Description><![CDATA[]]></Description>
+                </Value>
+              </Values>
+            </Attribute>
+            <Attribute>
+              <Id>3</Id>
+              <Name>Kolor bazowy</Name>
+              <Description><![CDATA[]]></Description>
+              <DataType>String 256</DataType>
+              <RequiresTranslation>true</RequiresTranslation>
+              <Values>
+                <Value>
+                  <Id>178</Id>
+                  <Value><![CDATA[fioletowy]]></Value>
+                  <DisplayValue><![CDATA[fioletowy]]></DisplayValue>
+                  <Description><![CDATA[]]></Description>
+                </Value>
+              </Values>
+            </Attribute>
+            <Attribute>
+              <Id>6</Id>
+              <Name>Funkcjonalność</Name>
+              <Description><![CDATA[]]></Description>
+              <DataType>String 256</DataType>
+              <RequiresTranslation>true</RequiresTranslation>
+              <Values>
+                <Value>
+                  <Id>52</Id>
+                  <Value><![CDATA[ochrona tyłu i boków]]></Value>
+                  <DisplayValue><![CDATA[ochrona tyłu i boków]]></DisplayValue>
+                  <Description><![CDATA[]]></Description>
+                </Value>
+              </Values>
+            </Attribute>
+            <Attribute>
+              <Id>1845</Id>
+              <Name>Rodzaj etui</Name>
+              <Description><![CDATA[]]></Description>
+              <DataType>String 256</DataType>
+              <RequiresTranslation>true</RequiresTranslation>
+              <Values>
+                <Value>
+                  <Id>1535</Id>
+                  <Value><![CDATA[Plecki]]></Value>
+                  <DisplayValue><![CDATA[Plecki]]></DisplayValue>
+                  <Description><![CDATA[]]></Description>
+                </Value>
+              </Values>
+            </Attribute>
+            <Attribute>
+              <Id>11</Id>
+              <Name>Wzór</Name>
+              <Description><![CDATA[]]></Description>
+              <DataType>String 256</DataType>
+              <RequiresTranslation>true</RequiresTranslation>
+              <Values>
+                <Value>
+                  <Id>90</Id>
+                  <Value><![CDATA[Inny]]></Value>
+                  <DisplayValue><![CDATA[Inny]]></DisplayValue>
+                  <Description><![CDATA[]]></Description>
+                </Value>
+              </Values>
+            </Attribute>
+            <Attribute>
+              <Id>1860</Id>
+              <Name>GPSR</Name>
+              <Description><![CDATA[]]></Description>
+              <DataType>String 256</DataType>
+              <RequiresTranslation>true</RequiresTranslation>
+              <Values>
+                <Value>
+                  <Id>728297</Id>
+                  <Value><![CDATA[FORCETOP Sp. z o.o., Chotów 24B, 63-460 Chotów PL, office@forcetop.com, +48 625940000]]></Value>
+                  <DisplayValue><![CDATA[FORCETOP Sp. z o.o., Chotów 24B, 63-460 Chotów PL, office@forcetop.com, +48 625940000]]></DisplayValue>
+                  <Description><![CDATA[]]></Description>
+                </Value>
+              </Values>
+            </Attribute>
+          </Attributes>
+        </Specification>
+        <Pictures>
+          <Picture>
+            <Id>b2def226-5e51-ec11-91ad-2cea7fb072aa</Id>
+            <Url>https://pub.btp.pro/Public/Resource/ItemPic2/B2DEF226-5E51-EC11-91AD-2CEA7FB072AA.jpg</Url>
+            <Description><![CDATA[]]></Description>
+          </Picture>
+          <Picture>
+            <Id>aedef226-5e51-ec11-91ad-2cea7fb072aa</Id>
+            <Url>https://pub.btp.pro/Public/Resource/ItemPic2/AEDEF226-5E51-EC11-91AD-2CEA7FB072AA.jpg</Url>
+            <Description><![CDATA[]]></Description>
+          </Picture>
+          <Picture>
+            <Id>b1def226-5e51-ec11-91ad-2cea7fb072aa</Id>
+            <Url>https://pub.btp.pro/Public/Resource/ItemPic2/B1DEF226-5E51-EC11-91AD-2CEA7FB072AA.jpg</Url>
+            <Description><![CDATA[]]></Description>
+          </Picture>
+          <Picture>
+            <Id>b3def226-5e51-ec11-91ad-2cea7fb072aa</Id>
+            <Url>https://pub.btp.pro/Public/Resource/ItemPic2/B3DEF226-5E51-EC11-91AD-2CEA7FB072AA.jpg</Url>
+            <Description><![CDATA[]]></Description>
+          </Picture>
+        </Pictures>
+      </Line-Item>
+    </Line>
+    <Line>
+      <Line-Item>
+        <LineNumber>15</LineNumber>
+        <LineType>4</LineType>
+        <EAN>888488290645</EAN>
+        <ItemDescription><![CDATA[Zizo Retro Series - Etui iPhone Xs / X z kieszenią na karty + podstawka + szkło 9H na ekran (Peach/Silver)]]></ItemDescription>
+        <LongItemDescription><![CDATA[Zizo Retro Series pozwala nam przenieść się w lata sześćdziesiąte XX wieku, ciesząc oko stylem, który przywołuje wiele ciepłych wspomnień nieco starszym pokoleniom oraz przynosi powiew historii, a także wyjątkowy design dla szukających wyrazu młodych ludzi.<br><br>Ponadczasowa estetyka<br>Etui wyróżnia elegancja oraz faktury, które nieodłącznie kojarzą się z „szalonymi latami sześćdziesiątymi”. Falista struktura oraz lekko szczotkowana powierzchnia tylnego panelu etui, a także żłobiona rama składają się na wyjątkowy styl oraz charakter Zizo Retro Series.<br><br>Wysoka ochrona<br>Etui poza wyjątkowymi walorami estetycznymi stoi na straży bezpieczeństwa naszego urządzenia. Wytrzymała i twarda poliwęglanowa warstwa ochrania urządzenie przed porysowaniem, skutkami uderzeń czy upadków. Dokładne wykonane gwarantuje bardzo dobre przyleganie etui do telefonu, natomiast oryginalna powierzchnia tylnego panelu nadaje nie tylko unikalnego wyglądu, ale również wpływa na lepszy chwyt urządzenia.<br><br>Funkcjonalna kieszeń, wygodne oglądanie<br>Zizo Retro Series posiada sprytne rozwiązanie w formie kieszeni na karty płatnicze oraz zamykanej magnetycznej podpórki. Na tylnym panelu pod falistą strukturą ukryta jest kieszeń zdolna pomieścić do dwóch kart płatniczych, które w wygodny sposób wsuwa się do skrytki, a następnie za pomocą wbudowanych magnesów w klapce bezpiecznie zamyka się. Magnetyczną klapkę chroniącą przechowywane karty przed ich wypadnięciem, w każdym momencie można użyć jako komfortowej podstawki do korzystania z telefonu w pozycji poziomej, bez potrzeby trzymania urządzenia w dłoniach.<br><br>Wojskowy stopień ochrony, bezpieczeństwo ze wszystkich stron<br>Etui przeszło rygorystyczne testy spełniające wymagania normy MIL-STD-810G, które gwarantują optymalną ochronę urządzenia podczas upadku na twarde podłoże. W trosce o najbardziej narażony na uszkodzenie element telefonu jakim jest jego ekran, w zestawie znajdziemy hartowane szkło ochronne Zizo Lightning Shield, którego twardość wynosi 9H w skali Mohsa. Taka ochrona gwarantuje bezpieczeństwo telefonu z jego każdej strony, chroniąc przed zniszczeniem na skutek zadrapań, uderzeń czy upadków.<br><br>Cechy produktu:<br>· Etui iPhone X<br>· Wyjątkowa estetyka lat sześćdziesiątych XX wieku<br>· Twardy Polikarbon usztywniający całą konstrukcję i chroniący telefon z tyłu oraz po bokach<br>· Wojskowy stopień ochrony (spełnia lub przewyższa normy MIL-STD-810G)<br>· Kieszeń na dwie karty płatnicze<br>· Wyjątkowa estetyka zachowująca smukły kształt urządzenia<br>· Magnetyczna, składana podpórka umożliwiająca ustawienie telefonu w poziomie<br>· Szkło ochronne Zizo Lightning Shield o twardości 9H w zestawie<br>· Dostęp do wszystkich klawiszy funkcyjnych, gniazd i portów telefonu]]></LongItemDescription>
+        <SupplierItemCode>10497</SupplierItemCode>
+        <ManufacturerItemCode>RET-IPH8-PHSL</ManufacturerItemCode>
+        <ProductGroup>Telefony i akcesoria</ProductGroup>
+        <ProductGroupName>Telefony i akcesoria</ProductGroupName>
+        <ProductGroupCode>10027</ProductGroupCode>
+        <PrimaryProductGroup>Elektronika</PrimaryProductGroup>
+        <PrimaryProductGroupName>Elektronika</PrimaryProductGroupName>
+        <PrimaryProductGroupCode>10031</PrimaryProductGroupCode>
+        <ItemType>CU</ItemType>
+        <BrandCode>10024</BrandCode>
+        <BrandName>Zizo</BrandName>
+        <ProductType>M</ProductType>
+        <Weight>0.1</Weight>
+        <UnitOfMeasure>PCE</UnitOfMeasure>
+        <UnitNetPrice>26.5100</UnitNetPrice>
+        <UnitRetailPrice>28.4500</UnitRetailPrice>
+        <TaxRate>23.0000</TaxRate>
+        <TaxCategoryCode>S</TaxCategoryCode>
+        <ItemTaxRate>23.0000000000</ItemTaxRate>
+        <ItemTaxCategoryCode>A</ItemTaxCategoryCode>
+        <CustomsTariffNumber>3926909790</CustomsTariffNumber>
+        <Guarantee>24</Guarantee>
+        <Specification>
+          <Attributes>
+            <Attribute>
+              <Id>7</Id>
+              <Name>Kompatybilność</Name>
+              <Description><![CDATA[]]></Description>
+              <DataType>String 256</DataType>
+              <RequiresTranslation>true</RequiresTranslation>
+              <Values>
+                <Value>
+                  <Id>61</Id>
+                  <Value><![CDATA[Apple iPhone Xs/X]]></Value>
+                  <DisplayValue><![CDATA[Apple iPhone Xs/X]]></DisplayValue>
+                  <Description><![CDATA[]]></Description>
+                </Value>
+              </Values>
+            </Attribute>
+            <Attribute>
+              <Id>5</Id>
+              <Name>Materiał główny</Name>
+              <Description><![CDATA[]]></Description>
+              <DataType>String 256</DataType>
+              <RequiresTranslation>true</RequiresTranslation>
+              <Values>
+                <Value>
+                  <Id>42</Id>
+                  <Value><![CDATA[Polikarbon]]></Value>
+                  <DisplayValue><![CDATA[Polikarbon]]></DisplayValue>
+                  <Description><![CDATA[]]></Description>
+                </Value>
+              </Values>
+            </Attribute>
+            <Attribute>
+              <Id>3</Id>
+              <Name>Kolor bazowy</Name>
+              <Description><![CDATA[]]></Description>
+              <DataType>String 256</DataType>
+              <RequiresTranslation>true</RequiresTranslation>
+              <Values>
+                <Value>
+                  <Id>286</Id>
+                  <Value><![CDATA[beżowy]]></Value>
+                  <DisplayValue><![CDATA[beżowy]]></DisplayValue>
+                  <Description><![CDATA[]]></Description>
+                </Value>
+              </Values>
+            </Attribute>
+            <Attribute>
+              <Id>6</Id>
+              <Name>Funkcjonalność</Name>
+              <Description><![CDATA[]]></Description>
+              <DataType>String 256</DataType>
+              <RequiresTranslation>true</RequiresTranslation>
+              <Values>
+                <Value>
+                  <Id>52</Id>
+                  <Value><![CDATA[ochrona tyłu i boków]]></Value>
+                  <DisplayValue><![CDATA[ochrona tyłu i boków]]></DisplayValue>
+                  <Description><![CDATA[]]></Description>
+                </Value>
+              </Values>
+            </Attribute>
+            <Attribute>
+              <Id>13</Id>
+              <Name>Kolor dodatkowy</Name>
+              <Description><![CDATA[]]></Description>
+              <DataType>String 256</DataType>
+              <RequiresTranslation>true</RequiresTranslation>
+              <Values>
+                <Value>
+                  <Id>111</Id>
+                  <Value><![CDATA[srebrny]]></Value>
+                  <DisplayValue><![CDATA[srebrny]]></DisplayValue>
+                  <Description><![CDATA[]]></Description>
+                </Value>
+              </Values>
+            </Attribute>
+            <Attribute>
+              <Id>1845</Id>
+              <Name>Rodzaj etui</Name>
+              <Description><![CDATA[]]></Description>
+              <DataType>String 256</DataType>
+              <RequiresTranslation>true</RequiresTranslation>
+              <Values>
+                <Value>
+                  <Id>1535</Id>
+                  <Value><![CDATA[Plecki]]></Value>
+                  <DisplayValue><![CDATA[Plecki]]></DisplayValue>
+                  <Description><![CDATA[]]></Description>
+                </Value>
+              </Values>
+            </Attribute>
+            <Attribute>
+              <Id>11</Id>
+              <Name>Wzór</Name>
+              <Description><![CDATA[]]></Description>
+              <DataType>String 256</DataType>
+              <RequiresTranslation>true</RequiresTranslation>
+              <Values>
+                <Value>
+                  <Id>90</Id>
+                  <Value><![CDATA[Inny]]></Value>
+                  <DisplayValue><![CDATA[Inny]]></DisplayValue>
+                  <Description><![CDATA[]]></Description>
+                </Value>
+              </Values>
+            </Attribute>
+            <Attribute>
+              <Id>14</Id>
+              <Name>Ochrona ekranu w zestawie</Name>
+              <Description><![CDATA[]]></Description>
+              <DataType>String 256</DataType>
+              <RequiresTranslation>true</RequiresTranslation>
+              <Values>
+                <Value>
+                  <Id>115</Id>
+                  <Value><![CDATA[Tak]]></Value>
+                  <DisplayValue><![CDATA[Tak]]></DisplayValue>
+                  <Description><![CDATA[]]></Description>
+                </Value>
+              </Values>
+            </Attribute>
+            <Attribute>
+              <Id>15</Id>
+              <Name>WWW</Name>
+              <Description><![CDATA[]]></Description>
+              <DataType>Url</DataType>
+              <RequiresTranslation>false</RequiresTranslation>
+              <Values>
+                <Value>
+                  <Id>334</Id>
+                  <Value><![CDATA[<a href="http://www.youtube.com/watch?v=89iNY0DcNKc&feature=youtu.be" target="_blank">www.youtube.com/watch?v=89iNY0DcNKc&feature=youtu.be</a>]]></Value>
+                  <DisplayValue><![CDATA[<a href="http://www.youtube.com/watch?v=89iNY0DcNKc&feature=youtu.be" target="_blank">www.youtube.com/watch?v=89iNY0DcNKc&feature=youtu.be</a>]]></DisplayValue>
+                  <Description><![CDATA[]]></Description>
+                </Value>
+              </Values>
+            </Attribute>
+            <Attribute>
+              <Id>1860</Id>
+              <Name>GPSR</Name>
+              <Description><![CDATA[]]></Description>
+              <DataType>String 256</DataType>
+              <RequiresTranslation>true</RequiresTranslation>
+              <Values>
+                <Value>
+                  <Id>728297</Id>
+                  <Value><![CDATA[FORCETOP Sp. z o.o., Chotów 24B, 63-460 Chotów PL, office@forcetop.com, +48 625940000]]></Value>
+                  <DisplayValue><![CDATA[FORCETOP Sp. z o.o., Chotów 24B, 63-460 Chotów PL, office@forcetop.com, +48 625940000]]></DisplayValue>
+                  <Description><![CDATA[]]></Description>
+                </Value>
+              </Values>
+            </Attribute>
+          </Attributes>
+        </Specification>
+        <Pictures>
+          <Picture>
+            <Id>fedef226-5e51-ec11-91ad-2cea7fb072aa</Id>
+            <Url>https://pub.btp.pro/Public/Resource/ItemPic2/FEDEF226-5E51-EC11-91AD-2CEA7FB072AA.jpg</Url>
+            <Description><![CDATA[]]></Description>
+          </Picture>
+          <Picture>
+            <Id>00dff226-5e51-ec11-91ad-2cea7fb072aa</Id>
+            <Url>https://pub.btp.pro/Public/Resource/ItemPic2/00DFF226-5E51-EC11-91AD-2CEA7FB072AA.jpg</Url>
+            <Description><![CDATA[]]></Description>
+          </Picture>
+          <Picture>
+            <Id>01dff226-5e51-ec11-91ad-2cea7fb072aa</Id>
+            <Url>https://pub.btp.pro/Public/Resource/ItemPic2/01DFF226-5E51-EC11-91AD-2CEA7FB072AA.jpg</Url>
+            <Description><![CDATA[]]></Description>
+          </Picture>
+          <Picture>
+            <Id>03dff226-5e51-ec11-91ad-2cea7fb072aa</Id>
+            <Url>https://pub.btp.pro/Public/Resource/ItemPic2/03DFF226-5E51-EC11-91AD-2CEA7FB072AA.jpg</Url>
+            <Description><![CDATA[]]></Description>
+          </Picture>
+          <Picture>
+            <Id>05dff226-5e51-ec11-91ad-2cea7fb072aa</Id>
+            <Url>https://pub.btp.pro/Public/Resource/ItemPic2/05DFF226-5E51-EC11-91AD-2CEA7FB072AA.jpg</Url>
+            <Description><![CDATA[]]></Description>
+          </Picture>
+          <Picture>
+            <Id>06dff226-5e51-ec11-91ad-2cea7fb072aa</Id>
+            <Url>https://pub.btp.pro/Public/Resource/ItemPic2/06DFF226-5E51-EC11-91AD-2CEA7FB072AA.jpg</Url>
+            <Description><![CDATA[]]></Description>
+          </Picture>
+          <Picture>
+            <Id>07dff226-5e51-ec11-91ad-2cea7fb072aa</Id>
+            <Url>https://pub.btp.pro/Public/Resource/ItemPic2/07DFF226-5E51-EC11-91AD-2CEA7FB072AA.jpg</Url>
+            <Description><![CDATA[]]></Description>
+          </Picture>
+          <Picture>
+            <Id>16dff226-5e51-ec11-91ad-2cea7fb072aa</Id>
+            <Url>https://pub.btp.pro/Public/Resource/ItemPic2/16DFF226-5E51-EC11-91AD-2CEA7FB072AA.jpg</Url>
+            <Description><![CDATA[]]></Description>
+          </Picture>
+        </Pictures>
+      </Line-Item>
+    </Line>
+    <Line>
+      <Line-Item>
+        <LineNumber>16</LineNumber>
+        <LineType>4</LineType>
+        <EAN>888488290607</EAN>
+        <ItemDescription><![CDATA[Zizo Retro Series - Etui iPhone Xs / X z kieszenią na karty + podstawka + szkło 9H na ekran (Neon Green/Silver)]]></ItemDescription>
+        <LongItemDescription><![CDATA[Zizo Retro Series pozwala nam przenieść się w lata sześćdziesiąte XX wieku, ciesząc oko stylem, który przywołuje wiele ciepłych wspomnień nieco starszym pokoleniom oraz przynosi powiew historii, a także wyjątkowy design dla szukających wyrazu młodych ludzi.<br><br>Ponadczasowa estetyka<br>Etui wyróżnia elegancja oraz faktury, które nieodłącznie kojarzą się z „szalonymi latami sześćdziesiątymi”. Falista struktura oraz lekko szczotkowana powierzchnia tylnego panelu etui, a także żłobiona rama składają się na wyjątkowy styl oraz charakter Zizo Retro Series.<br><br>Wysoka ochrona<br>Etui poza wyjątkowymi walorami estetycznymi stoi na straży bezpieczeństwa naszego urządzenia. Wytrzymała i twarda poliwęglanowa warstwa ochrania urządzenie przed porysowaniem, skutkami uderzeń czy upadków. Dokładne wykonane gwarantuje bardzo dobre przyleganie etui do telefonu, natomiast oryginalna powierzchnia tylnego panelu nadaje nie tylko unikalnego wyglądu, ale również wpływa na lepszy chwyt urządzenia.<br><br>Funkcjonalna kieszeń, wygodne oglądanie<br>Zizo Retro Series posiada sprytne rozwiązanie w formie kieszeni na karty płatnicze oraz zamykanej magnetycznej podpórki. Na tylnym panelu pod falistą strukturą ukryta jest kieszeń zdolna pomieścić do dwóch kart płatniczych, które w wygodny sposób wsuwa się do skrytki, a następnie za pomocą wbudowanych magnesów w klapce bezpiecznie zamyka się. Magnetyczną klapkę chroniącą przechowywane karty przed ich wypadnięciem, w każdym momencie można użyć jako komfortowej podstawki do korzystania z telefonu w pozycji poziomej, bez potrzeby trzymania urządzenia w dłoniach.<br><br>Wojskowy stopień ochrony, bezpieczeństwo ze wszystkich stron<br>Etui przeszło rygorystyczne testy spełniające wymagania normy MIL-STD-810G, które gwarantują optymalną ochronę urządzenia podczas upadku na twarde podłoże. W trosce o najbardziej narażony na uszkodzenie element telefonu jakim jest jego ekran, w zestawie znajdziemy hartowane szkło ochronne Zizo Lightning Shield, którego twardość wynosi 9H w skali Mohsa. Taka ochrona gwarantuje bezpieczeństwo telefonu z jego każdej strony, chroniąc przed zniszczeniem na skutek zadrapań, uderzeń czy upadków.<br><br>Cechy produktu:<br>· Etui iPhone X<br>· Wyjątkowa estetyka lat sześćdziesiątych XX wieku<br>· Twardy Polikarbon usztywniający całą konstrukcję i chroniący telefon z tyłu oraz po bokach<br>· Wojskowy stopień ochrony (spełnia lub przewyższa normy MIL-STD-810G)<br>· Kieszeń na dwie karty płatnicze<br>· Wyjątkowa estetyka zachowująca smukły kształt urządzenia<br>· Magnetyczna, składana podpórka umożliwiająca ustawienie telefonu w poziomie<br>· Szkło ochronne Zizo Lightning Shield o twardości 9H w zestawie<br>· Dostęp do wszystkich klawiszy funkcyjnych, gniazd i portów telefonu]]></LongItemDescription>
+        <SupplierItemCode>10498</SupplierItemCode>
+        <ManufacturerItemCode>RET-IPH8-NGRSL</ManufacturerItemCode>
+        <ProductGroup>Telefony i akcesoria</ProductGroup>
+        <ProductGroupName>Telefony i akcesoria</ProductGroupName>
+        <ProductGroupCode>10027</ProductGroupCode>
+        <PrimaryProductGroup>Elektronika</PrimaryProductGroup>
+        <PrimaryProductGroupName>Elektronika</PrimaryProductGroupName>
+        <PrimaryProductGroupCode>10031</PrimaryProductGroupCode>
+        <ItemType>CU</ItemType>
+        <BrandCode>10024</BrandCode>
+        <BrandName>Zizo</BrandName>
+        <ProductType>M</ProductType>
+        <Weight>0.08</Weight>
+        <Length>0.147</Length>
+        <Width>0.074</Width>
+        <Height>0.009</Height>
+        <UnitOfMeasure>PCE</UnitOfMeasure>
+        <UnitNetPrice>26.5000</UnitNetPrice>
+        <UnitRetail

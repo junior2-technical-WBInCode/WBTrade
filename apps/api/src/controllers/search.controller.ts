@@ -9,9 +9,41 @@ const DELIVERY_TAGS = [
   'Tylko kurier', 'tylko kurier',
   'do 2 kg', 'do 5 kg', 'do 10 kg', 'do 20 kg', 'do 31,5 kg',
 ];
-const HIDDEN_TAGS = ['błąd zdjęcia', 'błąd zdjęcia '];
+const HIDDEN_TAGS = ['błąd zdjęcia', 'błąd zdjęcia ', 'nie wrzucać-zabronione'];
 
 const searchService = new SearchService();
+
+async function getPhantomVariantIds(): Promise<string[]> {
+  const phantomVariants = await prisma.$queryRaw<Array<{ variant_id: string }>>`
+    SELECT variant_id AS "variant_id" FROM inventory WHERE quantity > 0 AND quantity <= reserved
+  `;
+  return phantomVariants.map(v => v.variant_id);
+}
+
+async function getStockCondition(): Promise<any> {
+  const phantomVariantIds = await getPhantomVariantIds();
+  if (phantomVariantIds.length > 0) {
+    return {
+      some: {
+        id: { notIn: phantomVariantIds },
+        inventory: {
+          some: {
+            quantity: { gt: 0 }
+          }
+        }
+      }
+    };
+  }
+  return {
+    some: {
+      inventory: {
+        some: {
+          quantity: { gt: 0 }
+        }
+      }
+    }
+  };
+}
 
 // ============================================
 // VALIDATION SCHEMAS
@@ -199,7 +231,7 @@ export async function getPopularSearches(req: Request, res: Response): Promise<v
             tags: { hasSome: DELIVERY_TAGS },
             NOT: { tags: { hasSome: HIDDEN_TAGS } },
             category: { baselinkerCategoryId: { not: null } },
-            variants: { some: { inventory: { some: { quantity: { gt: 0 } } } } },
+            variants: await getStockCondition(),
           },
         });
         if (count > 0) {

@@ -1,0 +1,1010 @@
+{
+  "_metadata": {
+    "auction_service": "allegro",
+    "site": ""
+  },
+  "mappings": {
+    "Producent odpowiedzialny": [
+      {
+        "id": "2000000",
+        "service_value": "EXPONDO POLSKA SP. Z O.O. SP. K.",
+        "action_type": "14",
+        "action_when": "2",
+        "shop_param": "",
+        "shop_value": "",
+        "action_when_params": "royal catering*",
+        "multiplier_value": []
+      },
+      {
+        "id": "2000001",
+        "service_value": "EXPONDO POLSKA SP. Z O.O. SP. K.",
+        "action_type": "14",
+        "action_when": "2",
+        "shop_param": "",
+        "shop_value": "",
+        "action_when_params": "stamos germany*",
+        "multiplier_value": []
+      },
+      {
+        "id": "2000002",
+        "service_value": "EXPONDO POLSKA SP. Z O.O. SP. K.",
+        "action_type": "14",
+        "action_when": "2",
+        "shop_param": "",
+        "shop_value": "",
+        "action_when_params": "welbach*",
+        "multiplier_value": []
+      },
+      {
+        "id": "2000003",
+        "service_value": "EXPONDO POLSKA SP. Z O.O. SP. K.",
+        "action_type": "14",
+        "action_when": "2",
+        "shop_param": "",
+        "shop_value": "",
+        "action_when_params": "steinberg systems*",
+        "multiplier_value": []
+      },
+      {
+        "id": "2000004",
+        "service_value": "EXPONDO POLSKA SP. Z O.O. SP. K.",
+        "action_type": "14",
+        "action_when": "2",
+        "shop_param": "",
+        "shop_value": "",
+        "action_when_params": "stamony*",
+        "multiplier_value": []
+      },
+      {
+        "id": "2000005",
+        "service_value": "EXPONDO POLSKA SP. Z O.O. SP. K.",
+        "action_type": "14",
+        "action_when": "2",
+        "shop_param": "",
+        "shop_value": "",
+        "action_when_params": "physa*",
+        "multiplier_value": []
+      },
+      {
+        "id": "2000006",
+        "service_value": "EXPONDO POLSKA SP. Z O.O. SP. K.",
+        "action_type": "14",
+        "action_when": "2",
+        "shop_param": "",
+        "shop_value": "",
+        "action_when_params": "ulsonix*",
+        "multiplier_value": []
+      },
+      {
+        "id": "2000007",
+        "service_value": "EXPONDO POLSKA SP. Z O.O. SP. K.",
+        "action_type": "14",
+        "action_when": "2",
+        "shop_param": "",
+        "shop_value": "",
+        "action_when_params": "msw*",
+        "multiplier_value": []
+      },
+      {
+        "id": "2000008",
+        "service_value": "EXPONDO POLSKA SP. Z O.O. SP. K.",
+        "action_type": "14",
+        "action_when": "2",
+        "shop_param": "",
+        "shop_value": "",
+        "action_when_params": "goldbrunn*",
+        "multiplier_value": []
+      },
+      {
+        "id": "2000009",
+        "service_value": "EXPONDO POLSKA SP. Z O.O. SP. K.",
+        "action_type": "14",
+        "action_when": "2",
+        "shop_param": "",
+        "shop_value": "",
+        "action_when_params": "stamos soldering*",
+        "multiplier_value": []
+      },
+      {
+        "id": "2000010",
+        "service_value": "Tethys Sp. z o.o. Sp k.",
+        "action_type": "14",
+        "action_when": "2",
+        "shop_param": "",
+        "shop_value": "",
+        "action_when_params": "tethys*",
+        "multiplier_value": []
+      },
+      {
+        "id": "2000011",
+        "service_value": "P.W Marwis Marcin Wiśniewski",
+        "action_type": "14",
+        "action_when": "2",
+        "shop_param": "",
+        "shop_value": "",
+        "action_when_params": "marwis*",
+        "multiplier_value": []
+      },
+      {
+        "id": "2000012",
+        "service_value": "Hendi Polska Sp. z o.o.",
+        "action_type": "14",
+        "action_when": "2",
+        "shop_param": "",
+        "shop_value": "",
+        "action_when_params": "hendi*",
+        "multiplier_value": []
+      },
+      {
+        "id": "2000013",
+        "service_value": "Global Service Group",
+        "action_type": "14",
+        "action_when": "2",
+        "shop_param": "",
+        "shop_value": "",
+        "action_when_params": "gsg24*",
+        "multiplier_value": []
+      },
+      {
+        "id": "2000014",
+        "service_value": "Hendi Polska Sp. z o.o.",
+        "action_type": "14",
+        "action_when": "2",
+        "shop_param": "",
+        "shop_value": "",
+        "action_when_params": "cas*",
+        "multiplier_value": []
+      },
+      {
+        "id": "2000015",
+        "service_value": "Hendi Polska Sp. z o.o.",
+        "action_type": "14",
+        "action_when": "2",
+        "shop_param": "",
+        "shop_value": "",
+        "action_when_params": "stockel*",
+        "multiplier_value": []
+      },
+      {
+        "id": "2000016",
+        "service_value": "MEVA-TEC s.r.o.",
+        "action_type": "14",
+        "action_when": "2",
+        "shop_param": "",
+        "shop_value": "",
+        "action_when_params": "meva*",
+        "multiplier_value": []
+      },
+      {
+        "id": "2000017",
+        "service_value": "Hendi Polska Sp. z o.o.",
+        "action_type": "14",
+        "action_when": "2",
+        "shop_param": "",
+        "shop_value": "",
+        "action_when_params": "bar up*",
+        "multiplier_value": []
+      },
+      {
+        "id": "2000018",
+        "service_value": "Justrite Safety Group EMEA B.V.",
+        "action_type": "14",
+        "action_when": "2",
+        "shop_param": "",
+        "shop_value": "",
+        "action_when_params": "justrite*",
+        "multiplier_value": []
+      },
+      {
+        "id": "2000019",
+        "service_value": "Europlast GmbH",
+        "action_type": "14",
+        "action_when": "2",
+        "shop_param": "",
+        "shop_value": "",
+        "action_when_params": "europlast austria*",
+        "multiplier_value": []
+      },
+      {
+        "id": "2000020",
+        "service_value": "Sartori Ambiente Srl",
+        "action_type": "14",
+        "action_when": "2",
+        "shop_param": "",
+        "shop_value": "",
+        "action_when_params": "sartori ambiente*",
+        "multiplier_value": []
+      },
+      {
+        "id": "2000021",
+        "service_value": "Beczkopol Sp. z o. o.",
+        "action_type": "14",
+        "action_when": "2",
+        "shop_param": "",
+        "shop_value": "",
+        "action_when_params": "beczkopol*",
+        "multiplier_value": []
+      },
+      {
+        "id": "2000022",
+        "service_value": "OHAUS Europe GmbH",
+        "action_type": "14",
+        "action_when": "2",
+        "shop_param": "",
+        "shop_value": "",
+        "action_when_params": "ohaus*",
+        "multiplier_value": []
+      },
+      {
+        "id": "2000023",
+        "service_value": "AXIS Sp. z o.o.",
+        "action_type": "14",
+        "action_when": "2",
+        "shop_param": "",
+        "shop_value": "",
+        "action_when_params": "axis*",
+        "multiplier_value": []
+      },
+      {
+        "id": "2000024",
+        "service_value": "KERN & SOHN GmbH",
+        "action_type": "14",
+        "action_when": "2",
+        "shop_param": "",
+        "shop_value": "",
+        "action_when_params": "kern*",
+        "multiplier_value": []
+      },
+      {
+        "id": "2000025",
+        "service_value": "Hendi Polska Sp. z o.o.",
+        "action_type": "14",
+        "action_when": "2",
+        "shop_param": "",
+        "shop_value": "",
+        "action_when_params": "hamilton beach*",
+        "multiplier_value": []
+      },
+      {
+        "id": "2000026",
+        "service_value": "Hendi Polska Sp. z o.o.",
+        "action_type": "14",
+        "action_when": "2",
+        "shop_param": "",
+        "shop_value": "",
+        "action_when_params": "arcoroc*",
+        "multiplier_value": []
+      },
+      {
+        "id": "2000027",
+        "service_value": "Hendi Polska Sp. z o.o.",
+        "action_type": "14",
+        "action_when": "2",
+        "shop_param": "",
+        "shop_value": "",
+        "action_when_params": "davinci*",
+        "multiplier_value": []
+      },
+      {
+        "id": "2000028",
+        "service_value": "Hendi Polska Sp. z o.o.",
+        "action_type": "14",
+        "action_when": "2",
+        "shop_param": "",
+        "shop_value": "",
+        "action_when_params": "panasonic*",
+        "multiplier_value": []
+      },
+      {
+        "id": "2000029",
+        "service_value": "Hendi Polska Sp. z o.o.",
+        "action_type": "14",
+        "action_when": "2",
+        "shop_param": "",
+        "shop_value": "",
+        "action_when_params": "amer box*",
+        "multiplier_value": []
+      },
+      {
+        "id": "2000030",
+        "service_value": "Hendi Polska Sp. z o.o.",
+        "action_type": "14",
+        "action_when": "2",
+        "shop_param": "",
+        "shop_value": "",
+        "action_when_params": "kenwood*",
+        "multiplier_value": []
+      },
+      {
+        "id": "2000031",
+        "service_value": "Newell Europe Sàrl",
+        "action_type": "14",
+        "action_when": "2",
+        "shop_param": "",
+        "shop_value": "",
+        "action_when_params": "rubbermaid*",
+        "multiplier_value": []
+      },
+      {
+        "id": "2000032",
+        "service_value": "Hendi Polska Sp. z o.o.",
+        "action_type": "14",
+        "action_when": "2",
+        "shop_param": "",
+        "shop_value": "",
+        "action_when_params": "revolution*",
+        "multiplier_value": []
+      },
+      {
+        "id": "2000033",
+        "service_value": "Arpack Polska Sp. z o. o.",
+        "action_type": "14",
+        "action_when": "2",
+        "shop_param": "",
+        "shop_value": "",
+        "action_when_params": "arpack*",
+        "multiplier_value": []
+      },
+      {
+        "id": "2000034",
+        "service_value": "CHEMIA BOMAR E. MARCINIAK SPÓŁKA KOMANDYTOWA",
+        "action_type": "14",
+        "action_when": "2",
+        "shop_param": "",
+        "shop_value": "",
+        "action_when_params": "bomar*",
+        "multiplier_value": []
+      },
+      {
+        "id": "2000035",
+        "service_value": "EXPONDO POLSKA SP. Z O.O. SP. K.",
+        "action_type": "14",
+        "action_when": "2",
+        "shop_param": "",
+        "shop_value": "",
+        "action_when_params": "bredeco*",
+        "multiplier_value": []
+      },
+      {
+        "id": "2000036",
+        "service_value": "AUER GmbH",
+        "action_type": "14",
+        "action_when": "2",
+        "shop_param": "",
+        "shop_value": "",
+        "action_when_params": "auer*",
+        "multiplier_value": []
+      },
+      {
+        "id": "2000037",
+        "service_value": "EXPONDO POLSKA SP. Z O.O. SP. K.",
+        "action_type": "14",
+        "action_when": "2",
+        "shop_param": "",
+        "shop_value": "",
+        "action_when_params": "hillvert*",
+        "multiplier_value": []
+      },
+      {
+        "id": "2000038",
+        "service_value": "EXPONDO POLSKA SP. Z O.O. SP. K.",
+        "action_type": "14",
+        "action_when": "2",
+        "shop_param": "",
+        "shop_value": "",
+        "action_when_params": "singercon*",
+        "multiplier_value": []
+      },
+      {
+        "id": "2000039",
+        "service_value": "EXPONDO POLSKA SP. Z O.O. SP. K.",
+        "action_type": "14",
+        "action_when": "2",
+        "shop_param": "",
+        "shop_value": "",
+        "action_when_params": "pro bauteam*",
+        "multiplier_value": []
+      },
+      {
+        "id": "2000040",
+        "service_value": "Hendi Polska Sp. z o.o.",
+        "action_type": "14",
+        "action_when": "2",
+        "shop_param": "",
+        "shop_value": "",
+        "action_when_params": "arktic*",
+        "multiplier_value": []
+      },
+      {
+        "id": "2000041",
+        "service_value": "Hendi Polska Sp. z o.o.",
+        "action_type": "14",
+        "action_when": "2",
+        "shop_param": "",
+        "shop_value": "",
+        "action_when_params": "lilly codroipo*",
+        "multiplier_value": []
+      },
+      {
+        "id": "2000042",
+        "service_value": "EXPONDO POLSKA SP. Z O.O. SP. K.",
+        "action_type": "14",
+        "action_when": "2",
+        "shop_param": "",
+        "shop_value": "",
+        "action_when_params": "incubato*",
+        "multiplier_value": []
+      },
+      {
+        "id": "2000043",
+        "service_value": "EXPONDO POLSKA SP. Z O.O. SP. K.",
+        "action_type": "14",
+        "action_when": "2",
+        "shop_param": "",
+        "shop_value": "",
+        "action_when_params": "tem*",
+        "multiplier_value": []
+      },
+      {
+        "id": "2000044",
+        "service_value": "EXPONDO POLSKA SP. Z O.O. SP. K.",
+        "action_type": "14",
+        "action_when": "2",
+        "shop_param": "",
+        "shop_value": "",
+        "action_when_params": "fromm&starck*",
+        "multiplier_value": []
+      },
+      {
+        "id": "2000045",
+        "service_value": "BARTPOL ZDZISŁAW POLAK",
+        "action_type": "14",
+        "action_when": "2",
+        "shop_param": "",
+        "shop_value": "",
+        "action_when_params": "bartpol*",
+        "multiplier_value": []
+      },
+      {
+        "id": "2000046",
+        "service_value": "Amtra Sp. z o.o.",
+        "action_type": "14",
+        "action_when": "2",
+        "shop_param": "",
+        "shop_value": "",
+        "action_when_params": "clinex*",
+        "multiplier_value": []
+      },
+      {
+        "id": "2000047",
+        "service_value": "Global Service Group",
+        "action_type": "14",
+        "action_when": "2",
+        "shop_param": "",
+        "shop_value": "",
+        "action_when_params": "profi sauber*",
+        "multiplier_value": []
+      },
+      {
+        "id": "2000048",
+        "service_value": "EXPONDO POLSKA SP. Z O.O. SP. K.",
+        "action_type": "14",
+        "action_when": "2",
+        "shop_param": "",
+        "shop_value": "",
+        "action_when_params": "uniprodo*",
+        "multiplier_value": []
+      },
+      {
+        "id": "2000049",
+        "service_value": "Hendi Polska Sp. z o.o.",
+        "action_type": "14",
+        "action_when": "2",
+        "shop_param": "",
+        "shop_value": "",
+        "action_when_params": "samsung*",
+        "multiplier_value": []
+      },
+      {
+        "id": "2000050",
+        "service_value": "Global Service Group",
+        "action_type": "14",
+        "action_when": "2",
+        "shop_param": "",
+        "shop_value": "",
+        "action_when_params": "pro-line*",
+        "multiplier_value": []
+      },
+      {
+        "id": "2000051",
+        "service_value": "EXPONDO POLSKA SP. Z O.O. SP. K.",
+        "action_type": "14",
+        "action_when": "2",
+        "shop_param": "",
+        "shop_value": "",
+        "action_when_params": "gymrex*",
+        "multiplier_value": []
+      },
+      {
+        "id": "2000052",
+        "service_value": "EXPONDO POLSKA SP. Z O.O. SP. K.",
+        "action_type": "14",
+        "action_when": "2",
+        "shop_param": "",
+        "shop_value": "",
+        "action_when_params": "wiesenfield*",
+        "multiplier_value": []
+      },
+      {
+        "id": "2000053",
+        "service_value": "EXPONDO POLSKA SP. Z O.O. SP. K.",
+        "action_type": "14",
+        "action_when": "2",
+        "shop_param": "",
+        "shop_value": "",
+        "action_when_params": "aquaphor*",
+        "multiplier_value": []
+      },
+      {
+        "id": "2000054",
+        "service_value": "EXPONDO POLSKA SP. Z O.O. SP. K.",
+        "action_type": "14",
+        "action_when": "2",
+        "shop_param": "",
+        "shop_value": "",
+        "action_when_params": "monolith*",
+        "multiplier_value": []
+      },
+      {
+        "id": "2000055",
+        "service_value": "Hendi Polska Sp. z o.o.",
+        "action_type": "14",
+        "action_when": "2",
+        "shop_param": "",
+        "shop_value": "",
+        "action_when_params": "pirge*",
+        "multiplier_value": []
+      },
+      {
+        "id": "2000056",
+        "service_value": "Hendi Polska Sp. z o.o.",
+        "action_type": "14",
+        "action_when": "2",
+        "shop_param": "",
+        "shop_value": "",
+        "action_when_params": "sammic*",
+        "multiplier_value": []
+      },
+      {
+        "id": "2000057",
+        "service_value": "Hendi Polska Sp. z o.o.",
+        "action_type": "14",
+        "action_when": "2",
+        "shop_param": "",
+        "shop_value": "",
+        "action_when_params": "menumaster*",
+        "multiplier_value": []
+      },
+      {
+        "id": "2000058",
+        "service_value": "EXPONDO POLSKA SP. Z O.O. SP. K.",
+        "action_type": "14",
+        "action_when": "2",
+        "shop_param": "",
+        "shop_value": "",
+        "action_when_params": "potis*",
+        "multiplier_value": []
+      },
+      {
+        "id": "2000059",
+        "service_value": "EXPONDO POLSKA SP. Z O.O. SP. K.",
+        "action_type": "14",
+        "action_when": "2",
+        "shop_param": "",
+        "shop_value": "",
+        "action_when_params": "borotto*",
+        "multiplier_value": []
+      },
+      {
+        "id": "2000060",
+        "service_value": "EXPONDO POLSKA SP. Z O.O. SP. K.",
+        "action_type": "14",
+        "action_when": "2",
+        "shop_param": "",
+        "shop_value": "",
+        "action_when_params": "gi.metal*",
+        "multiplier_value": []
+      },
+      {
+        "id": "2000061",
+        "service_value": "EXPONDO POLSKA SP. Z O.O. SP. K.",
+        "action_type": "14",
+        "action_when": "2",
+        "shop_param": "",
+        "shop_value": "",
+        "action_when_params": "fimar*",
+        "multiplier_value": []
+      },
+      {
+        "id": "2000062",
+        "service_value": "EXPONDO POLSKA SP. Z O.O. SP. K.",
+        "action_type": "14",
+        "action_when": "2",
+        "shop_param": "",
+        "shop_value": "",
+        "action_when_params": "cambro*",
+        "multiplier_value": []
+      },
+      {
+        "id": "2000063",
+        "service_value": "EXPONDO POLSKA SP. Z O.O. SP. K.",
+        "action_type": "14",
+        "action_when": "2",
+        "shop_param": "",
+        "shop_value": "",
+        "action_when_params": "cerutti*",
+        "multiplier_value": []
+      },
+      {
+        "id": "2000064",
+        "service_value": "EXPONDO POLSKA SP. Z O.O. SP. K.",
+        "action_type": "14",
+        "action_when": "2",
+        "shop_param": "",
+        "shop_value": "",
+        "action_when_params": "forcar*",
+        "multiplier_value": []
+      },
+      {
+        "id": "2000065",
+        "service_value": "EXPONDO POLSKA SP. Z O.O. SP. K.",
+        "action_type": "14",
+        "action_when": "2",
+        "shop_param": "",
+        "shop_value": "",
+        "action_when_params": "ama*",
+        "multiplier_value": []
+      },
+      {
+        "id": "2000066",
+        "service_value": "EXPONDO POLSKA SP. Z O.O. SP. K.",
+        "action_type": "14",
+        "action_when": "2",
+        "shop_param": "",
+        "shop_value": "",
+        "action_when_params": "tungsram*",
+        "multiplier_value": []
+      },
+      {
+        "id": "2000067",
+        "service_value": "EXPONDO POLSKA SP. Z O.O. SP. K.",
+        "action_type": "14",
+        "action_when": "2",
+        "shop_param": "",
+        "shop_value": "",
+        "action_when_params": "hazet*",
+        "multiplier_value": []
+      },
+      {
+        "id": "2000068",
+        "service_value": "Hendi Polska Sp. z o.o.",
+        "action_type": "14",
+        "action_when": "2",
+        "shop_param": "",
+        "shop_value": "",
+        "action_when_params": "tramontina*",
+        "multiplier_value": []
+      },
+      {
+        "id": "2000069",
+        "service_value": "Hendi Polska Sp. z o.o.",
+        "action_type": "14",
+        "action_when": "2",
+        "shop_param": "",
+        "shop_value": "",
+        "action_when_params": "ambrogio sanelli*",
+        "multiplier_value": []
+      },
+      {
+        "id": "2000070",
+        "service_value": "Hurtel Sp. z o.o.",
+        "action_type": "14",
+        "action_when": "2",
+        "shop_param": "",
+        "shop_value": "",
+        "action_when_params": "wozinsky*",
+        "multiplier_value": []
+      },
+      {
+        "id": "2000071",
+        "service_value": "Nextedge Technology Sp. z o.o.",
+        "action_type": "14",
+        "action_when": "2",
+        "shop_param": "",
+        "shop_value": "",
+        "action_when_params": "tronsmart*",
+        "multiplier_value": []
+      },
+      {
+        "id": "2000072",
+        "service_value": "Hurtel Sp. z o.o.",
+        "action_type": "14",
+        "action_when": "2",
+        "shop_param": "",
+        "shop_value": "",
+        "action_when_params": "choetech*",
+        "multiplier_value": []
+      },
+      {
+        "id": "2000073",
+        "service_value": "Hurtel Sp. z o.o.",
+        "action_type": "14",
+        "action_when": "2",
+        "shop_param": "",
+        "shop_value": "",
+        "action_when_params": "hurtel*",
+        "multiplier_value": []
+      },
+      {
+        "id": "2000074",
+        "service_value": "Apex CE Specialists GmbH",
+        "action_type": "14",
+        "action_when": "2",
+        "shop_param": "",
+        "shop_value": "",
+        "action_when_params": "baseus*",
+        "multiplier_value": []
+      },
+      {
+        "id": "2000075",
+        "service_value": "Ugreen Group GmbH",
+        "action_type": "14",
+        "action_when": "2",
+        "shop_param": "",
+        "shop_value": "",
+        "action_when_params": "ugreen*",
+        "multiplier_value": []
+      },
+      {
+        "id": "2000076",
+        "service_value": "SONOFF TECHNOLOGY Deutschland GmbH",
+        "action_type": "14",
+        "action_when": "2",
+        "shop_param": "",
+        "shop_value": "",
+        "action_when_params": "sonoff*",
+        "multiplier_value": []
+      },
+      {
+        "id": "2000077",
+        "service_value": "E-CrossStu GmbH",
+        "action_type": "14",
+        "action_when": "2",
+        "shop_param": "",
+        "shop_value": "",
+        "action_when_params": "joyroom*",
+        "multiplier_value": []
+      },
+      {
+        "id": "2000078",
+        "service_value": "Hendi Polska Sp. z o.o.",
+        "action_type": "14",
+        "action_when": "2",
+        "shop_param": "",
+        "shop_value": "",
+        "action_when_params": "prismafood*",
+        "multiplier_value": []
+      },
+      {
+        "id": "2000079",
+        "service_value": "Hendi Polska Sp. z o.o.",
+        "action_type": "14",
+        "action_when": "2",
+        "shop_param": "",
+        "shop_value": "",
+        "action_when_params": "fiorenzato*",
+        "multiplier_value": []
+      },
+      {
+        "id": "2000080",
+        "service_value": "Hendi Polska Sp. z o.o.",
+        "action_type": "14",
+        "action_when": "2",
+        "shop_param": "",
+        "shop_value": "",
+        "action_when_params": "tecnoeka*",
+        "multiplier_value": []
+      },
+      {
+        "id": "2000081",
+        "service_value": "Xiaomi Technology Netherlands BV",
+        "action_type": "14",
+        "action_when": "2",
+        "shop_param": "",
+        "shop_value": "",
+        "action_when_params": "xiaomi*",
+        "multiplier_value": []
+      },
+      {
+        "id": "2000082",
+        "service_value": "Coram Deo PL UG",
+        "action_type": "14",
+        "action_when": "2",
+        "shop_param": "",
+        "shop_value": "",
+        "action_when_params": "spigen*",
+        "multiplier_value": []
+      },
+      {
+        "id": "2000083",
+        "service_value": "Hurtel Sp. z o.o.",
+        "action_type": "14",
+        "action_when": "2",
+        "shop_param": "",
+        "shop_value": "",
+        "action_when_params": "dudao*",
+        "multiplier_value": []
+      },
+      {
+        "id": "2000084",
+        "service_value": "Wilk Elektronik SA",
+        "action_type": "14",
+        "action_when": "2",
+        "shop_param": "",
+        "shop_value": "",
+        "action_when_params": "goodram*",
+        "multiplier_value": []
+      },
+      {
+        "id": "2000085",
+        "service_value": "Apple Distribution International Ltd.",
+        "action_type": "14",
+        "action_when": "2",
+        "shop_param": "",
+        "shop_value": "",
+        "action_when_params": "apple*",
+        "multiplier_value": []
+      },
+      {
+        "id": "2000086",
+        "service_value": "Hurtel Sp. z o.o.",
+        "action_type": "14",
+        "action_when": "2",
+        "shop_param": "",
+        "shop_value": "",
+        "action_when_params": "bestsuit*",
+        "multiplier_value": []
+      },
+      {
+        "id": "2000087",
+        "service_value": "Hurtel Sp. z o.o.",
+        "action_type": "14",
+        "action_when": "2",
+        "shop_param": "",
+        "shop_value": "",
+        "action_when_params": "acefast*",
+        "multiplier_value": []
+      },
+      {
+        "id": "2000088",
+        "service_value": "Hurtel Sp. z o.o.",
+        "action_type": "14",
+        "action_when": "2",
+        "shop_param": "",
+        "shop_value": "",
+        "action_when_params": "ringke*",
+        "multiplier_value": []
+      },
+      {
+        "id": "2000089",
+        "service_value": "Hurtel Sp. z o.o.",
+        "action_type": "14",
+        "action_when": "2",
+        "shop_param": "",
+        "shop_value": "",
+        "action_when_params": "kingxbar*",
+        "multiplier_value": []
+      },
+      {
+        "id": "2000090",
+        "service_value": "Hurtel Sp. z o.o.",
+        "action_type": "14",
+        "action_when": "2",
+        "shop_param": "",
+        "shop_value": "",
+        "action_when_params": "icarer*",
+        "multiplier_value": []
+      },
+      {
+        "id": "2000091",
+        "service_value": "Hurtel Sp. z o.o.",
+        "action_type": "14",
+        "action_when": "2",
+        "shop_param": "",
+        "shop_value": "",
+        "action_when_params": "yile*",
+        "multiplier_value": []
+      },
+      {
+        "id": "2000092",
+        "service_value": "Hurtel Sp. z o.o.",
+        "action_type": "14",
+        "action_when": "2",
+        "shop_param": "",
+        "shop_value": "",
+        "action_when_params": "elesense*",
+        "multiplier_value": []
+      },
+      {
+        "id": "2000093",
+        "service_value": "Rockbros Sport GmbH",
+        "action_type": "14",
+        "action_when": "2",
+        "shop_param": "",
+        "shop_value": "",
+        "action_when_params": "rockbros*",
+        "multiplier_value": []
+      },
+      {
+        "id": "2000094",
+        "service_value": "Rolux Leuchten GmbH",
+        "action_type": "14",
+        "action_when": "2",
+        "shop_param": "",
+        "shop_value": "",
+        "action_when_params": "skg*",
+        "multiplier_value": []
+      },
+      {
+        "id": "2000095",
+        "service_value": "Hendi Polska Sp. z o.o.",
+        "action_type": "14",
+        "action_when": "2",
+        "shop_param": "",
+        "shop_value": "",
+        "action_when_params": "duralex*",
+        "multiplier_value": []
+      },
+      {
+        "id": "2000096",
+        "service_value": "Hendi Polska Sp. z o.o.",
+        "action_type": "14",
+        "action_when": "2",
+        "shop_param": "",
+        "shop_value": "",
+        "action_when_params": "arcos*",
+        "multiplier_value": []
+      },
+      {
+        "id": "2000097",
+        "service_value": "Hendi Polska Sp. z o.o.",
+        "action_type": "14",
+        "action_when": "2",
+        "shop_param": "",
+        "shop_value": "",
+        "action_when_params": "victorinox*",
+        "multiplier_value": []
+      },
+      {
+        "id": "2000098",
+        "service_value": "Silver Monkey sp. z o.o.",
+        "action_type": "14",
+        "action_when": "2",
+        "shop_param": "",
+        "shop_value": "",
+        "action_when_params": "silver monkey*",
+        "multiplier_value": []
+      },
+      {
+        "id": "2000099",
+        "service_value": "Hendi Polska Sp. z o.o.",
+        "action_type": "14",
+        "action_when": "2",
+        "shop_param": "",
+        "shop_value": "",
+        "action_when_params": "waring*",
+        "multiplier_value": []
+      }
+    ]
+  }
+}

@@ -74,12 +74,12 @@ export function hasDeliveryTags(tags: string[]): boolean {
 }
 
 /**
- * Check if product has stock > 0
+ * Check if product has available stock > 0 (quantity minus reserved)
  */
-export function hasStock(product: { variants?: Array<{ inventory?: Array<{ quantity: number }> }> }): boolean {
+export function hasStock(product: { variants?: Array<{ inventory?: Array<{ quantity: number; reserved?: number }> }> }): boolean {
   if (!product.variants) return false;
   return product.variants.some(v => 
-    v.inventory?.some(inv => inv.quantity > 0)
+    v.inventory?.some(inv => (inv.quantity - (inv.reserved || 0)) > 0)
   );
 }
 
@@ -95,7 +95,7 @@ export function hasStock(product: { variants?: Array<{ inventory?: Array<{ quant
 export function isProductFullyVisible(product: {
   price: number;
   tags: string[];
-  variants?: Array<{ inventory?: Array<{ quantity: number }> }>;
+  variants?: Array<{ inventory?: Array<{ quantity: number; reserved?: number }> }>;
   category?: { baselinkerCategoryId?: string | null } | null;
 }): boolean {
   // Must have price > 0
@@ -122,7 +122,7 @@ export function isProductFullyVisible(product: {
 export function filterVisibleProducts<T extends {
   price: number;
   tags: string[];
-  variants?: Array<{ inventory?: Array<{ quantity: number }> }>;
+  variants?: Array<{ inventory?: Array<{ quantity: number; reserved?: number }> }>;
   category?: { baselinkerCategoryId?: string | null } | null;
 }>(products: T[]): T[] {
   return products.filter(isProductFullyVisible);
