@@ -209,21 +209,34 @@ router.post('/movements', async (req: Request, res: Response) => {
     }
 
     const movement = await prisma.$transaction(async (tx) => {
+      const qty = parseInt(quantity);
+      let movementQty = qty;
+      let adjustmentNotes = notes || null;
+
+      if (type === 'ADJUST' && toLocationId) {
+        const current = await tx.inventory.findUnique({
+          where: { variantId_locationId: { variantId, locationId: toLocationId } }
+        });
+        const oldQty = current?.quantity || 0;
+        movementQty = qty - oldQty;
+        if (!adjustmentNotes) {
+          adjustmentNotes = `Korekta stanu z ${oldQty} do ${qty}`;
+        }
+      }
+
       // Create the movement record
       const mov = await tx.stockMovement.create({
         data: {
           variantId,
           type,
-          quantity: parseInt(quantity),
+          quantity: movementQty,
           fromLocationId: fromLocationId || null,
           toLocationId: toLocationId || null,
           reference: reference || null,
-          notes: notes || null,
+          notes: adjustmentNotes,
           createdBy: (req as any).user?.id || null,
         },
       });
-
-      const qty = parseInt(quantity);
 
       // Update inventory based on movement type
       if (type === 'RECEIVE' && toLocationId) {

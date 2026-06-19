@@ -2396,6 +2396,25 @@ export class BaselinkerService {
             inventoryByVariantId.set(inv.variantId, inv.quantity);
           }
 
+          // 4.5. Fetch all local reservations from active orders
+          const openOrders = await prisma.order.findMany({
+            where: {
+              status: { in: ['OPEN', 'PENDING', 'CONFIRMED', 'PROCESSING'] },
+              deletedAt: null,
+            },
+            include: {
+              items: true,
+            },
+          });
+
+          const localReservationsMap = new Map<string, number>();
+          for (const order of openOrders) {
+            for (const item of order.items) {
+              const currentReserved = localReservationsMap.get(item.variantId) || 0;
+              localReservationsMap.set(item.variantId, currentReserved + item.quantity);
+            }
+          }
+
           // 5. Process entries and collect upsert operations
           const upsertOps: { variantId: string; quantity: number; reserved: number; sku: string; oldQty: number }[] = [];
 
@@ -2415,10 +2434,13 @@ export class BaselinkerService {
             const totalReserved = Object.values((entry.reservations || {}) as Record<string, number>).reduce((sum: number, qty: number) => sum + qty, 0);
             const oldQty = inventoryByVariantId.get(variant.id) ?? 0;
 
+            const localReserved = localReservationsMap.get(variant.id) || 0;
+            const finalReserved = Math.max(totalReserved, localReserved);
+
             upsertOps.push({
               variantId: variant.id,
               quantity: totalStock,
-              reserved: totalReserved,
+              reserved: finalReserved,
               sku: variant.sku || prefixedId,
               oldQty,
             });

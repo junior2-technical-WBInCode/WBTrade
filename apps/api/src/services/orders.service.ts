@@ -1,5 +1,5 @@
 import { prisma } from '../db';
-import { OrderStatus, Prisma } from '@prisma/client';
+import { OrderStatus, Prisma, StockMovementType } from '@prisma/client';
 import { baselinkerOrdersService } from './baselinker-orders.service';
 import { popularityService } from './popularity.service';
 import { roundMoney, addMoney, subtractMoney } from '../lib/currency';
@@ -331,6 +331,7 @@ export class OrdersService {
       for (const item of data.items) {
         const inventory = await tx.inventory.findFirst({
           where: { variantId: item.variantId },
+          orderBy: { quantity: 'desc' }, // Prefer location with most stock
         });
 
         const available = inventory
@@ -346,12 +347,25 @@ export class OrdersService {
           );
         }
 
-        await tx.inventory.updateMany({
-          where: { variantId: item.variantId },
-          data: {
-            reserved: { increment: item.quantity },
-          },
-        });
+        if (inventory) {
+          await tx.inventory.update({
+            where: { id: inventory.id },
+            data: {
+              reserved: { increment: item.quantity },
+            },
+          });
+
+          await tx.stockMovement.create({
+            data: {
+              variantId: item.variantId,
+              type: StockMovementType.RESERVE,
+              quantity: -item.quantity, // Negative for reservation
+              toLocationId: inventory.locationId,
+              reference: orderNumber,
+              notes: `Automatyczna rezerwacja dla zamówienia ${orderNumber}`,
+            },
+          });
+        }
       }
 
       return order;
@@ -507,13 +521,43 @@ export class OrdersService {
 
       if (wasNotShipped && isNowShipped) {
         for (const item of currentOrder.items) {
-          await tx.inventory.updateMany({
-            where: { variantId: item.variantId },
-            data: {
-              quantity: { decrement: item.quantity },
-              reserved: { decrement: item.quantity },
+          // Find the reserve movement to identify the correct warehouse location
+          const reserveMovement = await tx.stockMovement.findFirst({
+            where: {
+              variantId: item.variantId,
+              type: StockMovementType.RESERVE,
+              reference: currentOrder.orderNumber,
             },
           });
+
+          const locationId = reserveMovement?.toLocationId;
+          const inventory = await tx.inventory.findFirst({
+            where: {
+              variantId: item.variantId,
+              ...(locationId && { locationId }),
+            },
+          });
+
+          if (inventory) {
+            await tx.inventory.update({
+              where: { id: inventory.id },
+              data: {
+                quantity: { decrement: item.quantity },
+                reserved: { decrement: Math.min(inventory.reserved, item.quantity) },
+              },
+            });
+
+            await tx.stockMovement.create({
+              data: {
+                variantId: item.variantId,
+                type: StockMovementType.SHIP,
+                quantity: -item.quantity, // Negative for shipping
+                fromLocationId: inventory.locationId,
+                reference: currentOrder.orderNumber,
+                notes: `Wydanie zewnętrzne - wysyłka zamówienia ${currentOrder.orderNumber}`,
+              },
+            });
+          }
         }
       }
 
@@ -597,12 +641,41 @@ export class OrdersService {
       // Regular order - proceed with immediate cancellation
       // Release reserved inventory
       for (const item of order.items) {
-        await tx.inventory.updateMany({
-          where: { variantId: item.variantId },
-          data: {
-            reserved: { decrement: item.quantity },
+        const reserveMovement = await tx.stockMovement.findFirst({
+          where: {
+            variantId: item.variantId,
+            type: StockMovementType.RESERVE,
+            reference: order.orderNumber,
           },
         });
+
+        const locationId = reserveMovement?.toLocationId;
+        const inventory = await tx.inventory.findFirst({
+          where: {
+            variantId: item.variantId,
+            ...(locationId && { locationId }),
+          },
+        });
+
+        if (inventory) {
+          await tx.inventory.update({
+            where: { id: inventory.id },
+            data: {
+              reserved: { decrement: item.quantity },
+            },
+          });
+
+          await tx.stockMovement.create({
+            data: {
+              variantId: item.variantId,
+              type: StockMovementType.RELEASE,
+              quantity: item.quantity, // Positive for release
+              fromLocationId: inventory.locationId,
+              reference: order.orderNumber,
+              notes: `Zwolnienie rezerwacji - anulowanie zamówienia ${order.orderNumber}`,
+            },
+          });
+        }
       }
 
       // Update order status and payment status
@@ -886,16 +959,61 @@ export class OrdersService {
         // Check if order was already shipped (quantity already decremented)
         const wasShipped = ['DELIVERED', 'SHIPPED'].includes(order.status);
 
-        await tx.inventory.updateMany({
-          where: { variantId: item.variantId },
-          data: wasShipped ? {
-            // Add stock back (it was decremented on shipment)
-            quantity: { increment: item.quantity },
-          } : {
-            // Release reservation (it was reserved but never shipped in DB)
-            reserved: { decrement: item.quantity },
+        const reserveMovement = await tx.stockMovement.findFirst({
+          where: {
+            variantId: item.variantId,
+            reference: order.orderNumber,
+          },
+          orderBy: { createdAt: 'desc' },
+        });
+
+        const locationId = reserveMovement?.toLocationId || reserveMovement?.fromLocationId;
+        const inventory = await tx.inventory.findFirst({
+          where: {
+            variantId: item.variantId,
+            ...(locationId && { locationId }),
           },
         });
+
+        if (inventory) {
+          if (wasShipped) {
+            await tx.inventory.update({
+              where: { id: inventory.id },
+              data: {
+                quantity: { increment: item.quantity },
+              },
+            });
+
+            await tx.stockMovement.create({
+              data: {
+                variantId: item.variantId,
+                type: StockMovementType.RECEIVE,
+                quantity: item.quantity,
+                toLocationId: inventory.locationId,
+                reference: order.orderNumber,
+                notes: `Zwrot towaru - zwrot do zamówienia ${order.orderNumber}`,
+              },
+            });
+          } else {
+            await tx.inventory.update({
+              where: { id: inventory.id },
+              data: {
+                reserved: { decrement: item.quantity },
+              },
+            });
+
+            await tx.stockMovement.create({
+              data: {
+                variantId: item.variantId,
+                type: StockMovementType.RELEASE,
+                quantity: item.quantity,
+                fromLocationId: inventory.locationId,
+                reference: order.orderNumber,
+                notes: `Zwolnienie rezerwacji - zwrot do zamówienia ${order.orderNumber}`,
+              },
+            });
+          }
+        }
       }
 
       // Update order status and payment status
@@ -940,18 +1058,32 @@ export class OrdersService {
       for (const item of order.items) {
         const inventory = await tx.inventory.findFirst({
           where: { variantId: item.variantId },
+          orderBy: { quantity: 'desc' },
         });
 
         if (inventory && inventory.quantity - inventory.reserved < item.quantity) {
           throw new Error(`Insufficient stock for ${item.productName}`);
         }
 
-        await tx.inventory.updateMany({
-          where: { variantId: item.variantId },
-          data: {
-            reserved: { increment: item.quantity },
-          },
-        });
+        if (inventory) {
+          await tx.inventory.update({
+            where: { id: inventory.id },
+            data: {
+              reserved: { increment: item.quantity },
+            },
+          });
+
+          await tx.stockMovement.create({
+            data: {
+              variantId: item.variantId,
+              type: StockMovementType.RESERVE,
+              quantity: -item.quantity,
+              toLocationId: inventory.locationId,
+              reference: order.orderNumber,
+              notes: `Ponowna rezerwacja - przywrócenie zamówienia ${order.orderNumber}`,
+            },
+          });
+        }
       }
 
       // Update order status back to PENDING
@@ -1259,12 +1391,41 @@ export class OrdersService {
       // Release reserved inventory
       for (const item of order.items) {
         if (item.variantId) {
-          await tx.inventory.updateMany({
-            where: { variantId: item.variantId },
-            data: {
-              reserved: { decrement: item.quantity },
+          const reserveMovement = await tx.stockMovement.findFirst({
+            where: {
+              variantId: item.variantId,
+              type: StockMovementType.RESERVE,
+              reference: order.orderNumber,
             },
           });
+
+          const locationId = reserveMovement?.toLocationId;
+          const inventory = await tx.inventory.findFirst({
+            where: {
+              variantId: item.variantId,
+              ...(locationId && { locationId }),
+            },
+          });
+
+          if (inventory) {
+            await tx.inventory.update({
+              where: { id: inventory.id },
+              data: {
+                reserved: { decrement: item.quantity },
+              },
+            });
+
+            await tx.stockMovement.create({
+              data: {
+                variantId: item.variantId,
+                type: StockMovementType.RELEASE,
+                quantity: item.quantity,
+                fromLocationId: inventory.locationId,
+                reference: order.orderNumber,
+                notes: `Zwolnienie rezerwacji - zatwierdzenie anulowania zamówienia ${order.orderNumber}`,
+              },
+            });
+          }
         }
       }
 

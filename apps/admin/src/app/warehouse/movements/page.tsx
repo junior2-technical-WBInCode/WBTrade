@@ -262,7 +262,7 @@ export default function MovementsPage() {
                         <p className="text-[10px] text-slate-500">{m.variant.sku || m.variant.name}</p>
                       </td>
                       <td className="px-4 py-3 text-right font-mono text-white font-medium">
-                        {m.type === 'SHIP' || m.type === 'RESERVE' ? '-' : '+'}{m.quantity}
+                        {m.type === 'SHIP' || m.type === 'RESERVE' ? '-' : '+'}{Math.abs(m.quantity)}
                       </td>
                       <td className="px-4 py-3 text-xs text-slate-400">
                         {m.fromLocation?.code || '—'} → {m.toLocation?.code || '—'}
