@@ -572,6 +572,7 @@ export class CartService {
                 price: true,
                 tags: true,
                 baselinkerProductId: true,
+                purchasePrice: true,
                 images: {
                   orderBy: { order: 'asc' as const },
                   take: 1,
@@ -647,7 +648,8 @@ export class CartService {
             effectivePrice,
             item.variant.product.baselinkerProductId,
             item.variant.sku,
-            b2bInfo
+            b2bInfo,
+            item.variant.purchasePrice || item.variant.product.purchasePrice
           );
         }
         const tags = item.variant.product.tags || [];

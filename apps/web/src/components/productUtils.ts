@@ -240,3 +240,40 @@ export function calculateClientB2bPrice(
   const b2bPrice = rawWholesale * globalMultiplier;
   return Math.floor(b2bPrice) + 0.99;
 }
+
+const CITY_LOCATIVE_MAP: Record<string, string> = {
+  'Zielona Góra': 'Zielonej Górze',
+  'Warszawa': 'Warszawie',
+  'Ryki': 'Rykach',
+  'Chynów': 'Chynowie',
+  'Chotów': 'Chotowie',
+  'Koszalin': 'Koszalinie',
+  'Białystok': 'Białymstoku',
+  'Rzeszów': 'Rzeszowie',
+};
+
+export function getWarehouseCityLocative(location: string | null | undefined): string | null {
+  if (!location) return null;
+  return CITY_LOCATIVE_MAP[location] || location;
+}
+
+export function stripSkuPrefix(sku: string | null | undefined): string {
+  if (!sku) return '';
+  
+  // 1. If dynamic config is loaded, try matching prefixes dynamically
+  if (_warehouseConfig && _warehouseConfig.length > 0) {
+    const skuUp = sku.toUpperCase();
+    for (const w of _warehouseConfig) {
+      if (w.skuPrefix && skuUp.startsWith(w.skuPrefix.toUpperCase())) {
+        return sku.substring(w.skuPrefix.length);
+      }
+      if (w.prefix && skuUp.startsWith(w.prefix.toUpperCase())) {
+        return sku.substring(w.prefix.length);
+      }
+    }
+  }
+  
+  // 2. Fallback to hardcoded list of prefixes
+  return sku.replace(/^(hp-|leker-|btp-|dofirmy-|outlet-|ikonka-|hk-|hs-|polzoo-)/i, '');
+}
+

@@ -1,0 +1,3550 @@
+{
+  "GPSR Adres producenta": [
+    {
+      "id": "740855",
+      "service_value": "Firmowa 12, 62-023 Robakowo, Polska",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "Hendi",
+      "multiplier_value": []
+    },
+    {
+      "id": "740894",
+      "service_value": "Międzyrzecka 13, 65-128 Zielona Góra, Polska",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "Hurtel",
+      "multiplier_value": []
+    },
+    {
+      "id": "741052",
+      "service_value": "Dekoracyjna 3, 65-155 Zielona Góra, Polska",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "Royal Catering",
+      "multiplier_value": []
+    },
+    {
+      "id": "741056",
+      "service_value": "Międzyrzecka 12, 65-127 Zielona Góra, Polska",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "ACEFAST",
+      "multiplier_value": []
+    },
+    {
+      "id": "741069",
+      "service_value": "Międzyrzecka 12, 65-127 Zielona Góra, Polska",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "AmazingThing",
+      "multiplier_value": []
+    },
+    {
+      "id": "741075",
+      "service_value": "Międzyrzecka 12, 65-127 Zielona Góra, Polska",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "DUDAO",
+      "multiplier_value": []
+    },
+    {
+      "id": "741079",
+      "service_value": "Firmowa 12, 62-023 Robakowo, Polska",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "Ambrogio Sanelli",
+      "multiplier_value": []
+    },
+    {
+      "id": "741083",
+      "service_value": "Firmowa 12, 62-023 Robakowo, Polska",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "Amer Box",
+      "multiplier_value": []
+    },
+    {
+      "id": "741087",
+      "service_value": "Firmowa 12, 62-023 Robakowo,",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "Arcoroc",
+      "multiplier_value": []
+    },
+    {
+      "id": "741091",
+      "service_value": "Firmowa 12, 62-023 Robakowo, Polska",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "Arcos",
+      "multiplier_value": []
+    },
+    {
+      "id": "741095",
+      "service_value": "Firmowa 12, 62-023 Robakowo, Polska",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "ARKTIC",
+      "multiplier_value": []
+    },
+    {
+      "id": "741100",
+      "service_value": "Firmowa 12, 62-023 Robakowo",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "BAR UP",
+      "multiplier_value": []
+    },
+    {
+      "id": "741104",
+      "service_value": "Osiedle Przemysłowe 10A, 69-100 Słubice",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "ARPACK",
+      "multiplier_value": []
+    },
+    {
+      "id": "741108",
+      "service_value": "Jana Pawła II 41, 67-320 Małomice, Polska",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "BARTPOL",
+      "multiplier_value": []
+    },
+    {
+      "id": "741112",
+      "service_value": "Grafenberger Allee 277, 40237 Düsseldorf, Polska",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "BASEUS",
+      "multiplier_value": []
+    },
+    {
+      "id": "741116",
+      "service_value": "Młyńska 78, 86-320 Łasin, Polska",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "Beczkopol",
+      "multiplier_value": []
+    },
+    {
+      "id": "741120",
+      "service_value": "Międzyrzecka 12, 65-127 Zielona Góra, Polska",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "BESTSUIT",
+      "multiplier_value": []
+    },
+    {
+      "id": "741124",
+      "service_value": "Chróścina 6C, 49-345 Skorogoszcz, Polska",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "Bomar",
+      "multiplier_value": []
+    },
+    {
+      "id": "741128",
+      "service_value": "Dekoracyjna 3, 65-155 Zielona Góra, Polska",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "Bredeco",
+      "multiplier_value": []
+    },
+    {
+      "id": "741132",
+      "service_value": "Dekoracyjna 3, 65-155 Zielona Góra",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "CAMBRO",
+      "multiplier_value": []
+    },
+    {
+      "id": "741136",
+      "service_value": "Firmowa 12, 62-023 Robakowo, Polska",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "CAS",
+      "multiplier_value": []
+    },
+    {
+      "id": "741140",
+      "service_value": "Międzyrzecka 12, 65-127 Zielona Góra",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "CHOETECH",
+      "multiplier_value": []
+    },
+    {
+      "id": "741145",
+      "service_value": "Firmowa 12, 62-023 Robakowo, Polska",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "DaVinci",
+      "multiplier_value": []
+    },
+    {
+      "id": "741150",
+      "service_value": "Spicalaan 29, 2132JG Hoofddorp, Holandia",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "Dreame",
+      "multiplier_value": []
+    },
+    {
+      "id": "741155",
+      "service_value": "Firmowa 12, 62-023 Robakowo, Polska",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "Duralex",
+      "multiplier_value": []
+    },
+    {
+      "id": "741159",
+      "service_value": "Schmelz 83, 9772 Dellach im Drautal, Austria",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "Europlast Austria",
+      "multiplier_value": []
+    },
+    {
+      "id": "741163",
+      "service_value": "Dekoracyjna 3, 65-155 Zielona Góra",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "FROMM&STARCK",
+      "multiplier_value": []
+    },
+    {
+      "id": "741167",
+      "service_value": "Dekoracyjna 3, 65-155 Zielona Góra",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "Goldbrunn",
+      "multiplier_value": []
+    },
+    {
+      "id": "741171",
+      "service_value": "Mikołowska 42, 43-173 Łaziska Górne, Polska",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "Goodram",
+      "multiplier_value": []
+    },
+    {
+      "id": "741175",
+      "service_value": "Urszuli 17, 65-147 Zielona Góra",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "GSG24",
+      "multiplier_value": []
+    },
+    {
+      "id": "741179",
+      "service_value": "Dekoracyjna 3, 65-155 Zielona Góra",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "GYMREX",
+      "multiplier_value": []
+    },
+    {
+      "id": "741183",
+      "service_value": "Dresdner Str. 9, 86653 Monheim, Niemcy",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "Hama",
+      "multiplier_value": []
+    },
+    {
+      "id": "741192",
+      "service_value": "Dekoracyjna 3, 65-155 Zielona Góra",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "Hillvert",
+      "multiplier_value": []
+    },
+    {
+      "id": "741193",
+      "service_value": "Wagrowska 2, 61‑369 Poznań, Polska",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "Huzaro",
+      "multiplier_value": []
+    },
+    {
+      "id": "741197",
+      "service_value": "Międzyrzecka 12, 65-127 Zielona Góra",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "ICARER",
+      "multiplier_value": []
+    },
+    {
+      "id": "741203",
+      "service_value": "Parkring 3, 85-748 Garching b.München, Niemcy",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "JBL",
+      "multiplier_value": []
+    },
+    {
+      "id": "741207",
+      "service_value": "Małopolska 102H, 42-218 Częstochowa, Polska",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "JIMMY",
+      "multiplier_value": []
+    },
+    {
+      "id": "741212",
+      "service_value": "Międzyrzecka 12, 65-127 Zielona Góra",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "Jisulife",
+      "multiplier_value": []
+    },
+    {
+      "id": "741216",
+      "service_value": "Mainzer Landstr. 69, 60329 Frankfurt am Main, Polska",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "JOYROOM",
+      "multiplier_value": []
+    },
+    {
+      "id": "741220",
+      "service_value": "Achterzeedijk 57, 2992 SB Barendrecht, Holandia",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "JUSTRITE",
+      "multiplier_value": []
+    },
+    {
+      "id": "741224",
+      "service_value": "Firmowa 12, 62-023 Robakowo, Polska",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "KENWOOD",
+      "multiplier_value": []
+    },
+    {
+      "id": "741228",
+      "service_value": "Międzyrzecka 12, 65-127 Zielona Góra",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "KINGXBAR",
+      "multiplier_value": []
+    },
+    {
+      "id": "741232",
+      "service_value": "Firmowa 12, 62-023 Robakowo, Polska",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "LILLY CODROIPO",
+      "multiplier_value": []
+    },
+    {
+      "id": "741236",
+      "service_value": "Firmowa 12, 62-023 Robakowo, Polska",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "MENUMASTER",
+      "multiplier_value": []
+    },
+    {
+      "id": "741241",
+      "service_value": "Chelčického 1228, 413 01 Roudnice nad Labem, Czechy, Republika Czeska",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "MEVA",
+      "multiplier_value": []
+    },
+    {
+      "id": "741245",
+      "service_value": "Dekoracyjna 3, 65-155 Zielona Góra",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "Monolith",
+      "multiplier_value": []
+    },
+    {
+      "id": "741249",
+      "service_value": "Dekoracyjna 3, 65-155 Zielona Góra",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "MSW",
+      "multiplier_value": []
+    },
+    {
+      "id": "741253",
+      "service_value": "Heuwinkelstrasse 3, 8606 Nänikon, Szwajcaria",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "OHAUS",
+      "multiplier_value": []
+    },
+    {
+      "id": "741257",
+      "service_value": "Międzyrzecka 12, 65-127 Zielona Góra",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "Ordro",
+      "multiplier_value": []
+    },
+    {
+      "id": "741261",
+      "service_value": "Calle Del Rio Tormes 1/Fl. 1 / Rm. 3, 28947 Fuenlabrada (Madrid), Hiszpania",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "ORICO",
+      "multiplier_value": []
+    },
+    {
+      "id": "741265",
+      "service_value": "Dekoracyjna 3, 65-155 Zielona Góra",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "Physa",
+      "multiplier_value": []
+    },
+    {
+      "id": "741269",
+      "service_value": "Firmowa 12, 62-023 Robakowo, Polska",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "Prismafood",
+      "multiplier_value": []
+    },
+    {
+      "id": "741273",
+      "service_value": "Urszuli 17, 65-147 Zielona Góra, Polska",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "PRO-LINE",
+      "multiplier_value": []
+    },
+    {
+      "id": "741277",
+      "service_value": "Urszuli 17, 65-147 Zielona Góra, Polska",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "PROFI SAUBER",
+      "multiplier_value": []
+    },
+    {
+      "id": "741281",
+      "service_value": "Via Circonvallazione, 28010 Miasino, Włochy",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "Puro",
+      "multiplier_value": []
+    },
+    {
+      "id": "741285",
+      "service_value": "Democratiei 6-8, 900034 Constanta, Rumunia",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "QCY",
+      "multiplier_value": []
+    },
+    {
+      "id": "741290",
+      "service_value": "Goethestr. 11E, 15234 Frankfurt (Oder), Niemcy",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "Qunature",
+      "multiplier_value": []
+    },
+    {
+      "id": "741293",
+      "service_value": "Firmowa 12, 62-023 Robakowo, Polska",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "REVOLUTION",
+      "multiplier_value": []
+    },
+    {
+      "id": "741297",
+      "service_value": "Międzyrzecka 12, 65-127 Zielona Góra",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "Ringke",
+      "multiplier_value": []
+    },
+    {
+      "id": "741301",
+      "service_value": "Goethestr. 11E, 15234 Frankfurt (Oder), Polska",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "ROCKBROS",
+      "multiplier_value": []
+    },
+    {
+      "id": "741305",
+      "service_value": "Chemin de Blandonnet 8, 1214 Vernier, Szwajcaria",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "Rubbermaid",
+      "multiplier_value": []
+    },
+    {
+      "id": "741309",
+      "service_value": "Firmowa 12, 62-023 Robakowo, Polska",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "SAMMIC",
+      "multiplier_value": []
+    },
+    {
+      "id": "741313",
+      "service_value": "Frankfurter Str. 2, 65760 Eschborn, Niemcy",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "SAMSUNG",
+      "multiplier_value": []
+    },
+    {
+      "id": "741317",
+      "service_value": "Via Sant'Andrea 51, 38062 Arco TN, Włochy",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "Sartori Ambiente",
+      "multiplier_value": []
+    },
+    {
+      "id": "741321",
+      "service_value": "Via Circonvallazione, 28010 Miasino, Włochy",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "SBS",
+      "multiplier_value": []
+    },
+    {
+      "id": "741325",
+      "service_value": "Breite Str. 22, 40213 Düsseldorf, Niemcy",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "SONOFF",
+      "multiplier_value": []
+    },
+    {
+      "id": "741329",
+      "service_value": "Frankfurter Str 92A, 63500 Seligenstadt",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "SPIGEN",
+      "multiplier_value": []
+    },
+    {
+      "id": "741333",
+      "service_value": "Dekoracyjna 3, 65-155 Zielona Góra",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "Stamony",
+      "multiplier_value": []
+    },
+    {
+      "id": "741338",
+      "service_value": "Dekoracyjna 3, 65-155 Zielona Góra",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "Stamos Germany",
+      "multiplier_value": []
+    },
+    {
+      "id": "741342",
+      "service_value": "Dekoracyjna 3, 65-155 Zielona Góra",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "Stamos Soldering",
+      "multiplier_value": []
+    },
+    {
+      "id": "741346",
+      "service_value": "Dekoracyjna 3, 65-155 Zielona Góra",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "Steinberg Systems",
+      "multiplier_value": []
+    },
+    {
+      "id": "741350",
+      "service_value": "Firmowa 12, 62-023 Robakowo, Polska",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "STOCKEL",
+      "multiplier_value": []
+    },
+    {
+      "id": "741354",
+      "service_value": "Raniuszka 22, 02-838 Warszawa, Polska",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "Tech-Protect",
+      "multiplier_value": []
+    },
+    {
+      "id": "741358",
+      "service_value": "Firmowa 12, 62-023 Robakowo, Polska",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "Tecnoeka",
+      "multiplier_value": []
+    },
+    {
+      "id": "741362",
+      "service_value": "Dekoracyjna 3, 65-155 Zielona Góra",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "TEM",
+      "multiplier_value": []
+    },
+    {
+      "id": "741366",
+      "service_value": "Firmowa 12, 62-023 Robakowo, Polska",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "Tramontina",
+      "multiplier_value": []
+    },
+    {
+      "id": "741370",
+      "service_value": "Małopolska 102H, 42-218 Częstochowa, Polska",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "Tronsmart",
+      "multiplier_value": []
+    },
+    {
+      "id": "741374",
+      "service_value": "Prinzenallee 1, 40549 Düsseldorf, Polska",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "UGREEN",
+      "multiplier_value": []
+    },
+    {
+      "id": "741378",
+      "service_value": "Prinzenallee 1, 40549 Düsseldorf, Polska",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "UGREEN",
+      "multiplier_value": []
+    },
+    {
+      "id": "741379",
+      "service_value": "Dekoracyjna 3, 65-155 Zielona Góra",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "Ulsonix",
+      "multiplier_value": []
+    },
+    {
+      "id": "741384",
+      "service_value": "Dekoracyjna 3, 65-155 Zielona Góra",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "UNIPRODO",
+      "multiplier_value": []
+    },
+    {
+      "id": "741388",
+      "service_value": "Draisstraße 10, 76646 Bruchsal, Niemcy",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "UWANT",
+      "multiplier_value": []
+    },
+    {
+      "id": "741393",
+      "service_value": "Firmowa 12, 62-023 Robakowo, Polska",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "Victorinox",
+      "multiplier_value": []
+    },
+    {
+      "id": "741398",
+      "service_value": "Firmowa 12, 62-023 Robakowo, Polska",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "Waring",
+      "multiplier_value": []
+    },
+    {
+      "id": "741402",
+      "service_value": "Dekoracyjna 3, 65-155 Zielona Góra",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "Welbach",
+      "multiplier_value": []
+    },
+    {
+      "id": "741406",
+      "service_value": "Dekoracyjna 3, 65-155 Zielona Góra",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "WIESENFIELD",
+      "multiplier_value": []
+    },
+    {
+      "id": "741410",
+      "service_value": "Międzyrzecka 12, 65-127 Zielona Góra",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "WOZINSKY",
+      "multiplier_value": []
+    },
+    {
+      "id": "741414",
+      "service_value": "Prinses Beatrixlaan 582, 25-95BM Haga, Holandia",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "XIAOMI",
+      "multiplier_value": []
+    },
+    {
+      "id": "741418",
+      "service_value": "SOCIEDAD LIMITAD, CASTELLANA 9144, 28046 MADRID, Hiszpania",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "Yaber",
+      "multiplier_value": []
+    }
+  ],
+  "GPSR Nazwa producenta": [
+    {
+      "id": "740856",
+      "service_value": "Hendi Polska Sp. z o.o",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "Hendi",
+      "multiplier_value": []
+    },
+    {
+      "id": "740895",
+      "service_value": "Hurtel Sp. z o.o",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "Hurtel",
+      "multiplier_value": []
+    },
+    {
+      "id": "741053",
+      "service_value": "EXPONDO POLSKA SP. Z O.O. SP. K.",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "Royal Catering",
+      "multiplier_value": []
+    },
+    {
+      "id": "741057",
+      "service_value": "Hurtel Sp. z o.o.",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "ACEFAST",
+      "multiplier_value": []
+    },
+    {
+      "id": "741071",
+      "service_value": "Hurtel Sp. z o.o.",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "AmazingThing",
+      "multiplier_value": []
+    },
+    {
+      "id": "741076",
+      "service_value": "Hurtel Sp. z o.o.",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "DUDAO",
+      "multiplier_value": []
+    },
+    {
+      "id": "741080",
+      "service_value": "Hendi Polska Sp. z o.o.",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "Ambrogio Sanelli",
+      "multiplier_value": []
+    },
+    {
+      "id": "741084",
+      "service_value": "Hendi Polska Sp. z o.o.",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "Hendi Polska Sp. z o.o.",
+      "shop_value": "",
+      "action_when_params": "Amer Box",
+      "multiplier_value": []
+    },
+    {
+      "id": "741088",
+      "service_value": "Hendi Polska Sp. z o.o.",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "Arcoroc",
+      "multiplier_value": []
+    },
+    {
+      "id": "741092",
+      "service_value": "Hendi Polska Sp. z o.o.",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "Arcos",
+      "multiplier_value": []
+    },
+    {
+      "id": "741096",
+      "service_value": "Hendi Polska Sp. z o.o.",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "Hendi Polska Sp. z o.o.",
+      "shop_value": "",
+      "action_when_params": "ARKTIC",
+      "multiplier_value": []
+    },
+    {
+      "id": "741101",
+      "service_value": "Hendi Polska Sp. z o.o.",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "BAR UP",
+      "multiplier_value": []
+    },
+    {
+      "id": "741105",
+      "service_value": "Arpack Polska Sp. z o. o.",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "ARPACK",
+      "multiplier_value": []
+    },
+    {
+      "id": "741109",
+      "service_value": "BARTPOL ZDZISŁAW POLAK",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "BARTPOL",
+      "multiplier_value": []
+    },
+    {
+      "id": "741113",
+      "service_value": "Apex CE Specialists GmbH",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "BASEUS",
+      "multiplier_value": []
+    },
+    {
+      "id": "741117",
+      "service_value": "Beczkopol Sp. z o. o.",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "Beczkopol",
+      "multiplier_value": []
+    },
+    {
+      "id": "741121",
+      "service_value": "Hurtel Sp. z o.o.",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "BESTSUIT",
+      "multiplier_value": []
+    },
+    {
+      "id": "741125",
+      "service_value": "CHEMIA BOMAR E. MARCINIAK SPÓŁKA KOMANDYTOWA",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "Bomar",
+      "multiplier_value": []
+    },
+    {
+      "id": "741129",
+      "service_value": "EXPONDO POLSKA SP. Z O.O. SP. K",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "Bredeco",
+      "multiplier_value": []
+    },
+    {
+      "id": "741133",
+      "service_value": "EXPONDO POLSKA SP. Z O.O. SP. K",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "CAMBRO",
+      "multiplier_value": []
+    },
+    {
+      "id": "741138",
+      "service_value": "Hendi Polska Sp. z o.o.",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "CAS",
+      "multiplier_value": []
+    },
+    {
+      "id": "741141",
+      "service_value": "Hurtel Sp. z o.o.",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "CHOETECH",
+      "multiplier_value": []
+    },
+    {
+      "id": "741147",
+      "service_value": "Hendi Polska Sp. z o.o.",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "DaVinci",
+      "multiplier_value": []
+    },
+    {
+      "id": "741151",
+      "service_value": "Dreame Technology Netherlands B.V.",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "Dreame",
+      "multiplier_value": []
+    },
+    {
+      "id": "741152",
+      "service_value": "Dreame Technology Netherlands B.V.",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "Dreame",
+      "multiplier_value": []
+    },
+    {
+      "id": "741157",
+      "service_value": "Hendi Polska Sp. z o.o.",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "Duralex",
+      "multiplier_value": []
+    },
+    {
+      "id": "741160",
+      "service_value": "Europlast GmbH",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "Europlast Austria",
+      "multiplier_value": []
+    },
+    {
+      "id": "741164",
+      "service_value": "EXPONDO POLSKA SP. Z O.O. SP. K",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "FROMM&STARCK",
+      "multiplier_value": []
+    },
+    {
+      "id": "741168",
+      "service_value": "EXPONDO POLSKA SP. Z O.O. SP. K",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "Goldbrunn",
+      "multiplier_value": []
+    },
+    {
+      "id": "741172",
+      "service_value": "Wilk Elektronik SA",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "Goodram",
+      "multiplier_value": []
+    },
+    {
+      "id": "741176",
+      "service_value": "GSG24",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "GSG24",
+      "multiplier_value": []
+    },
+    {
+      "id": "741180",
+      "service_value": "EXPONDO POLSKA SP. Z O.O. SP. K",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "GYMREX",
+      "multiplier_value": []
+    },
+    {
+      "id": "741184",
+      "service_value": "Hama GmbH & Co KG",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "Hama",
+      "multiplier_value": []
+    },
+    {
+      "id": "741187",
+      "service_value": "EXPONDO POLSKA SP. Z O.O. SP. K",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "Hillvert",
+      "multiplier_value": []
+    },
+    {
+      "id": "741194",
+      "service_value": "Meester Group Sp. z o.o.",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "Huzaro",
+      "multiplier_value": []
+    },
+    {
+      "id": "741202",
+      "service_value": "Hurtel Sp. z o.o.",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "ICARER",
+      "multiplier_value": []
+    },
+    {
+      "id": "741204",
+      "service_value": "Harman Deutschland GmbH",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "JBL",
+      "multiplier_value": []
+    },
+    {
+      "id": "741209",
+      "service_value": "Nextedge Technology Sp. z o.o.",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "JIMMY",
+      "multiplier_value": []
+    },
+    {
+      "id": "741213",
+      "service_value": "Hurtel Sp. z o.o.",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "Jisulife",
+      "multiplier_value": []
+    },
+    {
+      "id": "741217",
+      "service_value": "E-CrossStu GmbH",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "JOYROOM",
+      "multiplier_value": []
+    },
+    {
+      "id": "741221",
+      "service_value": "Justrite Safety Group EMEA B.V.",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "JUSTRITE",
+      "multiplier_value": []
+    },
+    {
+      "id": "741226",
+      "service_value": "Hendi Polska Sp. z o.o.",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "KENWOOD",
+      "multiplier_value": []
+    },
+    {
+      "id": "741229",
+      "service_value": "Hurtel Sp. z o.o.",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "KINGXBAR",
+      "multiplier_value": []
+    },
+    {
+      "id": "741234",
+      "service_value": "Hendi Polska Sp. z o.o.",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "LILLY CODROIPO",
+      "multiplier_value": []
+    },
+    {
+      "id": "741238",
+      "service_value": "Hendi Polska Sp. z o.o.",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "MENUMASTER",
+      "multiplier_value": []
+    },
+    {
+      "id": "741242",
+      "service_value": "MEVA-TEC s.r.o.",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "MEVA",
+      "multiplier_value": []
+    },
+    {
+      "id": "741246",
+      "service_value": "EXPONDO POLSKA SP. Z O.O. SP. K",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "Monolith",
+      "multiplier_value": []
+    },
+    {
+      "id": "741250",
+      "service_value": "EXPONDO POLSKA SP. Z O.O. SP. K",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "MSW",
+      "multiplier_value": []
+    },
+    {
+      "id": "741254",
+      "service_value": "OHAUS Europe GmbH",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "OHAUS",
+      "multiplier_value": []
+    },
+    {
+      "id": "741258",
+      "service_value": "Hurtel Sp. z o.o.",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "Ordro",
+      "multiplier_value": []
+    },
+    {
+      "id": "741262",
+      "service_value": "SUCCESS COURIER SL",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "ORICO",
+      "multiplier_value": []
+    },
+    {
+      "id": "741266",
+      "service_value": "EXPONDO POLSKA SP. Z O.O. SP. K.",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "Physa",
+      "multiplier_value": []
+    },
+    {
+      "id": "741271",
+      "service_value": "Hendi Polska Sp. z o.o.",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "Prismafood",
+      "multiplier_value": []
+    },
+    {
+      "id": "741274",
+      "service_value": "Global Service Group",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "PRO-LINE",
+      "multiplier_value": []
+    },
+    {
+      "id": "741278",
+      "service_value": "Global Service Group",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "PROFI SAUBER",
+      "multiplier_value": []
+    },
+    {
+      "id": "741282",
+      "service_value": "SBS S.p.A.",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "Puro",
+      "multiplier_value": []
+    },
+    {
+      "id": "741286",
+      "service_value": "SC MobiParts SRL",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "QCY",
+      "multiplier_value": []
+    },
+    {
+      "id": "741289",
+      "service_value": "Rockbros Sport GmbH, Goethestr",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "Qunature",
+      "multiplier_value": []
+    },
+    {
+      "id": "741294",
+      "service_value": "Hendi Polska Sp. z o.o.",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "REVOLUTION",
+      "multiplier_value": []
+    },
+    {
+      "id": "741298",
+      "service_value": "Hurtel Sp. z o.o.",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "Ringke",
+      "multiplier_value": []
+    },
+    {
+      "id": "741302",
+      "service_value": "Rockbros Sport GmbH",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "ROCKBROS",
+      "multiplier_value": []
+    },
+    {
+      "id": "741306",
+      "service_value": "Newell Europe Sàrl",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "Rubbermaid",
+      "multiplier_value": []
+    },
+    {
+      "id": "741310",
+      "service_value": "Hendi Polska Sp. z o.o.",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "SAMMIC",
+      "multiplier_value": []
+    },
+    {
+      "id": "741314",
+      "service_value": "Samsung Electronics GmbH",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "SAMSUNG",
+      "multiplier_value": []
+    },
+    {
+      "id": "741318",
+      "service_value": "Sartori Ambiente Srl",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "Sartori Ambiente",
+      "multiplier_value": []
+    },
+    {
+      "id": "741322",
+      "service_value": "SBS S.p.A.",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "SBS",
+      "multiplier_value": []
+    },
+    {
+      "id": "741326",
+      "service_value": "SONOFF TECHNOLOGY Deutschland GmbH",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "SONOFF",
+      "multiplier_value": []
+    },
+    {
+      "id": "741330",
+      "service_value": "Coram Deo PL UG",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "SPIGEN",
+      "multiplier_value": []
+    },
+    {
+      "id": "741336",
+      "service_value": "EXPONDO POLSKA SP. Z O.O. SP. K.",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "Stamony",
+      "multiplier_value": []
+    },
+    {
+      "id": "741339",
+      "service_value": "EXPONDO POLSKA SP. Z O.O. SP. K.",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "Stamos Germany",
+      "multiplier_value": []
+    },
+    {
+      "id": "741343",
+      "service_value": "EXPONDO POLSKA SP. Z O.O. SP. K.",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "Stamos Soldering",
+      "multiplier_value": []
+    },
+    {
+      "id": "741347",
+      "service_value": "EXPONDO POLSKA SP. Z O.O. SP. K.",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "Steinberg Systems",
+      "multiplier_value": []
+    },
+    {
+      "id": "741351",
+      "service_value": "Hendi Polska Sp. z o.o.",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "STOCKEL",
+      "multiplier_value": []
+    },
+    {
+      "id": "741355",
+      "service_value": "Flavour",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "Tech-Protect",
+      "multiplier_value": []
+    },
+    {
+      "id": "741359",
+      "service_value": "Hendi Polska Sp. z o.o.",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "Tecnoeka",
+      "multiplier_value": []
+    },
+    {
+      "id": "741363",
+      "service_value": "EXPONDO POLSKA SP. Z O.O. SP. K.",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "TEM",
+      "multiplier_value": []
+    },
+    {
+      "id": "741367",
+      "service_value": "Hendi Polska Sp. z o.o.",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "Tramontina",
+      "multiplier_value": []
+    },
+    {
+      "id": "741371",
+      "service_value": "Nextedge Technology Sp. z o.o.",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "Tronsmart",
+      "multiplier_value": []
+    },
+    {
+      "id": "741375",
+      "service_value": "Ugreen Group GmbH",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "UGREEN",
+      "multiplier_value": []
+    },
+    {
+      "id": "741381",
+      "service_value": "EXPONDO POLSKA SP. Z O.O. SP. K.",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "Ulsonix",
+      "multiplier_value": []
+    },
+    {
+      "id": "741385",
+      "service_value": "EXPONDO POLSKA SP. Z O.O. SP. K.",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "UNIPRODO",
+      "multiplier_value": []
+    },
+    {
+      "id": "741389",
+      "service_value": "CLS DAFA GmbH",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "UWANT",
+      "multiplier_value": []
+    },
+    {
+      "id": "741394",
+      "service_value": "Hendi Polska Sp. z o.o.",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "Victorinox",
+      "multiplier_value": []
+    },
+    {
+      "id": "741399",
+      "service_value": "Hendi Polska Sp. z o.o.",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "Waring",
+      "multiplier_value": []
+    },
+    {
+      "id": "741403",
+      "service_value": "EXPONDO POLSKA SP. Z O.O. SP. K.",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "Welbach",
+      "multiplier_value": []
+    },
+    {
+      "id": "741407",
+      "service_value": "EXPONDO POLSKA SP. Z O.O. SP. K.",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "WIESENFIELD",
+      "multiplier_value": []
+    },
+    {
+      "id": "741411",
+      "service_value": "Hurtel Sp. z o.o.",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "WOZINSKY",
+      "multiplier_value": []
+    },
+    {
+      "id": "741415",
+      "service_value": "Xiaomi Technology Netherlands BV",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "XIAOMI",
+      "multiplier_value": []
+    },
+    {
+      "id": "741419",
+      "service_value": "GAVIMOSA CONSULTORIA",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "Yaber",
+      "multiplier_value": []
+    }
+  ],
+  "GPSR Email producenta": [
+    {
+      "id": "740857",
+      "service_value": "witaj@hendi.com",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "Hendi",
+      "multiplier_value": []
+    },
+    {
+      "id": "740900",
+      "service_value": "gpsr@hurtel.com",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "Hurtel",
+      "multiplier_value": []
+    },
+    {
+      "id": "741054",
+      "service_value": "info@expondo.pl",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "Royal Catering",
+      "multiplier_value": []
+    },
+    {
+      "id": "741058",
+      "service_value": "gpsr@hurtel.com",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "ACEFAST",
+      "multiplier_value": []
+    },
+    {
+      "id": "741072",
+      "service_value": "gpsr@hurtel.com",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "AmazingThing",
+      "multiplier_value": []
+    },
+    {
+      "id": "741077",
+      "service_value": "gpsr@hurtel.com",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "DUDAO",
+      "multiplier_value": []
+    },
+    {
+      "id": "741081",
+      "service_value": "witaj@hendi.com",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "Ambrogio Sanelli",
+      "multiplier_value": []
+    },
+    {
+      "id": "741085",
+      "service_value": "witaj@hendi.com",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "Amer Box",
+      "multiplier_value": []
+    },
+    {
+      "id": "741089",
+      "service_value": "witaj@hendi.com",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "Arcoroc",
+      "multiplier_value": []
+    },
+    {
+      "id": "741093",
+      "service_value": "witaj@hendi.com",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "Arcos",
+      "multiplier_value": []
+    },
+    {
+      "id": "741097",
+      "service_value": "witaj@hendi.com",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "ARKTIC",
+      "multiplier_value": []
+    },
+    {
+      "id": "741102",
+      "service_value": "witaj@hendi.com",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "BAR UP",
+      "multiplier_value": []
+    },
+    {
+      "id": "741106",
+      "service_value": "biuro@arpack.pl",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "ARPACK",
+      "multiplier_value": []
+    },
+    {
+      "id": "741110",
+      "service_value": "fwcbartpol@gmail.com",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "BARTPOL",
+      "multiplier_value": []
+    },
+    {
+      "id": "741114",
+      "service_value": "Info@apex-ce.de",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "BASEUS",
+      "multiplier_value": []
+    },
+    {
+      "id": "741118",
+      "service_value": "sekretariat@beczkopol.com.pl",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "Beczkopol",
+      "multiplier_value": []
+    },
+    {
+      "id": "741122",
+      "service_value": "gpsr@hurtel.com",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "BESTSUIT",
+      "multiplier_value": []
+    },
+    {
+      "id": "741126",
+      "service_value": "biuro@plyny.pl",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "Bomar",
+      "multiplier_value": []
+    },
+    {
+      "id": "741130",
+      "service_value": "info@expondo.pl",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "Bredeco",
+      "multiplier_value": []
+    },
+    {
+      "id": "741134",
+      "service_value": "info@expondo.pl",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "CAMBRO",
+      "multiplier_value": []
+    },
+    {
+      "id": "741137",
+      "service_value": "witaj@hendi.com",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "CAS",
+      "multiplier_value": []
+    },
+    {
+      "id": "741142",
+      "service_value": "gpsr@hurtel.com",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "CHOETECH",
+      "multiplier_value": []
+    },
+    {
+      "id": "741146",
+      "service_value": "witaj@hendi.com",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "DaVinci",
+      "multiplier_value": []
+    },
+    {
+      "id": "741153",
+      "service_value": "compliance.eu@dreame.tech",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "Dreame",
+      "multiplier_value": []
+    },
+    {
+      "id": "741156",
+      "service_value": "witaj@hendi.com",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "Duralex",
+      "multiplier_value": []
+    },
+    {
+      "id": "741161",
+      "service_value": "verkauf@europlast.at",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "Europlast Austria",
+      "multiplier_value": []
+    },
+    {
+      "id": "741165",
+      "service_value": "info@expondo.pl",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "FROMM&STARCK",
+      "multiplier_value": []
+    },
+    {
+      "id": "741169",
+      "service_value": "info@expondo.pl",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "Goldbrunn",
+      "multiplier_value": []
+    },
+    {
+      "id": "741173",
+      "service_value": "info@goodram.com",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "Goodram",
+      "multiplier_value": []
+    },
+    {
+      "id": "741177",
+      "service_value": "kontakt@hurtowniaprzemyslowa.pl",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "GSG24",
+      "multiplier_value": []
+    },
+    {
+      "id": "741181",
+      "service_value": "info@expondo.pl",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "GYMREX",
+      "multiplier_value": []
+    },
+    {
+      "id": "741185",
+      "service_value": "info.de@hama.com",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "Hama",
+      "multiplier_value": []
+    },
+    {
+      "id": "741188",
+      "service_value": "info@expondo.pl",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "Hillvert",
+      "multiplier_value": []
+    },
+    {
+      "id": "741195",
+      "service_value": "support@meestergroup.pl",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "Huzaro",
+      "multiplier_value": []
+    },
+    {
+      "id": "741198",
+      "service_value": "gpsr@hurtel.com",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "ICARER",
+      "multiplier_value": []
+    },
+    {
+      "id": "741205",
+      "service_value": "sklep@jbl.com.pl",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "JBL",
+      "multiplier_value": []
+    },
+    {
+      "id": "741210",
+      "service_value": "szymon@nextedgetak.com",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "JIMMY",
+      "multiplier_value": []
+    },
+    {
+      "id": "741214",
+      "service_value": "gpsr@hurtel.com",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "Jisulife",
+      "multiplier_value": []
+    },
+    {
+      "id": "741218",
+      "service_value": "E-CrossStu@web.de",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "JOYROOM",
+      "multiplier_value": []
+    },
+    {
+      "id": "741222",
+      "service_value": "saleseu@justrite.com",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "JUSTRITE",
+      "multiplier_value": []
+    },
+    {
+      "id": "741225",
+      "service_value": "witaj@hendi.com",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "KENWOOD",
+      "multiplier_value": []
+    },
+    {
+      "id": "741230",
+      "service_value": "gpsr@hurtel.com",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "KINGXBAR",
+      "multiplier_value": []
+    },
+    {
+      "id": "741233",
+      "service_value": "witaj@hendi.com",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "LILLY CODROIPO",
+      "multiplier_value": []
+    },
+    {
+      "id": "741237",
+      "service_value": "witaj@hendi.com",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "MENUMASTER",
+      "multiplier_value": []
+    },
+    {
+      "id": "741243",
+      "service_value": "prodej@mevatec.cz",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "MEVA",
+      "multiplier_value": []
+    },
+    {
+      "id": "741247",
+      "service_value": "info@expondo.pl",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "Monolith",
+      "multiplier_value": []
+    },
+    {
+      "id": "741251",
+      "service_value": "info@expondo.pl",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "MSW",
+      "multiplier_value": []
+    },
+    {
+      "id": "741255",
+      "service_value": "ssc@ohaus.com",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "OHAUS",
+      "multiplier_value": []
+    },
+    {
+      "id": "741259",
+      "service_value": "gpsr@hurtel.com",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "Ordro",
+      "multiplier_value": []
+    },
+    {
+      "id": "741263",
+      "service_value": "successservice2@hotmail.com",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "ORICO",
+      "multiplier_value": []
+    },
+    {
+      "id": "741267",
+      "service_value": "info@expondo.pl",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "Physa",
+      "multiplier_value": []
+    },
+    {
+      "id": "741270",
+      "service_value": "witaj@hendi.com",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "Prismafood",
+      "multiplier_value": []
+    },
+    {
+      "id": "741275",
+      "service_value": "biuro@gsg24.pl",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "PRO-LINE",
+      "multiplier_value": []
+    },
+    {
+      "id": "741279",
+      "service_value": "biuro@gsg24.pl",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "PROFI SAUBER",
+      "multiplier_value": []
+    },
+    {
+      "id": "741283",
+      "service_value": "info@sbsmobile.it",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "Puro",
+      "multiplier_value": []
+    },
+    {
+      "id": "741287",
+      "service_value": "info@mobiparts.ro",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "QCY",
+      "multiplier_value": []
+    },
+    {
+      "id": "741291",
+      "service_value": "rockbrossport@gmail.com",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "Qunature",
+      "multiplier_value": []
+    },
+    {
+      "id": "741295",
+      "service_value": "witaj@hendi.com",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "REVOLUTION",
+      "multiplier_value": []
+    },
+    {
+      "id": "741299",
+      "service_value": "gpsr@hurtel.com",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "Ringke",
+      "multiplier_value": []
+    },
+    {
+      "id": "741303",
+      "service_value": "rockbrossport@gmail.com",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "ROCKBROS",
+      "multiplier_value": []
+    },
+    {
+      "id": "741307",
+      "service_value": "rcp.sales@newellco.com",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "Rubbermaid",
+      "multiplier_value": []
+    },
+    {
+      "id": "741311",
+      "service_value": "witaj@hendi.com",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "SAMMIC",
+      "multiplier_value": []
+    },
+    {
+      "id": "741315",
+      "service_value": "kundenbetreuung@samsung.de",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "SAMSUNG",
+      "multiplier_value": []
+    },
+    {
+      "id": "741319",
+      "service_value": "info@sartori-ambiente.com",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "Sartori Ambiente",
+      "multiplier_value": []
+    },
+    {
+      "id": "741323",
+      "service_value": "info@sbsmobile.it",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "SBS",
+      "multiplier_value": []
+    },
+    {
+      "id": "741327",
+      "service_value": "eurep@itead.cc",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "SONOFF",
+      "multiplier_value": []
+    },
+    {
+      "id": "741331",
+      "service_value": "coramdeopl@gmail.com",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "SPIGEN",
+      "multiplier_value": []
+    },
+    {
+      "id": "741334",
+      "service_value": "info@expondo.pl",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "Stamony",
+      "multiplier_value": []
+    },
+    {
+      "id": "741340",
+      "service_value": "info@expondo.pl",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "Stamos Germany",
+      "multiplier_value": []
+    },
+    {
+      "id": "741344",
+      "service_value": "info@expondo.pl",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "Stamos Soldering",
+      "multiplier_value": []
+    },
+    {
+      "id": "741349",
+      "service_value": "info@expondo.pl",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "Steinberg Systems",
+      "multiplier_value": []
+    },
+    {
+      "id": "741352",
+      "service_value": "witaj@hendi.com",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "STOCKEL",
+      "multiplier_value": []
+    },
+    {
+      "id": "741356",
+      "service_value": "support@flavour-design.pl",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "Tech-Protect",
+      "multiplier_value": []
+    },
+    {
+      "id": "741360",
+      "service_value": "witaj@hendi.com",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "Tecnoeka",
+      "multiplier_value": []
+    },
+    {
+      "id": "741364",
+      "service_value": "info@expondo.pl",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "TEM",
+      "multiplier_value": []
+    },
+    {
+      "id": "741368",
+      "service_value": "witaj@hendi.com",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "Tramontina",
+      "multiplier_value": []
+    },
+    {
+      "id": "741372",
+      "service_value": "szymon@nextedgetak.com",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "Tronsmart",
+      "multiplier_value": []
+    },
+    {
+      "id": "741376",
+      "service_value": "support@ugreen.com",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "UGREEN",
+      "multiplier_value": []
+    },
+    {
+      "id": "741382",
+      "service_value": "info@expondo.pl",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "Ulsonix",
+      "multiplier_value": []
+    },
+    {
+      "id": "741386",
+      "service_value": "info@expondo.pl",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "UNIPRODO",
+      "multiplier_value": []
+    },
+    {
+      "id": "741392",
+      "service_value": "info@uwant-eu.com",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "UWANT",
+      "multiplier_value": []
+    },
+    {
+      "id": "741404",
+      "service_value": "info@expondo.pl",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "Welbach",
+      "multiplier_value": []
+    },
+    {
+      "id": "741408",
+      "service_value": "info@expondo.pl",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "WIESENFIELD",
+      "multiplier_value": []
+    },
+    {
+      "id": "741412",
+      "service_value": "gpsr@hurtel.com",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "WOZINSKY",
+      "multiplier_value": []
+    },
+    {
+      "id": "741416",
+      "service_value": "service.de@support.mi.com",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "XIAOMI",
+      "multiplier_value": []
+    },
+    {
+      "id": "741420",
+      "service_value": "compliance.gavimosa@outlook.co",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "Yaber",
+      "multiplier_value": []
+    }
+  ],
+  "GPSR Numer telefonu producenta": [
+    {
+      "id": "740858",
+      "service_value": "tel.: +48616587000",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "Hendi",
+      "multiplier_value": []
+    },
+    {
+      "id": "740901",
+      "service_value": "+48683000156",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "Hurtel",
+      "multiplier_value": []
+    },
+    {
+      "id": "741055",
+      "service_value": "+48688881008",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "Royal Catering",
+      "multiplier_value": []
+    },
+    {
+      "id": "741061",
+      "service_value": "+48683000156",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "ACEFAST",
+      "multiplier_value": []
+    },
+    {
+      "id": "741073",
+      "service_value": "+48683000156",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "AmazingThing",
+      "multiplier_value": []
+    },
+    {
+      "id": "741078",
+      "service_value": "+48683000156",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "DUDAO",
+      "multiplier_value": []
+    },
+    {
+      "id": "741082",
+      "service_value": "+48616587000",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "+48616587000",
+      "shop_value": "",
+      "action_when_params": "Ambrogio Sanelli",
+      "multiplier_value": []
+    },
+    {
+      "id": "741086",
+      "service_value": "+48616587000",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "Amer Box",
+      "multiplier_value": []
+    },
+    {
+      "id": "741090",
+      "service_value": "+48616587000",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "Arcoroc",
+      "multiplier_value": []
+    },
+    {
+      "id": "741094",
+      "service_value": "+48616587000",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "Arcos",
+      "multiplier_value": []
+    },
+    {
+      "id": "741099",
+      "service_value": "+48616587000",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "ARKTIC",
+      "multiplier_value": []
+    },
+    {
+      "id": "741103",
+      "service_value": "+48616587000",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "BAR UP",
+      "multiplier_value": []
+    },
+    {
+      "id": "741107",
+      "service_value": "+48957501310",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "ARPACK",
+      "multiplier_value": []
+    },
+    {
+      "id": "741111",
+      "service_value": "+48605748591",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "BARTPOL",
+      "multiplier_value": []
+    },
+    {
+      "id": "741115",
+      "service_value": "+4921312066043",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "BASEUS",
+      "multiplier_value": []
+    },
+    {
+      "id": "741119",
+      "service_value": "+48564665002",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "Beczkopol",
+      "multiplier_value": []
+    },
+    {
+      "id": "741123",
+      "service_value": "+48683000156",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "BESTSUIT",
+      "multiplier_value": []
+    },
+    {
+      "id": "741127",
+      "service_value": "+48774121033",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "Bomar",
+      "multiplier_value": []
+    },
+    {
+      "id": "741131",
+      "service_value": "+48 68 888 10 08",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "Bredeco",
+      "multiplier_value": []
+    },
+    {
+      "id": "741135",
+      "service_value": "+48688881008",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "CAMBRO",
+      "multiplier_value": []
+    },
+    {
+      "id": "741139",
+      "service_value": "+48616587000",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "CAS",
+      "multiplier_value": []
+    },
+    {
+      "id": "741143",
+      "service_value": "+48683000156",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "CHOETECH",
+      "multiplier_value": []
+    },
+    {
+      "id": "741149",
+      "service_value": "+48616587000",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "DaVinci",
+      "multiplier_value": []
+    },
+    {
+      "id": "741154",
+      "service_value": "+31 20 793 2050",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "Dreame",
+      "multiplier_value": []
+    },
+    {
+      "id": "741158",
+      "service_value": "+48616587000",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "Duralex",
+      "multiplier_value": []
+    },
+    {
+      "id": "741162",
+      "service_value": "+43(0)47148228",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "Europlast Austria",
+      "multiplier_value": []
+    },
+    {
+      "id": "741166",
+      "service_value": "+48688881008",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "FROMM&STARCK",
+      "multiplier_value": []
+    },
+    {
+      "id": "741170",
+      "service_value": "+48688881008",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "Goldbrunn",
+      "multiplier_value": []
+    },
+    {
+      "id": "741174",
+      "service_value": "+48 327369000",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "Goodram",
+      "multiplier_value": []
+    },
+    {
+      "id": "741178",
+      "service_value": "+48795617517",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "GSG24",
+      "multiplier_value": []
+    },
+    {
+      "id": "741182",
+      "service_value": "+48688881008",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "GYMREX",
+      "multiplier_value": []
+    },
+    {
+      "id": "741186",
+      "service_value": "+4990915020",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "Hama",
+      "multiplier_value": []
+    },
+    {
+      "id": "741190",
+      "service_value": "+48688881008",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "Hillvert",
+      "multiplier_value": []
+    },
+    {
+      "id": "741196",
+      "service_value": "+48 616 350 540",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "Huzaro",
+      "multiplier_value": []
+    },
+    {
+      "id": "741200",
+      "service_value": "+48683000156",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "ICARER",
+      "multiplier_value": []
+    },
+    {
+      "id": "741206",
+      "service_value": "+49 302 295 7806",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "JBL",
+      "multiplier_value": []
+    },
+    {
+      "id": "741211",
+      "service_value": "+48570808778",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "JIMMY",
+      "multiplier_value": []
+    },
+    {
+      "id": "741215",
+      "service_value": "+48683000156",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "Jisulife",
+      "multiplier_value": []
+    },
+    {
+      "id": "741219",
+      "service_value": "+4969332967674",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "JOYROOM",
+      "multiplier_value": []
+    },
+    {
+      "id": "741223",
+      "service_value": "+31(0)180615744",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "JUSTRITE",
+      "multiplier_value": []
+    },
+    {
+      "id": "741227",
+      "service_value": "+48616587000",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "KENWOOD",
+      "multiplier_value": []
+    },
+    {
+      "id": "741231",
+      "service_value": "+48683000156",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "KINGXBAR",
+      "multiplier_value": []
+    },
+    {
+      "id": "741235",
+      "service_value": "+48616587000",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "LILLY CODROIPO",
+      "multiplier_value": []
+    },
+    {
+      "id": "741239",
+      "service_value": "+48616587000",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "MENUMASTER",
+      "multiplier_value": []
+    },
+    {
+      "id": "741244",
+      "service_value": "+420416823181",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "MEVA",
+      "multiplier_value": []
+    },
+    {
+      "id": "741248",
+      "service_value": "+48688881008",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "Monolith",
+      "multiplier_value": []
+    },
+    {
+      "id": "741252",
+      "service_value": "+48688881008",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "MSW",
+      "multiplier_value": []
+    },
+    {
+      "id": "741256",
+      "service_value": "506 007 870",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "OHAUS",
+      "multiplier_value": []
+    },
+    {
+      "id": "741260",
+      "service_value": "+48683000156",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "Ordro",
+      "multiplier_value": []
+    },
+    {
+      "id": "741264",
+      "service_value": "+34910602659",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "ORICO",
+      "multiplier_value": []
+    },
+    {
+      "id": "741268",
+      "service_value": "+48688881008",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "Physa",
+      "multiplier_value": []
+    },
+    {
+      "id": "741272",
+      "service_value": "+48616587000",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "Prismafood",
+      "multiplier_value": []
+    },
+    {
+      "id": "741276",
+      "service_value": "+48683817000",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "PRO-LINE",
+      "multiplier_value": []
+    },
+    {
+      "id": "741280",
+      "service_value": "+48683817000",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "PROFI SAUBER",
+      "multiplier_value": []
+    },
+    {
+      "id": "741284",
+      "service_value": "+390322980909",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "Puro",
+      "multiplier_value": []
+    },
+    {
+      "id": "741288",
+      "service_value": "+1(917) 204-6570",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "QCY",
+      "multiplier_value": []
+    },
+    {
+      "id": "741292",
+      "service_value": "+4917624032100",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "Qunature",
+      "multiplier_value": []
+    },
+    {
+      "id": "741296",
+      "service_value": "+48616587000",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "REVOLUTION",
+      "multiplier_value": []
+    },
+    {
+      "id": "741300",
+      "service_value": "+48683000156",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "Ringke",
+      "multiplier_value": []
+    },
+    {
+      "id": "741304",
+      "service_value": "+4917624032100",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "ROCKBROS",
+      "multiplier_value": []
+    },
+    {
+      "id": "741308",
+      "service_value": "+44(0)3444121192",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "Rubbermaid",
+      "multiplier_value": []
+    },
+    {
+      "id": "741312",
+      "service_value": "+48616587000",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "SAMMIC",
+      "multiplier_value": []
+    },
+    {
+      "id": "741316",
+      "service_value": "+49 6196 665381",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "SAMSUNG",
+      "multiplier_value": []
+    },
+    {
+      "id": "741320",
+      "service_value": "+390464531643",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "Sartori Ambiente",
+      "multiplier_value": []
+    },
+    {
+      "id": "741324",
+      "service_value": "+390322980909",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "SBS",
+      "multiplier_value": []
+    },
+    {
+      "id": "741328",
+      "service_value": "+48 690 533 500",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "SONOFF",
+      "multiplier_value": []
+    },
+    {
+      "id": "741332",
+      "service_value": "+48 530531530",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "SPIGEN",
+      "multiplier_value": []
+    },
+    {
+      "id": "741337",
+      "service_value": "+48688881008",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "Stamony",
+      "multiplier_value": []
+    },
+    {
+      "id": "741341",
+      "service_value": "+48688881008",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "Stamos Germany",
+      "multiplier_value": []
+    },
+    {
+      "id": "741345",
+      "service_value": "+48688881008",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "Stamos Soldering",
+      "multiplier_value": []
+    },
+    {
+      "id": "741348",
+      "service_value": "+48688881008",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "Steinberg Systems",
+      "multiplier_value": []
+    },
+    {
+      "id": "741353",
+      "service_value": "+48616587000",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "STOCKEL",
+      "multiplier_value": []
+    },
+    {
+      "id": "741357",
+      "service_value": "+48530531530",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "Tech-Protect",
+      "multiplier_value": []
+    },
+    {
+      "id": "741361",
+      "service_value": "+48616587000",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "Tecnoeka",
+      "multiplier_value": []
+    },
+    {
+      "id": "741365",
+      "service_value": "+48688881008",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "TEM",
+      "multiplier_value": []
+    },
+    {
+      "id": "741369",
+      "service_value": "+48616587000",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "Tramontina",
+      "multiplier_value": []
+    },
+    {
+      "id": "741373",
+      "service_value": "+48570808778",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "Tronsmart",
+      "multiplier_value": []
+    },
+    {
+      "id": "741377",
+      "service_value": "+49(0)1728130175",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "UGREEN",
+      "multiplier_value": []
+    },
+    {
+      "id": "741383",
+      "service_value": "+48688881008",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "Ulsonix",
+      "multiplier_value": []
+    },
+    {
+      "id": "741387",
+      "service_value": "+48688881008",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "UNIPRODO",
+      "multiplier_value": []
+    },
+    {
+      "id": "741391",
+      "service_value": "+4972515098807",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "UWANT",
+      "multiplier_value": []
+    },
+    {
+      "id": "741395",
+      "service_value": "+48616587000",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "Victorinox",
+      "multiplier_value": []
+    },
+    {
+      "id": "741397",
+      "service_value": "+48616587000",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "Victorinox",
+      "multiplier_value": []
+    },
+    {
+      "id": "741400",
+      "service_value": "+48616587000",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "Waring",
+      "multiplier_value": []
+    },
+    {
+      "id": "741401",
+      "service_value": "+48616587000",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "Waring",
+      "multiplier_value": []
+    },
+    {
+      "id": "741405",
+      "service_value": "+48688881008",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "Welbach",
+      "multiplier_value": []
+    },
+    {
+      "id": "741409",
+      "service_value": "+48688881008",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "WIESENFIELD",
+      "multiplier_value": []
+    },
+    {
+      "id": "741413",
+      "service_value": "+48683000156",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "WOZINSKY",
+      "multiplier_value": []
+    },
+    {
+      "id": "741417",
+      "service_value": "+48 800 111 332",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "XIAOMI",
+      "multiplier_value": []
+    },
+    {
+      "id": "741421",
+      "service_value": "+48 61 111 02 523",
+      "action_type": "2",
+      "action_when": "2",
+      "shop_param": "",
+      "shop_value": "",
+      "action_when_params": "Yaber",
+      "multiplier_value": []
+    }
+  ]
+}

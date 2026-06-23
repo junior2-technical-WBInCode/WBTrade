@@ -151,7 +151,7 @@ const PACKAGE_TAGS = [
   'produkt w paczce: 1', 'produkt w paczce: 2', 'produkt w paczce: 3',
   'produkt w paczce: 4', 'produkt w paczce: 5',
 ];
-const HIDDEN_TAGS = ['błąd zdjęcia', 'błąd zdjęcia '];
+const HIDDEN_TAGS = ['błąd zdjęcia', 'błąd zdjęcia ', 'nie wrzucać-zabronione'];
 const DELIVERY_TAGS = [
   'Paczkomaty i Kurier', 'paczkomaty i kurier',
   'Tylko kurier', 'tylko kurier',

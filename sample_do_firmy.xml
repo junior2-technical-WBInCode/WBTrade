@@ -1,0 +1,2811 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<offers xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="1">
+  <responsibleProducers>
+    <p id="producer_1">
+      <name>LEGO Polska Sp. Z o. o.</name>
+      <address>
+        <countryCode>PL</countryCode>
+        <street>ul. Wołoska 22A</street>
+        <postalCode>02-675</postalCode>
+        <city>Warszawa</city>
+      </address>
+      <contact>
+        <email>kontakt@lego.com</email>
+        <phoneNumber></phoneNumber>
+      </contact>
+    </p>
+    <p id="producer_2">
+      <name>PAKO GROUP PATRYK KOZIŃSKI</name>
+      <address>
+        <countryCode>PL</countryCode>
+        <street>ul. Bajkowa 2</street>
+        <postalCode>75-710</postalCode>
+        <city>Koszalin</city>
+      </address>
+      <contact>
+        <email>biuro@pakogroup.pl</email>
+        <phoneNumber></phoneNumber>
+      </contact>
+    </p>
+    <p id="producer_3">
+      <name>BISPOL Sp. z o.o.</name>
+      <address>
+        <countryCode>PL</countryCode>
+        <street>Głuchów 573</street>
+        <postalCode>37-100</postalCode>
+        <city>Łańcut</city>
+      </address>
+      <contact>
+        <email>bispol@bispol.pl</email>
+        <phoneNumber></phoneNumber>
+      </contact>
+    </p>
+    <p id="producer_4">
+      <name>Procter &amp; Gamble Polska Sp. z o.o.</name>
+      <address>
+        <countryCode>PL</countryCode>
+        <street>Zabraniecka 20</street>
+        <postalCode>03-872</postalCode>
+        <city>Warszawa</city>
+      </address>
+      <contact>
+        <email>kontakt@pg.com</email>
+        <phoneNumber></phoneNumber>
+      </contact>
+    </p>
+    <p id="producer_5">
+      <name>Private Label Tissue Sp. z o.o.</name>
+      <address>
+        <countryCode>PL</countryCode>
+        <street>ul. Mszczonowska 36</street>
+        <postalCode>96-200</postalCode>
+        <city>Rawa Mazowiecka</city>
+      </address>
+      <contact>
+        <email>biuro@pltissue.pl</email>
+        <phoneNumber></phoneNumber>
+      </contact>
+    </p>
+    <p id="producer_6">
+      <name>Bros Sp. z o.o.</name>
+      <address>
+        <countryCode>PL</countryCode>
+        <street>Karpia 24</street>
+        <postalCode>61-619</postalCode>
+        <city>Poznań</city>
+      </address>
+      <contact>
+        <email>biuro@bros.pl</email>
+        <phoneNumber></phoneNumber>
+      </contact>
+    </p>
+    <p id="producer_7">
+      <name>Sarantis Polska S.A.</name>
+      <address>
+        <countryCode>PL</countryCode>
+        <street>Puławska 42C</street>
+        <postalCode>05-500</postalCode>
+        <city>Piaseczno</city>
+      </address>
+      <contact>
+        <email>pl-info@sarantisgroup.com</email>
+        <phoneNumber></phoneNumber>
+      </contact>
+    </p>
+    <p id="producer_8">
+      <name>RAW-POL</name>
+      <address>
+        <countryCode>PL</countryCode>
+        <street>Julianów 50</street>
+        <postalCode>96-200</postalCode>
+        <city>Julianów</city>
+      </address>
+      <contact>
+        <email>kontakt@rawpol.com</email>
+        <phoneNumber></phoneNumber>
+      </contact>
+    </p>
+    <p id="producer_9">
+      <name>DR. MIELE COSMED GROUP S.A.</name>
+      <address>
+        <countryCode>PL</countryCode>
+        <street>ul. Kuziennicza 15</street>
+        <postalCode>59-400</postalCode>
+        <city>Jawor</city>
+      </address>
+      <contact>
+        <email>sekretariat@dr-miele.eu</email>
+        <phoneNumber></phoneNumber>
+      </contact>
+    </p>
+    <p id="producer_10">
+      <name>Continental Aftermarket &amp; Services GmbH</name>
+      <address>
+        <countryCode>PL</countryCode>
+        <street>Sodener Str. 9</street>
+        <postalCode>65824</postalCode>
+        <city>Schwalbach am Taunus</city>
+      </address>
+      <contact>
+        <email>info@continental-aftermarket.com</email>
+        <phoneNumber></phoneNumber>
+      </contact>
+    </p>
+    <p id="producer_11">
+      <name>Velvet CARE sp. z o.o.</name>
+      <address>
+        <countryCode>PL</countryCode>
+        <street>ul. Złota 59</street>
+        <postalCode>00-120</postalCode>
+        <city>Warszawa</city>
+      </address>
+      <contact>
+        <email>kontakt@velvetcare.com</email>
+        <phoneNumber></phoneNumber>
+      </contact>
+    </p>
+    <p id="producer_12">
+      <name>FOX Sp. z o.o.</name>
+      <address>
+        <countryCode>PL</countryCode>
+        <street>ul. Ordona 2 A</street>
+        <postalCode>01-237</postalCode>
+        <city>Warszawa</city>
+      </address>
+      <contact>
+        <email>biuro@adler.com.pl</email>
+        <phoneNumber></phoneNumber>
+      </contact>
+    </p>
+    <p id="producer_13">
+      <name>Wilk Elektronik SA</name>
+      <address>
+        <countryCode>PL</countryCode>
+        <street>ul. Mikołowska 42</street>
+        <postalCode>43-173</postalCode>
+        <city>Łaziska Górne</city>
+      </address>
+      <contact>
+        <email>kontakt@goodram.com</email>
+        <phoneNumber></phoneNumber>
+      </contact>
+    </p>
+    <p id="producer_14">
+      <name>ICT Poland Sp. z o. o.</name>
+      <address>
+        <countryCode>PL</countryCode>
+        <street>ul. Wloska 3</street>
+        <postalCode>66-470</postalCode>
+        <city>Kostrzyn N/Odra</city>
+      </address>
+      <contact>
+        <email>recepcja@ictpl.eu</email>
+        <phoneNumber></phoneNumber>
+      </contact>
+    </p>
+    <p id="producer_15">
+      <name>ZAKŁAD PRODUKCYJNO-HANDLOWY PK-MOT</name>
+      <address>
+        <countryCode>PL</countryCode>
+        <street>ul. Tadeusza Kościuszki 151</street>
+        <postalCode>07-100</postalCode>
+        <city>Węgrów</city>
+      </address>
+      <contact>
+        <email>biuro@pk-mot.pl</email>
+        <phoneNumber></phoneNumber>
+      </contact>
+    </p>
+    <p id="producer_16">
+      <name>FHP Vileda Sp. z o.o.</name>
+      <address>
+        <countryCode>PL</countryCode>
+        <street>Puławska 182</street>
+        <postalCode>02-670</postalCode>
+        <city>Warszawa</city>
+      </address>
+      <contact>
+        <email>biuro.pl@fhp-ww.com</email>
+        <phoneNumber></phoneNumber>
+      </contact>
+    </p>
+    <p id="producer_17">
+      <name>MERCATOR MEDICAL S.A.</name>
+      <address>
+        <countryCode>PL</countryCode>
+        <street>ul. Heleny Modrzejewskiej 30</street>
+        <postalCode>31-327</postalCode>
+        <city>Kraków</city>
+      </address>
+      <contact>
+        <email>recepcja.krakow@pl.mercatormedical.eu</email>
+        <phoneNumber></phoneNumber>
+      </contact>
+    </p>
+    <p id="producer_18">
+      <name>Reckitt (Poland) SA</name>
+      <address>
+        <countryCode>PL</countryCode>
+        <street>ul. Wołoska 22</street>
+        <postalCode>02-675</postalCode>
+        <city>Warszawa</city>
+      </address>
+      <contact>
+        <email>ConsumerHealth_PL@reckitt.com</email>
+        <phoneNumber></phoneNumber>
+      </contact>
+    </p>
+    <p id="producer_19">
+      <name>Lontex Group SP. Z O.O.</name>
+      <address>
+        <countryCode>PL</countryCode>
+        <street>ul. Ligocka 55</street>
+        <postalCode>43-502</postalCode>
+        <city>Czechowice-Dziedzice</city>
+      </address>
+      <contact>
+        <email>info@tekson.eu</email>
+        <phoneNumber></phoneNumber>
+      </contact>
+    </p>
+    <p id="producer_20">
+      <name>RAVANSON LTD Sp. Z o. o.</name>
+      <address>
+        <countryCode>PL</countryCode>
+        <street>ul. Mazowiecka 6</street>
+        <postalCode>09-100</postalCode>
+        <city>Płońsk</city>
+      </address>
+      <contact>
+        <email>kontakt@ravanson.pl</email>
+        <phoneNumber></phoneNumber>
+      </contact>
+    </p>
+    <p id="producer_21">
+      <name>Unilever Polska Sp. z o.o.</name>
+      <address>
+        <countryCode>PL</countryCode>
+        <street>Al. Jerozolimskie 134</street>
+        <postalCode>02-305</postalCode>
+        <city>Warszawa</city>
+      </address>
+      <contact>
+        <email>kontakt@unilever.pl</email>
+        <phoneNumber></phoneNumber>
+      </contact>
+    </p>
+    <p id="producer_22">
+      <name>Total Market Sp. z o.o.</name>
+      <address>
+        <countryCode>PL</countryCode>
+        <street>ul. Chełmżyńska 180E</street>
+        <postalCode>04-464</postalCode>
+        <city>Warszawa</city>
+      </address>
+      <contact>
+        <email>office@totalmarket.pl</email>
+        <phoneNumber></phoneNumber>
+      </contact>
+    </p>
+    <p id="producer_23">
+      <name>SC Johnson Sp. z o.o.</name>
+      <address>
+        <countryCode>PL</countryCode>
+        <street>Taśmowa 7</street>
+        <postalCode>02-677</postalCode>
+        <city>Warszawa</city>
+      </address>
+      <contact>
+        <email>PLinfo@scj.com</email>
+        <phoneNumber></phoneNumber>
+      </contact>
+    </p>
+    <p id="producer_24">
+      <name>Tenzi Sp. z o.o.</name>
+      <address>
+        <countryCode>PL</countryCode>
+        <street>Skarbimierzyce 20</street>
+        <postalCode>72-002</postalCode>
+        <city>Dołuje</city>
+      </address>
+      <contact>
+        <email>kontakt@tenzi.pl</email>
+        <phoneNumber></phoneNumber>
+      </contact>
+    </p>
+    <p id="producer_25">
+      <name>GRAMMI Adrian Porada</name>
+      <address>
+        <countryCode>PL</countryCode>
+        <street>Al. Żołnierzy I Armii WP 3</street>
+        <postalCode>35-301</postalCode>
+        <city>Rzeszów</city>
+      </address>
+      <contact>
+        <email>kontakt@grammi.pl</email>
+        <phoneNumber></phoneNumber>
+      </contact>
+    </p>
+    <p id="producer_26">
+      <name>Stella Pack S.A.</name>
+      <address>
+        <countryCode>PL</countryCode>
+        <street>ul. Krańcowa 67</street>
+        <postalCode>21-100</postalCode>
+        <city>Lubartów</city>
+      </address>
+      <contact>
+        <email>info@sarantis.pl</email>
+        <phoneNumber></phoneNumber>
+      </contact>
+    </p>
+    <p id="producer_27">
+      <name>WARMTEC Sp. z o.o.</name>
+      <address>
+        <countryCode>PL</countryCode>
+        <street>Al. Jana Pawła II 27</street>
+        <postalCode>00-867</postalCode>
+        <city>Warszawa</city>
+      </address>
+      <contact>
+        <email>kontakt@warmtec.pl</email>
+        <phoneNumber></phoneNumber>
+      </contact>
+    </p>
+    <p id="producer_28">
+      <name>DNP Sp. z o.o.</name>
+      <address>
+        <countryCode>PL</countryCode>
+        <street>Polanowo 27A</street>
+        <postalCode>89-300</postalCode>
+        <city>Wyrzysk</city>
+      </address>
+      <contact>
+        <email>kontakt@dolina-noteci.pl</email>
+        <phoneNumber></phoneNumber>
+      </contact>
+    </p>
+    <p id="producer_29">
+      <name>GTX Poland Sp. z o.o. Sp. k.</name>
+      <address>
+        <countryCode>PL</countryCode>
+        <street>ul. Pograniczna 2/4</street>
+        <postalCode>02-285</postalCode>
+        <city>Warszawa</city>
+      </address>
+      <contact>
+        <email>office@gtx-group.com</email>
+        <phoneNumber></phoneNumber>
+      </contact>
+    </p>
+    <p id="producer_30">
+      <name>DJI Europe B.V.</name>
+      <address>
+        <countryCode>NL</countryCode>
+        <street>LA 2992</street>
+        <postalCode>49B01</postalCode>
+        <city>Barendrecht</city>
+      </address>
+      <contact>
+        <email>dealer.nl@dji.com</email>
+        <phoneNumber></phoneNumber>
+      </contact>
+    </p>
+    <p id="producer_31">
+      <name>Harman International Industries</name>
+      <address>
+        <countryCode>NL</countryCode>
+        <street>Danzigerkade 16G</street>
+        <postalCode>1013 AP</postalCode>
+        <city>Amsterdam</city>
+      </address>
+      <contact>
+        <email>customer.support@harman.com</email>
+        <phoneNumber></phoneNumber>
+      </contact>
+    </p>
+    <p id="producer_33">
+      <name>Dômes Pharma</name>
+      <address>
+        <countryCode>PL</countryCode>
+        <street>3 rue André Citroën</street>
+        <postalCode>63430</postalCode>
+        <city>PONT-DU-CHÂTEAU</city>
+      </address>
+      <contact>
+        <email>contact@domespharma.com</email>
+        <phoneNumber></phoneNumber>
+      </contact>
+    </p>
+    <p id="producer_34">
+      <name>Biosfera Polska Sp. z o.o.</name>
+      <address>
+        <countryCode>PL</countryCode>
+        <street>Łęczyńska 5</street>
+        <postalCode>20-309</postalCode>
+        <city>Lublin</city>
+      </address>
+      <contact>
+        <email>kontakt@biosferapolska.pl</email>
+        <phoneNumber></phoneNumber>
+      </contact>
+    </p>
+    <p id="producer_35">
+      <name>Hamelin Polska Sp. z o.o</name>
+      <address>
+        <countryCode>PL</countryCode>
+        <street>ul. Jutrzenki 137A</street>
+        <postalCode>02-231</postalCode>
+        <city>Warszawa</city>
+      </address>
+      <contact>
+        <email>kontakt@hamelinbrands.com</email>
+        <phoneNumber></phoneNumber>
+      </contact>
+    </p>
+    <p id="producer_36">
+      <name>3mk Protection Sp. z o.o.</name>
+      <address>
+        <countryCode>PL</countryCode>
+        <street>ul. KROTOSZYŃSKA 35 B-02 lok. 4A</street>
+        <postalCode>63-400</postalCode>
+        <city>OSTRÓW WIELKOPOLSKI</city>
+      </address>
+      <contact>
+        <email>3mk@3mk.pl</email>
+        <phoneNumber></phoneNumber>
+      </contact>
+    </p>
+    <p id="producer_37">
+      <name>GRUPA INCO S.A.</name>
+      <address>
+        <countryCode>PL</countryCode>
+        <street>ul. Wspólna 25</street>
+        <postalCode>00-519</postalCode>
+        <city>Warszawa</city>
+      </address>
+      <contact>
+        <email>info.produkty@inco.pl</email>
+        <phoneNumber></phoneNumber>
+      </contact>
+    </p>
+    <p id="producer_38">
+      <name>Mattel Europa B.V.</name>
+      <address>
+        <countryCode>NL</countryCode>
+        <street>Gondel 1</street>
+        <postalCode>1186 MJ</postalCode>
+        <city>Amstelveen</city>
+      </address>
+      <contact>
+        <email>Legal.Notices@Mattel.com</email>
+        <phoneNumber></phoneNumber>
+      </contact>
+    </p>
+    <p id="producer_39">
+      <name>Spectrum Brands Poland Sp. z o.o.</name>
+      <address>
+        <countryCode>PL</countryCode>
+        <street>ul. Bitwy Warszawskiej 1920 r. nr 7A</street>
+        <postalCode>02-366</postalCode>
+        <city>Warszawa</city>
+      </address>
+      <contact>
+        <email>info@eu.spectrumbrands.com</email>
+        <phoneNumber></phoneNumber>
+      </contact>
+    </p>
+    <p id="producer_40">
+      <name>Philips (Koninklijke Philips N.V.)</name>
+      <address>
+        <countryCode>PL</countryCode>
+        <street>High Tech Campus 5</street>
+        <postalCode>5656 AE</postalCode>
+        <city>Eindhoven</city>
+      </address>
+      <contact>
+        <email>Support.PhilipsLightingBenelux@signify.com</email>
+        <phoneNumber></phoneNumber>
+      </contact>
+    </p>
+    <p id="producer_41">
+      <name>AMiO Sp. z o.o.</name>
+      <address>
+        <countryCode>PL</countryCode>
+        <street>ul. Knurowska 63A</street>
+        <postalCode>41-800</postalCode>
+        <city>Zabrze</city>
+      </address>
+      <contact>
+        <email>sklep@amio.pl</email>
+        <phoneNumber></phoneNumber>
+      </contact>
+    </p>
+    <p id="producer_42">
+      <name>Werner &amp; Mertz GmbH</name>
+      <address>
+        <countryCode>DE</countryCode>
+        <street>Rheinallee 96</street>
+        <postalCode>55120</postalCode>
+        <city>Mainz</city>
+      </address>
+      <contact>
+        <email>impressum@werner-mertz.com</email>
+        <phoneNumber></phoneNumber>
+      </contact>
+    </p>
+    <p id="producer_43">
+      <name>Melle Sp. z o.o.</name>
+      <address>
+        <countryCode>PL</countryCode>
+        <street>Stary Staw 9</street>
+        <postalCode>63-400</postalCode>
+        <city>Ostrów Wielkopolski</city>
+      </address>
+      <contact>
+        <email>centrala@melle.com</email>
+        <phoneNumber></phoneNumber>
+      </contact>
+    </p>
+  </responsibleProducers>
+  <o id="58112" url="https://dofirmy.pl/pl/p/Karton-klapowy-200x120x80mm-320gm2/58112" price="1.99" avail="1" set="0" weight="0.04" stock="13014" basket="1">
+    <cat><![CDATA[FIRMA I BIURO/Pakowanie i wysyłka/Kartony]]></cat>
+    <name><![CDATA[Karton klapowy 200x120x80mm 320g/m2]]></name>
+    <imgs>
+      <main url="https://dofirmy.pl/userdata/gfx/76889.jpg"/>
+      <i url="https://dofirmy.pl/userdata/gfx/76897.jpg"/>
+      <i url="https://dofirmy.pl/userdata/gfx/76898.jpg"/>
+      <i url="https://dofirmy.pl/userdata/gfx/76899.jpg"/>
+    </imgs>
+    <desc><![CDATA[<h1>Karton klapowy 200x120x80mm fala B 320g/m2</h1>
+<h2>Paczkomaty InPost - gabaryt A</h2>
+<div class="fx-row">
+<div class="fx-col">
+<p><img src="/userdata/public/assets/Produkty/KARTONY/Karton Klapowy 200x120x80mm 320g m2/Karton-Klapowy-200x120x80mm-320gm2-1.jpg" alt="" width="3055" height="1926" /></p>
+</div>
+<div class="fx-col">
+<p><span style="font-size: 14pt;"><strong>Oferta dotyczy 1 sztuki</strong></span></p>
+<p><span style="font-size: 12pt;"><strong>Kolor: </strong>odcień brązu</span></p>
+<p><span style="font-size: 12pt;"><strong>Gramatura:</strong> 320g/m2</span></p>
+<p><span style="font-size: 12pt;"><strong>Tektura: </strong>mocna falista 3-warstwowa, fala B</span></p>
+<p><span style="font-size: 12pt;"><strong>Wymiary zewnętrzne</strong></span></p>
+<ul>
+<li><span style="font-size: 12pt;"><strong>Długość: 200 mm</strong></span></li>
+<li><span style="font-size: 12pt;"><strong>Szerokość: 120 mm</strong></span></li>
+<li><span style="font-size: 12pt;"><strong>Wysokość: 80 mm</strong></span></li>
+</ul>
+</div>
+</div>
+<div class="fx-row">
+<div class="fx-col">
+<h2><span style="font-size: 14pt;">Najprostsze w składaniu</span></h2>
+<p><span style="font-size: 12pt;"><strong>Idealne do masowej wysyłki, oszczędność na taśmie, dodatkowe wzmocnienia w narożach</strong></span></p>
+<p><span style="font-size: 12pt;">Wykonane z mocne falistej tektury.</span></p>
+<p><span style="font-size: 12pt;">Bardzo sztywne i estetyczne po złożeniu.</span></p>
+</div>
+<div class="fx-col">
+<p><img src="/userdata/public/assets/Produkty/KARTONY/Karton Klapowy 200x120x80mm 320g m2/Karton-Klapowy-200x120x80mm-320gm2-2.jpg" alt="" width="800" height="533" /></p>
+</div>
+</div>
+<div class="fx-row">
+<div class="fx-col">
+<p><img src="/userdata/public/assets/Produkty/KARTONY/Karton Klapowy 200x120x80mm 320g m2/Karton-Klapowy-200x120x80mm-320gm2-3.jpg" alt="" width="1600" height="1562" /></p>
+</div>
+<div class="fx-col">
+<h2><span style="font-size: 14pt;">Wygodne magazynowanie</span></h2>
+<p><span style="font-size: 12pt;">Nasze kartony są zawsze rozłożone, przez co zajmują bardzo mało miejsca.</span></p>
+<p><span style="font-size: 12pt;">Dzięki temu wygodnie można je magazynować.</span></p>
+</div>
+</div>
+<div class="fx-row">
+<div class="fx-col">
+<p><img src="/userdata/public/assets/Produkty/KARTONY/Karton Klapowy 200x120x80mm 320g m2/Karton-Klapowy-200x120x80mm-320gm2-4.jpg" alt="" width="666" height="500" /></p>
+</div>
+<div class="fx-col">
+<p><img src="/userdata/public/assets/Produkty/KARTONY/Karton Klapowy 200x120x80mm 320g m2/Karton-Klapowy-200x120x80mm-320gm2-5.jpg" alt="" width="666" height="500" /></p>
+</div>
+</div>]]></desc>
+    <attrs>
+      <a name="Producent"><![CDATA[INNY]]></a>
+      <a name="Kod_produktu"><![CDATA[G157]]></a>
+      <a name="Waga"><![CDATA[0,04 Kg]]></a>
+      <a name="Długość"><![CDATA[200 mm]]></a>
+      <a name="Szerokość"><![CDATA[120 mm]]></a>
+      <a name="Wysokość"><![CDATA[80 mm]]></a>
+      <a name="Kolor"><![CDATA[Brązowy]]></a>
+      <a name="Gramatura"><![CDATA[320 g/m2]]></a>
+      <a name="Rodzaj fali"><![CDATA[Fala B]]></a>
+      <a name="Tektura"><![CDATA[3 - warstwowa]]></a>
+      <a name="Rodzaj kartonu"><![CDATA[Klapowy]]></a>
+      <a name="Producent odpowiedzialny"><![CDATA[producer_2]]></a>
+    </attrs>
+  </o>
+  <o id="58113" url="https://dofirmy.pl/pl/p/Karton-klapowy-200x120x80mm-320gm2-20-sztuk/58113" price="34.90" avail="1" set="0" weight="0.8" stock="649" basket="1">
+    <cat><![CDATA[FIRMA I BIURO/Pakowanie i wysyłka/Kartony]]></cat>
+    <name><![CDATA[Karton klapowy 200x120x80mm 320g/m2 - 20 sztuk]]></name>
+    <imgs>
+      <main url="https://dofirmy.pl/userdata/gfx/77057.jpg"/>
+      <i url="https://dofirmy.pl/userdata/gfx/76890.jpg"/>
+      <i url="https://dofirmy.pl/userdata/gfx/77050.jpg"/>
+      <i url="https://dofirmy.pl/userdata/gfx/77048.jpg"/>
+      <i url="https://dofirmy.pl/userdata/gfx/77049.jpg"/>
+    </imgs>
+    <desc><![CDATA[<h1>Karton klapowy 200x120x80mm fala B 320g/m2 - 20 sztuk</h1>
+<h2>Paczkomaty InPost - gabaryt A</h2>
+<div class="fx-row">
+<div class="fx-col">
+<p><img src="/userdata/public/assets/Produkty/KARTONY/Karton Klapowy 200x120x80mm 320g m2/Karton-Klapowy-200x120x80mm-320gm2-1.jpg" alt="" width="3055" height="1926" /></p>
+</div>
+<div class="fx-col">
+<p><span style="font-size: 14pt;"><strong>Oferta dotyczy 20 sztuk</strong></span></p>
+<p><span style="font-size: 12pt;"><strong>Kolor: </strong>odcień brązu</span></p>
+<p><span style="font-size: 12pt;"><strong>Gramatura:</strong> 320g/m2</span></p>
+<p><span style="font-size: 12pt;"><strong>Tektura: </strong>mocna falista 3-warstwowa, fala B</span></p>
+<p><span style="font-size: 12pt;"><strong>Wymiary zewnętrzne</strong></span></p>
+<ul>
+<li><span style="font-size: 12pt;"><strong>Długość: 200 mm</strong></span></li>
+<li><span style="font-size: 12pt;"><strong>Szerokość: 120 mm</strong></span></li>
+<li><span style="font-size: 12pt;"><strong>Wysokość: 80 mm</strong></span></li>
+</ul>
+</div>
+</div>
+<div class="fx-row">
+<div class="fx-col">
+<h2><span style="font-size: 14pt;">Najprostsze w składaniu</span></h2>
+<p><span style="font-size: 12pt;"><strong>Idealne do masowej wysyłki, oszczędność na taśmie, dodatkowe wzmocnienia w narożach</strong></span></p>
+<p><span style="font-size: 12pt;">Wykonane z mocne falistej tektury.</span></p>
+<p><span style="font-size: 12pt;">Bardzo sztywne i estetyczne po złożeniu.</span></p>
+</div>
+<div class="fx-col">
+<p><img src="/userdata/public/assets/Produkty/KARTONY/Karton Klapowy 200x120x80mm 320g m2/Karton-Klapowy-200x120x80mm-320gm2-2.jpg" alt="" width="800" height="533" /></p>
+</div>
+</div>
+<div class="fx-row">
+<div class="fx-col">
+<p><img src="/userdata/public/assets/Produkty/KARTONY/Karton Klapowy 200x120x80mm 320g m2/Karton-Klapowy-200x120x80mm-320gm2-3.jpg" alt="" width="1600" height="1562" /></p>
+</div>
+<div class="fx-col">
+<h2><span style="font-size: 14pt;">Wygodne magazynowanie</span></h2>
+<p><span style="font-size: 12pt;">Nasze kartony są zawsze rozłożone, przez co zajmują bardzo mało miejsca.</span></p>
+<p><span style="font-size: 12pt;">Dzięki temu wygodnie można je magazynować.</span></p>
+</div>
+</div>
+<div class="fx-row">
+<div class="fx-col">
+<p><img src="/userdata/public/assets/Produkty/KARTONY/Karton Klapowy 200x120x80mm 320g m2/Karton-Klapowy-200x120x80mm-320gm2-4.jpg" alt="" width="666" height="500" /></p>
+</div>
+<div class="fx-col">
+<p><img src="/userdata/public/assets/Produkty/KARTONY/Karton Klapowy 200x120x80mm 320g m2/Karton-Klapowy-200x120x80mm-320gm2-5.jpg" alt="" width="666" height="500" /></p>
+</div>
+</div>]]></desc>
+    <attrs>
+      <a name="Producent"><![CDATA[INNY]]></a>
+      <a name="Kod_produktu"><![CDATA[G157-20]]></a>
+      <a name="Waga"><![CDATA[0,8 Kg]]></a>
+      <a name="Długość"><![CDATA[200 mm]]></a>
+      <a name="Szerokość"><![CDATA[120 mm]]></a>
+      <a name="Wysokość"><![CDATA[80 mm]]></a>
+      <a name="Kolor"><![CDATA[Brązowy]]></a>
+      <a name="Gramatura"><![CDATA[320 g/m2]]></a>
+      <a name="Rodzaj fali"><![CDATA[Fala B]]></a>
+      <a name="Tektura"><![CDATA[3 - warstwowa]]></a>
+      <a name="Rodzaj kartonu"><![CDATA[Klapowy]]></a>
+      <a name="Ilość w komplecie"><![CDATA[20 szt.]]></a>
+    </attrs>
+  </o>
+  <o id="58114" url="https://dofirmy.pl/pl/p/Karton-klapowy-200x120x80mm-320gm2-100-sztuk/58114" price="109.90" avail="1" set="0" weight="4.1" stock="129" basket="1">
+    <cat><![CDATA[FIRMA I BIURO/Pakowanie i wysyłka/Kartony]]></cat>
+    <name><![CDATA[Karton klapowy 200x120x80mm 320g/m2 - 100 sztuk]]></name>
+    <imgs>
+      <main url="https://dofirmy.pl/userdata/gfx/77058.jpg"/>
+      <i url="https://dofirmy.pl/userdata/gfx/76891.jpg"/>
+      <i url="https://dofirmy.pl/userdata/gfx/77051.jpg"/>
+      <i url="https://dofirmy.pl/userdata/gfx/77052.jpg"/>
+      <i url="https://dofirmy.pl/userdata/gfx/77053.jpg"/>
+    </imgs>
+    <desc><![CDATA[<h1>Karton klapowy 200x120x80mm fala B 320g/m2 - 100 sztuk</h1>
+<h2>Paczkomaty InPost - gabaryt A</h2>
+<div class="fx-row">
+<div class="fx-col">
+<p><img src="/userdata/public/assets/Produkty/KARTONY/Karton Klapowy 200x120x80mm 320g m2/Karton-Klapowy-200x120x80mm-320gm2-1.jpg" alt="" width="3055" height="1926" /></p>
+</div>
+<div class="fx-col">
+<p><span style="font-size: 14pt;"><strong>Oferta dotyczy 100 sztuk</strong></span></p>
+<p><span style="font-size: 12pt;"><strong>Kolor: </strong>odcień brązu</span></p>
+<p><span style="font-size: 12pt;"><strong>Gramatura:</strong> 320g/m2</span></p>
+<p><span style="font-size: 12pt;"><strong>Tektura: </strong>mocna falista 3-warstwowa, fala B</span></p>
+<p><span style="font-size: 12pt;"><strong>Wymiary zewnętrzne</strong></span></p>
+<ul>
+<li><span style="font-size: 12pt;"><strong>Długość: 200 mm</strong></span></li>
+<li><span style="font-size: 12pt;"><strong>Szerokość: 120 mm</strong></span></li>
+<li><span style="font-size: 12pt;"><strong>Wysokość: 80 mm</strong></span></li>
+</ul>
+</div>
+</div>
+<div class="fx-row">
+<div class="fx-col">
+<h2><span style="font-size: 14pt;">Najprostsze w składaniu</span></h2>
+<p><span style="font-size: 12pt;"><strong>Idealne do masowej wysyłki, oszczędność na taśmie, dodatkowe wzmocnienia w narożach</strong></span></p>
+<p><span style="font-size: 12pt;">Wykonane z mocne falistej tektury.</span></p>
+<p><span style="font-size: 12pt;">Bardzo sztywne i estetyczne po złożeniu.</span></p>
+</div>
+<div class="fx-col">
+<p><img src="/userdata/public/assets/Produkty/KARTONY/Karton Klapowy 200x120x80mm 320g m2/Karton-Klapowy-200x120x80mm-320gm2-2.jpg" alt="" width="800" height="533" /></p>
+</div>
+</div>
+<div class="fx-row">
+<div class="fx-col">
+<p><img src="/userdata/public/assets/Produkty/KARTONY/Karton Klapowy 200x120x80mm 320g m2/Karton-Klapowy-200x120x80mm-320gm2-3.jpg" alt="" width="1600" height="1562" /></p>
+</div>
+<div class="fx-col">
+<h2><span style="font-size: 14pt;">Wygodne magazynowanie</span></h2>
+<p><span style="font-size: 12pt;">Nasze kartony są zawsze rozłożone, przez co zajmują bardzo mało miejsca.</span></p>
+<p><span style="font-size: 12pt;">Dzięki temu wygodnie można je magazynować.</span></p>
+</div>
+</div>
+<div class="fx-row">
+<div class="fx-col">
+<p><img src="/userdata/public/assets/Produkty/KARTONY/Karton Klapowy 200x120x80mm 320g m2/Karton-Klapowy-200x120x80mm-320gm2-4.jpg" alt="" width="666" height="500" /></p>
+</div>
+<div class="fx-col">
+<p><img src="/userdata/public/assets/Produkty/KARTONY/Karton Klapowy 200x120x80mm 320g m2/Karton-Klapowy-200x120x80mm-320gm2-5.jpg" alt="" width="666" height="500" /></p>
+</div>
+</div>]]></desc>
+    <attrs>
+      <a name="Producent"><![CDATA[INNY]]></a>
+      <a name="Kod_produktu"><![CDATA[G157-100]]></a>
+      <a name="Waga"><![CDATA[4,1 Kg]]></a>
+      <a name="Długość"><![CDATA[200 mm]]></a>
+      <a name="Szerokość"><![CDATA[120 mm]]></a>
+      <a name="Wysokość"><![CDATA[80 mm]]></a>
+      <a name="Kolor"><![CDATA[Brązowy]]></a>
+      <a name="Gramatura"><![CDATA[320 g/m2]]></a>
+      <a name="Rodzaj fali"><![CDATA[Fala B]]></a>
+      <a name="Tektura"><![CDATA[3 - warstwowa]]></a>
+      <a name="Rodzaj kartonu"><![CDATA[Klapowy]]></a>
+      <a name="Ilość w komplecie"><![CDATA[100 szt.]]></a>
+    </attrs>
+  </o>
+  <o id="58115" url="https://dofirmy.pl/pl/p/Karton-klapowy-200x120x80mm-320gm2-600-sztuk/58115" price="479.90" avail="1" set="0" weight="24.3" stock="21" basket="1">
+    <cat><![CDATA[FIRMA I BIURO/Pakowanie i wysyłka/Kartony]]></cat>
+    <name><![CDATA[Karton klapowy 200x120x80mm 320g/m2 - 600 sztuk]]></name>
+    <imgs>
+      <main url="https://dofirmy.pl/userdata/gfx/77059.jpg"/>
+      <i url="https://dofirmy.pl/userdata/gfx/76892.jpg"/>
+      <i url="https://dofirmy.pl/userdata/gfx/77054.jpg"/>
+      <i url="https://dofirmy.pl/userdata/gfx/77055.jpg"/>
+      <i url="https://dofirmy.pl/userdata/gfx/77056.jpg"/>
+    </imgs>
+    <desc><![CDATA[<h1>Karton klapowy 200x120x80mm fala B 320g/m2 - 600 sztuk</h1>
+<h2>Paczkomaty InPost - gabaryt A</h2>
+<div class="fx-row">
+<div class="fx-col">
+<p><img src="/userdata/public/assets/Produkty/KARTONY/Karton Klapowy 200x120x80mm 320g m2/Karton-Klapowy-200x120x80mm-320gm2-1.jpg" alt="" width="3055" height="1926" /></p>
+</div>
+<div class="fx-col">
+<p><span style="font-size: 14pt;"><strong>Oferta dotyczy 600 sztuk</strong></span></p>
+<p><span style="font-size: 12pt;"><strong>Kolor: </strong>odcień brązu</span></p>
+<p><span style="font-size: 12pt;"><strong>Gramatura:</strong> 320g/m2</span></p>
+<p><span style="font-size: 12pt;"><strong>Tektura: </strong>mocna falista 3-warstwowa, fala B</span></p>
+<p><span style="font-size: 12pt;"><strong>Wymiary zewnętrzne</strong></span></p>
+<ul>
+<li><span style="font-size: 12pt;"><strong>Długość: 200 mm</strong></span></li>
+<li><span style="font-size: 12pt;"><strong>Szerokość: 120 mm</strong></span></li>
+<li><span style="font-size: 12pt;"><strong>Wysokość: 80 mm</strong></span></li>
+</ul>
+</div>
+</div>
+<div class="fx-row">
+<div class="fx-col">
+<h2><span style="font-size: 14pt;">Najprostsze w składaniu</span></h2>
+<p><span style="font-size: 12pt;"><strong>Idealne do masowej wysyłki, oszczędność na taśmie, dodatkowe wzmocnienia w narożach</strong></span></p>
+<p><span style="font-size: 12pt;">Wykonane z mocne falistej tektury.</span></p>
+<p><span style="font-size: 12pt;">Bardzo sztywne i estetyczne po złożeniu.</span></p>
+</div>
+<div class="fx-col">
+<p><img src="/userdata/public/assets/Produkty/KARTONY/Karton Klapowy 200x120x80mm 320g m2/Karton-Klapowy-200x120x80mm-320gm2-2.jpg" alt="" width="800" height="533" /></p>
+</div>
+</div>
+<div class="fx-row">
+<div class="fx-col">
+<p><img src="/userdata/public/assets/Produkty/KARTONY/Karton Klapowy 200x120x80mm 320g m2/Karton-Klapowy-200x120x80mm-320gm2-3.jpg" alt="" width="1600" height="1562" /></p>
+</div>
+<div class="fx-col">
+<h2><span style="font-size: 14pt;">Wygodne magazynowanie</span></h2>
+<p><span style="font-size: 12pt;">Nasze kartony są zawsze rozłożone, przez co zajmują bardzo mało miejsca.</span></p>
+<p><span style="font-size: 12pt;">Dzięki temu wygodnie można je magazynować.</span></p>
+</div>
+</div>
+<div class="fx-row">
+<div class="fx-col">
+<p><img src="/userdata/public/assets/Produkty/KARTONY/Karton Klapowy 200x120x80mm 320g m2/Karton-Klapowy-200x120x80mm-320gm2-4.jpg" alt="" width="666" height="500" /></p>
+</div>
+<div class="fx-col">
+<p><img src="/userdata/public/assets/Produkty/KARTONY/Karton Klapowy 200x120x80mm 320g m2/Karton-Klapowy-200x120x80mm-320gm2-5.jpg" alt="" width="666" height="500" /></p>
+</div>
+</div>]]></desc>
+    <attrs>
+      <a name="Producent"><![CDATA[INNY]]></a>
+      <a name="Kod_produktu"><![CDATA[G157-600]]></a>
+      <a name="Waga"><![CDATA[24,3 Kg]]></a>
+      <a name="Długość"><![CDATA[200 mm]]></a>
+      <a name="Szerokość"><![CDATA[120 mm]]></a>
+      <a name="Wysokość"><![CDATA[80 mm]]></a>
+      <a name="Kolor"><![CDATA[Brązowy]]></a>
+      <a name="Gramatura"><![CDATA[320 g/m2]]></a>
+      <a name="Rodzaj fali"><![CDATA[Fala B]]></a>
+      <a name="Tektura"><![CDATA[3 - warstwowa]]></a>
+      <a name="Rodzaj kartonu"><![CDATA[Klapowy]]></a>
+      <a name="Ilość w komplecie"><![CDATA[600 szt.]]></a>
+    </attrs>
+  </o>
+  <o id="stock_58130" url="https://dofirmy.pl/pl/p/Rekawice-robocze-Czarne-OX-POLIUR_BB/58116?stockOptions=76" price="2.89" avail="1" set="0" weight="0.04" stock="11037" basket="1">
+    <cat><![CDATA[FIRMA I BIURO/Artykuły BHP/Rękawice Robocze]]></cat>
+    <name><![CDATA[Rękawice robocze / Czarne / OX-POLIUR_BB (7 - S)]]></name>
+    <imgs>
+      <main url="https://dofirmy.pl/userdata/gfx/76893.png"/>
+    </imgs>
+    <desc><![CDATA[<div class="mpof_ki myre_zn myre_8v_l _0d3bd_YrWCD">
+<div class="mp4t_16_s mryx_16_s mr3m_1 mli2_1 mh85_56 mh85_0_l">
+<div class="mgn2_16 _0d3bd_5pK0q">
+<h1>Rękawice ochronne wykonane z poliestru, powlekane poliuretanem</h1>
+</div>
+</div>
+</div>
+<div class="mpof_ki myre_zn myre_8v_l _0d3bd_YrWCD"> </div>
+<div class="fx-row">
+<div class="fx-col fx-pic"><img src="/userdata/public/assets/Produkty/RĘKAWICE/Rękawice robocze  Czarne  Rozmiar 9 - L  OX-POLIUR_BB9/OX-POLIUR_BB.png" alt="" width="1196" height="1771" /></div>
+<div class="fx-col">
+<p><span style="font-size: 12pt;"><strong>Oferta dotyczy 1 pary rękawic</strong></span></p>
+<p><span style="font-size: 12pt;"><strong>Kolor: </strong>Czarny</span></p>
+<p><span style="font-size: 12pt;"><strong>Marka: </strong>OGRIFOX</span></p>
+<p><span style="font-size: 12pt;"><strong>PAKOWANIE:</strong> 12 par (Foliopak) / 240 par (Karton)</span></p>
+<ul>
+<li><span style="font-size: 12pt;">zapewniają manualność oraz doskonałe czucie trzymanego przedmiotu</span></li>
+<li><span style="font-size: 12pt;">zakończone ściągaczem</span></li>
+<li><span style="font-size: 12pt;">wykazują bardzo dużą elastyczność oraz świetnie dopasowują się do dłoni</span></li>
+<li><span style="font-size: 12pt;">idealne do prac, gdzie wymagana jest precyzja</span></li>
+<li><span style="font-size: 12pt;">elastyczne, dzięki czemu świetnie dopasowują się do dłoni</span></li>
+<li><span style="font-size: 12pt;">rozciągliwe i wytrzymałe</span></li>
+</ul>
+<h2>Normy:</h2>
+<ul>
+<li><span style="font-size: 12pt;">EN420</span></li>
+<li><span style="font-size: 12pt;">ENISO21420</span></li>
+</ul>
+<h2>Własności:</h2>
+<ul>
+<li><span style="font-size: 12pt;">wysoka manualność</span></li>
+<li><span style="font-size: 12pt;">ściągacz</span></li>
+<li><span style="font-size: 12pt;">powlekanie poliuretanem</span></li>
+<li><span style="font-size: 12pt;">wysoka elastyczność</span></li>
+</ul>
+</div>
+</div>
+<div class="fx-row">
+<div class="fx-col">
+<h2 style="text-align: left;">Produkt polecany dla branż:</h2>
+<ul>
+<li style="text-align: left;"><span style="font-size: 12pt;">Obróbka metali oraz operatorzy maszyn i urządzeń oraz ich naprawa</span></li>
+<li style="text-align: left;"><span style="font-size: 12pt;">Prace budowlane i remontowe/Prace montażowo-instalacyjne/Budowa dróg</span></li>
+<li style="text-align: left;"><span style="font-size: 12pt;">Przemysł elektrotechniczny w tym elektryka i elektronika oraz energetyka</span></li>
+<li style="text-align: left;"><span style="font-size: 12pt;">Rzemiosło w tym produkcja i obróbka szkła, ceramiki, drewna oraz drukarnie</span></li>
+</ul>
+</div>
+</div>]]></desc>
+    <attrs>
+      <a name="Producent"><![CDATA[OGRIFOX]]></a>
+      <a name="Kod_produktu"><![CDATA[5907522992156]]></a>
+      <a name="EAN"><![CDATA[5907522992156]]></a>
+      <a name="Normy"><![CDATA[EN420 + ENISO21420]]></a>
+      <a name="Materiał"><![CDATA[Poliester Powlekany Poliuretanem]]></a>
+      <a name="Kolor"><![CDATA[Czarny]]></a>
+      <a name="Model"><![CDATA[OX-POLIUR_BB ]]></a>
+      <a name="Rozmiar"><![CDATA[7 - S]]></a>
+    </attrs>
+  </o>
+  <o id="stock_58132" url="https://dofirmy.pl/pl/p/Rekawice-robocze-Czarne-OX-POLIUR_BB/58116?stockOptions=77" price="2.89" avail="1" set="0" weight="0.04" stock="10812" basket="1">
+    <cat><![CDATA[FIRMA I BIURO/Artykuły BHP/Rękawice Robocze]]></cat>
+    <name><![CDATA[Rękawice robocze / Czarne / OX-POLIUR_BB (8 - M)]]></name>
+    <imgs>
+      <main url="https://dofirmy.pl/userdata/gfx/76893.png"/>
+    </imgs>
+    <desc><![CDATA[<div class="mpof_ki myre_zn myre_8v_l _0d3bd_YrWCD">
+<div class="mp4t_16_s mryx_16_s mr3m_1 mli2_1 mh85_56 mh85_0_l">
+<div class="mgn2_16 _0d3bd_5pK0q">
+<h1>Rękawice ochronne wykonane z poliestru, powlekane poliuretanem</h1>
+</div>
+</div>
+</div>
+<div class="mpof_ki myre_zn myre_8v_l _0d3bd_YrWCD"> </div>
+<div class="fx-row">
+<div class="fx-col fx-pic"><img src="/userdata/public/assets/Produkty/RĘKAWICE/Rękawice robocze  Czarne  Rozmiar 9 - L  OX-POLIUR_BB9/OX-POLIUR_BB.png" alt="" width="1196" height="1771" /></div>
+<div class="fx-col">
+<p><span style="font-size: 12pt;"><strong>Oferta dotyczy 1 pary rękawic</strong></span></p>
+<p><span style="font-size: 12pt;"><strong>Kolor: </strong>Czarny</span></p>
+<p><span style="font-size: 12pt;"><strong>Marka: </strong>OGRIFOX</span></p>
+<p><span style="font-size: 12pt;"><strong>PAKOWANIE:</strong> 12 par (Foliopak) / 240 par (Karton)</span></p>
+<ul>
+<li><span style="font-size: 12pt;">zapewniają manualność oraz doskonałe czucie trzymanego przedmiotu</span></li>
+<li><span style="font-size: 12pt;">zakończone ściągaczem</span></li>
+<li><span style="font-size: 12pt;">wykazują bardzo dużą elastyczność oraz świetnie dopasowują się do dłoni</span></li>
+<li><span style="font-size: 12pt;">idealne do prac, gdzie wymagana jest precyzja</span></li>
+<li><span style="font-size: 12pt;">elastyczne, dzięki czemu świetnie dopasowują się do dłoni</span></li>
+<li><span style="font-size: 12pt;">rozciągliwe i wytrzymałe</span></li>
+</ul>
+<h2>Normy:</h2>
+<ul>
+<li><span style="font-size: 12pt;">EN420</span></li>
+<li><span style="font-size: 12pt;">ENISO21420</span></li>
+</ul>
+<h2>Własności:</h2>
+<ul>
+<li><span style="font-size: 12pt;">wysoka manualność</span></li>
+<li><span style="font-size: 12pt;">ściągacz</span></li>
+<li><span style="font-size: 12pt;">powlekanie poliuretanem</span></li>
+<li><span style="font-size: 12pt;">wysoka elastyczność</span></li>
+</ul>
+</div>
+</div>
+<div class="fx-row">
+<div class="fx-col">
+<h2 style="text-align: left;">Produkt polecany dla branż:</h2>
+<ul>
+<li style="text-align: left;"><span style="font-size: 12pt;">Obróbka metali oraz operatorzy maszyn i urządzeń oraz ich naprawa</span></li>
+<li style="text-align: left;"><span style="font-size: 12pt;">Prace budowlane i remontowe/Prace montażowo-instalacyjne/Budowa dróg</span></li>
+<li style="text-align: left;"><span style="font-size: 12pt;">Przemysł elektrotechniczny w tym elektryka i elektronika oraz energetyka</span></li>
+<li style="text-align: left;"><span style="font-size: 12pt;">Rzemiosło w tym produkcja i obróbka szkła, ceramiki, drewna oraz drukarnie</span></li>
+</ul>
+</div>
+</div>]]></desc>
+    <attrs>
+      <a name="Producent"><![CDATA[OGRIFOX]]></a>
+      <a name="Kod_produktu"><![CDATA[5907522992163]]></a>
+      <a name="EAN"><![CDATA[5907522992163]]></a>
+      <a name="Normy"><![CDATA[EN420 + ENISO21420]]></a>
+      <a name="Materiał"><![CDATA[Poliester Powlekany Poliuretanem]]></a>
+      <a name="Kolor"><![CDATA[Czarny]]></a>
+      <a name="Model"><![CDATA[OX-POLIUR_BB ]]></a>
+      <a name="Rozmiar"><![CDATA[8 - M]]></a>
+    </attrs>
+  </o>
+  <o id="stock_58133" url="https://dofirmy.pl/pl/p/Rekawice-robocze-Czarne-OX-POLIUR_BB/58116?stockOptions=78" price="2.89" avail="1" set="0" weight="0.04" stock="12183" basket="1">
+    <cat><![CDATA[FIRMA I BIURO/Artykuły BHP/Rękawice Robocze]]></cat>
+    <name><![CDATA[Rękawice robocze / Czarne / OX-POLIUR_BB (9 - L)]]></name>
+    <imgs>
+      <main url="https://dofirmy.pl/userdata/gfx/76893.png"/>
+    </imgs>
+    <desc><![CDATA[<div class="mpof_ki myre_zn myre_8v_l _0d3bd_YrWCD">
+<div class="mp4t_16_s mryx_16_s mr3m_1 mli2_1 mh85_56 mh85_0_l">
+<div class="mgn2_16 _0d3bd_5pK0q">
+<h1>Rękawice ochronne wykonane z poliestru, powlekane poliuretanem</h1>
+</div>
+</div>
+</div>
+<div class="mpof_ki myre_zn myre_8v_l _0d3bd_YrWCD"> </div>
+<div class="fx-row">
+<div class="fx-col fx-pic"><img src="/userdata/public/assets/Produkty/RĘKAWICE/Rękawice robocze  Czarne  Rozmiar 9 - L  OX-POLIUR_BB9/OX-POLIUR_BB.png" alt="" width="1196" height="1771" /></div>
+<div class="fx-col">
+<p><span style="font-size: 12pt;"><strong>Oferta dotyczy 1 pary rękawic</strong></span></p>
+<p><span style="font-size: 12pt;"><strong>Kolor: </strong>Czarny</span></p>
+<p><span style="font-size: 12pt;"><strong>Marka: </strong>OGRIFOX</span></p>
+<p><span style="font-size: 12pt;"><strong>PAKOWANIE:</strong> 12 par (Foliopak) / 240 par (Karton)</span></p>
+<ul>
+<li><span style="font-size: 12pt;">zapewniają manualność oraz doskonałe czucie trzymanego przedmiotu</span></li>
+<li><span style="font-size: 12pt;">zakończone ściągaczem</span></li>
+<li><span style="font-size: 12pt;">wykazują bardzo dużą elastyczność oraz świetnie dopasowują się do dłoni</span></li>
+<li><span style="font-size: 12pt;">idealne do prac, gdzie wymagana jest precyzja</span></li>
+<li><span style="font-size: 12pt;">elastyczne, dzięki czemu świetnie dopasowują się do dłoni</span></li>
+<li><span style="font-size: 12pt;">rozciągliwe i wytrzymałe</span></li>
+</ul>
+<h2>Normy:</h2>
+<ul>
+<li><span style="font-size: 12pt;">EN420</span></li>
+<li><span style="font-size: 12pt;">ENISO21420</span></li>
+</ul>
+<h2>Własności:</h2>
+<ul>
+<li><span style="font-size: 12pt;">wysoka manualność</span></li>
+<li><span style="font-size: 12pt;">ściągacz</span></li>
+<li><span style="font-size: 12pt;">powlekanie poliuretanem</span></li>
+<li><span style="font-size: 12pt;">wysoka elastyczność</span></li>
+</ul>
+</div>
+</div>
+<div class="fx-row">
+<div class="fx-col">
+<h2 style="text-align: left;">Produkt polecany dla branż:</h2>
+<ul>
+<li style="text-align: left;"><span style="font-size: 12pt;">Obróbka metali oraz operatorzy maszyn i urządzeń oraz ich naprawa</span></li>
+<li style="text-align: left;"><span style="font-size: 12pt;">Prace budowlane i remontowe/Prace montażowo-instalacyjne/Budowa dróg</span></li>
+<li style="text-align: left;"><span style="font-size: 12pt;">Przemysł elektrotechniczny w tym elektryka i elektronika oraz energetyka</span></li>
+<li style="text-align: left;"><span style="font-size: 12pt;">Rzemiosło w tym produkcja i obróbka szkła, ceramiki, drewna oraz drukarnie</span></li>
+</ul>
+</div>
+</div>]]></desc>
+    <attrs>
+      <a name="Producent"><![CDATA[OGRIFOX]]></a>
+      <a name="Kod_produktu"><![CDATA[5907522992170]]></a>
+      <a name="EAN"><![CDATA[5907522992170]]></a>
+      <a name="Normy"><![CDATA[EN420 + ENISO21420]]></a>
+      <a name="Materiał"><![CDATA[Poliester Powlekany Poliuretanem]]></a>
+      <a name="Kolor"><![CDATA[Czarny]]></a>
+      <a name="Model"><![CDATA[OX-POLIUR_BB ]]></a>
+      <a name="Rozmiar"><![CDATA[9 - L]]></a>
+    </attrs>
+  </o>
+  <o id="stock_58134" url="https://dofirmy.pl/pl/p/Rekawice-robocze-Czarne-OX-POLIUR_BB/58116?stockOptions=79" price="2.89" avail="1" set="0" weight="0.04" stock="11858" basket="1">
+    <cat><![CDATA[FIRMA I BIURO/Artykuły BHP/Rękawice Robocze]]></cat>
+    <name><![CDATA[Rękawice robocze / Czarne / OX-POLIUR_BB (10 - XL)]]></name>
+    <imgs>
+      <main url="https://dofirmy.pl/userdata/gfx/76893.png"/>
+    </imgs>
+    <desc><![CDATA[<div class="mpof_ki myre_zn myre_8v_l _0d3bd_YrWCD">
+<div class="mp4t_16_s mryx_16_s mr3m_1 mli2_1 mh85_56 mh85_0_l">
+<div class="mgn2_16 _0d3bd_5pK0q">
+<h1>Rękawice ochronne wykonane z poliestru, powlekane poliuretanem</h1>
+</div>
+</div>
+</div>
+<div class="mpof_ki myre_zn myre_8v_l _0d3bd_YrWCD"> </div>
+<div class="fx-row">
+<div class="fx-col fx-pic"><img src="/userdata/public/assets/Produkty/RĘKAWICE/Rękawice robocze  Czarne  Rozmiar 9 - L  OX-POLIUR_BB9/OX-POLIUR_BB.png" alt="" width="1196" height="1771" /></div>
+<div class="fx-col">
+<p><span style="font-size: 12pt;"><strong>Oferta dotyczy 1 pary rękawic</strong></span></p>
+<p><span style="font-size: 12pt;"><strong>Kolor: </strong>Czarny</span></p>
+<p><span style="font-size: 12pt;"><strong>Marka: </strong>OGRIFOX</span></p>
+<p><span style="font-size: 12pt;"><strong>PAKOWANIE:</strong> 12 par (Foliopak) / 240 par (Karton)</span></p>
+<ul>
+<li><span style="font-size: 12pt;">zapewniają manualność oraz doskonałe czucie trzymanego przedmiotu</span></li>
+<li><span style="font-size: 12pt;">zakończone ściągaczem</span></li>
+<li><span style="font-size: 12pt;">wykazują bardzo dużą elastyczność oraz świetnie dopasowują się do dłoni</span></li>
+<li><span style="font-size: 12pt;">idealne do prac, gdzie wymagana jest precyzja</span></li>
+<li><span style="font-size: 12pt;">elastyczne, dzięki czemu świetnie dopasowują się do dłoni</span></li>
+<li><span style="font-size: 12pt;">rozciągliwe i wytrzymałe</span></li>
+</ul>
+<h2>Normy:</h2>
+<ul>
+<li><span style="font-size: 12pt;">EN420</span></li>
+<li><span style="font-size: 12pt;">ENISO21420</span></li>
+</ul>
+<h2>Własności:</h2>
+<ul>
+<li><span style="font-size: 12pt;">wysoka manualność</span></li>
+<li><span style="font-size: 12pt;">ściągacz</span></li>
+<li><span style="font-size: 12pt;">powlekanie poliuretanem</span></li>
+<li><span style="font-size: 12pt;">wysoka elastyczność</span></li>
+</ul>
+</div>
+</div>
+<div class="fx-row">
+<div class="fx-col">
+<h2 style="text-align: left;">Produkt polecany dla branż:</h2>
+<ul>
+<li style="text-align: left;"><span style="font-size: 12pt;">Obróbka metali oraz operatorzy maszyn i urządzeń oraz ich naprawa</span></li>
+<li style="text-align: left;"><span style="font-size: 12pt;">Prace budowlane i remontowe/Prace montażowo-instalacyjne/Budowa dróg</span></li>
+<li style="text-align: left;"><span style="font-size: 12pt;">Przemysł elektrotechniczny w tym elektryka i elektronika oraz energetyka</span></li>
+<li style="text-align: left;"><span style="font-size: 12pt;">Rzemiosło w tym produkcja i obróbka szkła, ceramiki, drewna oraz drukarnie</span></li>
+</ul>
+</div>
+</div>]]></desc>
+    <attrs>
+      <a name="Producent"><![CDATA[OGRIFOX]]></a>
+      <a name="Kod_produktu"><![CDATA[5907522992187]]></a>
+      <a name="EAN"><![CDATA[5907522992187]]></a>
+      <a name="Normy"><![CDATA[EN420 + ENISO21420]]></a>
+      <a name="Materiał"><![CDATA[Poliester Powlekany Poliuretanem]]></a>
+      <a name="Kolor"><![CDATA[Czarny]]></a>
+      <a name="Model"><![CDATA[OX-POLIUR_BB ]]></a>
+      <a name="Rozmiar"><![CDATA[10 - XL]]></a>
+    </attrs>
+  </o>
+  <o id="stock_58136" url="https://dofirmy.pl/pl/p/Rekawice-robocze-Czarne-OX-POLIUR_BB-10-Par/58117?stockOptions=76" price="27.90" avail="1" set="0" weight="0.26" stock="1102" basket="1">
+    <cat><![CDATA[FIRMA I BIURO/Artykuły BHP/Rękawice Robocze]]></cat>
+    <name><![CDATA[Rękawice robocze / Czarne / OX-POLIUR_BB - 10 Par (7 - S)]]></name>
+    <imgs>
+      <main url="https://dofirmy.pl/userdata/gfx/77163.jpg"/>
+      <i url="https://dofirmy.pl/userdata/gfx/76894.png"/>
+    </imgs>
+    <desc><![CDATA[<div class="mpof_ki myre_zn myre_8v_l _0d3bd_YrWCD">
+<div class="mp4t_16_s mryx_16_s mr3m_1 mli2_1 mh85_56 mh85_0_l">
+<div class="mgn2_16 _0d3bd_5pK0q">
+<h1>Rękawice ochronne wykonane z poliestru, powlekane poliuretanem</h1>
+</div>
+</div>
+</div>
+<div class="mpof_ki myre_zn myre_8v_l _0d3bd_YrWCD"> </div>
+<div class="fx-row">
+<div class="fx-col fx-pic"><img src="/userdata/public/assets/Produkty/RĘKAWICE/Rękawice robocze  Czarne  Rozmiar 9 - L  OX-POLIUR_BB9/OX-POLIUR_BB.png" alt="" width="1196" height="1771" /></div>
+<div class="fx-col">
+<p><span style="font-size: 12pt;"><strong>Oferta dotyczy 10 par rękawic</strong></span></p>
+<p><span style="font-size: 12pt;"><strong>Kolor: </strong>Czarny</span></p>
+<p><span style="font-size: 12pt;"><strong>Marka: </strong>OGRIFOX</span></p>
+<p><span style="font-size: 12pt;"><strong>PAKOWANIE:</strong> 10 par (Foliopak) / 240 par (Karton)</span></p>
+<ul>
+<li><span style="font-size: 12pt;">zapewniają manualność oraz doskonałe czucie trzymanego przedmiotu</span></li>
+<li><span style="font-size: 12pt;">zakończone ściągaczem</span></li>
+<li><span style="font-size: 12pt;">wykazują bardzo dużą elastyczność oraz świetnie dopasowują się do dłoni</span></li>
+<li><span style="font-size: 12pt;">idealne do prac, gdzie wymagana jest precyzja</span></li>
+<li><span style="font-size: 12pt;">elastyczne, dzięki czemu świetnie dopasowują się do dłoni</span></li>
+<li><span style="font-size: 12pt;">rozciągliwe i wytrzymałe</span></li>
+</ul>
+<h2>Normy:</h2>
+<ul>
+<li><span style="font-size: 12pt;">EN420</span></li>
+<li><span style="font-size: 12pt;">ENISO21420</span></li>
+</ul>
+<h2>Własności:</h2>
+<ul>
+<li><span style="font-size: 12pt;">wysoka manualność</span></li>
+<li><span style="font-size: 12pt;">ściągacz</span></li>
+<li><span style="font-size: 12pt;">powlekanie poliuretanem</span></li>
+<li><span style="font-size: 12pt;">wysoka elastyczność</span></li>
+</ul>
+</div>
+</div>
+<div class="fx-row">
+<div class="fx-col">
+<h2 style="text-align: left;">Produkt polecany dla branż:</h2>
+<ul>
+<li style="text-align: left;"><span style="font-size: 12pt;">Obróbka metali oraz operatorzy maszyn i urządzeń oraz ich naprawa</span></li>
+<li style="text-align: left;"><span style="font-size: 12pt;">Prace budowlane i remontowe/Prace montażowo-instalacyjne/Budowa dróg</span></li>
+<li style="text-align: left;"><span style="font-size: 12pt;">Przemysł elektrotechniczny w tym elektryka i elektronika oraz energetyka</span></li>
+<li style="text-align: left;"><span style="font-size: 12pt;">Rzemiosło w tym produkcja i obróbka szkła, ceramiki, drewna oraz drukarnie</span></li>
+</ul>
+</div>
+</div>]]></desc>
+    <attrs>
+      <a name="Producent"><![CDATA[OGRIFOX]]></a>
+      <a name="Kod_produktu"><![CDATA[5907522992156-10]]></a>
+      <a name="EAN"><![CDATA[5907522992156]]></a>
+      <a name="Normy"><![CDATA[EN420 + ENISO21420]]></a>
+      <a name="Materiał"><![CDATA[Poliester Powlekany Poliuretanem]]></a>
+      <a name="Kolor"><![CDATA[Czarny]]></a>
+      <a name="Model"><![CDATA[OX-POLIUR_BB ]]></a>
+      <a name="Ilość w komplecie"><![CDATA[10 Par]]></a>
+      <a name="Rozmiar"><![CDATA[7 - S]]></a>
+    </attrs>
+  </o>
+  <o id="stock_58137" url="https://dofirmy.pl/pl/p/Rekawice-robocze-Czarne-OX-POLIUR_BB-10-Par/58117?stockOptions=77" price="27.90" avail="1" set="0" weight="0.26" stock="1080" basket="1">
+    <cat><![CDATA[FIRMA I BIURO/Artykuły BHP/Rękawice Robocze]]></cat>
+    <name><![CDATA[Rękawice robocze / Czarne / OX-POLIUR_BB - 10 Par (8 - M)]]></name>
+    <imgs>
+      <main url="https://dofirmy.pl/userdata/gfx/77163.jpg"/>
+      <i url="https://dofirmy.pl/userdata/gfx/76894.png"/>
+    </imgs>
+    <desc><![CDATA[<div class="mpof_ki myre_zn myre_8v_l _0d3bd_YrWCD">
+<div class="mp4t_16_s mryx_16_s mr3m_1 mli2_1 mh85_56 mh85_0_l">
+<div class="mgn2_16 _0d3bd_5pK0q">
+<h1>Rękawice ochronne wykonane z poliestru, powlekane poliuretanem</h1>
+</div>
+</div>
+</div>
+<div class="mpof_ki myre_zn myre_8v_l _0d3bd_YrWCD"> </div>
+<div class="fx-row">
+<div class="fx-col fx-pic"><img src="/userdata/public/assets/Produkty/RĘKAWICE/Rękawice robocze  Czarne  Rozmiar 9 - L  OX-POLIUR_BB9/OX-POLIUR_BB.png" alt="" width="1196" height="1771" /></div>
+<div class="fx-col">
+<p><span style="font-size: 12pt;"><strong>Oferta dotyczy 10 par rękawic</strong></span></p>
+<p><span style="font-size: 12pt;"><strong>Kolor: </strong>Czarny</span></p>
+<p><span style="font-size: 12pt;"><strong>Marka: </strong>OGRIFOX</span></p>
+<p><span style="font-size: 12pt;"><strong>PAKOWANIE:</strong> 10 par (Foliopak) / 240 par (Karton)</span></p>
+<ul>
+<li><span style="font-size: 12pt;">zapewniają manualność oraz doskonałe czucie trzymanego przedmiotu</span></li>
+<li><span style="font-size: 12pt;">zakończone ściągaczem</span></li>
+<li><span style="font-size: 12pt;">wykazują bardzo dużą elastyczność oraz świetnie dopasowują się do dłoni</span></li>
+<li><span style="font-size: 12pt;">idealne do prac, gdzie wymagana jest precyzja</span></li>
+<li><span style="font-size: 12pt;">elastyczne, dzięki czemu świetnie dopasowują się do dłoni</span></li>
+<li><span style="font-size: 12pt;">rozciągliwe i wytrzymałe</span></li>
+</ul>
+<h2>Normy:</h2>
+<ul>
+<li><span style="font-size: 12pt;">EN420</span></li>
+<li><span style="font-size: 12pt;">ENISO21420</span></li>
+</ul>
+<h2>Własności:</h2>
+<ul>
+<li><span style="font-size: 12pt;">wysoka manualność</span></li>
+<li><span style="font-size: 12pt;">ściągacz</span></li>
+<li><span style="font-size: 12pt;">powlekanie poliuretanem</span></li>
+<li><span style="font-size: 12pt;">wysoka elastyczność</span></li>
+</ul>
+</div>
+</div>
+<div class="fx-row">
+<div class="fx-col">
+<h2 style="text-align: left;">Produkt polecany dla branż:</h2>
+<ul>
+<li style="text-align: left;"><span style="font-size: 12pt;">Obróbka metali oraz operatorzy maszyn i urządzeń oraz ich naprawa</span></li>
+<li style="text-align: left;"><span style="font-size: 12pt;">Prace budowlane i remontowe/Prace montażowo-instalacyjne/Budowa dróg</span></li>
+<li style="text-align: left;"><span style="font-size: 12pt;">Przemysł elektrotechniczny w tym elektryka i elektronika oraz energetyka</span></li>
+<li style="text-align: left;"><span style="font-size: 12pt;">Rzemiosło w tym produkcja i obróbka szkła, ceramiki, drewna oraz drukarnie</span></li>
+</ul>
+</div>
+</div>]]></desc>
+    <attrs>
+      <a name="Producent"><![CDATA[OGRIFOX]]></a>
+      <a name="Kod_produktu"><![CDATA[5907522992163-10]]></a>
+      <a name="EAN"><![CDATA[5907522992163]]></a>
+      <a name="Normy"><![CDATA[EN420 + ENISO21420]]></a>
+      <a name="Materiał"><![CDATA[Poliester Powlekany Poliuretanem]]></a>
+      <a name="Kolor"><![CDATA[Czarny]]></a>
+      <a name="Model"><![CDATA[OX-POLIUR_BB ]]></a>
+      <a name="Ilość w komplecie"><![CDATA[10 Par]]></a>
+      <a name="Rozmiar"><![CDATA[8 - M]]></a>
+    </attrs>
+  </o>
+  <o id="stock_58138" url="https://dofirmy.pl/pl/p/Rekawice-robocze-Czarne-OX-POLIUR_BB-10-Par/58117?stockOptions=78" price="27.90" avail="1" set="0" weight="0.26" stock="1217" basket="1">
+    <cat><![CDATA[FIRMA I BIURO/Artykuły BHP/Rękawice Robocze]]></cat>
+    <name><![CDATA[Rękawice robocze / Czarne / OX-POLIUR_BB - 10 Par (9 - L)]]></name>
+    <imgs>
+      <main url="https://dofirmy.pl/userdata/gfx/77163.jpg"/>
+      <i url="https://dofirmy.pl/userdata/gfx/76894.png"/>
+    </imgs>
+    <desc><![CDATA[<div class="mpof_ki myre_zn myre_8v_l _0d3bd_YrWCD">
+<div class="mp4t_16_s mryx_16_s mr3m_1 mli2_1 mh85_56 mh85_0_l">
+<div class="mgn2_16 _0d3bd_5pK0q">
+<h1>Rękawice ochronne wykonane z poliestru, powlekane poliuretanem</h1>
+</div>
+</div>
+</div>
+<div class="mpof_ki myre_zn myre_8v_l _0d3bd_YrWCD"> </div>
+<div class="fx-row">
+<div class="fx-col fx-pic"><img src="/userdata/public/assets/Produkty/RĘKAWICE/Rękawice robocze  Czarne  Rozmiar 9 - L  OX-POLIUR_BB9/OX-POLIUR_BB.png" alt="" width="1196" height="1771" /></div>
+<div class="fx-col">
+<p><span style="font-size: 12pt;"><strong>Oferta dotyczy 10 par rękawic</strong></span></p>
+<p><span style="font-size: 12pt;"><strong>Kolor: </strong>Czarny</span></p>
+<p><span style="font-size: 12pt;"><strong>Marka: </strong>OGRIFOX</span></p>
+<p><span style="font-size: 12pt;"><strong>PAKOWANIE:</strong> 10 par (Foliopak) / 240 par (Karton)</span></p>
+<ul>
+<li><span style="font-size: 12pt;">zapewniają manualność oraz doskonałe czucie trzymanego przedmiotu</span></li>
+<li><span style="font-size: 12pt;">zakończone ściągaczem</span></li>
+<li><span style="font-size: 12pt;">wykazują bardzo dużą elastyczność oraz świetnie dopasowują się do dłoni</span></li>
+<li><span style="font-size: 12pt;">idealne do prac, gdzie wymagana jest precyzja</span></li>
+<li><span style="font-size: 12pt;">elastyczne, dzięki czemu świetnie dopasowują się do dłoni</span></li>
+<li><span style="font-size: 12pt;">rozciągliwe i wytrzymałe</span></li>
+</ul>
+<h2>Normy:</h2>
+<ul>
+<li><span style="font-size: 12pt;">EN420</span></li>
+<li><span style="font-size: 12pt;">ENISO21420</span></li>
+</ul>
+<h2>Własności:</h2>
+<ul>
+<li><span style="font-size: 12pt;">wysoka manualność</span></li>
+<li><span style="font-size: 12pt;">ściągacz</span></li>
+<li><span style="font-size: 12pt;">powlekanie poliuretanem</span></li>
+<li><span style="font-size: 12pt;">wysoka elastyczność</span></li>
+</ul>
+</div>
+</div>
+<div class="fx-row">
+<div class="fx-col">
+<h2 style="text-align: left;">Produkt polecany dla branż:</h2>
+<ul>
+<li style="text-align: left;"><span style="font-size: 12pt;">Obróbka metali oraz operatorzy maszyn i urządzeń oraz ich naprawa</span></li>
+<li style="text-align: left;"><span style="font-size: 12pt;">Prace budowlane i remontowe/Prace montażowo-instalacyjne/Budowa dróg</span></li>
+<li style="text-align: left;"><span style="font-size: 12pt;">Przemysł elektrotechniczny w tym elektryka i elektronika oraz energetyka</span></li>
+<li style="text-align: left;"><span style="font-size: 12pt;">Rzemiosło w tym produkcja i obróbka szkła, ceramiki, drewna oraz drukarnie</span></li>
+</ul>
+</div>
+</div>]]></desc>
+    <attrs>
+      <a name="Producent"><![CDATA[OGRIFOX]]></a>
+      <a name="Kod_produktu"><![CDATA[5907522992170-10]]></a>
+      <a name="EAN"><![CDATA[5907522992170]]></a>
+      <a name="Normy"><![CDATA[EN420 + ENISO21420]]></a>
+      <a name="Materiał"><![CDATA[Poliester Powlekany Poliuretanem]]></a>
+      <a name="Kolor"><![CDATA[Czarny]]></a>
+      <a name="Model"><![CDATA[OX-POLIUR_BB ]]></a>
+      <a name="Ilość w komplecie"><![CDATA[10 Par]]></a>
+      <a name="Rozmiar"><![CDATA[9 - L]]></a>
+    </attrs>
+  </o>
+  <o id="stock_58139" url="https://dofirmy.pl/pl/p/Rekawice-robocze-Czarne-OX-POLIUR_BB-10-Par/58117?stockOptions=79" price="27.90" avail="1" set="0" weight="0.26" stock="1184" basket="1">
+    <cat><![CDATA[FIRMA I BIURO/Artykuły BHP/Rękawice Robocze]]></cat>
+    <name><![CDATA[Rękawice robocze / Czarne / OX-POLIUR_BB - 10 Par (10 - XL)]]></name>
+    <imgs>
+      <main url="https://dofirmy.pl/userdata/gfx/77163.jpg"/>
+      <i url="https://dofirmy.pl/userdata/gfx/76894.png"/>
+    </imgs>
+    <desc><![CDATA[<div class="mpof_ki myre_zn myre_8v_l _0d3bd_YrWCD">
+<div class="mp4t_16_s mryx_16_s mr3m_1 mli2_1 mh85_56 mh85_0_l">
+<div class="mgn2_16 _0d3bd_5pK0q">
+<h1>Rękawice ochronne wykonane z poliestru, powlekane poliuretanem</h1>
+</div>
+</div>
+</div>
+<div class="mpof_ki myre_zn myre_8v_l _0d3bd_YrWCD"> </div>
+<div class="fx-row">
+<div class="fx-col fx-pic"><img src="/userdata/public/assets/Produkty/RĘKAWICE/Rękawice robocze  Czarne  Rozmiar 9 - L  OX-POLIUR_BB9/OX-POLIUR_BB.png" alt="" width="1196" height="1771" /></div>
+<div class="fx-col">
+<p><span style="font-size: 12pt;"><strong>Oferta dotyczy 10 par rękawic</strong></span></p>
+<p><span style="font-size: 12pt;"><strong>Kolor: </strong>Czarny</span></p>
+<p><span style="font-size: 12pt;"><strong>Marka: </strong>OGRIFOX</span></p>
+<p><span style="font-size: 12pt;"><strong>PAKOWANIE:</strong> 10 par (Foliopak) / 240 par (Karton)</span></p>
+<ul>
+<li><span style="font-size: 12pt;">zapewniają manualność oraz doskonałe czucie trzymanego przedmiotu</span></li>
+<li><span style="font-size: 12pt;">zakończone ściągaczem</span></li>
+<li><span style="font-size: 12pt;">wykazują bardzo dużą elastyczność oraz świetnie dopasowują się do dłoni</span></li>
+<li><span style="font-size: 12pt;">idealne do prac, gdzie wymagana jest precyzja</span></li>
+<li><span style="font-size: 12pt;">elastyczne, dzięki czemu świetnie dopasowują się do dłoni</span></li>
+<li><span style="font-size: 12pt;">rozciągliwe i wytrzymałe</span></li>
+</ul>
+<h2>Normy:</h2>
+<ul>
+<li><span style="font-size: 12pt;">EN420</span></li>
+<li><span style="font-size: 12pt;">ENISO21420</span></li>
+</ul>
+<h2>Własności:</h2>
+<ul>
+<li><span style="font-size: 12pt;">wysoka manualność</span></li>
+<li><span style="font-size: 12pt;">ściągacz</span></li>
+<li><span style="font-size: 12pt;">powlekanie poliuretanem</span></li>
+<li><span style="font-size: 12pt;">wysoka elastyczność</span></li>
+</ul>
+</div>
+</div>
+<div class="fx-row">
+<div class="fx-col">
+<h2 style="text-align: left;">Produkt polecany dla branż:</h2>
+<ul>
+<li style="text-align: left;"><span style="font-size: 12pt;">Obróbka metali oraz operatorzy maszyn i urządzeń oraz ich naprawa</span></li>
+<li style="text-align: left;"><span style="font-size: 12pt;">Prace budowlane i remontowe/Prace montażowo-instalacyjne/Budowa dróg</span></li>
+<li style="text-align: left;"><span style="font-size: 12pt;">Przemysł elektrotechniczny w tym elektryka i elektronika oraz energetyka</span></li>
+<li style="text-align: left;"><span style="font-size: 12pt;">Rzemiosło w tym produkcja i obróbka szkła, ceramiki, drewna oraz drukarnie</span></li>
+</ul>
+</div>
+</div>]]></desc>
+    <attrs>
+      <a name="Producent"><![CDATA[OGRIFOX]]></a>
+      <a name="Kod_produktu"><![CDATA[5907522992187-10]]></a>
+      <a name="EAN"><![CDATA[5907522992187]]></a>
+      <a name="Normy"><![CDATA[EN420 + ENISO21420]]></a>
+      <a name="Materiał"><![CDATA[Poliester Powlekany Poliuretanem]]></a>
+      <a name="Kolor"><![CDATA[Czarny]]></a>
+      <a name="Model"><![CDATA[OX-POLIUR_BB ]]></a>
+      <a name="Ilość w komplecie"><![CDATA[10 Par]]></a>
+      <a name="Rozmiar"><![CDATA[10 - XL]]></a>
+    </attrs>
+  </o>
+  <o id="stock_58141" url="https://dofirmy.pl/pl/p/Rekawice-robocze-Czarne-OX-POLIUR_BB-100-Par/58118?stockOptions=76" price="219.00" avail="1" set="0" weight="3.14" stock="109" basket="1">
+    <cat><![CDATA[FIRMA I BIURO/Artykuły BHP/Rękawice Robocze]]></cat>
+    <name><![CDATA[Rękawice robocze / Czarne / OX-POLIUR_BB - 100 Par (7 - S)]]></name>
+    <imgs>
+      <main url="https://dofirmy.pl/userdata/gfx/77162.jpg"/>
+      <i url="https://dofirmy.pl/userdata/gfx/76895.png"/>
+    </imgs>
+    <desc><![CDATA[<div class="mpof_ki myre_zn myre_8v_l _0d3bd_YrWCD">
+<div class="mp4t_16_s mryx_16_s mr3m_1 mli2_1 mh85_56 mh85_0_l">
+<div class="mgn2_16 _0d3bd_5pK0q">
+<h1>Rękawice ochronne wykonane z poliestru, powlekane poliuretanem</h1>
+</div>
+</div>
+</div>
+<div class="mpof_ki myre_zn myre_8v_l _0d3bd_YrWCD"> </div>
+<div class="fx-row">
+<div class="fx-col fx-pic"><img src="/userdata/public/assets/Produkty/RĘKAWICE/Rękawice robocze  Czarne  Rozmiar 9 - L  OX-POLIUR_BB9/OX-POLIUR_BB.png" alt="" width="1196" height="1771" /></div>
+<div class="fx-col">
+<p><span style="font-size: 12pt;"><strong>Oferta dotyczy 100 par rękawic</strong></span></p>
+<p><span style="font-size: 12pt;"><strong>Kolor: </strong>Czarny</span></p>
+<p><span style="font-size: 12pt;"><strong>Marka: </strong>OGRIFOX</span></p>
+<p><span style="font-size: 12pt;"><strong>PAKOWANIE:</strong> 12 par (Foliopak) / 240 par (Karton)</span></p>
+<ul>
+<li><span style="font-size: 12pt;">zapewniają manualność oraz doskonałe czucie trzymanego przedmiotu</span></li>
+<li><span style="font-size: 12pt;">zakończone ściągaczem</span></li>
+<li><span style="font-size: 12pt;">wykazują bardzo dużą elastyczność oraz świetnie dopasowują się do dłoni</span></li>
+<li><span style="font-size: 12pt;">idealne do prac, gdzie wymagana jest precyzja</span></li>
+<li><span style="font-size: 12pt;">elastyczne, dzięki czemu świetnie dopasowują się do dłoni</span></li>
+<li><span style="font-size: 12pt;">rozciągliwe i wytrzymałe</span></li>
+</ul>
+<h2>Normy:</h2>
+<ul>
+<li><span style="font-size: 12pt;">EN420</span></li>
+<li><span style="font-size: 12pt;">ENISO21420</span></li>
+</ul>
+<h2>Własności:</h2>
+<ul>
+<li><span style="font-size: 12pt;">wysoka manualność</span></li>
+<li><span style="font-size: 12pt;">ściągacz</span></li>
+<li><span style="font-size: 12pt;">powlekanie poliuretanem</span></li>
+<li><span style="font-size: 12pt;">wysoka elastyczność</span></li>
+</ul>
+</div>
+</div>
+<div class="fx-row">
+<div class="fx-col">
+<h2 style="text-align: left;">Produkt polecany dla branż:</h2>
+<ul>
+<li style="text-align: left;"><span style="font-size: 12pt;">Obróbka metali oraz operatorzy maszyn i urządzeń oraz ich naprawa</span></li>
+<li style="text-align: left;"><span style="font-size: 12pt;">Prace budowlane i remontowe/Prace montażowo-instalacyjne/Budowa dróg</span></li>
+<li style="text-align: left;"><span style="font-size: 12pt;">Przemysł elektrotechniczny w tym elektryka i elektronika oraz energetyka</span></li>
+<li style="text-align: left;"><span style="font-size: 12pt;">Rzemiosło w tym produkcja i obróbka szkła, ceramiki, drewna oraz drukarnie</span></li>
+</ul>
+</div>
+</div>]]></desc>
+    <attrs>
+      <a name="Producent"><![CDATA[OGRIFOX]]></a>
+      <a name="Kod_produktu"><![CDATA[5907522992156-100]]></a>
+      <a name="EAN"><![CDATA[5907522992156]]></a>
+      <a name="Normy"><![CDATA[EN420 + ENISO21420]]></a>
+      <a name="Materiał"><![CDATA[Poliester Powlekany Poliuretanem]]></a>
+      <a name="Kolor"><![CDATA[Czarny]]></a>
+      <a name="Model"><![CDATA[OX-POLIUR_BB ]]></a>
+      <a name="Ilość w komplecie"><![CDATA[100 par]]></a>
+      <a name="Rozmiar"><![CDATA[7 - S]]></a>
+    </attrs>
+  </o>
+  <o id="stock_58142" url="https://dofirmy.pl/pl/p/Rekawice-robocze-Czarne-OX-POLIUR_BB-100-Par/58118?stockOptions=77" price="219.00" avail="1" set="0" weight="3.14" stock="107" basket="1">
+    <cat><![CDATA[FIRMA I BIURO/Artykuły BHP/Rękawice Robocze]]></cat>
+    <name><![CDATA[Rękawice robocze / Czarne / OX-POLIUR_BB - 100 Par (8 - M)]]></name>
+    <imgs>
+      <main url="https://dofirmy.pl/userdata/gfx/77162.jpg"/>
+      <i url="https://dofirmy.pl/userdata/gfx/76895.png"/>
+    </imgs>
+    <desc><![CDATA[<div class="mpof_ki myre_zn myre_8v_l _0d3bd_YrWCD">
+<div class="mp4t_16_s mryx_16_s mr3m_1 mli2_1 mh85_56 mh85_0_l">
+<div class="mgn2_16 _0d3bd_5pK0q">
+<h1>Rękawice ochronne wykonane z poliestru, powlekane poliuretanem</h1>
+</div>
+</div>
+</div>
+<div class="mpof_ki myre_zn myre_8v_l _0d3bd_YrWCD"> </div>
+<div class="fx-row">
+<div class="fx-col fx-pic"><img src="/userdata/public/assets/Produkty/RĘKAWICE/Rękawice robocze  Czarne  Rozmiar 9 - L  OX-POLIUR_BB9/OX-POLIUR_BB.png" alt="" width="1196" height="1771" /></div>
+<div class="fx-col">
+<p><span style="font-size: 12pt;"><strong>Oferta dotyczy 100 par rękawic</strong></span></p>
+<p><span style="font-size: 12pt;"><strong>Kolor: </strong>Czarny</span></p>
+<p><span style="font-size: 12pt;"><strong>Marka: </strong>OGRIFOX</span></p>
+<p><span style="font-size: 12pt;"><strong>PAKOWANIE:</strong> 12 par (Foliopak) / 240 par (Karton)</span></p>
+<ul>
+<li><span style="font-size: 12pt;">zapewniają manualność oraz doskonałe czucie trzymanego przedmiotu</span></li>
+<li><span style="font-size: 12pt;">zakończone ściągaczem</span></li>
+<li><span style="font-size: 12pt;">wykazują bardzo dużą elastyczność oraz świetnie dopasowują się do dłoni</span></li>
+<li><span style="font-size: 12pt;">idealne do prac, gdzie wymagana jest precyzja</span></li>
+<li><span style="font-size: 12pt;">elastyczne, dzięki czemu świetnie dopasowują się do dłoni</span></li>
+<li><span style="font-size: 12pt;">rozciągliwe i wytrzymałe</span></li>
+</ul>
+<h2>Normy:</h2>
+<ul>
+<li><span style="font-size: 12pt;">EN420</span></li>
+<li><span style="font-size: 12pt;">ENISO21420</span></li>
+</ul>
+<h2>Własności:</h2>
+<ul>
+<li><span style="font-size: 12pt;">wysoka manualność</span></li>
+<li><span style="font-size: 12pt;">ściągacz</span></li>
+<li><span style="font-size: 12pt;">powlekanie poliuretanem</span></li>
+<li><span style="font-size: 12pt;">wysoka elastyczność</span></li>
+</ul>
+</div>
+</div>
+<div class="fx-row">
+<div class="fx-col">
+<h2 style="text-align: left;">Produkt polecany dla branż:</h2>
+<ul>
+<li style="text-align: left;"><span style="font-size: 12pt;">Obróbka metali oraz operatorzy maszyn i urządzeń oraz ich naprawa</span></li>
+<li style="text-align: left;"><span style="font-size: 12pt;">Prace budowlane i remontowe/Prace montażowo-instalacyjne/Budowa dróg</span></li>
+<li style="text-align: left;"><span style="font-size: 12pt;">Przemysł elektrotechniczny w tym elektryka i elektronika oraz energetyka</span></li>
+<li style="text-align: left;"><span style="font-size: 12pt;">Rzemiosło w tym produkcja i obróbka szkła, ceramiki, drewna oraz drukarnie</span></li>
+</ul>
+</div>
+</div>]]></desc>
+    <attrs>
+      <a name="Producent"><![CDATA[OGRIFOX]]></a>
+      <a name="Kod_produktu"><![CDATA[5907522992163-100]]></a>
+      <a name="EAN"><![CDATA[5907522992163]]></a>
+      <a name="Normy"><![CDATA[EN420 + ENISO21420]]></a>
+      <a name="Materiał"><![CDATA[Poliester Powlekany Poliuretanem]]></a>
+      <a name="Kolor"><![CDATA[Czarny]]></a>
+      <a name="Model"><![CDATA[OX-POLIUR_BB ]]></a>
+      <a name="Ilość w komplecie"><![CDATA[100 par]]></a>
+      <a name="Rozmiar"><![CDATA[8 - M]]></a>
+    </attrs>
+  </o>
+  <o id="stock_58143" url="https://dofirmy.pl/pl/p/Rekawice-robocze-Czarne-OX-POLIUR_BB-100-Par/58118?stockOptions=78" price="219.00" avail="1" set="0" weight="3.14" stock="120" basket="1">
+    <cat><![CDATA[FIRMA I BIURO/Artykuły BHP/Rękawice Robocze]]></cat>
+    <name><![CDATA[Rękawice robocze / Czarne / OX-POLIUR_BB - 100 Par (9 - L)]]></name>
+    <imgs>
+      <main url="https://dofirmy.pl/userdata/gfx/77162.jpg"/>
+      <i url="https://dofirmy.pl/userdata/gfx/76895.png"/>
+    </imgs>
+    <desc><![CDATA[<div class="mpof_ki myre_zn myre_8v_l _0d3bd_YrWCD">
+<div class="mp4t_16_s mryx_16_s mr3m_1 mli2_1 mh85_56 mh85_0_l">
+<div class="mgn2_16 _0d3bd_5pK0q">
+<h1>Rękawice ochronne wykonane z poliestru, powlekane poliuretanem</h1>
+</div>
+</div>
+</div>
+<div class="mpof_ki myre_zn myre_8v_l _0d3bd_YrWCD"> </div>
+<div class="fx-row">
+<div class="fx-col fx-pic"><img src="/userdata/public/assets/Produkty/RĘKAWICE/Rękawice robocze  Czarne  Rozmiar 9 - L  OX-POLIUR_BB9/OX-POLIUR_BB.png" alt="" width="1196" height="1771" /></div>
+<div class="fx-col">
+<p><span style="font-size: 12pt;"><strong>Oferta dotyczy 100 par rękawic</strong></span></p>
+<p><span style="font-size: 12pt;"><strong>Kolor: </strong>Czarny</span></p>
+<p><span style="font-size: 12pt;"><strong>Marka: </strong>OGRIFOX</span></p>
+<p><span style="font-size: 12pt;"><strong>PAKOWANIE:</strong> 12 par (Foliopak) / 240 par (Karton)</span></p>
+<ul>
+<li><span style="font-size: 12pt;">zapewniają manualność oraz doskonałe czucie trzymanego przedmiotu</span></li>
+<li><span style="font-size: 12pt;">zakończone ściągaczem</span></li>
+<li><span style="font-size: 12pt;">wykazują bardzo dużą elastyczność oraz świetnie dopasowują się do dłoni</span></li>
+<li><span style="font-size: 12pt;">idealne do prac, gdzie wymagana jest precyzja</span></li>
+<li><span style="font-size: 12pt;">elastyczne, dzięki czemu świetnie dopasowują się do dłoni</span></li>
+<li><span style="font-size: 12pt;">rozciągliwe i wytrzymałe</span></li>
+</ul>
+<h2>Normy:</h2>
+<ul>
+<li><span style="font-size: 12pt;">EN420</span></li>
+<li><span style="font-size: 12pt;">ENISO21420</span></li>
+</ul>
+<h2>Własności:</h2>
+<ul>
+<li><span style="font-size: 12pt;">wysoka manualność</span></li>
+<li><span style="font-size: 12pt;">ściągacz</span></li>
+<li><span style="font-size: 12pt;">powlekanie poliuretanem</span></li>
+<li><span style="font-size: 12pt;">wysoka elastyczność</span></li>
+</ul>
+</div>
+</div>
+<div class="fx-row">
+<div class="fx-col">
+<h2 style="text-align: left;">Produkt polecany dla branż:</h2>
+<ul>
+<li style="text-align: left;"><span style="font-size: 12pt;">Obróbka metali oraz operatorzy maszyn i urządzeń oraz ich naprawa</span></li>
+<li style="text-align: left;"><span style="font-size: 12pt;">Prace budowlane i remontowe/Prace montażowo-instalacyjne/Budowa dróg</span></li>
+<li style="text-align: left;"><span style="font-size: 12pt;">Przemysł elektrotechniczny w tym elektryka i elektronika oraz energetyka</span></li>
+<li style="text-align: left;"><span style="font-size: 12pt;">Rzemiosło w tym produkcja i obróbka szkła, ceramiki, drewna oraz drukarnie</span></li>
+</ul>
+</div>
+</div>]]></desc>
+    <attrs>
+      <a name="Producent"><![CDATA[OGRIFOX]]></a>
+      <a name="Kod_produktu"><![CDATA[5907522992170-100]]></a>
+      <a name="EAN"><![CDATA[5907522992170]]></a>
+      <a name="Normy"><![CDATA[EN420 + ENISO21420]]></a>
+      <a name="Materiał"><![CDATA[Poliester Powlekany Poliuretanem]]></a>
+      <a name="Kolor"><![CDATA[Czarny]]></a>
+      <a name="Model"><![CDATA[OX-POLIUR_BB ]]></a>
+      <a name="Ilość w komplecie"><![CDATA[100 par]]></a>
+      <a name="Rozmiar"><![CDATA[9 - L]]></a>
+    </attrs>
+  </o>
+  <o id="stock_58144" url="https://dofirmy.pl/pl/p/Rekawice-robocze-Czarne-OX-POLIUR_BB-100-Par/58118?stockOptions=79" price="219.00" avail="1" set="0" weight="3.14" stock="117" basket="1">
+    <cat><![CDATA[FIRMA I BIURO/Artykuły BHP/Rękawice Robocze]]></cat>
+    <name><![CDATA[Rękawice robocze / Czarne / OX-POLIUR_BB - 100 Par (10 - XL)]]></name>
+    <imgs>
+      <main url="https://dofirmy.pl/userdata/gfx/77162.jpg"/>
+      <i url="https://dofirmy.pl/userdata/gfx/76895.png"/>
+    </imgs>
+    <desc><![CDATA[<div class="mpof_ki myre_zn myre_8v_l _0d3bd_YrWCD">
+<div class="mp4t_16_s mryx_16_s mr3m_1 mli2_1 mh85_56 mh85_0_l">
+<div class="mgn2_16 _0d3bd_5pK0q">
+<h1>Rękawice ochronne wykonane z poliestru, powlekane poliuretanem</h1>
+</div>
+</div>
+</div>
+<div class="mpof_ki myre_zn myre_8v_l _0d3bd_YrWCD"> </div>
+<div class="fx-row">
+<div class="fx-col fx-pic"><img src="/userdata/public/assets/Produkty/RĘKAWICE/Rękawice robocze  Czarne  Rozmiar 9 - L  OX-POLIUR_BB9/OX-POLIUR_BB.png" alt="" width="1196" height="1771" /></div>
+<div class="fx-col">
+<p><span style="font-size: 12pt;"><strong>Oferta dotyczy 100 par rękawic</strong></span></p>
+<p><span style="font-size: 12pt;"><strong>Kolor: </strong>Czarny</span></p>
+<p><span style="font-size: 12pt;"><strong>Marka: </strong>OGRIFOX</span></p>
+<p><span style="font-size: 12pt;"><strong>PAKOWANIE:</strong> 12 par (Foliopak) / 240 par (Karton)</span></p>
+<ul>
+<li><span style="font-size: 12pt;">zapewniają manualność oraz doskonałe czucie trzymanego przedmiotu</span></li>
+<li><span style="font-size: 12pt;">zakończone ściągaczem</span></li>
+<li><span style="font-size: 12pt;">wykazują bardzo dużą elastyczność oraz świetnie dopasowują się do dłoni</span></li>
+<li><span style="font-size: 12pt;">idealne do prac, gdzie wymagana jest precyzja</span></li>
+<li><span style="font-size: 12pt;">elastyczne, dzięki czemu świetnie dopasowują się do dłoni</span></li>
+<li><span style="font-size: 12pt;">rozciągliwe i wytrzymałe</span></li>
+</ul>
+<h2>Normy:</h2>
+<ul>
+<li><span style="font-size: 12pt;">EN420</span></li>
+<li><span style="font-size: 12pt;">ENISO21420</span></li>
+</ul>
+<h2>Własności:</h2>
+<ul>
+<li><span style="font-size: 12pt;">wysoka manualność</span></li>
+<li><span style="font-size: 12pt;">ściągacz</span></li>
+<li><span style="font-size: 12pt;">powlekanie poliuretanem</span></li>
+<li><span style="font-size: 12pt;">wysoka elastyczność</span></li>
+</ul>
+</div>
+</div>
+<div class="fx-row">
+<div class="fx-col">
+<h2 style="text-align: left;">Produkt polecany dla branż:</h2>
+<ul>
+<li style="text-align: left;"><span style="font-size: 12pt;">Obróbka metali oraz operatorzy maszyn i urządzeń oraz ich naprawa</span></li>
+<li style="text-align: left;"><span style="font-size: 12pt;">Prace budowlane i remontowe/Prace montażowo-instalacyjne/Budowa dróg</span></li>
+<li style="text-align: left;"><span style="font-size: 12pt;">Przemysł elektrotechniczny w tym elektryka i elektronika oraz energetyka</span></li>
+<li style="text-align: left;"><span style="font-size: 12pt;">Rzemiosło w tym produkcja i obróbka szkła, ceramiki, drewna oraz drukarnie</span></li>
+</ul>
+</div>
+</div>]]></desc>
+    <attrs>
+      <a name="Producent"><![CDATA[OGRIFOX]]></a>
+      <a name="Kod_produktu"><![CDATA[5907522992187-100]]></a>
+      <a name="EAN"><![CDATA[5907522992187]]></a>
+      <a name="Normy"><![CDATA[EN420 + ENISO21420]]></a>
+      <a name="Materiał"><![CDATA[Poliester Powlekany Poliuretanem]]></a>
+      <a name="Kolor"><![CDATA[Czarny]]></a>
+      <a name="Model"><![CDATA[OX-POLIUR_BB ]]></a>
+      <a name="Ilość w komplecie"><![CDATA[100 par]]></a>
+      <a name="Rozmiar"><![CDATA[10 - XL]]></a>
+    </attrs>
+  </o>
+  <o id="stock_58146" url="https://dofirmy.pl/pl/p/Rekawice-robocze-Czarne-OX-POLIUR_BB-240-Par/58119?stockOptions=76" price="477.60" avail="1" set="0" weight="6.76" stock="45" basket="1">
+    <cat><![CDATA[FIRMA I BIURO/Artykuły BHP/Rękawice Robocze]]></cat>
+    <name><![CDATA[Rękawice robocze / Czarne / OX-POLIUR_BB - 240 Par (7 - S)]]></name>
+    <imgs>
+      <main url="https://dofirmy.pl/userdata/gfx/77161.jpg"/>
+      <i url="https://dofirmy.pl/userdata/gfx/76896.png"/>
+    </imgs>
+    <desc><![CDATA[<div class="mpof_ki myre_zn myre_8v_l _0d3bd_YrWCD">
+<div class="mp4t_16_s mryx_16_s mr3m_1 mli2_1 mh85_56 mh85_0_l">
+<div class="mgn2_16 _0d3bd_5pK0q">
+<h1>Rękawice ochronne wykonane z poliestru, powlekane poliuretanem</h1>
+</div>
+</div>
+</div>
+<div class="mpof_ki myre_zn myre_8v_l _0d3bd_YrWCD"> </div>
+<div class="fx-row">
+<div class="fx-col fx-pic"><img src="/userdata/public/assets/Produkty/RĘKAWICE/Rękawice robocze  Czarne  Rozmiar 9 - L  OX-POLIUR_BB9/OX-POLIUR_BB.png" alt="" width="1196" height="1771" /></div>
+<div class="fx-col">
+<p><span style="font-size: 12pt;"><strong>Oferta dotyczy 240 par rękawic</strong></span></p>
+<p><span style="font-size: 12pt;"><strong>Kolor: </strong>Czarny</span></p>
+<p><span style="font-size: 12pt;"><strong>Marka: </strong>OGRIFOX</span></p>
+<p><span style="font-size: 12pt;"><strong>PAKOWANIE:</strong> 12 par (Foliopak) / 240 par (Karton)</span></p>
+<ul>
+<li><span style="font-size: 12pt;">zapewniają manualność oraz doskonałe czucie trzymanego przedmiotu</span></li>
+<li><span style="font-size: 12pt;">zakończone ściągaczem</span></li>
+<li><span style="font-size: 12pt;">wykazują bardzo dużą elastyczność oraz świetnie dopasowują się do dłoni</span></li>
+<li><span style="font-size: 12pt;">idealne do prac, gdzie wymagana jest precyzja</span></li>
+<li><span style="font-size: 12pt;">elastyczne, dzięki czemu świetnie dopasowują się do dłoni</span></li>
+<li><span style="font-size: 12pt;">rozciągliwe i wytrzymałe</span></li>
+</ul>
+<h2>Normy:</h2>
+<ul>
+<li><span style="font-size: 12pt;">EN420</span></li>
+<li><span style="font-size: 12pt;">ENISO21420</span></li>
+</ul>
+<h2>Własności:</h2>
+<ul>
+<li><span style="font-size: 12pt;">wysoka manualność</span></li>
+<li><span style="font-size: 12pt;">ściągacz</span></li>
+<li><span style="font-size: 12pt;">powlekanie poliuretanem</span></li>
+<li><span style="font-size: 12pt;">wysoka elastyczność</span></li>
+</ul>
+</div>
+</div>
+<div class="fx-row">
+<div class="fx-col">
+<h2 style="text-align: left;">Produkt polecany dla branż:</h2>
+<ul>
+<li style="text-align: left;"><span style="font-size: 12pt;">Obróbka metali oraz operatorzy maszyn i urządzeń oraz ich naprawa</span></li>
+<li style="text-align: left;"><span style="font-size: 12pt;">Prace budowlane i remontowe/Prace montażowo-instalacyjne/Budowa dróg</span></li>
+<li style="text-align: left;"><span style="font-size: 12pt;">Przemysł elektrotechniczny w tym elektryka i elektronika oraz energetyka</span></li>
+<li style="text-align: left;"><span style="font-size: 12pt;">Rzemiosło w tym produkcja i obróbka szkła, ceramiki, drewna oraz drukarnie</span></li>
+</ul>
+</div>
+</div>]]></desc>
+    <attrs>
+      <a name="Producent"><![CDATA[OGRIFOX]]></a>
+      <a name="Kod_produktu"><![CDATA[5907522992156-240]]></a>
+      <a name="EAN"><![CDATA[5907522992156]]></a>
+      <a name="Normy"><![CDATA[EN420 + ENISO21420]]></a>
+      <a name="Materiał"><![CDATA[Poliester Powlekany Poliuretanem]]></a>
+      <a name="Kolor"><![CDATA[Czarny]]></a>
+      <a name="Model"><![CDATA[OX-POLIUR_BB ]]></a>
+      <a name="Ilość w komplecie"><![CDATA[240 par]]></a>
+      <a name="Rozmiar"><![CDATA[7 - S]]></a>
+    </attrs>
+  </o>
+  <o id="stock_58147" url="https://dofirmy.pl/pl/p/Rekawice-robocze-Czarne-OX-POLIUR_BB-240-Par/58119?stockOptions=77" price="477.60" avail="1" set="0" weight="6.76" stock="44" basket="1">
+    <cat><![CDATA[FIRMA I BIURO/Artykuły BHP/Rękawice Robocze]]></cat>
+    <name><![CDATA[Rękawice robocze / Czarne / OX-POLIUR_BB - 240 Par (8 - M)]]></name>
+    <imgs>
+      <main url="https://dofirmy.pl/userdata/gfx/77161.jpg"/>
+      <i url="https://dofirmy.pl/userdata/gfx/76896.png"/>
+    </imgs>
+    <desc><![CDATA[<div class="mpof_ki myre_zn myre_8v_l _0d3bd_YrWCD">
+<div class="mp4t_16_s mryx_16_s mr3m_1 mli2_1 mh85_56 mh85_0_l">
+<div class="mgn2_16 _0d3bd_5pK0q">
+<h1>Rękawice ochronne wykonane z poliestru, powlekane poliuretanem</h1>
+</div>
+</div>
+</div>
+<div class="mpof_ki myre_zn myre_8v_l _0d3bd_YrWCD"> </div>
+<div class="fx-row">
+<div class="fx-col fx-pic"><img src="/userdata/public/assets/Produkty/RĘKAWICE/Rękawice robocze  Czarne  Rozmiar 9 - L  OX-POLIUR_BB9/OX-POLIUR_BB.png" alt="" width="1196" height="1771" /></div>
+<div class="fx-col">
+<p><span style="font-size: 12pt;"><strong>Oferta dotyczy 240 par rękawic</strong></span></p>
+<p><span style="font-size: 12pt;"><strong>Kolor: </strong>Czarny</span></p>
+<p><span style="font-size: 12pt;"><strong>Marka: </strong>OGRIFOX</span></p>
+<p><span style="font-size: 12pt;"><strong>PAKOWANIE:</strong> 12 par (Foliopak) / 240 par (Karton)</span></p>
+<ul>
+<li><span style="font-size: 12pt;">zapewniają manualność oraz doskonałe czucie trzymanego przedmiotu</span></li>
+<li><span style="font-size: 12pt;">zakończone ściągaczem</span></li>
+<li><span style="font-size: 12pt;">wykazują bardzo dużą elastyczność oraz świetnie dopasowują się do dłoni</span></li>
+<li><span style="font-size: 12pt;">idealne do prac, gdzie wymagana jest precyzja</span></li>
+<li><span style="font-size: 12pt;">elastyczne, dzięki czemu świetnie dopasowują się do dłoni</span></li>
+<li><span style="font-size: 12pt;">rozciągliwe i wytrzymałe</span></li>
+</ul>
+<h2>Normy:</h2>
+<ul>
+<li><span style="font-size: 12pt;">EN420</span></li>
+<li><span style="font-size: 12pt;">ENISO21420</span></li>
+</ul>
+<h2>Własności:</h2>
+<ul>
+<li><span style="font-size: 12pt;">wysoka manualność</span></li>
+<li><span style="font-size: 12pt;">ściągacz</span></li>
+<li><span style="font-size: 12pt;">powlekanie poliuretanem</span></li>
+<li><span style="font-size: 12pt;">wysoka elastyczność</span></li>
+</ul>
+</div>
+</div>
+<div class="fx-row">
+<div class="fx-col">
+<h2 style="text-align: left;">Produkt polecany dla branż:</h2>
+<ul>
+<li style="text-align: left;"><span style="font-size: 12pt;">Obróbka metali oraz operatorzy maszyn i urządzeń oraz ich naprawa</span></li>
+<li style="text-align: left;"><span style="font-size: 12pt;">Prace budowlane i remontowe/Prace montażowo-instalacyjne/Budowa dróg</span></li>
+<li style="text-align: left;"><span style="font-size: 12pt;">Przemysł elektrotechniczny w tym elektryka i elektronika oraz energetyka</span></li>
+<li style="text-align: left;"><span style="font-size: 12pt;">Rzemiosło w tym produkcja i obróbka szkła, ceramiki, drewna oraz drukarnie</span></li>
+</ul>
+</div>
+</div>]]></desc>
+    <attrs>
+      <a name="Producent"><![CDATA[OGRIFOX]]></a>
+      <a name="Kod_produktu"><![CDATA[5907522992163-240]]></a>
+      <a name="EAN"><![CDATA[5907522992163]]></a>
+      <a name="Normy"><![CDATA[EN420 + ENISO21420]]></a>
+      <a name="Materiał"><![CDATA[Poliester Powlekany Poliuretanem]]></a>
+      <a name="Kolor"><![CDATA[Czarny]]></a>
+      <a name="Model"><![CDATA[OX-POLIUR_BB ]]></a>
+      <a name="Ilość w komplecie"><![CDATA[240 par]]></a>
+      <a name="Rozmiar"><![CDATA[8 - M]]></a>
+    </attrs>
+  </o>
+  <o id="stock_58148" url="https://dofirmy.pl/pl/p/Rekawice-robocze-Czarne-OX-POLIUR_BB-240-Par/58119?stockOptions=78" price="477.60" avail="1" set="0" weight="6.76" stock="50" basket="1">
+    <cat><![CDATA[FIRMA I BIURO/Artykuły BHP/Rękawice Robocze]]></cat>
+    <name><![CDATA[Rękawice robocze / Czarne / OX-POLIUR_BB - 240 Par (9 - L)]]></name>
+    <imgs>
+      <main url="https://dofirmy.pl/userdata/gfx/77161.jpg"/>
+      <i url="https://dofirmy.pl/userdata/gfx/76896.png"/>
+    </imgs>
+    <desc><![CDATA[<div class="mpof_ki myre_zn myre_8v_l _0d3bd_YrWCD">
+<div class="mp4t_16_s mryx_16_s mr3m_1 mli2_1 mh85_56 mh85_0_l">
+<div class="mgn2_16 _0d3bd_5pK0q">
+<h1>Rękawice ochronne wykonane z poliestru, powlekane poliuretanem</h1>
+</div>
+</div>
+</div>
+<div class="mpof_ki myre_zn myre_8v_l _0d3bd_YrWCD"> </div>
+<div class="fx-row">
+<div class="fx-col fx-pic"><img src="/userdata/public/assets/Produkty/RĘKAWICE/Rękawice robocze  Czarne  Rozmiar 9 - L  OX-POLIUR_BB9/OX-POLIUR_BB.png" alt="" width="1196" height="1771" /></div>
+<div class="fx-col">
+<p><span style="font-size: 12pt;"><strong>Oferta dotyczy 240 par rękawic</strong></span></p>
+<p><span style="font-size: 12pt;"><strong>Kolor: </strong>Czarny</span></p>
+<p><span style="font-size: 12pt;"><strong>Marka: </strong>OGRIFOX</span></p>
+<p><span style="font-size: 12pt;"><strong>PAKOWANIE:</strong> 12 par (Foliopak) / 240 par (Karton)</span></p>
+<ul>
+<li><span style="font-size: 12pt;">zapewniają manualność oraz doskonałe czucie trzymanego przedmiotu</span></li>
+<li><span style="font-size: 12pt;">zakończone ściągaczem</span></li>
+<li><span style="font-size: 12pt;">wykazują bardzo dużą elastyczność oraz świetnie dopasowują się do dłoni</span></li>
+<li><span style="font-size: 12pt;">idealne do prac, gdzie wymagana jest precyzja</span></li>
+<li><span style="font-size: 12pt;">elastyczne, dzięki czemu świetnie dopasowują się do dłoni</span></li>
+<li><span style="font-size: 12pt;">rozciągliwe i wytrzymałe</span></li>
+</ul>
+<h2>Normy:</h2>
+<ul>
+<li><span style="font-size: 12pt;">EN420</span></li>
+<li><span style="font-size: 12pt;">ENISO21420</span></li>
+</ul>
+<h2>Własności:</h2>
+<ul>
+<li><span style="font-size: 12pt;">wysoka manualność</span></li>
+<li><span style="font-size: 12pt;">ściągacz</span></li>
+<li><span style="font-size: 12pt;">powlekanie poliuretanem</span></li>
+<li><span style="font-size: 12pt;">wysoka elastyczność</span></li>
+</ul>
+</div>
+</div>
+<div class="fx-row">
+<div class="fx-col">
+<h2 style="text-align: left;">Produkt polecany dla branż:</h2>
+<ul>
+<li style="text-align: left;"><span style="font-size: 12pt;">Obróbka metali oraz operatorzy maszyn i urządzeń oraz ich naprawa</span></li>
+<li style="text-align: left;"><span style="font-size: 12pt;">Prace budowlane i remontowe/Prace montażowo-instalacyjne/Budowa dróg</span></li>
+<li style="text-align: left;"><span style="font-size: 12pt;">Przemysł elektrotechniczny w tym elektryka i elektronika oraz energetyka</span></li>
+<li style="text-align: left;"><span style="font-size: 12pt;">Rzemiosło w tym produkcja i obróbka szkła, ceramiki, drewna oraz drukarnie</span></li>
+</ul>
+</div>
+</div>]]></desc>
+    <attrs>
+      <a name="Producent"><![CDATA[OGRIFOX]]></a>
+      <a name="Kod_produktu"><![CDATA[5907522992170-240]]></a>
+      <a name="EAN"><![CDATA[5907522992170]]></a>
+      <a name="Normy"><![CDATA[EN420 + ENISO21420]]></a>
+      <a name="Materiał"><![CDATA[Poliester Powlekany Poliuretanem]]></a>
+      <a name="Kolor"><![CDATA[Czarny]]></a>
+      <a name="Model"><![CDATA[OX-POLIUR_BB ]]></a>
+      <a name="Ilość w komplecie"><![CDATA[240 par]]></a>
+      <a name="Rozmiar"><![CDATA[9 - L]]></a>
+    </attrs>
+  </o>
+  <o id="stock_58149" url="https://dofirmy.pl/pl/p/Rekawice-robocze-Czarne-OX-POLIUR_BB-240-Par/58119?stockOptions=79" price="477.60" avail="1" set="0" weight="6.76" stock="48" basket="1">
+    <cat><![CDATA[FIRMA I BIURO/Artykuły BHP/Rękawice Robocze]]></cat>
+    <name><![CDATA[Rękawice robocze / Czarne / OX-POLIUR_BB - 240 Par (10 - XL)]]></name>
+    <imgs>
+      <main url="https://dofirmy.pl/userdata/gfx/77161.jpg"/>
+      <i url="https://dofirmy.pl/userdata/gfx/76896.png"/>
+    </imgs>
+    <desc><![CDATA[<div class="mpof_ki myre_zn myre_8v_l _0d3bd_YrWCD">
+<div class="mp4t_16_s mryx_16_s mr3m_1 mli2_1 mh85_56 mh85_0_l">
+<div class="mgn2_16 _0d3bd_5pK0q">
+<h1>Rękawice ochronne wykonane z poliestru, powlekane poliuretanem</h1>
+</div>
+</div>
+</div>
+<div class="mpof_ki myre_zn myre_8v_l _0d3bd_YrWCD"> </div>
+<div class="fx-row">
+<div class="fx-col fx-pic"><img src="/userdata/public/assets/Produkty/RĘKAWICE/Rękawice robocze  Czarne  Rozmiar 9 - L  OX-POLIUR_BB9/OX-POLIUR_BB.png" alt="" width="1196" height="1771" /></div>
+<div class="fx-col">
+<p><span style="font-size: 12pt;"><strong>Oferta dotyczy 240 par rękawic</strong></span></p>
+<p><span style="font-size: 12pt;"><strong>Kolor: </strong>Czarny</span></p>
+<p><span style="font-size: 12pt;"><strong>Marka: </strong>OGRIFOX</span></p>
+<p><span style="font-size: 12pt;"><strong>PAKOWANIE:</strong> 12 par (Foliopak) / 240 par (Karton)</span></p>
+<ul>
+<li><span style="font-size: 12pt;">zapewniają manualność oraz doskonałe czucie trzymanego przedmiotu</span></li>
+<li><span style="font-size: 12pt;">zakończone ściągaczem</span></li>
+<li><span style="font-size: 12pt;">wykazują bardzo dużą elastyczność oraz świetnie dopasowują się do dłoni</span></li>
+<li><span style="font-size: 12pt;">idealne do prac, gdzie wymagana jest precyzja</span></li>
+<li><span style="font-size: 12pt;">elastyczne, dzięki czemu świetnie dopasowują się do dłoni</span></li>
+<li><span style="font-size: 12pt;">rozciągliwe i wytrzymałe</span></li>
+</ul>
+<h2>Normy:</h2>
+<ul>
+<li><span style="font-size: 12pt;">EN420</span></li>
+<li><span style="font-size: 12pt;">ENISO21420</span></li>
+</ul>
+<h2>Własności:</h2>
+<ul>
+<li><span style="font-size: 12pt;">wysoka manualność</span></li>
+<li><span style="font-size: 12pt;">ściągacz</span></li>
+<li><span style="font-size: 12pt;">powlekanie poliuretanem</span></li>
+<li><span style="font-size: 12pt;">wysoka elastyczność</span></li>
+</ul>
+</div>
+</div>
+<div class="fx-row">
+<div class="fx-col">
+<h2 style="text-align: left;">Produkt polecany dla branż:</h2>
+<ul>
+<li style="text-align: left;"><span style="font-size: 12pt;">Obróbka metali oraz operatorzy maszyn i urządzeń oraz ich naprawa</span></li>
+<li style="text-align: left;"><span style="font-size: 12pt;">Prace budowlane i remontowe/Prace montażowo-instalacyjne/Budowa dróg</span></li>
+<li style="text-align: left;"><span style="font-size: 12pt;">Przemysł elektrotechniczny w tym elektryka i elektronika oraz energetyka</span></li>
+<li style="text-align: left;"><span style="font-size: 12pt;">Rzemiosło w tym produkcja i obróbka szkła, ceramiki, drewna oraz drukarnie</span></li>
+</ul>
+</div>
+</div>]]></desc>
+    <attrs>
+      <a name="Producent"><![CDATA[OGRIFOX]]></a>
+      <a name="Kod_produktu"><![CDATA[5907522992187-240]]></a>
+      <a name="EAN"><![CDATA[5907522992187]]></a>
+      <a name="Normy"><![CDATA[EN420 + ENISO21420]]></a>
+      <a name="Materiał"><![CDATA[Poliester Powlekany Poliuretanem]]></a>
+      <a name="Kolor"><![CDATA[Czarny]]></a>
+      <a name="Model"><![CDATA[OX-POLIUR_BB ]]></a>
+      <a name="Ilość w komplecie"><![CDATA[240 par]]></a>
+      <a name="Rozmiar"><![CDATA[10 - XL]]></a>
+    </attrs>
+  </o>
+  <o id="58120" url="https://dofirmy.pl/pl/p/Tasma-Pakowa-DALPO-Transparent-STRONG-4860y/58120" price="4.09" avail="1" set="0" weight="0.12" stock="11267" basket="1">
+    <cat><![CDATA[FIRMA I BIURO/Pakowanie i wysyłka/Taśmy pakowe]]></cat>
+    <name><![CDATA[Taśma Pakowa DALPO Transparent STRONG 48/60y]]></name>
+    <imgs>
+      <main url="https://dofirmy.pl/userdata/gfx/93037.jpg"/>
+      <i url="https://dofirmy.pl/userdata/gfx/93038.jpg"/>
+    </imgs>
+    <desc><![CDATA[<p>{desc/100/}</p>
+<div class="mpof_ki myre_zn myre_8v_l m389_6m_l">
+<div class="mp4t_16_s mryx_16_s mr3m_1 mli2_1 mh85_56 mh85_0_l">
+<div class="mgn2_16 _0d3bd_am0a-">
+<h1 style="text-align: center;">⭐Taśma Pakowa DALPO Transparent STRONG 48/60y⭐</h1>
+</div>
+</div>
+</div>
+<p>{desc/50/}</p>
+<p style="text-align: center;"><img src="/userdata/public/gfx/93037.jpg" alt="" width="1280" height="1280" /></p>
+<p>{desc/50/}</p>
+<h2>Oferta dotyczy 1 sztuki taśmy 48/60y</h2>
+<p>✅Marka:<strong> Dalpo</strong></p>
+<p>✅Klej: <strong>Kauczukowy Strong</strong></p>
+<p>✅Kolor:<strong> Transparent (Przezroczysta)</strong></p>
+<p>✅Szerokość Taśmy:<strong> 48 mm</strong></p>
+<p>✅Długość Taśmy: <strong>60 Jardów</strong></p>
+<p>✅Pakowanie:<strong> 6 szt. w zgrzewce, 36 szt. w kartonie</strong></p>
+<p><strong>➡️Kupujesz 1 sztukę taśmy!</strong></p>
+<p>{desc/50/}</p>
+<h2>Parametry:</h2>
+<p>✅Nośnik: <strong>BOPP</strong></p>
+<p>✅Średnica tulei: <strong>76mm</strong></p>
+<p>✅Grubość taśmy: <strong>44μm – Norma 1942</strong></p>
+<p>✅Punkt pęknięcia: <strong>140%</strong></p>
+<p>✅Odporność na rozciąganie:<strong> 140N/mm2</strong></p>
+<p>✅Pomiar adhezji przy odrywaniu pod kątem: <strong>180°: 4,0 [≥3,0]N/cal – Norma EN 1939</strong></p>
+<p>✅Pomiar adhezji przy statycznym ścinaniu:<strong> ≥120h – Norma 1943</strong></p>
+<p>✅Zakres temperatur działania dla taśmy EuroTape Strong :<strong> od -20°C do +40°C ; temperatura aplikacji od -5°C</strong></p>
+<p>{desc/50/}</p>
+<p style="text-align: center;"><img src="/userdata/public/gfx/93037.jpg" alt="" width="1280" height="1280" /></p>
+<p>{desc/50/}</p>
+<p style="text-align: center;"><img src="/userdata/public/gfx/93037.jpg" alt="" width="1280" height="1280" /></p>
+<p>{desc/50/}</p>
+<h2>Zastosowanie:</h2>
+<p>✅Stosowana przede wszystkim do zaklejania kartonów z<strong>arówno metodą ręczną jak i automatyczną.</strong></p>
+<p>✅Doskonale nadaje się do wszystkich automatów oraz <strong>maszyn wykonujących nadruk na taśmie.</strong></p>
+<h2>Cechy:</h2>
+<p>✅Dzięki swoim walorom takim jak: <strong>kleistość, rozciągliwość oraz przezroczystość</strong> i połysk nośnika, taśma ta nadaje się do wszelkich zastosowań w sektorze opakowaniowym.</p>
+<p><strong>✅Taśma nadaje się również </strong>do pakowania w <strong>niskich temperaturach</strong></p>
+<p><strong>✅Odporna na wilgoć.</strong></p>
+<p>{desc/100/}</p>
+<p style="text-align: center;"><img src="/userdata/public/gfx/93038.jpg" alt="" width="800" height="635" /></p>]]></desc>
+    <attrs>
+      <a name="Producent"><![CDATA[DALPO]]></a>
+      <a name="Kod_produktu"><![CDATA[TPH-002T/EG]]></a>
+      <a name="EAN"><![CDATA[7427282091114]]></a>
+      <a name="Waga"><![CDATA[0,12 kg]]></a>
+      <a name="Długość"><![CDATA[60 jardów]]></a>
+      <a name="Szerokość"><![CDATA[48 mm]]></a>
+      <a name="Kolor"><![CDATA[Przezroczysty]]></a>
+      <a name="Rodzaj kleju"><![CDATA[Kauczuk STRONG]]></a>
+    </attrs>
+  </o>
+  <o id="58121" url="https://dofirmy.pl/pl/p/Tasma-Pakowa-DALPO-Transparent-STRONG-4860y-6-szt./58121" price="23.94" avail="1" set="0" weight="0.72" stock="1877" basket="1">
+    <cat><![CDATA[FIRMA I BIURO/Pakowanie i wysyłka/Taśmy pakowe]]></cat>
+    <name><![CDATA[Taśma Pakowa DALPO Transparent STRONG 48/60y - 6 szt.]]></name>
+    <imgs>
+      <main url="https://dofirmy.pl/userdata/gfx/93041.jpg"/>
+      <i url="https://dofirmy.pl/userdata/gfx/93039.jpg"/>
+      <i url="https://dofirmy.pl/userdata/gfx/93040.jpg"/>
+    </imgs>
+    <desc><![CDATA[<p>{desc/100/}</p>
+<div class="mpof_ki myre_zn myre_8v_l m389_6m_l">
+<div class="mp4t_16_s mryx_16_s mr3m_1 mli2_1 mh85_56 mh85_0_l">
+<div class="mgn2_16 _0d3bd_am0a-">
+<h1 style="text-align: center;">⭐Taśma Pakowa DALPO Transparent STRONG 48/60y - 6 szt.⭐</h1>
+</div>
+</div>
+</div>
+<p>{desc/50/} </p>
+<p><img src="/userdata/public/gfx/93041.jpg" alt="" width="2048" height="1627" /></p>
+<p>{desc/50/}</p>
+<h2>Oferta dotyczy 6 sztuk taśmy 48/60y</h2>
+<p>✅Marka:<strong> Dalpo</strong></p>
+<p>✅Klej: <strong>Kauczukowy Strong</strong></p>
+<p>✅Kolor:<strong> Transparent (Przezroczysta)</strong></p>
+<p>✅Szerokość Taśmy:<strong> 48 mm</strong></p>
+<p>✅Długość Taśmy: <strong>60 Jardów</strong></p>
+<p>✅Pakowanie:<strong> 6 szt. w zgrzewce, 36 szt. w kartonie</strong></p>
+<p><strong>➡️Kupujesz 6 sztuk taśmy!</strong></p>
+<p>{desc/50/}</p>
+<h2>Parametry:</h2>
+<p>✅Nośnik: <strong>BOPP</strong></p>
+<p>✅Średnica tulei: <strong>76mm</strong></p>
+<p>✅Grubość taśmy: <strong>44μm – Norma 1942</strong></p>
+<p>✅Punkt pęknięcia: <strong>140%</strong></p>
+<p>✅Odporność na rozciąganie:<strong> 140N/mm2</strong></p>
+<p>✅Pomiar adhezji przy odrywaniu pod kątem: <strong>180°: 4,0 [≥3,0]N/cal – Norma EN 1939</strong></p>
+<p>✅Pomiar adhezji przy statycznym ścinaniu:<strong> ≥120h – Norma 1943</strong></p>
+<p>✅Zakres temperatur działania dla taśmy EuroTape Strong :<strong> od -20°C do +40°C ; temperatura aplikacji od -5°C</strong></p>
+<p>{desc/50/}</p>
+<p style="text-align: center;"><img src="/userdata/public/gfx/93039.jpg" alt="" width="1280" height="1280" /></p>
+<p>{desc/50/}</p>
+<p style="text-align: center;"><img src="/userdata/public/gfx/93041.jpg" alt="" width="2048" height="1627" /></p>
+<p>{desc/50/}</p>
+<h2>Zastosowanie:</h2>
+<p>✅Stosowana przede wszystkim do zaklejania kartonów z<strong>arówno metodą ręczną jak i automatyczną.</strong></p>
+<p>✅Doskonale nadaje się do wszystkich automatów oraz <strong>maszyn wykonujących nadruk na taśmie.</strong></p>
+<h2>Cechy:</h2>
+<p>✅Dzięki swoim walorom takim jak: <strong>kleistość, rozciągliwość oraz przezroczystość</strong> i połysk nośnika, taśma ta nadaje się do wszelkich zastosowań w sektorze opakowaniowym.</p>
+<p><strong>✅Taśma nadaje się również </strong>do pakowania w <strong>niskich temperaturach</strong></p>
+<p><strong>✅Odporna na wilgoć.</strong></p>
+<p>{desc/100/}</p>
+<p style="text-align: center;"><img src="/userdata/public/gfx/93040.jpg" alt="" width="800" height="635" /></p>]]></desc>
+    <attrs>
+      <a name="Producent"><![CDATA[DALPO]]></a>
+      <a name="Kod_produktu"><![CDATA[TPH-002T/EG-6]]></a>
+      <a name="EAN"><![CDATA[7427282043663]]></a>
+      <a name="Waga"><![CDATA[0,72 kg]]></a>
+      <a name="Długość"><![CDATA[60 jardów]]></a>
+      <a name="Szerokość"><![CDATA[48 mm]]></a>
+      <a name="Kolor"><![CDATA[Przezroczysty]]></a>
+      <a name="Rodzaj kleju"><![CDATA[Kauczuk STRONG]]></a>
+      <a name="Ilość w komplecie"><![CDATA[6 szt.]]></a>
+    </attrs>
+  </o>
+  <o id="58122" url="https://dofirmy.pl/pl/p/Tasma-Pakowa-DALPO-Transparent-STRONG-4860y-36-szt./58122" price="134.64" avail="1" set="0" weight="4.62" stock="312" basket="1">
+    <cat><![CDATA[FIRMA I BIURO/Pakowanie i wysyłka/Taśmy pakowe]]></cat>
+    <name><![CDATA[Taśma Pakowa DALPO Transparent STRONG 48/60y - 36 szt.]]></name>
+    <imgs>
+      <main url="https://dofirmy.pl/userdata/gfx/93042.jpg"/>
+      <i url="https://dofirmy.pl/userdata/gfx/93043.jpg"/>
+      <i url="https://dofirmy.pl/userdata/gfx/93044.jpg"/>
+    </imgs>
+    <desc><![CDATA[<p>{desc/100/}</p>
+<div class="mpof_ki myre_zn myre_8v_l m389_6m_l">
+<div class="mp4t_16_s mryx_16_s mr3m_1 mli2_1 mh85_56 mh85_0_l">
+<div class="mgn2_16 _0d3bd_am0a-">
+<h1 style="text-align: center;">⭐Taśma Pakowa DALPO Transparent STRONG 48/60y - 36 szt.⭐</h1>
+</div>
+</div>
+</div>
+<p>{desc/50/}</p>
+<p style="text-align: center;"><img src="/userdata/public/gfx/93042.jpg" alt="" width="800" height="635" /></p>
+<p>{desc/50/}</p>
+<h2>Oferta dotyczy 36 sztuk taśmy 48/60y</h2>
+<p><strong>✅</strong>Marka: <strong>Dalpo</strong></p>
+<p>✅Klej: <strong>Kauczukowy Strong</strong></p>
+<p>✅Kolor: <strong>Transparent (Przezroczysta)</strong></p>
+<p>✅Szerokość Taśmy: <strong>48 mm</strong></p>
+<p>✅Długość Taśmy: <strong>60 Jardów</strong></p>
+<p>✅Pakowanie: <strong>6 szt. w zgrzewce, 36 szt. w kartonie</strong></p>
+<p><strong>➡️Kupujesz 36 sztuk taśmy!</strong></p>
+<p>{desc/50/}</p>
+<h2>Parametry:</h2>
+<p>✅Nośnik: <strong>BOPP</strong></p>
+<p>✅Średnica tulei: <strong>76mm</strong></p>
+<p>✅Grubość taśmy: <strong>44μm – Norma 1942</strong></p>
+<p>✅Punkt pęknięcia: <strong>140%</strong></p>
+<p>✅Odporność na rozciąganie:<strong> 140N/mm2</strong></p>
+<p>✅Pomiar adhezji przy odrywaniu pod kątem: <strong>180°: 4,0 [≥3,0]N/cal – Norma EN 1939</strong></p>
+<p>✅Pomiar adhezji przy statycznym ścinaniu:<strong> ≥120h – Norma 1943</strong></p>
+<p>✅Zakres temperatur działania dla taśmy EuroTape Strong :<strong> od -20°C do +40°C ; temperatura aplikacji od -5°C</strong></p>
+<p>{desc/50/}</p>
+<p style="text-align: center;"><img src="/userdata/public/gfx/93043.jpg" alt="" width="2048" height="1627" /></p>
+<p>{desc/50/}</p>
+<p style="text-align: center;"><img src="/userdata/public/gfx/93044.jpg" alt="" width="1280" height="1280" /></p>
+<p>{desc/50/}</p>
+<h2>Zastosowanie:</h2>
+<p>✅Stosowana przede wszystkim do zaklejania kartonów z<strong>arówno metodą ręczną jak i automatyczną.</strong></p>
+<p>✅Doskonale nadaje się do wszystkich automatów oraz <strong>maszyn wykonujących nadruk na taśmie.</strong></p>
+<h2>Cechy:</h2>
+<p>✅Dzięki swoim walorom takim jak: <strong>kleistość, rozciągliwość oraz przezroczystość</strong> i połysk nośnika, taśma ta nadaje się do wszelkich zastosowań w sektorze opakowaniowym.</p>
+<p><strong>✅Taśma nadaje się również </strong>do pakowania w <strong>niskich temperaturach</strong></p>
+<p><strong>✅Odporna na wilgoć.</strong></p>]]></desc>
+    <attrs>
+      <a name="Producent"><![CDATA[DALPO]]></a>
+      <a name="Kod_produktu"><![CDATA[TPH-002T/EG-36]]></a>
+      <a name="EAN"><![CDATA[7427282076739]]></a>
+      <a name="Waga"><![CDATA[4,62 kg]]></a>
+      <a name="Długość"><![CDATA[60 jardów]]></a>
+      <a name="Szerokość"><![CDATA[48 mm]]></a>
+      <a name="Kolor"><![CDATA[Przezroczysty]]></a>
+      <a name="Rodzaj kleju"><![CDATA[Kauczuk STRONG]]></a>
+      <a name="Ilość w komplecie"><![CDATA[36 szt.]]></a>
+    </attrs>
+  </o>
+  <o id="58123" url="https://dofirmy.pl/pl/p/Suszarka-Balkonowa-Tina-Silver/58123" price="89.90" avail="1" set="0" weight="1.74" stock="6" basket="1">
+    <cat><![CDATA[DOM I OGRÓD/Wyposażenie/Suszarki na ubrania]]></cat>
+    <name><![CDATA[Suszarka Balkonowa Tina Silver]]></name>
+    <imgs>
+      <main url="https://dofirmy.pl/userdata/gfx/76913.jpg"/>
+      <i url="https://dofirmy.pl/userdata/gfx/76914.jpg"/>
+      <i url="https://dofirmy.pl/userdata/gfx/76915.jpg"/>
+      <i url="https://dofirmy.pl/userdata/gfx/76916.jpg"/>
+      <i url="https://dofirmy.pl/userdata/gfx/76917.jpg"/>
+      <i url="https://dofirmy.pl/userdata/gfx/76918.jpg"/>
+      <i url="https://dofirmy.pl/userdata/gfx/91531.jpg"/>
+    </imgs>
+    <desc><![CDATA[<h1>Duża suszarka wolnostojąca składana - na pranie</h1>
+<div class="fx-row">
+<div class="fx-col fx-pic"><img src="/userdata/public/assets/Produkty/Suszarka Balkonowa Basic/Suszarka-Balkonowa-Basic-1.jpg" alt="" width="720" height="468" /></div>
+<div class="fx-col">
+<h2><span style="font-size: 14pt;">Idealne rozwiązanie</span></h2>
+<p><span style="font-size: 12pt;"><strong>Na duże pranie - jednocześnie praktyczne do małych mieszkań i balkonów.</strong> Praktyczna suszarka na pranie wykonana z wysoko-jakościowych materiałów, oferuje możliwość wieszania dużych rozmiarów prania.</span></p>
+<p><span style="font-size: 12pt;"><strong>Dzięki grubym drutom zapobiega powstawaniu zagnieceń na częściach garderoby jednocześnie skracając proces prasowania.</strong></span></p>
+</div>
+</div>
+<div class="fx-row">
+<div class="fx-col">
+<h2><span style="font-size: 14pt;">Specyfikacja:</span></h2>
+<ul>
+<li><span style="font-size: 12pt;">typ: <strong>stojąca</strong></span></li>
+<li><span style="font-size: 12pt;"><strong>funkcja składania</strong></span></li>
+<li><span style="font-size: 12pt;">Wysokość: <strong>101 cm</strong></span></li>
+<li><span style="font-size: 12pt;">Szerokość: <strong>50 cm</strong></span></li>
+<li><span style="font-size: 12pt;">Długość: <strong>180 cm</strong></span></li>
+<li><span style="font-size: 12pt;">Długość suszarki złożonej: <strong>127 cm</strong></span></li>
+<li><span style="font-size: 12pt;">Powierzchnia suszenia: <strong>18 m</strong></span></li>
+<li><span style="font-size: 12pt;">Materiał: <strong>stal węglowa malowana proszkowo</strong></span></li>
+<li><span style="font-size: 12pt;">Wyposażenie dodatkowe: <strong>antypoślizgowe elementy</strong></span></li>
+</ul>
+</div>
+<div class="fx-col fx-pic"><img src="/userdata/public/gfx/91531.jpg" alt="" width="2048" height="1036" /></div>
+</div>
+<div class="fx-row">
+<div class="fx-col fx-pic"><img src="/userdata/public/assets/Produkty/Suszarka Balkonowa Basic/Suszarka-Balkonowa-Basic-2.jpg" alt="" width="720" height="599" /></div>
+<div class="fx-col">
+<h2><span style="font-size: 14pt;">Cechy:</span></h2>
+<ul>
+<li><span style="font-size: 12pt;"><strong>Idealna na obrusy i prześcieradła</strong></span></li>
+<li><span style="font-size: 12pt;"><strong>Wysokiej jakości</strong> stalowa konstrukcja oraz mechanizm zabezpieczający przed przypadkowych składaniem.</span></li>
+<li><span style="font-size: 12pt;">Wytrzymała, stalowa konstrukcja ze stopu nierdzewnego</span></li>
+<li><span style="font-size: 12pt;">Wyposażona jest w <strong>antypoślizgowe, gumowe elementy</strong> zapobiegające przesuwaniu się oraz rysowaniu podłogi.</span></li>
+<li><span style="font-size: 12pt;">Suszarkę <strong>można złożyć</strong>, dzięki czemu zajmuje niewiele miejsca.</span></li>
+<li><span style="font-size: 12pt;">Idealnie sprawdzi się jako <strong>suszarko ogrodowa, balkonowa lub do mieszkania</strong>.</span></li>
+<li><span style="font-size: 12pt;">Suszarka wykonana jest <strong>z najwyższej jakości materiału</strong> - lakierowanego metalu.</span></li>
+</ul>
+</div>
+</div>
+<div class="fx-row">
+<div class="fx-col">
+<h2><span style="font-size: 14pt;">Praktyczna suszarka</span></h2>
+<p><span style="font-size: 12pt;">Idealna dla małych mieszkań i na balkon. Dzięki możliwości rozkładania i składania suszarki - możemy ją używać w wielu miejscach tj.:</span></p>
+<ul>
+<li><span style="font-size: 12pt;"><strong>na balkonie</strong></span></li>
+<li><span style="font-size: 12pt;"><strong>w domu</strong></span></li>
+<li><span style="font-size: 12pt;"><strong>w pomieszczeniach gospodarczych</strong></span></li>
+<li><span style="font-size: 12pt;"><strong>w ogrodzie</strong></span></li>
+<li><span style="font-size: 12pt;"><strong>w łazience</strong></span></li>
+<li><span style="font-size: 12pt;"><strong>w pralni</strong></span></li>
+</ul>
+<p><span style="font-size: 12pt;"><strong>Dołożyliśmy wszelkich starań, aby wszystkie nasze propozycje ułatwiały Twoje codzienne czynności!</strong></span></p>
+</div>
+<div class="fx-col fx-pic"><img src="/userdata/public/assets/Produkty/Suszarka Balkonowa Basic/Suszarka-Balkonowa-Basic-6.jpg" alt="" width="1122" height="745" /></div>
+</div>
+<div class="fx-row">
+<div class="fx-col fx-pic"><img src="/userdata/public/assets/Produkty/Suszarka Balkonowa Basic/Suszarka-Balkonowa-Basic-5.jpg" alt="" width="720" height="542" /></div>
+<div class="fx-col">
+<h2><span style="font-size: 14pt;">Wysoka jakość wykonania</span></h2>
+<ul>
+<li><span style="font-size: 12pt;">Wykonana została <strong>z wysokiej jakości materiałów, ze szczególną dbałością o detale.</strong></span></li>
+</ul>
+<ul>
+<li><span style="font-size: 12pt;">Wyposażona jest w <strong>antypoślizgowe, gumowe elementy</strong> zapobiegające przesuwaniu się oraz rysowaniu podłogi.</span></li>
+</ul>
+</div>
+</div>
+<h1><img src="/userdata/public/assets/Produkty/Suszarka Balkonowa Basic/Suszarka-Balkonowa-Basic-3.jpg" alt="" width="1500" height="545" /></h1>]]></desc>
+    <attrs>
+      <a name="Producent"><![CDATA[INNY]]></a>
+      <a name="Kod_produktu"><![CDATA[5902406539076]]></a>
+      <a name="EAN"><![CDATA[5902406539076]]></a>
+      <a name="Waga"><![CDATA[1,74 kg]]></a>
+      <a name="Długość"><![CDATA[180 cm]]></a>
+      <a name="Szerokość"><![CDATA[50 cm]]></a>
+      <a name="Wysokość"><![CDATA[101 cm]]></a>
+      <a name="Kolor Dominujący"><![CDATA[Biały]]></a>
+      <a name="Model"><![CDATA[ Suszarka Balkonowa Tina Silver]]></a>
+      <a name="Materiał"><![CDATA[Stal Węglowa Malowana Proszkowo]]></a>
+      <a name="Typ"><![CDATA[Stojąca]]></a>
+      <a name="Gwarancja"><![CDATA[24 miesiące]]></a>
+    </attrs>
+  </o>
+  <o id="stock_58164" url="https://dofirmy.pl/pl/p/Rekawice-Winylowe-Nitrylowe-BezPud.-100-szt.-Nieb.-Hybrid-/58124?stockOptions=90" price="19.90" avail="1" set="0" weight="0.48" stock="0" basket="1">
+    <cat><![CDATA[FIRMA I BIURO/Artykuły BHP/Rękawiczki jednorazowe]]></cat>
+    <name><![CDATA[Rękawice Winylowe-Nitrylowe BezPud. 100 szt. Nieb. Hybrid + (S 6-7)]]></name>
+    <imgs>
+      <main url="https://dofirmy.pl/userdata/gfx/77020.png"/>
+      <i url="https://dofirmy.pl/userdata/gfx/76920.webp"/>
+      <i url="https://dofirmy.pl/userdata/gfx/76921.jpg"/>
+      <i url="https://dofirmy.pl/userdata/gfx/76922.jpg"/>
+      <i url="https://dofirmy.pl/userdata/gfx/77033.jpg"/>
+      <i url="https://dofirmy.pl/userdata/gfx/77021.png"/>
+      <i url="https://dofirmy.pl/userdata/gfx/77022.png"/>
+      <i url="https://dofirmy.pl/userdata/gfx/77023.png"/>
+    </imgs>
+    <desc><![CDATA[<h1>Rękawice winylowo-nitrylowe Hybrid+ 100 szt. </h1>
+<div class="fx-row fx-center">
+<div class="fx-col"><img src="/userdata/public/assets/Produkty/RĘKAWICE/Rękawice Winylowe-Nitrylowe BezPud. 100 szt. Nieb. Hybrid +/R%C4%99kawice-Winylowe-Nitrylowe-BezPud.-100-szt.-Nieb.-Hybrid-%2B.jpg" alt="" width="1000" height="634" /></div>
+<div class="fx-col">
+<p><span style="font-size: 12pt;"><strong>Oferta dotyczy 100 sztuk rękawiczek</strong></span></p>
+<p><span style="font-size: 12pt;"><strong>Kolor: </strong>niebieski</span></p>
+<p><span style="font-size: 12pt;"><strong>Marka: </strong>MERCATOR MEDICAL</span></p>
+<p><span style="font-size: 12pt;"><strong>PAKOWANIE:</strong> 100 sztuk / 1 karton</span></p>
+<ul>
+<li><span style="font-size: 12pt;">pasują na prawą i lewą rękę</span></li>
+<li><span style="font-size: 12pt;"><strong>powierzchnia zewnętrzna mikroteksturowana z teksturą na końcach palców</strong></span></li>
+<li><span style="font-size: 12pt;">od wewnątrz polimeryzowane i chlorowane</span></li>
+<li><span style="font-size: 12pt;"><strong>mają zastosowanie w środowisku medycznym, przeznaczone do ochrony pacjenta i użytkownika przed zanieczyszczeniem krzyżowym, przeprowadzania badań lekarskich, diagnostycznych, czynności terapeutycznych oraz do prac ze skażonym materiałem</strong></span></li>
+<li><span style="font-size: 12pt;">dopuszczone do kontaktu z żywnością</span></li>
+<li><span style="font-size: 12pt;"><strong>stanowią wyrób medyczny klasy I jak i środek ochrony indywidualnej kategorii III</strong></span></li>
+<li><span style="font-size: 12pt;">pakowane po 100 szt. w opakowaniu</span></li>
+</ul>
+<h2><span style="font-size: 14pt;">Spełniają wymagania norm:</span></h2>
+<ul>
+<li><span style="font-size: 12pt;"><strong>EN ISO 374-4</strong></span></li>
+<li><span style="font-size: 12pt;"><strong>EN 16523-1</strong></span></li>
+<li><span style="font-size: 12pt;"><strong>EN 455(1-4)</strong></span></li>
+<li><span style="font-size: 12pt;"><strong>Rozporządzenie (UE) 2016/425</strong></span></li>
+<li><span style="font-size: 12pt;"><strong>Rozporządzenie (UE) 2017/745</strong></span></li>
+<li><span style="font-size: 12pt;"><strong>EN ISO 13485</strong></span></li>
+<li><span style="font-size: 12pt;"><strong>EN 1041</strong></span></li>
+<li><span style="font-size: 12pt;"><strong>EN 16523-1</strong></span></li>
+<li><span style="font-size: 12pt;"><strong>EN ISO 374-1</strong></span></li>
+<li><span style="font-size: 12pt;"><strong>EN ISO 374-2</strong></span></li>
+<li><span style="font-size: 12pt;"><strong>EN ISO 21420</strong></span></li>
+<li><span style="font-size: 12pt;"><strong>EN ISO 15223-1</strong></span></li>
+</ul>
+</div>
+</div>
+<div class="fx-row fx-center">
+<div class="fx-col">
+<h2><span style="font-size: 14pt;">Najwyższej jakości rękawice syntetyczne teraz mogą być Twoje!</span></h2>
+<p><span style="font-size: 12pt;"><strong>MERCATOR® hybrid+ to rękawice diagnostyczne i ochronne.</strong> <strong>Charakteryzują się dużą miękkością i elastycznością – to cechy niespotykane w innych rękawicach winylowych!</strong></span></p>
+<p><span style="font-size: 12pt;">MERCATOR® hybrid+ są wolne od szkodliwych ftalanów, dzięki czemu są przyjazne skórze i <strong>minimalizują ryzyko wystąpienia podrażnień i alergii skóry.</strong></span></p>
+<p> </p>
+<p><span style="font-size: 14pt;">MERCATOR® hybrid+ to zwiększony komfort zakładania i zdejmowania.</span></p>
+<p><span style="font-size: 12pt;">Wewnątrz pokryte poliuretanem, który ułatwia zakładanie i zdejmowanie rękawicy – nawet gdy nasze dłonie są wilgotne. Ponadto rękawice posiadają zgodność z normą ASTM F 1671 oraz EN ISO 374-5. <strong>Oznacza to, że MERCATOR® hybrid+ są barierowe przed wirusami, bakteriami i grzybami. W dobie COVID-19 jest to konieczność.</strong></span></p>
+<p><span style="font-size: 12pt;"><strong>Wyjątkowej jakości rękawice syntetyczne w nowoczesnej formule winylowo-nitrylowej w konkurencyjnej cenie!</strong></span></p>
+</div>
+<div class="fx-col"><img src="/userdata/public/assets/Produkty/RĘKAWICE/Rękawice Winylowe-Nitrylowe BezPud. 100 szt. Nieb. Hybrid +/Rękawice Winylowe-Nitrylowe BezPud. 100 szt. Nieb. 10-XL Hybrid +/R%C4%99kawice-Winylowe-Nitrylowe-BezPud.-100-szt.-Nieb.-10-XL-Hybrid-%2B-2.JPG" alt="" width="333" height="569" /></div>
+</div>
+<div class="fx-row fx-center">
+<div class="fx-col fx-pic"><img src="/userdata/public/assets/Produkty/RĘKAWICE/Rękawice Winylowe-Nitrylowe BezPud. 100 szt. Nieb. Hybrid +/Rękawice Winylowe-Nitrylowe BezPud. 100 szt. Nieb. 7-S Hybrid +/R%C4%99kawice-Winylowe-Nitrylowe-BezPud.-100-szt.-Nieb.-7-S-Hybrid-%2B-3.jpg" alt="" width="482" height="460" /></div>
+<div class="fx-col">
+<h2><span style="font-size: 14pt;">Dobierz odpowiedni rozmiar!</span></h2>
+<p><span style="font-size: 12pt;">Rozmiar rękawicy powinien być idealnie dopasowany do dłoni.<strong> Wpływa to bezpośrednio na bezpieczeństwo i komfort pracy.</strong></span></p>
+<p><span style="font-size: 12pt;">Aby poznać swój rozmiar, <strong>należy zmierzyć szerokość dłoni tuż nad kciukiem</strong> (najszersze miejsce na dłoni).</span></p>
+<ul>
+<li><span style="font-size: 12pt;"><strong>XS</strong> Szerokość: <strong>od 80 mm</strong></span></li>
+<li><span style="font-size: 12pt;"><strong>S</strong> Szerokość: <strong>79-90 mm</strong></span></li>
+<li><span style="font-size: 12pt;"><strong>M</strong> Szerokość: <strong>85-105 mm</strong></span></li>
+<li><span style="font-size: 12pt;"><strong>L</strong> Szerokość: <strong>100-120 mm</strong></span></li>
+<li><span style="font-size: 12pt;"><strong>XL</strong> Szerokość: <strong>do 110 mm</strong></span></li>
+</ul>
+</div>
+</div>
+<div class="fx-row fx-center">
+<div class="fx-col">
+<h2><span style="font-size: 14pt;">Rekomendowane zastosowania</span></h2>
+<p><span style="font-size: 12pt;"><strong>Beauty</strong></span></p>
+<ul>
+<li><span style="font-size: 12pt;">Gabinet fryzjerski</span></li>
+<li><span style="font-size: 12pt;">Gabinet kosmetyczny</span></li>
+<li><span style="font-size: 12pt;">Manicure &amp; Pedicure</span></li>
+<li><span style="font-size: 12pt;">Gabinet Podologiczny</span></li>
+</ul>
+<p><span style="font-size: 12pt;"><strong>Ochrona zdrowia</strong></span></p>
+<ul>
+<li><span style="font-size: 12pt;">Przykładowy oddział szpitalny</span></li>
+<li><span style="font-size: 12pt;">Oddziały dziecięce neontologiczne, opieka nad dzieckiem</span></li>
+<li><span style="font-size: 12pt;">Gabinet zabiegowy, poradnia specjalistyczna</span></li>
+<li><span style="font-size: 12pt;">Szpitalny oddział ratunkowy (SOR)</span></li>
+</ul>
+<p><span style="font-size: 12pt;"><strong>Przetwórstwo rolno-spożywcze</strong></span></p>
+<ul>
+<li><span style="font-size: 12pt;">Przetwórstwo mięsa</span></li>
+<li><span style="font-size: 12pt;">Przetwórstwo ryb</span></li>
+<li><span style="font-size: 12pt;">Przetwórstwo mleka</span></li>
+<li><span style="font-size: 12pt;">Cukiernia</span></li>
+</ul>
+</div>
+<div class="fx-col"><img src="/userdata/public/assets/Produkty/RĘKAWICE/Rękawice Winylowe-Nitrylowe BezPud. 100 szt. Nieb. Hybrid +/R%C4%99kawice-Winylowe-Nitrylowe-BezPud.-100-szt.-Nieb.-10-XL-Hybrid-%2B-4.jpg" alt="" width="1152" height="768" /></div>
+</div>]]></desc>
+    <attrs>
+      <a name="Producent"><![CDATA[MERCATOR]]></a>
+      <a name="Kod_produktu"><![CDATA[5906615012139]]></a>
+      <a name="EAN"><![CDATA[5906615012139]]></a>
+      <a name="Normy"><![CDATA[EN ISO 15223-1, EN 1041, Rozporządzenie (UE) 2017/745, EN 1041 , EN ISO 374-1 , EN ISO 374-2 , EN ISO 374-4 , EN 420]]></a>
+      <a name="Materiał"><![CDATA[Nitryl-Winyl]]></a>
+      <a name="Kolor"><![CDATA[Niebieski]]></a>
+      <a name="Model"><![CDATA[Hybrid +]]></a>
+      <a name="Rodzaj"><![CDATA[Bezpudrowe]]></a>
+      <a name="Typ"><![CDATA[Medyczno-ochronny]]></a>
+      <a name="Ilość w komplecie"><![CDATA[100 sztuk]]></a>
+      <a name="Rozmiar"><![CDATA[S 6-7]]></a>
+    </attrs>
+  </o>
+  <o id="stock_58194" url="https://dofirmy.pl/pl/p/Rekawice-Winylowe-Nitrylowe-BezPud.-100-szt.-Nieb.-Hybrid-/58124?stockOptions=91" price="19.90" avail="1" set="0" weight="0.58" stock="0" basket="1">
+    <cat><![CDATA[FIRMA I BIURO/Artykuły BHP/Rękawiczki jednorazowe]]></cat>
+    <name><![CDATA[Rękawice Winylowe-Nitrylowe BezPud. 100 szt. Nieb. Hybrid + (M 7-8)]]></name>
+    <imgs>
+      <main url="https://dofirmy.pl/userdata/gfx/77021.png"/>
+      <i url="https://dofirmy.pl/userdata/gfx/76920.webp"/>
+      <i url="https://dofirmy.pl/userdata/gfx/76921.jpg"/>
+      <i url="https://dofirmy.pl/userdata/gfx/76922.jpg"/>
+      <i url="https://dofirmy.pl/userdata/gfx/77033.jpg"/>
+      <i url="https://dofirmy.pl/userdata/gfx/77020.png"/>
+      <i url="https://dofirmy.pl/userdata/gfx/77022.png"/>
+      <i url="https://dofirmy.pl/userdata/gfx/77023.png"/>
+    </imgs>
+    <desc><![CDATA[<h1>Rękawice winylowo-nitrylowe Hybrid+ 100 szt. </h1>
+<div class="fx-row fx-center">
+<div class="fx-col"><img src="/userdata/public/assets/Produkty/RĘKAWICE/Rękawice Winylowe-Nitrylowe BezPud. 100 szt. Nieb. Hybrid +/R%C4%99kawice-Winylowe-Nitrylowe-BezPud.-100-szt.-Nieb.-Hybrid-%2B.jpg" alt="" width="1000" height="634" /></div>
+<div class="fx-col">
+<p><span style="font-size: 12pt;"><strong>Oferta dotyczy 100 sztuk rękawiczek</strong></span></p>
+<p><span style="font-size: 12pt;"><strong>Kolor: </strong>niebieski</span></p>
+<p><span style="font-size: 12pt;"><strong>Marka: </strong>MERCATOR MEDICAL</span></p>
+<p><span style="font-size: 12pt;"><strong>PAKOWANIE:</strong> 100 sztuk / 1 karton</span></p>
+<ul>
+<li><span style="font-size: 12pt;">pasują na prawą i lewą rękę</span></li>
+<li><span style="font-size: 12pt;"><strong>powierzchnia zewnętrzna mikroteksturowana z teksturą na końcach palców</strong></span></li>
+<li><span style="font-size: 12pt;">od wewnątrz polimeryzowane i chlorowane</span></li>
+<li><span style="font-size: 12pt;"><strong>mają zastosowanie w środowisku medycznym, przeznaczone do ochrony pacjenta i użytkownika przed zanieczyszczeniem krzyżowym, przeprowadzania badań lekarskich, diagnostycznych, czynności terapeutycznych oraz do prac ze skażonym materiałem</strong></span></li>
+<li><span style="font-size: 12pt;">dopuszczone do kontaktu z żywnością</span></li>
+<li><span style="font-size: 12pt;"><strong>stanowią wyrób medyczny klasy I jak i środek ochrony indywidualnej kategorii III</strong></span></li>
+<li><span style="font-size: 12pt;">pakowane po 100 szt. w opakowaniu</span></li>
+</ul>
+<h2><span style="font-size: 14pt;">Spełniają wymagania norm:</span></h2>
+<ul>
+<li><span style="font-size: 12pt;"><strong>EN ISO 374-4</strong></span></li>
+<li><span style="font-size: 12pt;"><strong>EN 16523-1</strong></span></li>
+<li><span style="font-size: 12pt;"><strong>EN 455(1-4)</strong></span></li>
+<li><span style="font-size: 12pt;"><strong>Rozporządzenie (UE) 2016/425</strong></span></li>
+<li><span style="font-size: 12pt;"><strong>Rozporządzenie (UE) 2017/745</strong></span></li>
+<li><span style="font-size: 12pt;"><strong>EN ISO 13485</strong></span></li>
+<li><span style="font-size: 12pt;"><strong>EN 1041</strong></span></li>
+<li><span style="font-size: 12pt;"><strong>EN 16523-1</strong></span></li>
+<li><span style="font-size: 12pt;"><strong>EN ISO 374-1</strong></span></li>
+<li><span style="font-size: 12pt;"><strong>EN ISO 374-2</strong></span></li>
+<li><span style="font-size: 12pt;"><strong>EN ISO 21420</strong></span></li>
+<li><span style="font-size: 12pt;"><strong>EN ISO 15223-1</strong></span></li>
+</ul>
+</div>
+</div>
+<div class="fx-row fx-center">
+<div class="fx-col">
+<h2><span style="font-size: 14pt;">Najwyższej jakości rękawice syntetyczne teraz mogą być Twoje!</span></h2>
+<p><span style="font-size: 12pt;"><strong>MERCATOR® hybrid+ to rękawice diagnostyczne i ochronne.</strong> <strong>Charakteryzują się dużą miękkością i elastycznością – to cechy niespotykane w innych rękawicach winylowych!</strong></span></p>
+<p><span style="font-size: 12pt;">MERCATOR® hybrid+ są wolne od szkodliwych ftalanów, dzięki czemu są przyjazne skórze i <strong>minimalizują ryzyko wystąpienia podrażnień i alergii skóry.</strong></span></p>
+<p> </p>
+<p><span style="font-size: 14pt;">MERCATOR® hybrid+ to zwiększony komfort zakładania i zdejmowania.</span></p>
+<p><span style="font-size: 12pt;">Wewnątrz pokryte poliuretanem, który ułatwia zakładanie i zdejmowanie rękawicy – nawet gdy nasze dłonie są wilgotne. Ponadto rękawice posiadają zgodność z normą ASTM F 1671 oraz EN ISO 374-5. <strong>Oznacza to, że MERCATOR® hybrid+ są barierowe przed wirusami, bakteriami i grzybami. W dobie COVID-19 jest to konieczność.</strong></span></p>
+<p><span style="font-size: 12pt;"><strong>Wyjątkowej jakości rękawice syntetyczne w nowoczesnej formule winylowo-nitrylowej w konkurencyjnej cenie!</strong></span></p>
+</div>
+<div class="fx-col"><img src="/userdata/public/assets/Produkty/RĘKAWICE/Rękawice Winylowe-Nitrylowe BezPud. 100 szt. Nieb. Hybrid +/Rękawice Winylowe-Nitrylowe BezPud. 100 szt. Nieb. 10-XL Hybrid +/R%C4%99kawice-Winylowe-Nitrylowe-BezPud.-100-szt.-Nieb.-10-XL-Hybrid-%2B-2.JPG" alt="" width="333" height="569" /></div>
+</div>
+<div class="fx-row fx-center">
+<div class="fx-col fx-pic"><img src="/userdata/public/assets/Produkty/RĘKAWICE/Rękawice Winylowe-Nitrylowe BezPud. 100 szt. Nieb. Hybrid +/Rękawice Winylowe-Nitrylowe BezPud. 100 szt. Nieb. 7-S Hybrid +/R%C4%99kawice-Winylowe-Nitrylowe-BezPud.-100-szt.-Nieb.-7-S-Hybrid-%2B-3.jpg" alt="" width="482" height="460" /></div>
+<div class="fx-col">
+<h2><span style="font-size: 14pt;">Dobierz odpowiedni rozmiar!</span></h2>
+<p><span style="font-size: 12pt;">Rozmiar rękawicy powinien być idealnie dopasowany do dłoni.<strong> Wpływa to bezpośrednio na bezpieczeństwo i komfort pracy.</strong></span></p>
+<p><span style="font-size: 12pt;">Aby poznać swój rozmiar, <strong>należy zmierzyć szerokość dłoni tuż nad kciukiem</strong> (najszersze miejsce na dłoni).</span></p>
+<ul>
+<li><span style="font-size: 12pt;"><strong>XS</strong> Szerokość: <strong>od 80 mm</strong></span></li>
+<li><span style="font-size: 12pt;"><strong>S</strong> Szerokość: <strong>79-90 mm</strong></span></li>
+<li><span style="font-size: 12pt;"><strong>M</strong> Szerokość: <strong>85-105 mm</strong></span></li>
+<li><span style="font-size: 12pt;"><strong>L</strong> Szerokość: <strong>100-120 mm</strong></span></li>
+<li><span style="font-size: 12pt;"><strong>XL</strong> Szerokość: <strong>do 110 mm</strong></span></li>
+</ul>
+</div>
+</div>
+<div class="fx-row fx-center">
+<div class="fx-col">
+<h2><span style="font-size: 14pt;">Rekomendowane zastosowania</span></h2>
+<p><span style="font-size: 12pt;"><strong>Beauty</strong></span></p>
+<ul>
+<li><span style="font-size: 12pt;">Gabinet fryzjerski</span></li>
+<li><span style="font-size: 12pt;">Gabinet kosmetyczny</span></li>
+<li><span style="font-size: 12pt;">Manicure &amp; Pedicure</span></li>
+<li><span style="font-size: 12pt;">Gabinet Podologiczny</span></li>
+</ul>
+<p><span style="font-size: 12pt;"><strong>Ochrona zdrowia</strong></span></p>
+<ul>
+<li><span style="font-size: 12pt;">Przykładowy oddział szpitalny</span></li>
+<li><span style="font-size: 12pt;">Oddziały dziecięce neontologiczne, opieka nad dzieckiem</span></li>
+<li><span style="font-size: 12pt;">Gabinet zabiegowy, poradnia specjalistyczna</span></li>
+<li><span style="font-size: 12pt;">Szpitalny oddział ratunkowy (SOR)</span></li>
+</ul>
+<p><span style="font-size: 12pt;"><strong>Przetwórstwo rolno-spożywcze</strong></span></p>
+<ul>
+<li><span style="font-size: 12pt;">Przetwórstwo mięsa</span></li>
+<li><span style="font-size: 12pt;">Przetwórstwo ryb</span></li>
+<li><span style="font-size: 12pt;">Przetwórstwo mleka</span></li>
+<li><span style="font-size: 12pt;">Cukiernia</span></li>
+</ul>
+</div>
+<div class="fx-col"><img src="/userdata/public/assets/Produkty/RĘKAWICE/Rękawice Winylowe-Nitrylowe BezPud. 100 szt. Nieb. Hybrid +/R%C4%99kawice-Winylowe-Nitrylowe-BezPud.-100-szt.-Nieb.-10-XL-Hybrid-%2B-4.jpg" alt="" width="1152" height="768" /></div>
+</div>]]></desc>
+    <attrs>
+      <a name="Producent"><![CDATA[MERCATOR]]></a>
+      <a name="Kod_produktu"><![CDATA[5906615012146]]></a>
+      <a name="EAN"><![CDATA[5906615012146]]></a>
+      <a name="Normy"><![CDATA[EN ISO 15223-1, EN 1041, Rozporządzenie (UE) 2017/745, EN 1041 , EN ISO 374-1 , EN ISO 374-2 , EN ISO 374-4 , EN 420]]></a>
+      <a name="Materiał"><![CDATA[Nitryl-Winyl]]></a>
+      <a name="Kolor"><![CDATA[Niebieski]]></a>
+      <a name="Model"><![CDATA[Hybrid +]]></a>
+      <a name="Rodzaj"><![CDATA[Bezpudrowe]]></a>
+      <a name="Typ"><![CDATA[Medyczno-ochronny]]></a>
+      <a name="Ilość w komplecie"><![CDATA[100 sztuk]]></a>
+      <a name="Rozmiar"><![CDATA[M 7-8]]></a>
+    </attrs>
+  </o>
+  <o id="stock_58195" url="https://dofirmy.pl/pl/p/Rekawice-Winylowe-Nitrylowe-BezPud.-100-szt.-Nieb.-Hybrid-/58124?stockOptions=92" price="19.90" avail="1" set="0" weight="0.6" stock="0" basket="1">
+    <cat><![CDATA[FIRMA I BIURO/Artykuły BHP/Rękawiczki jednorazowe]]></cat>
+    <name><![CDATA[Rękawice Winylowe-Nitrylowe BezPud. 100 szt. Nieb. Hybrid + (L 8-9)]]></name>
+    <imgs>
+      <main url="https://dofirmy.pl/userdata/gfx/77022.png"/>
+      <i url="https://dofirmy.pl/userdata/gfx/76920.webp"/>
+      <i url="https://dofirmy.pl/userdata/gfx/76921.jpg"/>
+      <i url="https://dofirmy.pl/userdata/gfx/76922.jpg"/>
+      <i url="https://dofirmy.pl/userdata/gfx/77033.jpg"/>
+      <i url="https://dofirmy.pl/userdata/gfx/77020.png"/>
+      <i url="https://dofirmy.pl/userdata/gfx/77021.png"/>
+      <i url="https://dofirmy.pl/userdata/gfx/77023.png"/>
+    </imgs>
+    <desc><![CDATA[<h1>Rękawice winylowo-nitrylowe Hybrid+ 100 szt. </h1>
+<div class="fx-row fx-center">
+<div class="fx-col"><img src="/userdata/public/assets/Produkty/RĘKAWICE/Rękawice Winylowe-Nitrylowe BezPud. 100 szt. Nieb. Hybrid +/R%C4%99kawice-Winylowe-Nitrylowe-BezPud.-100-szt.-Nieb.-Hybrid-%2B.jpg" alt="" width="1000" height="634" /></div>
+<div class="fx-col">
+<p><span style="font-size: 12pt;"><strong>Oferta dotyczy 100 sztuk rękawiczek</strong></span></p>
+<p><span style="font-size: 12pt;"><strong>Kolor: </strong>niebieski</span></p>
+<p><span style="font-size: 12pt;"><strong>Marka: </strong>MERCATOR MEDICAL</span></p>
+<p><span style="font-size: 12pt;"><strong>PAKOWANIE:</strong> 100 sztuk / 1 karton</span></p>
+<ul>
+<li><span style="font-size: 12pt;">pasują na prawą i lewą rękę</span></li>
+<li><span style="font-size: 12pt;"><strong>powierzchnia zewnętrzna mikroteksturowana z teksturą na końcach palców</strong></span></li>
+<li><span style="font-size: 12pt;">od wewnątrz polimeryzowane i chlorowane</span></li>
+<li><span style="font-size: 12pt;"><strong>mają zastosowanie w środowisku medycznym, przeznaczone do ochrony pacjenta i użytkownika przed zanieczyszczeniem krzyżowym, przeprowadzania badań lekarskich, diagnostycznych, czynności terapeutycznych oraz do prac ze skażonym materiałem</strong></span></li>
+<li><span style="font-size: 12pt;">dopuszczone do kontaktu z żywnością</span></li>
+<li><span style="font-size: 12pt;"><strong>stanowią wyrób medyczny klasy I jak i środek ochrony indywidualnej kategorii III</strong></span></li>
+<li><span style="font-size: 12pt;">pakowane po 100 szt. w opakowaniu</span></li>
+</ul>
+<h2><span style="font-size: 14pt;">Spełniają wymagania norm:</span></h2>
+<ul>
+<li><span style="font-size: 12pt;"><strong>EN ISO 374-4</strong></span></li>
+<li><span style="font-size: 12pt;"><strong>EN 16523-1</strong></span></li>
+<li><span style="font-size: 12pt;"><strong>EN 455(1-4)</strong></span></li>
+<li><span style="font-size: 12pt;"><strong>Rozporządzenie (UE) 2016/425</strong></span></li>
+<li><span style="font-size: 12pt;"><strong>Rozporządzenie (UE) 2017/745</strong></span></li>
+<li><span style="font-size: 12pt;"><strong>EN ISO 13485</strong></span></li>
+<li><span style="font-size: 12pt;"><strong>EN 1041</strong></span></li>
+<li><span style="font-size: 12pt;"><strong>EN 16523-1</strong></span></li>
+<li><span style="font-size: 12pt;"><strong>EN ISO 374-1</strong></span></li>
+<li><span style="font-size: 12pt;"><strong>EN ISO 374-2</strong></span></li>
+<li><span style="font-size: 12pt;"><strong>EN ISO 21420</strong></span></li>
+<li><span style="font-size: 12pt;"><strong>EN ISO 15223-1</strong></span></li>
+</ul>
+</div>
+</div>
+<div class="fx-row fx-center">
+<div class="fx-col">
+<h2><span style="font-size: 14pt;">Najwyższej jakości rękawice syntetyczne teraz mogą być Twoje!</span></h2>
+<p><span style="font-size: 12pt;"><strong>MERCATOR® hybrid+ to rękawice diagnostyczne i ochronne.</strong> <strong>Charakteryzują się dużą miękkością i elastycznością – to cechy niespotykane w innych rękawicach winylowych!</strong></span></p>
+<p><span style="font-size: 12pt;">MERCATOR® hybrid+ są wolne od szkodliwych ftalanów, dzięki czemu są przyjazne skórze i <strong>minimalizują ryzyko wystąpienia podrażnień i alergii skóry.</strong></span></p>
+<p> </p>
+<p><span style="font-size: 14pt;">MERCATOR® hybrid+ to zwiększony komfort zakładania i zdejmowania.</span></p>
+<p><span style="font-size: 12pt;">Wewnątrz pokryte poliuretanem, który ułatwia zakładanie i zdejmowanie rękawicy – nawet gdy nasze dłonie są wilgotne. Ponadto rękawice posiadają zgodność z normą ASTM F 1671 oraz EN ISO 374-5. <strong>Oznacza to, że MERCATOR® hybrid+ są barierowe przed wirusami, bakteriami i grzybami. W dobie COVID-19 jest to konieczność.</strong></span></p>
+<p><span style="font-size: 12pt;"><strong>Wyjątkowej jakości rękawice syntetyczne w nowoczesnej formule winylowo-nitrylowej w konkurencyjnej cenie!</strong></span></p>
+</div>
+<div class="fx-col"><img src="/userdata/public/assets/Produkty/RĘKAWICE/Rękawice Winylowe-Nitrylowe BezPud. 100 szt. Nieb. Hybrid +/Rękawice Winylowe-Nitrylowe BezPud. 100 szt. Nieb. 10-XL Hybrid +/R%C4%99kawice-Winylowe-Nitrylowe-BezPud.-100-szt.-Nieb.-10-XL-Hybrid-%2B-2.JPG" alt="" width="333" height="569" /></div>
+</div>
+<div class="fx-row fx-center">
+<div class="fx-col fx-pic"><img src="/userdata/public/assets/Produkty/RĘKAWICE/Rękawice Winylowe-Nitrylowe BezPud. 100 szt. Nieb. Hybrid +/Rękawice Winylowe-Nitrylowe BezPud. 100 szt. Nieb. 7-S Hybrid +/R%C4%99kawice-Winylowe-Nitrylowe-BezPud.-100-szt.-Nieb.-7-S-Hybrid-%2B-3.jpg" alt="" width="482" height="460" /></div>
+<div class="fx-col">
+<h2><span style="font-size: 14pt;">Dobierz odpowiedni rozmiar!</span></h2>
+<p><span style="font-size: 12pt;">Rozmiar rękawicy powinien być idealnie dopasowany do dłoni.<strong> Wpływa to bezpośrednio na bezpieczeństwo i komfort pracy.</strong></span></p>
+<p><span style="font-size: 12pt;">Aby poznać swój rozmiar, <strong>należy zmierzyć szerokość dłoni tuż nad kciukiem</strong> (najszersze miejsce na dłoni).</span></p>
+<ul>
+<li><span style="font-size: 12pt;"><strong>XS</strong> Szerokość: <strong>od 80 mm</strong></span></li>
+<li><span style="font-size: 12pt;"><strong>S</strong> Szerokość: <strong>79-90 mm</strong></span></li>
+<li><span style="font-size: 12pt;"><strong>M</strong> Szerokość: <strong>85-105 mm</strong></span></li>
+<li><span style="font-size: 12pt;"><strong>L</strong> Szerokość: <strong>100-120 mm</strong></span></li>
+<li><span style="font-size: 12pt;"><strong>XL</strong> Szerokość: <strong>do 110 mm</strong></span></li>
+</ul>
+</div>
+</div>
+<div class="fx-row fx-center">
+<div class="fx-col">
+<h2><span style="font-size: 14pt;">Rekomendowane zastosowania</span></h2>
+<p><span style="font-size: 12pt;"><strong>Beauty</strong></span></p>
+<ul>
+<li><span style="font-size: 12pt;">Gabinet fryzjerski</span></li>
+<li><span style="font-size: 12pt;">Gabinet kosmetyczny</span></li>
+<li><span style="font-size: 12pt;">Manicure &amp; Pedicure</span></li>
+<li><span style="font-size: 12pt;">Gabinet Podologiczny</span></li>
+</ul>
+<p><span style="font-size: 12pt;"><strong>Ochrona zdrowia</strong></span></p>
+<ul>
+<li><span style="font-size: 12pt;">Przykładowy oddział szpitalny</span></li>
+<li><span style="font-size: 12pt;">Oddziały dziecięce neontologiczne, opieka nad dzieckiem</span></li>
+<li><span style="font-size: 12pt;">Gabinet zabiegowy, poradnia specjalistyczna</span></li>
+<li><span style="font-size: 12pt;">Szpitalny oddział ratunkowy (SOR)</span></li>
+</ul>
+<p><span style="font-size: 12pt;"><strong>Przetwórstwo rolno-spożywcze</strong></span></p>
+<ul>
+<li><span style="font-size: 12pt;">Przetwórstwo mięsa</span></li>
+<li><span style="font-size: 12pt;">Przetwórstwo ryb</span></li>
+<li><span style="font-size: 12pt;">Przetwórstwo mleka</span></li>
+<li><span style="font-size: 12pt;">Cukiernia</span></li>
+</ul>
+</div>
+<div class="fx-col"><img src="/userdata/public/assets/Produkty/RĘKAWICE/Rękawice Winylowe-Nitrylowe BezPud. 100 szt. Nieb. Hybrid +/R%C4%99kawice-Winylowe-Nitrylowe-BezPud.-100-szt.-Nieb.-10-XL-Hybrid-%2B-4.jpg" alt="" width="1152" height="768" /></div>
+</div>]]></desc>
+    <attrs>
+      <a name="Producent"><![CDATA[MERCATOR]]></a>
+      <a name="Kod_produktu"><![CDATA[5906615012153]]></a>
+      <a name="EAN"><![CDATA[5906615012153]]></a>
+      <a name="Normy"><![CDATA[EN ISO 15223-1, EN 1041, Rozporządzenie (UE) 2017/745, EN 1041 , EN ISO 374-1 , EN ISO 374-2 , EN ISO 374-4 , EN 420]]></a>
+      <a name="Materiał"><![CDATA[Nitryl-Winyl]]></a>
+      <a name="Kolor"><![CDATA[Niebieski]]></a>
+      <a name="Model"><![CDATA[Hybrid +]]></a>
+      <a name="Rodzaj"><![CDATA[Bezpudrowe]]></a>
+      <a name="Typ"><![CDATA[Medyczno-ochronny]]></a>
+      <a name="Ilość w komplecie"><![CDATA[100 sztuk]]></a>
+      <a name="Rozmiar"><![CDATA[L 8-9]]></a>
+    </attrs>
+  </o>
+  <o id="stock_58196" url="https://dofirmy.pl/pl/p/Rekawice-Winylowe-Nitrylowe-BezPud.-100-szt.-Nieb.-Hybrid-/58124?stockOptions=93" price="19.90" avail="1" set="0" weight="0.62" stock="0" basket="1">
+    <cat><![CDATA[FIRMA I BIURO/Artykuły BHP/Rękawiczki jednorazowe]]></cat>
+    <name><![CDATA[Rękawice Winylowe-Nitrylowe BezPud. 100 szt. Nieb. Hybrid + (XL 9-10)]]></name>
+    <imgs>
+      <main url="https://dofirmy.pl/userdata/gfx/77023.png"/>
+      <i url="https://dofirmy.pl/userdata/gfx/76920.webp"/>
+      <i url="https://dofirmy.pl/userdata/gfx/76921.jpg"/>
+      <i url="https://dofirmy.pl/userdata/gfx/76922.jpg"/>
+      <i url="https://dofirmy.pl/userdata/gfx/77033.jpg"/>
+      <i url="https://dofirmy.pl/userdata/gfx/77020.png"/>
+      <i url="https://dofirmy.pl/userdata/gfx/77021.png"/>
+      <i url="https://dofirmy.pl/userdata/gfx/77022.png"/>
+    </imgs>
+    <desc><![CDATA[<h1>Rękawice winylowo-nitrylowe Hybrid+ 100 szt. </h1>
+<div class="fx-row fx-center">
+<div class="fx-col"><img src="/userdata/public/assets/Produkty/RĘKAWICE/Rękawice Winylowe-Nitrylowe BezPud. 100 szt. Nieb. Hybrid +/R%C4%99kawice-Winylowe-Nitrylowe-BezPud.-100-szt.-Nieb.-Hybrid-%2B.jpg" alt="" width="1000" height="634" /></div>
+<div class="fx-col">
+<p><span style="font-size: 12pt;"><strong>Oferta dotyczy 100 sztuk rękawiczek</strong></span></p>
+<p><span style="font-size: 12pt;"><strong>Kolor: </strong>niebieski</span></p>
+<p><span style="font-size: 12pt;"><strong>Marka: </strong>MERCATOR MEDICAL</span></p>
+<p><span style="font-size: 12pt;"><strong>PAKOWANIE:</strong> 100 sztuk / 1 karton</span></p>
+<ul>
+<li><span style="font-size: 12pt;">pasują na prawą i lewą rękę</span></li>
+<li><span style="font-size: 12pt;"><strong>powierzchnia zewnętrzna mikroteksturowana z teksturą na końcach palców</strong></span></li>
+<li><span style="font-size: 12pt;">od wewnątrz polimeryzowane i chlorowane</span></li>
+<li><span style="font-size: 12pt;"><strong>mają zastosowanie w środowisku medycznym, przeznaczone do ochrony pacjenta i użytkownika przed zanieczyszczeniem krzyżowym, przeprowadzania badań lekarskich, diagnostycznych, czynności terapeutycznych oraz do prac ze skażonym materiałem</strong></span></li>
+<li><span style="font-size: 12pt;">dopuszczone do kontaktu z żywnością</span></li>
+<li><span style="font-size: 12pt;"><strong>stanowią wyrób medyczny klasy I jak i środek ochrony indywidualnej kategorii III</strong></span></li>
+<li><span style="font-size: 12pt;">pakowane po 100 szt. w opakowaniu</span></li>
+</ul>
+<h2><span style="font-size: 14pt;">Spełniają wymagania norm:</span></h2>
+<ul>
+<li><span style="font-size: 12pt;"><strong>EN ISO 374-4</strong></span></li>
+<li><span style="font-size: 12pt;"><strong>EN 16523-1</strong></span></li>
+<li><span style="font-size: 12pt;"><strong>EN 455(1-4)</strong></span></li>
+<li><span style="font-size: 12pt;"><strong>Rozporządzenie (UE) 2016/425</strong></span></li>
+<li><span style="font-size: 12pt;"><strong>Rozporządzenie (UE) 2017/745</strong></span></li>
+<li><span style="font-size: 12pt;"><strong>EN ISO 13485</strong></span></li>
+<li><span style="font-size: 12pt;"><strong>EN 1041</strong></span></li>
+<li><span style="font-size: 12pt;"><strong>EN 16523-1</strong></span></li>
+<li><span style="font-size: 12pt;"><strong>EN ISO 374-1</strong></span></li>
+<li><span style="font-size: 12pt;"><strong>EN ISO 374-2</strong></span></li>
+<li><span style="font-size: 12pt;"><strong>EN ISO 21420</strong></span></li>
+<li><span style="font-size: 12pt;"><strong>EN ISO 15223-1</strong></span></li>
+</ul>
+</div>
+</div>
+<div class="fx-row fx-center">
+<div class="fx-col">
+<h2><span style="font-size: 14pt;">Najwyższej jakości rękawice syntetyczne teraz mogą być Twoje!</span></h2>
+<p><span style="font-size: 12pt;"><strong>MERCATOR® hybrid+ to rękawice diagnostyczne i ochronne.</strong> <strong>Charakteryzują się dużą miękkością i elastycznością – to cechy niespotykane w innych rękawicach winylowych!</strong></span></p>
+<p><span style="font-size: 12pt;">MERCATOR® hybrid+ są wolne od szkodliwych ftalanów, dzięki czemu są przyjazne skórze i <strong>minimalizują ryzyko wystąpienia podrażnień i alergii skóry.</strong></span></p>
+<p> </p>
+<p><span style="font-size: 14pt;">MERCATOR® hybrid+ to zwiększony komfort zakładania i zdejmowania.</span></p>
+<p><span style="font-size: 12pt;">Wewnątrz pokryte poliuretanem, który ułatwia zakładanie i zdejmowanie rękawicy – nawet gdy nasze dłonie są wilgotne. Ponadto rękawice posiadają zgodność z normą ASTM F 1671 oraz EN ISO 374-5. <strong>Oznacza to, że MERCATOR® hybrid+ są barierowe przed wirusami, bakteriami i grzybami. W dobie COVID-19 jest to konieczność.</strong></span></p>
+<p><span style="font-size: 12pt;"><strong>Wyjątkowej jakości rękawice syntetyczne w nowoczesnej formule winylowo-nitrylowej w konkurencyjnej cenie!</strong></span></p>
+</div>
+<div class="fx-col"><img src="/userdata/public/assets/Produkty/RĘKAWICE/Rękawice Winylowe-Nitrylowe BezPud. 100 szt. Nieb. Hybrid +/Rękawice Winylowe-Nitrylowe BezPud. 100 szt. Nieb. 10-XL Hybrid +/R%C4%99kawice-Winylowe-Nitrylowe-BezPud.-100-szt.-Nieb.-10-XL-Hybrid-%2B-2.JPG" alt="" width="333" height="569" /></div>
+</div>
+<div class="fx-row fx-center">
+<div class="fx-col fx-pic"><img src="/userdata/public/assets/Produkty/RĘKAWICE/Rękawice Winylowe-Nitrylowe BezPud. 100 szt. Nieb. Hybrid +/Rękawice Winylowe-Nitrylowe BezPud. 100 szt. Nieb. 7-S Hybrid +/R%C4%99kawice-Winylowe-Nitrylowe-BezPud.-100-szt.-Nieb.-7-S-Hybrid-%2B-3.jpg" alt="" width="482" height="460" /></div>
+<div class="fx-col">
+<h2><span style="font-size: 14pt;">Dobierz odpowiedni rozmiar!</span></h2>
+<p><span style="font-size: 12pt;">Rozmiar rękawicy powinien być idealnie dopasowany do dłoni.<strong> Wpływa to bezpośrednio na bezpieczeństwo i komfort pracy.</strong></span></p>
+<p><span style="font-size: 12pt;">Aby poznać swój rozmiar, <strong>należy zmierzyć szerokość dłoni tuż nad kciukiem</strong> (najszersze miejsce na dłoni).</span></p>
+<ul>
+<li><span style="font-size: 12pt;"><strong>XS</strong> Szerokość: <strong>od 80 mm</strong></span></li>
+<li><span style="font-size: 12pt;"><strong>S</strong> Szerokość: <strong>79-90 mm</strong></span></li>
+<li><span style="font-size: 12pt;"><strong>M</strong> Szerokość: <strong>85-105 mm</strong></span></li>
+<li><span style="font-size: 12pt;"><strong>L</strong> Szerokość: <strong>100-120 mm</strong></span></li>
+<li><span style="font-size: 12pt;"><strong>XL</strong> Szerokość: <strong>do 110 mm</strong></span></li>
+</ul>
+</div>
+</div>
+<div class="fx-row fx-center">
+<div class="fx-col">
+<h2><span style="font-size: 14pt;">Rekomendowane zastosowania</span></h2>
+<p><span style="font-size: 12pt;"><strong>Beauty</strong></span></p>
+<ul>
+<li><span style="font-size: 12pt;">Gabinet fryzjerski</span></li>
+<li><span style="font-size: 12pt;">Gabinet kosmetyczny</span></li>
+<li><span style="font-size: 12pt;">Manicure &amp; Pedicure</span></li>
+<li><span style="font-size: 12pt;">Gabinet Podologiczny</span></li>
+</ul>
+<p><span style="font-size: 12pt;"><strong>Ochrona zdrowia</strong></span></p>
+<ul>
+<li><span style="font-size: 12pt;">Przykładowy oddział szpitalny</span></li>
+<li><span style="font-size: 12pt;">Oddziały dziecięce neontologiczne, opieka nad dzieckiem</span></li>
+<li><span style="font-size: 12pt;">Gabinet zabiegowy, poradnia specjalistyczna</span></li>
+<li><span style="font-size: 12pt;">Szpitalny oddział ratunkowy (SOR)</span></li>
+</ul>
+<p><span style="font-size: 12pt;"><strong>Przetwórstwo rolno-spożywcze</strong></span></p>
+<ul>
+<li><span style="font-size: 12pt;">Przetwórstwo mięsa</span></li>
+<li><span style="font-size: 12pt;">Przetwórstwo ryb</span></li>
+<li><span style="font-size: 12pt;">Przetwórstwo mleka</span></li>
+<li><span style="font-size: 12pt;">Cukiernia</span></li>
+</ul>
+</div>
+<div class="fx-col"><img src="/userdata/public/assets/Produkty/RĘKAWICE/Rękawice Winylowe-Nitrylowe BezPud. 100 szt. Nieb. Hybrid +/R%C4%99kawice-Winylowe-Nitrylowe-BezPud.-100-szt.-Nieb.-10-XL-Hybrid-%2B-4.jpg" alt="" width="1152" height="768" /></div>
+</div>]]></desc>
+    <attrs>
+      <a name="Producent"><![CDATA[MERCATOR]]></a>
+      <a name="Kod_produktu"><![CDATA[5906615012160]]></a>
+      <a name="EAN"><![CDATA[5906615012160]]></a>
+      <a name="Normy"><![CDATA[EN ISO 15223-1, EN 1041, Rozporządzenie (UE) 2017/745, EN 1041 , EN ISO 374-1 , EN ISO 374-2 , EN ISO 374-4 , EN 420]]></a>
+      <a name="Materiał"><![CDATA[Nitryl-Winyl]]></a>
+      <a name="Kolor"><![CDATA[Niebieski]]></a>
+      <a name="Model"><![CDATA[Hybrid +]]></a>
+      <a name="Rodzaj"><![CDATA[Bezpudrowe]]></a>
+      <a name="Typ"><![CDATA[Medyczno-ochronny]]></a>
+      <a name="Ilość w komplecie"><![CDATA[100 sztuk]]></a>
+      <a name="Rozmiar"><![CDATA[XL 9-10]]></a>
+    </attrs>
+  </o>
+  <o id="stock_58169" url="https://dofirmy.pl/pl/p/CMR-List-Przewozowy-100-kartek/58128?stockOptions=95" price="14.99" avail="1" set="0" weight="0.36" stock="10060" basket="1">
+    <cat><![CDATA[FIRMA I BIURO/Biuro/Druki]]></cat>
+    <name><![CDATA[CMR List Przewozowy 100 kartek (3)]]></name>
+    <imgs>
+      <main url="https://dofirmy.pl/userdata/gfx/76952.jpg"/>
+      <i url="https://dofirmy.pl/userdata/gfx/76950.jpg"/>
+    </imgs>
+    <desc><![CDATA[<h1>CMR Międzynarodowy List Przewozowy 100 Kartek</h1>
+<div class="fx-row">
+<div class="fx-col fx-pic"><img src="/userdata/public/assets/Produkty/CMR/CMR-100-kartek.jpg" alt="" width="1654" height="2339" /></div>
+<div class="fx-col">
+<p><span style="font-size: 14pt;"><strong>Oferta dotyczy 1 bloku CMR</strong></span></p>
+<p><span style="font-size: 14pt;"><strong>CMR Międzynarodowy List Przewozowy 100 kartek</strong></span></p>
+<ul>
+<li><span style="font-size: 12pt;"><strong>Marka: </strong>PAKO GROUP</span></li>
+<li><span style="font-size: 12pt;"><strong>Format: </strong>A4 (201 x 297 mm)</span></li>
+<li><span style="font-size: 12pt;"><strong>Liczba kartek:</strong> 100 szt.</span></li>
+<li><span style="font-size: 12pt;"><strong>Wykonanie: </strong>Papier samokopiujący</span></li>
+<li><span style="font-size: 12pt;"><strong>Klejenie: </strong>Od góry po krótszym boku</span></li>
+<li><span style="font-size: 12pt;"><strong>Komplet: </strong>100 kartek w 1 bloku</span></li>
+</ul>
+<p><span style="font-size: 12pt;"><strong>Międzynarodowy List Przewozowy CMR </strong>składa się z bloku formularzy 3, 4, lub 5-kartkowych <strong>tłumaczonych w trzech językach:</strong></span></p>
+<ul>
+<li><span style="font-size: 12pt;"><strong>polskim</strong></span></li>
+<li><span style="font-size: 12pt;"><strong>angielskim</strong></span></li>
+<li><span style="font-size: 12pt;"><strong>niemieckim</strong></span></li>
+</ul>
+<p> </p>
+</div>
+</div>
+<div class="fx-row">
+<div class="fx-col">
+<h1><span style="font-size: 14pt;">Jeden druk CMR składa się z formularza w skład którego wchodzą</span></h1>
+<p><span style="font-size: 14pt;"><strong>3 oddcinkowe (33 komplety):</strong></span></p>
+<ul>
+<li><span style="font-size: 12pt;"><strong>czerwony - </strong>dla nadawcy</span></li>
+<li><span style="font-size: 12pt;"><strong>niebieski - </strong>dla odbiorcy</span></li>
+<li><span style="font-size: 12pt;"><strong>zielony - </strong>dla przewoźnika</span></li>
+</ul>
+<p><span style="font-size: 14pt;"><strong>4 oddcinkowe (25 kompletów):</strong></span></p>
+<ul>
+<li><span style="font-size: 12pt;"><strong>czerwony - </strong>dla nadawcy</span></li>
+<li><span style="font-size: 12pt;"><strong>niebieski - </strong>dla odbiorcy</span></li>
+<li><span style="font-size: 12pt;"><strong>zielony - </strong>dla przewoźnika</span></li>
+<li><span style="font-size: 12pt;"><strong>czarny</strong> - do dowolnego wykorzystania</span></li>
+</ul>
+<p><strong><span style="font-size: 14pt;">5 oddcinkowe (20 kompletów):</span></strong></p>
+<ul>
+<li><strong><span style="font-size: 12pt;">czerwony -</span></strong><span style="font-size: 12pt;"> dla nadawcy</span></li>
+<li><span style="font-size: 12pt;"><strong>niebieski - </strong>dla odbiorcy</span></li>
+<li><span style="font-size: 12pt;"><strong>zielony - </strong>dla przewoźnika</span></li>
+<li><span style="font-size: 12pt;"><strong>czarny</strong> - do dowolnego wykorzystania</span></li>
+<li><span style="font-size: 12pt;"><strong>czarny - </strong>do dowolnego wykorzystania</span></li>
+</ul>
+</div>
+<div class="fx-col fx-pic"><img src="/userdata/public/assets/Produkty/CMR/CMR-100-Kartek-1.jpg" alt="" width="2560" height="1913" /></div>
+</div>]]></desc>
+    <attrs>
+      <a name="Producent"><![CDATA[PAKO]]></a>
+      <a name="Kod_produktu"><![CDATA[5472]]></a>
+      <a name="Waga"><![CDATA[0,36 kg]]></a>
+      <a name="Długość"><![CDATA[29,5 cm]]></a>
+      <a name="Szerokość"><![CDATA[21 cm]]></a>
+      <a name="Wysokość"><![CDATA[1 cm]]></a>
+      <a name="Format"><![CDATA[A4]]></a>
+      <a name="Ilość kartek"><![CDATA[100]]></a>
+      <a name="Kolor Dominujący"><![CDATA[-]]></a>
+      <a name="Rozmiar"><![CDATA[3]]></a>
+    </attrs>
+  </o>
+  <o id="stock_58170" url="https://dofirmy.pl/pl/p/CMR-List-Przewozowy-100-kartek/58128?stockOptions=96" price="14.99" avail="1" set="0" weight="0.36" stock="11563" basket="1">
+    <cat><![CDATA[FIRMA I BIURO/Biuro/Druki]]></cat>
+    <name><![CDATA[CMR List Przewozowy 100 kartek (4)]]></name>
+    <imgs>
+      <main url="https://dofirmy.pl/userdata/gfx/76952.jpg"/>
+      <i url="https://dofirmy.pl/userdata/gfx/76950.jpg"/>
+    </imgs>
+    <desc><![CDATA[<h1>CMR Międzynarodowy List Przewozowy 100 Kartek</h1>
+<div class="fx-row">
+<div class="fx-col fx-pic"><img src="/userdata/public/assets/Produkty/CMR/CMR-100-kartek.jpg" alt="" width="1654" height="2339" /></div>
+<div class="fx-col">
+<p><span style="font-size: 14pt;"><strong>Oferta dotyczy 1 bloku CMR</strong></span></p>
+<p><span style="font-size: 14pt;"><strong>CMR Międzynarodowy List Przewozowy 100 kartek</strong></span></p>
+<ul>
+<li><span style="font-size: 12pt;"><strong>Marka: </strong>PAKO GROUP</span></li>
+<li><span style="font-size: 12pt;"><strong>Format: </strong>A4 (201 x 297 mm)</span></li>
+<li><span style="font-size: 12pt;"><strong>Liczba kartek:</strong> 100 szt.</span></li>
+<li><span style="font-size: 12pt;"><strong>Wykonanie: </strong>Papier samokopiujący</span></li>
+<li><span style="font-size: 12pt;"><strong>Klejenie: </strong>Od góry po krótszym boku</span></li>
+<li><span style="font-size: 12pt;"><strong>Komplet: </strong>100 kartek w 1 bloku</span></li>
+</ul>
+<p><span style="font-size: 12pt;"><strong>Międzynarodowy List Przewozowy CMR </strong>składa się z bloku formularzy 3, 4, lub 5-kartkowych <strong>tłumaczonych w trzech językach:</strong></span></p>
+<ul>
+<li><span style="font-size: 12pt;"><strong>polskim</strong></span></li>
+<li><span style="font-size: 12pt;"><strong>angielskim</strong></span></li>
+<li><span style="font-size: 12pt;"><strong>niemieckim</strong></span></li>
+</ul>
+<p> </p>
+</div>
+</div>
+<div class="fx-row">
+<div class="fx-col">
+<h1><span style="font-size: 14pt;">Jeden druk CMR składa się z formularza w skład którego wchodzą</span></h1>
+<p><span style="font-size: 14pt;"><strong>3 oddcinkowe (33 komplety):</strong></span></p>
+<ul>
+<li><span style="font-size: 12pt;"><strong>czerwony - </strong>dla nadawcy</span></li>
+<li><span style="font-size: 12pt;"><strong>niebieski - </strong>dla odbiorcy</span></li>
+<li><span style="font-size: 12pt;"><strong>zielony - </strong>dla przewoźnika</span></li>
+</ul>
+<p><span style="font-size: 14pt;"><strong>4 oddcinkowe (25 kompletów):</strong></span></p>
+<ul>
+<li><span style="font-size: 12pt;"><strong>czerwony - </strong>dla nadawcy</span></li>
+<li><span style="font-size: 12pt;"><strong>niebieski - </strong>dla odbiorcy</span></li>
+<li><span style="font-size: 12pt;"><strong>zielony - </strong>dla przewoźnika</span></li>
+<li><span style="font-size: 12pt;"><strong>czarny</strong> - do dowolnego wykorzystania</span></li>
+</ul>
+<p><strong><span style="font-size: 14pt;">5 oddcinkowe (20 kompletów):</span></strong></p>
+<ul>
+<li><strong><span style="font-size: 12pt;">czerwony -</span></strong><span style="font-size: 12pt;"> dla nadawcy</span></li>
+<li><span style="font-size: 12pt;"><strong>niebieski - </strong>dla odbiorcy</span></li>
+<li><span style="font-size: 12pt;"><strong>zielony - </strong>dla przewoźnika</span></li>
+<li><span style="font-size: 12pt;"><strong>czarny</strong> - do dowolnego wykorzystania</span></li>
+<li><span style="font-size: 12pt;"><strong>czarny - </strong>do dowolnego wykorzystania</span></li>
+</ul>
+</div>
+<div class="fx-col fx-pic"><img src="/userdata/public/assets/Produkty/CMR/CMR-100-Kartek-1.jpg" alt="" width="2560" height="1913" /></div>
+</div>]]></desc>
+    <attrs>
+      <a name="Producent"><![CDATA[PAKO]]></a>
+      <a name="Kod_produktu"><![CDATA[5386]]></a>
+      <a name="Waga"><![CDATA[0,36 kg]]></a>
+      <a name="Długość"><![CDATA[29,5 cm]]></a>
+      <a name="Szerokość"><![CDATA[21 cm]]></a>
+      <a name="Wysokość"><![CDATA[1 cm]]></a>
+      <a name="Format"><![CDATA[A4]]></a>
+      <a name="Ilość kartek"><![CDATA[100]]></a>
+      <a name="Kolor Dominujący"><![CDATA[-]]></a>
+      <a name="Rozmiar"><![CDATA[4]]></a>
+    </attrs>
+  </o>
+  <o id="stock_58171" url="https://dofirmy.pl/pl/p/CMR-List-Przewozowy-100-kartek/58128?stockOptions=97" price="14.99" avail="1" set="0" weight="0.36" stock="11734" basket="1">
+    <cat><![CDATA[FIRMA I BIURO/Biuro/Druki]]></cat>
+    <name><![CDATA[CMR List Przewozowy 100 kartek (5)]]></name>
+    <imgs>
+      <main url="https://dofirmy.pl/userdata/gfx/76952.jpg"/>
+      <i url="https://dofirmy.pl/userdata/gfx/76950.jpg"/>
+    </imgs>
+    <desc><![CDATA[<h1>CMR Międzynarodowy List Przewozowy 100 Kartek</h1>
+<div class="fx-row">
+<div class="fx-col fx-pic"><img src="/userdata/public/assets/Produkty/CMR/CMR-100-kartek.jpg" alt="" width="1654" height="2339" /></div>
+<div class="fx-col">
+<p><span style="font-size: 14pt;"><strong>Oferta dotyczy 1 bloku CMR</strong></span></p>
+<p><span style="font-size: 14pt;"><strong>CMR Międzynarodowy List Przewozowy 100 kartek</strong></span></p>
+<ul>
+<li><span style="font-size: 12pt;"><strong>Marka: </strong>PAKO GROUP</span></li>
+<li><span style="font-size: 12pt;"><strong>Format: </strong>A4 (201 x 297 mm)</span></li>
+<li><span style="font-size: 12pt;"><strong>Liczba kartek:</strong> 100 szt.</span></li>
+<li><span style="font-size: 12pt;"><strong>Wykonanie: </strong>Papier samokopiujący</span></li>
+<li><span style="font-size: 12pt;"><strong>Klejenie: </strong>Od góry po krótszym boku</span></li>
+<li><span style="font-size: 12pt;"><strong>Komplet: </strong>100 kartek w 1 bloku</span></li>
+</ul>
+<p><span style="font-size: 12pt;"><strong>Międzynarodowy List Przewozowy CMR </strong>składa się z bloku formularzy 3, 4, lub 5-kartkowych <strong>tłumaczonych w trzech językach:</strong></span></p>
+<ul>
+<li><span style="font-size: 1

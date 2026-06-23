@@ -59,6 +59,8 @@ const VISIBLE_PRODUCT_WHERE = {
   },
   // Produkty MUSZĄ spełniać wszystkie warunki (AND)
   AND: [
+    // Nie pokazuj produktów z tagami błędów
+    { NOT: { tags: { hasSome: HIDDEN_TAGS } } },
     // Tag dostawy - nie pokazuj produktów z tylko tagiem hurtowni
     { tags: { hasSome: DELIVERY_TAGS } },
     // Kategoria z Baselinker - musi być przypisana i aktywna

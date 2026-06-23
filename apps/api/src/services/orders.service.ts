@@ -563,11 +563,16 @@ export class OrdersService {
 
       // Check if order is transitioning to paid status (CONFIRMED, PROCESSING, SHIPPED, DELIVERED)
       // and paymentStatus is not already PAID, excluding offline/deferred payment methods.
+      // However, if the status is explicitly set to CONFIRMED (which means "Opłacone" in the shop),
+      // we ALWAYS mark it as paid, regardless of the payment method.
       const paidStatuses = ['CONFIRMED', 'PROCESSING', 'SHIPPED', 'DELIVERED'];
       const offlineMethods = ['cod', 'b2b_transfer', 'b2b_przelew', 'bank_transfer', 'transfer'];
-      const shouldMarkAsPaid = paidStatuses.includes(status) && 
-        currentOrder.paymentStatus !== 'PAID' &&
-        !offlineMethods.includes(currentOrder.paymentMethod || '');
+      const shouldMarkAsPaid = 
+        status === 'CONFIRMED' || (
+          paidStatuses.includes(status) && 
+          currentOrder.paymentStatus !== 'PAID' &&
+          !offlineMethods.includes(currentOrder.paymentMethod || '')
+        );
 
       // Update order status
       const order = await tx.order.update({

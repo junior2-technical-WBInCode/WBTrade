@@ -2,7 +2,7 @@ import prisma from '../db';
 import { ProductStatus } from '@prisma/client';
 import { Response } from 'express';
 
-const HIDDEN_TAGS = ['błąd zdjęcia', 'błąd zdjęcia '];
+const HIDDEN_TAGS = ['błąd zdjęcia', 'błąd zdjęcia ', 'nie wrzucać-zabronione'];
 
 const DELIVERY_TAGS = [
   'Paczkomaty i Kurier', 'paczkomaty i kurier',
@@ -257,6 +257,7 @@ export async function streamFaviFeed(baseUrl: string, res: Response): Promise<vo
         NOT: { tags: { hasSome: HIDDEN_TAGS } },
         tags: { hasSome: DELIVERY_TAGS },
         images: { some: {} },
+        category: { isActive: true },
         OR: [
           { NOT: { tags: { hasSome: PACZKOMAT_TAGS } } },
           { tags: { hasSome: PACKAGE_TAGS } },

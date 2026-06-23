@@ -231,8 +231,8 @@ export class SearchService {
         tags: { hasSome: DELIVERY_TAGS },
         // Musi mieć kategorię z Baselinker i aktywną
         category: { baselinkerCategoryId: { not: null }, isActive: true },
-        // Musi być na stanie
-        variants: { some: { inventory: { some: { quantity: { gt: 0 } } } } },
+        // Musi być na stanie (dostępne)
+        variants: await this.getStockCondition(),
         // Nie pokazuj produktów z tagami błędów + warunek paczkomatu
         NOT: { tags: { hasSome: HIDDEN_TAGS } },
         AND: [
@@ -467,8 +467,8 @@ export class SearchService {
         tags: { hasSome: DELIVERY_TAGS },
         // Musi mieć kategorię z Baselinker i aktywną
         category: { baselinkerCategoryId: { not: null }, isActive: true },
-        // Musi być na stanie
-        variants: { some: { inventory: { some: { quantity: { gt: 0 } } } } },
+        // Musi być na stanie (dostępne)
+        variants: await this.getStockCondition(),
         // Nie pokazuj produktów z tagami błędów
         NOT: { tags: { hasSome: HIDDEN_TAGS } },
         ...(categorySlug ? { categoryId: { in: await this.getAllCategoryIds(categorySlug) } } : {}),
@@ -667,5 +667,37 @@ export class SearchService {
         error: error instanceof Error ? error.message : 'Unknown error',
       };
     }
+  }
+
+  private async getPhantomVariantIds(): Promise<string[]> {
+    const phantomVariants = await prisma.$queryRaw<Array<{ variant_id: string }>>`
+      SELECT variant_id AS "variant_id" FROM inventory WHERE quantity > 0 AND quantity <= reserved
+    `;
+    return phantomVariants.map(v => v.variant_id);
+  }
+
+  private async getStockCondition(): Promise<any> {
+    const phantomVariantIds = await this.getPhantomVariantIds();
+    if (phantomVariantIds.length > 0) {
+      return {
+        some: {
+          id: { notIn: phantomVariantIds },
+          inventory: {
+            some: {
+              quantity: { gt: 0 }
+            }
+          }
+        }
+      };
+    }
+    return {
+      some: {
+        inventory: {
+          some: {
+            quantity: { gt: 0 }
+          }
+        }
+      }
+    };
   }
 }

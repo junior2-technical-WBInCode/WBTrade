@@ -1,0 +1,2371 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<products xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="1" date="2026-06-05 07:58:17" generated_for="4389">
+ <producers>
+  <producer>
+   <id>13</id>
+   <name><![CDATA[]]></name>
+   <country_code/>
+   <city><![CDATA[]]></city>
+   <street><![CDATA[]]></street>
+   <postal_code><![CDATA[]]></postal_code>
+   <email><![CDATA[]]></email>
+   <phone/>
+   <contact_persons>
+    <person>
+     <id>7</id>
+     <name><![CDATA[PRAJO SP. Z O.O. SP.K.]]></name>
+     <country_code>PL</country_code>
+     <city><![CDATA[Wolica]]></city>
+     <street><![CDATA[Aleja Katowicka 60]]></street>
+     <postal_code><![CDATA[05-830]]></postal_code>
+     <email><![CDATA[info@prajo.eu]]></email>
+     <phone>48227201232</phone>
+    </person>
+   </contact_persons>
+  </producer>
+  <producer>
+   <id>14</id>
+   <name><![CDATA[]]></name>
+   <country_code/>
+   <city><![CDATA[]]></city>
+   <street><![CDATA[]]></street>
+   <postal_code><![CDATA[]]></postal_code>
+   <email><![CDATA[]]></email>
+   <phone/>
+   <contact_persons>
+    <person>
+     <id>6</id>
+     <name><![CDATA[PRAJO SP. Z O.O. SP.K.]]></name>
+     <country_code>PL</country_code>
+     <city><![CDATA[Wolica]]></city>
+     <street><![CDATA[Aleja Katowicka 60]]></street>
+     <postal_code><![CDATA[05-830]]></postal_code>
+     <email><![CDATA[info@prajo.eu]]></email>
+     <phone>48227201232</phone>
+    </person>
+   </contact_persons>
+  </producer>
+  <producer>
+   <id>15</id>
+   <name><![CDATA[PRAJO SP. Z O.O. SP.K.]]></name>
+   <country_code>PL</country_code>
+   <city><![CDATA[Wolica]]></city>
+   <street><![CDATA[Aleja Katowicka 60]]></street>
+   <postal_code><![CDATA[05-830]]></postal_code>
+   <email><![CDATA[info@prajo.eu]]></email>
+   <phone>48227201232</phone>
+   <contact_persons>
+    <person>
+     <id>27</id>
+     <name><![CDATA[PRAJO SP.Z O.O. SP.K.]]></name>
+     <country_code>PL</country_code>
+     <city><![CDATA[WOLICA]]></city>
+     <street><![CDATA[Aleja Katowicka 60]]></street>
+     <postal_code><![CDATA[05-830]]></postal_code>
+     <email><![CDATA[info@prajo.eu]]></email>
+     <phone>48227201232</phone>
+    </person>
+   </contact_persons>
+  </producer>
+  <producer>
+   <id>16</id>
+   <name><![CDATA[Home Impex Ltd.]]></name>
+   <country_code>HU</country_code>
+   <city><![CDATA[Dunakeszi]]></city>
+   <street><![CDATA[Pallag str. 30]]></street>
+   <postal_code><![CDATA[2120]]></postal_code>
+   <email><![CDATA[customer.service@homeimpex.hu]]></email>
+   <phone>+36-13778667</phone>
+   <contact_persons>
+    <person>
+     <id>2</id>
+     <name><![CDATA[STERN POLSKA Sp. z o.o.]]></name>
+     <country_code>PL</country_code>
+     <city><![CDATA[Warszawa]]></city>
+     <street><![CDATA[Krakowska 110/114]]></street>
+     <postal_code><![CDATA[02-256]]></postal_code>
+     <email><![CDATA[moripol@gmail.com]]></email>
+     <phone>222155344</phone>
+    </person>
+   </contact_persons>
+  </producer>
+  <producer>
+   <id>18</id>
+   <name><![CDATA[]]></name>
+   <country_code/>
+   <city><![CDATA[]]></city>
+   <street><![CDATA[]]></street>
+   <postal_code><![CDATA[]]></postal_code>
+   <email><![CDATA[]]></email>
+   <phone/>
+   <contact_persons>
+    <person>
+     <id>15</id>
+     <name><![CDATA[HUSLA Sp. z o.o.]]></name>
+     <country_code>PL</country_code>
+     <city><![CDATA[Janki]]></city>
+     <street><![CDATA[ul. Mszczonowska 76]]></street>
+     <postal_code><![CDATA[05-090]]></postal_code>
+     <email><![CDATA[w.lesniewski@husla.pl]]></email>
+     <phone>691678323</phone>
+    </person>
+   </contact_persons>
+  </producer>
+  <producer>
+   <id>21</id>
+   <name><![CDATA[]]></name>
+   <country_code/>
+   <city><![CDATA[]]></city>
+   <street><![CDATA[]]></street>
+   <postal_code><![CDATA[]]></postal_code>
+   <email><![CDATA[]]></email>
+   <phone/>
+   <contact_persons>
+    <person>
+     <id>20</id>
+     <name><![CDATA[GRUPA ORION Sp. z o.o.]]></name>
+     <country_code>PL</country_code>
+     <city><![CDATA[Katowice]]></city>
+     <street><![CDATA[ul. Obrońców Weterplatte 73a]]></street>
+     <postal_code><![CDATA[40-335]]></postal_code>
+     <email><![CDATA[sklep@orionagd.pl]]></email>
+     <phone>322014082</phone>
+    </person>
+   </contact_persons>
+  </producer>
+  <producer>
+   <id>30</id>
+   <name><![CDATA[]]></name>
+   <country_code/>
+   <city><![CDATA[]]></city>
+   <street><![CDATA[]]></street>
+   <postal_code><![CDATA[]]></postal_code>
+   <email><![CDATA[]]></email>
+   <phone/>
+   <contact_persons>
+    <person>
+     <id>34</id>
+     <name><![CDATA[GRUPA ORION Sp. z o.o.]]></name>
+     <country_code>PL</country_code>
+     <city><![CDATA[Katowice]]></city>
+     <street><![CDATA[ul. Obrońców Westerplatte 73a]]></street>
+     <postal_code><![CDATA[40335]]></postal_code>
+     <email><![CDATA[sklep@orionagd.pl]]></email>
+     <phone>3220114082</phone>
+    </person>
+   </contact_persons>
+  </producer>
+  <producer>
+   <id>32</id>
+   <name><![CDATA[]]></name>
+   <country_code/>
+   <city><![CDATA[]]></city>
+   <street><![CDATA[]]></street>
+   <postal_code><![CDATA[]]></postal_code>
+   <email><![CDATA[]]></email>
+   <phone/>
+   <contact_persons>
+    <person>
+     <id>36</id>
+     <name><![CDATA[STERN POLSKA Sp. z o.o.]]></name>
+     <country_code>PL</country_code>
+     <city><![CDATA[Warszawa]]></city>
+     <street><![CDATA[Al.  Krakowska 110/114]]></street>
+     <postal_code><![CDATA[02-256]]></postal_code>
+     <email><![CDATA[moripol@gmail.com]]></email>
+     <phone>222155344</phone>
+    </person>
+   </contact_persons>
+  </producer>
+  <producer>
+   <id>33</id>
+   <name><![CDATA[DURGA IMPEX Sp. z o.o.]]></name>
+   <country_code>PL</country_code>
+   <city><![CDATA[Warszawa]]></city>
+   <street><![CDATA[ul. Puławska 1/221]]></street>
+   <postal_code><![CDATA[02-715]]></postal_code>
+   <email><![CDATA[elitehoffagd@gmail.com]]></email>
+   <phone>797422989</phone>
+   <contact_persons>
+    <person>
+     <id>10</id>
+     <name><![CDATA[DURGA IMPEX Sp. z o.o.]]></name>
+     <country_code>PL</country_code>
+     <city><![CDATA[Warszawa]]></city>
+     <street><![CDATA[ul Puławska 1/221]]></street>
+     <postal_code><![CDATA[02-715]]></postal_code>
+     <email><![CDATA[elitehoffagd@gmail.com]]></email>
+     <phone>797422989</phone>
+    </person>
+   </contact_persons>
+  </producer>
+  <producer>
+   <id>37</id>
+   <name><![CDATA[TADAR spółka z ograniczoną odpowiedzialnością sp.k.]]></name>
+   <country_code>PL</country_code>
+   <city><![CDATA[Jasin]]></city>
+   <street><![CDATA[ul. Poznańska 53]]></street>
+   <postal_code><![CDATA[62-020]]></postal_code>
+   <email><![CDATA[kontakt@tadar.pl ]]></email>
+   <phone>+48 61 895 23 00</phone>
+   <contact_persons>
+    <person>
+     <id>43</id>
+     <name><![CDATA[TADAR SP. Z O. O.]]></name>
+     <country_code>PL</country_code>
+     <city><![CDATA[Jasin]]></city>
+     <street><![CDATA[ul. Poznańska 53]]></street>
+     <postal_code><![CDATA[62-200]]></postal_code>
+     <email><![CDATA[kontakt@tadar.pl]]></email>
+     <phone>+48 61 895 23 00</phone>
+    </person>
+   </contact_persons>
+  </producer>
+  <producer>
+   <id>38</id>
+   <name><![CDATA[]]></name>
+   <country_code/>
+   <city><![CDATA[]]></city>
+   <street><![CDATA[]]></street>
+   <postal_code><![CDATA[]]></postal_code>
+   <email><![CDATA[]]></email>
+   <phone/>
+   <contact_persons>
+    <person>
+     <id>12</id>
+     <name><![CDATA[BRUNBESTE Sp. z o.o.]]></name>
+     <country_code>PL</country_code>
+     <city><![CDATA[Janki]]></city>
+     <street><![CDATA[AL. Krakowska 28A]]></street>
+     <postal_code><![CDATA[05-090]]></postal_code>
+     <email><![CDATA[kmespzoo@gmail.com]]></email>
+     <phone>515060605</phone>
+    </person>
+   </contact_persons>
+  </producer>
+  <producer>
+   <id>39</id>
+   <name><![CDATA[BM SP. Z O.O.]]></name>
+   <country_code>PL</country_code>
+   <city><![CDATA[Sękocin Nowy]]></city>
+   <street><![CDATA[ul. Graniczna 9]]></street>
+   <postal_code><![CDATA[05-090]]></postal_code>
+   <email><![CDATA[mohitjotwani@yahoo.com]]></email>
+   <phone>tel: 600445238</phone>
+   <contact_persons>
+    <person>
+     <id>39</id>
+     <name><![CDATA[BM sp. z o.o.]]></name>
+     <country_code>PL</country_code>
+     <city><![CDATA[Sekocin Nowy]]></city>
+     <street><![CDATA[ul. Graniczna 9]]></street>
+     <postal_code><![CDATA[05-090]]></postal_code>
+     <email><![CDATA[mohitjotwani@yahoo.com]]></email>
+     <phone>tel: 600445238</phone>
+    </person>
+   </contact_persons>
+  </producer>
+  <producer>
+   <id>41</id>
+   <name><![CDATA[]]></name>
+   <country_code/>
+   <city><![CDATA[]]></city>
+   <street><![CDATA[]]></street>
+   <postal_code><![CDATA[]]></postal_code>
+   <email><![CDATA[]]></email>
+   <phone/>
+   <contact_persons>
+    <person>
+     <id>22</id>
+     <name><![CDATA[GRUPA ORION Sp. z o.o.]]></name>
+     <country_code>PL</country_code>
+     <city><![CDATA[Katowice]]></city>
+     <street><![CDATA[ul. Obrońców Westerplatte 73a]]></street>
+     <postal_code><![CDATA[40-335]]></postal_code>
+     <email><![CDATA[sklep@orionagd.pl]]></email>
+     <phone>322014082</phone>
+    </person>
+   </contact_persons>
+  </producer>
+  <producer>
+   <id>47</id>
+   <name><![CDATA[]]></name>
+   <country_code/>
+   <city><![CDATA[]]></city>
+   <street><![CDATA[]]></street>
+   <postal_code><![CDATA[]]></postal_code>
+   <email><![CDATA[]]></email>
+   <phone/>
+   <contact_persons>
+    <person>
+     <id>32</id>
+     <name><![CDATA[Ravex Group Sp. z o.o.]]></name>
+     <country_code>PL</country_code>
+     <city><![CDATA[Sokołów]]></city>
+     <street><![CDATA[ul Sokołowska 45 B]]></street>
+     <postal_code><![CDATA[05-806]]></postal_code>
+     <email><![CDATA[jolanta@ravex.com.pl]]></email>
+     <phone>+48 881 513 188</phone>
+    </person>
+   </contact_persons>
+  </producer>
+  <producer>
+   <id>49</id>
+   <name><![CDATA[]]></name>
+   <country_code/>
+   <city><![CDATA[]]></city>
+   <street><![CDATA[]]></street>
+   <postal_code><![CDATA[]]></postal_code>
+   <email><![CDATA[]]></email>
+   <phone/>
+   <contact_persons>
+    <person>
+     <id>24</id>
+     <name><![CDATA[Metlex Import Export Sandeep Karira]]></name>
+     <country_code>PL</country_code>
+     <city><![CDATA[Warszawa]]></city>
+     <street><![CDATA[Al. Jerozolimskie 196A/1]]></street>
+     <postal_code><![CDATA[02-486]]></postal_code>
+     <email><![CDATA[monika.izydorczyk@metlex.pl]]></email>
+     <phone>227156510</phone>
+    </person>
+   </contact_persons>
+  </producer>
+  <producer>
+   <id>58</id>
+   <name><![CDATA[PRACTIC Sp. z o.o. S.K.A.]]></name>
+   <country_code>PL</country_code>
+   <city><![CDATA[Targowisko]]></city>
+   <street><![CDATA[Targowisko 499a]]></street>
+   <postal_code><![CDATA[32-015]]></postal_code>
+   <email><![CDATA[bok@practic.com.pl]]></email>
+   <phone>126547933</phone>
+   <contact_persons>
+    <person>
+     <id>58</id>
+     <name><![CDATA[PRACTIC Sp. z o.o.]]></name>
+     <country_code>PL</country_code>
+     <city><![CDATA[Targowisko]]></city>
+     <street><![CDATA[Targowisko 499a]]></street>
+     <postal_code><![CDATA[32-015]]></postal_code>
+     <email><![CDATA[biuro@practic.com.pl]]></email>
+     <phone>126547933</phone>
+    </person>
+   </contact_persons>
+  </producer>
+  <producer>
+   <id>60</id>
+   <name><![CDATA[]]></name>
+   <country_code/>
+   <city><![CDATA[]]></city>
+   <street><![CDATA[]]></street>
+   <postal_code><![CDATA[]]></postal_code>
+   <email><![CDATA[]]></email>
+   <phone/>
+   <contact_persons>
+    <person>
+     <id>52</id>
+     <name><![CDATA[GRUPA ORION Sp. z o.o.]]></name>
+     <country_code>PL</country_code>
+     <city><![CDATA[Katowice]]></city>
+     <street><![CDATA[ul. Obrońców Weterplatte 73a]]></street>
+     <postal_code><![CDATA[40-335]]></postal_code>
+     <email><![CDATA[sklep@orionagd.pl]]></email>
+     <phone>322014082</phone>
+    </person>
+   </contact_persons>
+  </producer>
+  <producer>
+   <id>66</id>
+   <name><![CDATA[]]></name>
+   <country_code/>
+   <city><![CDATA[]]></city>
+   <street><![CDATA[]]></street>
+   <postal_code><![CDATA[]]></postal_code>
+   <email><![CDATA[]]></email>
+   <phone/>
+   <contact_persons>
+    <person>
+     <id>46</id>
+     <name><![CDATA[GRUPA ORION Sp. z o.o.]]></name>
+     <country_code>PL</country_code>
+     <city><![CDATA[Katowice]]></city>
+     <street><![CDATA[ul. Obrońców Weterplatte 73a]]></street>
+     <postal_code><![CDATA[40-335]]></postal_code>
+     <email><![CDATA[sklep@orionagd.pl]]></email>
+     <phone>322014082</phone>
+    </person>
+   </contact_persons>
+  </producer>
+  <producer>
+   <id>67</id>
+   <name><![CDATA[]]></name>
+   <country_code/>
+   <city><![CDATA[]]></city>
+   <street><![CDATA[]]></street>
+   <postal_code><![CDATA[]]></postal_code>
+   <email><![CDATA[]]></email>
+   <phone/>
+   <contact_persons>
+    <person>
+     <id>1</id>
+     <name><![CDATA[VETRO-PLUS a.s.]]></name>
+     <country_code>CZ</country_code>
+     <city><![CDATA[Hradec Kralove]]></city>
+     <street><![CDATA[Vocelova 1176/6]]></street>
+     <postal_code><![CDATA[50002]]></postal_code>
+     <email><![CDATA[malihova@vetroplus.cz]]></email>
+     <phone>+420210083200</phone>
+    </person>
+   </contact_persons>
+  </producer>
+  <producer>
+   <id>71</id>
+   <name><![CDATA[]]></name>
+   <country_code/>
+   <city><![CDATA[]]></city>
+   <street><![CDATA[]]></street>
+   <postal_code><![CDATA[]]></postal_code>
+   <email><![CDATA[]]></email>
+   <phone/>
+   <contact_persons>
+    <person>
+     <id>30</id>
+     <name><![CDATA[Firma Handlowa MEKM Marek Mazur]]></name>
+     <country_code>PL</country_code>
+     <city><![CDATA[Pustków]]></city>
+     <street><![CDATA[Pustków 481]]></street>
+     <postal_code><![CDATA[39-205]]></postal_code>
+     <email><![CDATA[info@modernclock.pl]]></email>
+     <phone>500152348</phone>
+    </person>
+   </contact_persons>
+  </producer>
+  <producer>
+   <id>72</id>
+   <name><![CDATA[]]></name>
+   <country_code/>
+   <city><![CDATA[]]></city>
+   <street><![CDATA[]]></street>
+   <postal_code><![CDATA[]]></postal_code>
+   <email><![CDATA[]]></email>
+   <phone/>
+   <contact_persons>
+    <person>
+     <id>41</id>
+     <name><![CDATA[GRUPA ORION Sp. z o.o.]]></name>
+     <country_code>PL</country_code>
+     <city><![CDATA[Katowice]]></city>
+     <street><![CDATA[ul. Obrońców Weterplatte 73a]]></street>
+     <postal_code><![CDATA[40-355]]></postal_code>
+     <email><![CDATA[sklep@orionagd.pl]]></email>
+     <phone>322014082</phone>
+    </person>
+   </contact_persons>
+  </producer>
+  <producer>
+   <id>75</id>
+   <name><![CDATA[]]></name>
+   <country_code/>
+   <city><![CDATA[]]></city>
+   <street><![CDATA[]]></street>
+   <postal_code><![CDATA[]]></postal_code>
+   <email><![CDATA[]]></email>
+   <phone/>
+   <contact_persons>
+    <person>
+     <id>44</id>
+     <name><![CDATA[PRAJO SP. Z O.O. SP.K.]]></name>
+     <country_code>PL</country_code>
+     <city><![CDATA[Wolica]]></city>
+     <street><![CDATA[Al. Katowicka 60]]></street>
+     <postal_code><![CDATA[05-830]]></postal_code>
+     <email><![CDATA[info@prajo.eu]]></email>
+     <phone>48227201232</phone>
+    </person>
+   </contact_persons>
+  </producer>
+  <producer>
+   <id>76</id>
+   <name><![CDATA[]]></name>
+   <country_code/>
+   <city><![CDATA[]]></city>
+   <street><![CDATA[]]></street>
+   <postal_code><![CDATA[]]></postal_code>
+   <email><![CDATA[]]></email>
+   <phone/>
+   <contact_persons>
+    <person>
+     <id>50</id>
+     <name><![CDATA[GRUPA ORION Sp. z o.o.]]></name>
+     <country_code>PL</country_code>
+     <city><![CDATA[Katowice]]></city>
+     <street><![CDATA[ul. Obrońców Weterplatte 73a]]></street>
+     <postal_code><![CDATA[40-335]]></postal_code>
+     <email><![CDATA[sklep@orionagd.pl]]></email>
+     <phone>322014082</phone>
+    </person>
+   </contact_persons>
+  </producer>
+  <producer>
+   <id>78</id>
+   <name><![CDATA[MPLCO]]></name>
+   <country_code>PL</country_code>
+   <city><![CDATA[Ryńsk]]></city>
+   <street><![CDATA[ul. Kościelna 6]]></street>
+   <postal_code><![CDATA[87-213]]></postal_code>
+   <email><![CDATA[office@mplconsulting.pl]]></email>
+   <phone>605 988 906 </phone>
+   <contact_persons>
+    <person>
+     <id>57</id>
+     <name><![CDATA[MPLCO]]></name>
+     <country_code>PL</country_code>
+     <city><![CDATA[Ryńsk]]></city>
+     <street><![CDATA[Kościelna 6]]></street>
+     <postal_code><![CDATA[87-213]]></postal_code>
+     <email><![CDATA[office@mplconsulting.pl]]></email>
+     <phone>605 988 906</phone>
+    </person>
+   </contact_persons>
+  </producer>
+  <producer>
+   <id>79</id>
+   <name><![CDATA[MONDEX]]></name>
+   <country_code>PL</country_code>
+   <city><![CDATA[Olsztyn]]></city>
+   <street><![CDATA[Towarowa 17]]></street>
+   <postal_code><![CDATA[10-416]]></postal_code>
+   <email><![CDATA[kontakt@mondex.pl]]></email>
+   <phone>89 5320814</phone>
+   <contact_persons>
+    <person>
+     <id>59</id>
+     <name><![CDATA[MONDEX]]></name>
+     <country_code>PL</country_code>
+     <city><![CDATA[Olsztyn]]></city>
+     <street><![CDATA[Towarowa 17]]></street>
+     <postal_code><![CDATA[10-416]]></postal_code>
+     <email><![CDATA[kontakt@mondex.pl]]></email>
+     <phone>89 5320814</phone>
+    </person>
+   </contact_persons>
+  </producer>
+  <producer>
+   <id>80</id>
+   <name><![CDATA[]]></name>
+   <country_code/>
+   <city><![CDATA[]]></city>
+   <street><![CDATA[]]></street>
+   <postal_code><![CDATA[]]></postal_code>
+   <email><![CDATA[]]></email>
+   <phone/>
+   <contact_persons>
+    <person>
+     <id>61</id>
+     <name><![CDATA[BM Sp. z o.o.]]></name>
+     <country_code>PL</country_code>
+     <city><![CDATA[Sękocin Nowy]]></city>
+     <street><![CDATA[Graniczna 9]]></street>
+     <postal_code><![CDATA[05-090]]></postal_code>
+     <email><![CDATA[mohitjotwani@yahoo.com]]></email>
+     <phone>600445238</phone>
+    </person>
+   </contact_persons>
+  </producer>
+  <producer>
+   <id>81</id>
+   <name><![CDATA[BERGNER EUROPE S.L.]]></name>
+   <country_code>ES</country_code>
+   <city><![CDATA[ZARAGOZA]]></city>
+   <street><![CDATA[CTRA. AEROP. KM 4 EDIF. SAN LAMBERTO, P.3]]></street>
+   <postal_code><![CDATA[50011]]></postal_code>
+   <email><![CDATA[info@bergnerhome.com]]></email>
+   <phone>976108538</phone>
+   <contact_persons>
+    <person>
+     <id>64</id>
+     <name><![CDATA[BERGNER EUROPE S.L.]]></name>
+     <country_code>ES</country_code>
+     <city><![CDATA[ZARAGOZA]]></city>
+     <street><![CDATA[CTRA. AEROP.KM 4 EDIF.SAN LAMBERTO, P3]]></street>
+     <postal_code><![CDATA[50011]]></postal_code>
+     <email><![CDATA[info@bergnerhome.com]]></email>
+     <phone>976108538</phone>
+    </person>
+   </contact_persons>
+  </producer>
+  <producer>
+   <id>82</id>
+   <name><![CDATA[]]></name>
+   <country_code/>
+   <city><![CDATA[]]></city>
+   <street><![CDATA[]]></street>
+   <postal_code><![CDATA[]]></postal_code>
+   <email><![CDATA[]]></email>
+   <phone/>
+   <contact_persons>
+    <person>
+     <id>66</id>
+     <name><![CDATA[Prowent Białystok A. Poleszuk Sp. k.]]></name>
+     <country_code>PL</country_code>
+     <city><![CDATA[Białystok]]></city>
+     <street><![CDATA[Białostoczek 17]]></street>
+     <postal_code><![CDATA[15-592]]></postal_code>
+     <email><![CDATA[biuro.bialystok@prowent.com]]></email>
+     <phone/>
+    </person>
+   </contact_persons>
+  </producer>
+ </producers>
+ <item>
+  <prod_name>10 ELEMENTOWY ZESTAW GARNKÓW KINGHOFF KH-4449</prod_name>
+  <prod_id>566</prod_id>
+  <prod_price>201.66</prod_price>
+  <prod_boxamount>2.0000</prod_boxamount>
+  <prod_tax_id>163.95</prod_tax_id>
+  <taxpercent>23</taxpercent>
+  <prod_oldprice></prod_oldprice>
+  <prod_amount>11.0000</prod_amount>
+  <prod_unit>szt.</prod_unit>
+  <prod_hidden>0</prod_hidden>
+  <prod_search_hidden>0</prod_search_hidden>
+  <prod_symbol>KH-4449</prod_symbol>
+  <prod_weight>6200</prod_weight>
+  <prd_name>KINGHOFF</prd_name>
+  <prod_override_by_stock></prod_override_by_stock>
+  <prod_pkwiu></prod_pkwiu>
+  <prod_ean>5908287244498</prod_ean>
+  <prod_isbn></prod_isbn>
+  <prod_barcode></prod_barcode>
+  <prod_gtu></prod_gtu>
+  <prod_shipping_time>48</prod_shipping_time>
+  <prod_dimensions></prod_dimensions>
+  <prod_orlen_paczka_dimensions></prod_orlen_paczka_dimensions>
+  <prod_desc><![CDATA[<p class="def"><span style="font-family: arial, helvetica, sans-serif; font-size: small;" class="def">Cechy:&nbsp;</span></p>
+<p class="def"><span style="font-family: arial, helvetica, sans-serif; font-size: small;" class="def">- Wykonany z wysokiej jakości stali nierdzewnej</span><br class="def">
+<span style="font-family: arial, helvetica, sans-serif; font-size: small;" class="def">- Wielowarstwowe dno termiczne zachowujące ciepło</span><br class="def">
+<span style="font-family: arial, helvetica, sans-serif; font-size: small;" class="def">- Żywność nagrzewa się szybko&nbsp; i długo podtrzymuje ciepło</span><br class="def">
+<span style="font-family: arial, helvetica, sans-serif; font-size: small;" class="def">- Odpowiedni do wszelkich rodzajów źródeł podgrzewania:&nbsp;&nbsp; palniki gazowe, elektryczne, ceramiczne, szklane, halogenowe, indukcyjne</span><br class="def">
+<span style="font-family: arial, helvetica, sans-serif; font-size: small;" class="def">- Zdrowe przyrządzanie żywności , z użyciem niewielkiej ilości wody&nbsp; oraz smażenie z minimalną ilością tłuszczu minimalizuje utratę witamin, minerałów i smaku.</span><br class="def">
+<span style="font-family: arial, helvetica, sans-serif; font-size: small;" class="def">- Praktyczne ukształtowanie brzegów zapobiega skapywaniu&nbsp;&nbsp; podczas gotowania</span><br class="def">
+<span style="font-family: arial, helvetica, sans-serif; font-size: small;" class="def">- Uchwyty odporne na nagrzewanie</span><br class="def">
+<span style="font-family: arial, helvetica, sans-serif; font-size: small;" class="def">- Atrakcyjny wygląd połączony z praktycznością</span><br class="def">
+<span style="font-family: arial, helvetica, sans-serif; font-size: small;" class="def">- Żywność i cząstki tłuszczu nie gromadzą się przy załamaniach krawędzi</span><br class="def">
+<span style="font-family: arial, helvetica, sans-serif; font-size: small;" class="def">- Łatwe do mycia</span><br class="def">
+<span style="font-family: arial, helvetica, sans-serif; font-size: small;" class="def">- Bezpieczne w zmywarkach automatycznych </span><br class="def">
+<br class="def">
+<span style="font-family: arial, helvetica, sans-serif; font-size: small;" class="def">W zestawie:&nbsp; </span><br class="def">
+<span style="font-family: arial, helvetica, sans-serif; font-size: small;" class="def">- rondel z pokrywką&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp; Ø16 x 10,5 cm&nbsp;&nbsp;&nbsp; 2,1 l</span><br class="def">
+<span style="font-family: arial, helvetica, sans-serif; font-size: small;" class="def">- garnek z pokrywką&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp; Ø16 x 10,5 cm&nbsp;&nbsp;&nbsp; 2,1 l</span><br class="def">
+<span style="font-family: arial, helvetica, sans-serif; font-size: small;" class="def">- garnek z pokrywką&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; Ø18 x 11,5 cm&nbsp;&nbsp; &nbsp;2,9 l</span><br class="def">
+<span style="font-family: arial, helvetica, sans-serif; font-size: small;" class="def">- garnek z pokrywką&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp; Ø20 x 12,5 cm&nbsp;&nbsp; &nbsp;3,9 l</span><br class="def">
+<span style="font-family: arial, helvetica, sans-serif; font-size: small;" class="def">- garnek z pokrywką&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Ø24 x 14,5 cm&nbsp;&nbsp;&nbsp; 6,6 l</span></p>]]></prod_desc>
+  <prod_shortdesc></prod_shortdesc>
+  <prod_info1></prod_info1>
+  <prod_info2></prod_info2>
+  <prod_info3></prod_info3>
+  <prod_info4></prod_info4>
+  <prod_info5></prod_info5>
+  <prod_note></prod_note>
+  <prod_unit_price_factor></prod_unit_price_factor>
+  <prod_unit_price_base_unit></prod_unit_price_base_unit>
+  <prod_allegro_earn></prod_allegro_earn>
+  <prod_allegro_close_if_amount></prod_allegro_close_if_amount>
+  <prod_producer_id>13</prod_producer_id>
+  <prod_producer_contact_id>7</prod_producer_contact_id>
+  <prod_link>https://kinghoff.online/10-ELEMENTOWY-ZESTAW-GARNKOW-KINGHOFF-KH-4449-p566</prod_link>
+  <info_options>
+   <option name="Długość" remote_id="44">45</option>
+   <option name="Szerokość" remote_id="63">27</option>
+   <option name="Wysokość" remote_id="82">20</option>
+   <option name="Kod CN" remote_id="19">73239300</option>
+  </info_options>
+  <prod_price_base>201.66</prod_price_base>
+  <prod_price_net_base>163.95</prod_price_net_base>
+  <prod_price_net>163.95</prod_price_net>
+  <cat_path>Garnki/Zestawy garnków</cat_path>
+  <unit_price></unit_price>
+  <prod_safety_informations_required>1</prod_safety_informations_required>
+  <prod_safety_text><![CDATA[<p>Posiada oznaczenie CE (zgodność z normami UE).</p>
+<p>Utylizować zgodnie z lokalnymi przepisami dotyczącymi odpad&oacute;w.</p>]]></prod_safety_text>
+  <min_price_30d>201.66</min_price_30d>
+  <prod_img>
+   <img>https://kinghoff.online/images/kinghoff/0-1000/10-ELEMENTOWY-ZESTAW-GARNKOW-KINGHOFF-KH-4449_[854]_1200.jpg</img>
+   <img>https://kinghoff.online/images/kinghoff/26000-27000/10-ELEMENTOWY-ZESTAW-GARNKOW-KINGHOFF-KH-4449_[26889]_1200.jpg</img>
+   <img>https://kinghoff.online/images/kinghoff/26000-27000/10-ELEMENTOWY-ZESTAW-GARNKOW-KINGHOFF-KH-4449_[26890]_1200.jpg</img>
+   <img>https://kinghoff.online/images/kinghoff/26000-27000/10-ELEMENTOWY-ZESTAW-GARNKOW-KINGHOFF-KH-4449_[26891]_1200.jpg</img>
+  </prod_img>
+ </item>
+ <item>
+  <prod_name>12 ELEMENTOWY ZESTAW GARNKÓW KINGHOFF KH-1767</prod_name>
+  <prod_id>3938</prod_id>
+  <prod_price>228.72</prod_price>
+  <prod_boxamount>2.0000</prod_boxamount>
+  <prod_tax_id>185.95</prod_tax_id>
+  <taxpercent>23</taxpercent>
+  <prod_oldprice></prod_oldprice>
+  <prod_amount>22.0000</prod_amount>
+  <prod_unit>szt.</prod_unit>
+  <prod_hidden>0</prod_hidden>
+  <prod_search_hidden>0</prod_search_hidden>
+  <prod_symbol>KH-1767</prod_symbol>
+  <prod_weight>8000</prod_weight>
+  <prd_name>KINGHOFF</prd_name>
+  <prod_override_by_stock></prod_override_by_stock>
+  <prod_pkwiu></prod_pkwiu>
+  <prod_ean>5908287217676</prod_ean>
+  <prod_isbn></prod_isbn>
+  <prod_barcode></prod_barcode>
+  <prod_gtu></prod_gtu>
+  <prod_shipping_time>48</prod_shipping_time>
+  <prod_dimensions></prod_dimensions>
+  <prod_orlen_paczka_dimensions></prod_orlen_paczka_dimensions>
+  <prod_desc><![CDATA[<div id="collapsedescription" class="def">
+ <div class="def">
+ <div class="def">
+ <p class="def"><span style="font-family: arial, helvetica, sans-serif; font-size: small;" class="def">ZESTAW GARNKÓW 12 ELEMENTÓW</span></p>
+ <p class="def"><span style="font-family: arial, helvetica, sans-serif; font-size: small;" class="def">- Wykonany z wysokiej jakości stali nierdzewnej</span></p>
+ <p class="def"><span style="font-family: arial, helvetica, sans-serif; font-size: small;" class="def">-Wielowarstwowe dno termiczne zachowujące ciepło</span></p>
+ <p class="def"><span style="font-family: arial, helvetica, sans-serif; font-size: small;" class="def">- Żywność nagrzewa się szybko i długo podtrzymuje ciepło</span></p>
+ <p class="def"><span style="font-family: arial, helvetica, sans-serif; font-size: small;" class="def">- Odpowiedni do wszelkich rodzajów źródeł podgrzewania: palniki gazowe, elektryczne, ceramiczne, szklane, halogenowe, indukcyjne</span></p>
+ <p class="def"><span style="font-family: arial, helvetica, sans-serif; font-size: small;" class="def">- Zdrowe przyrządzanie żywności, z użyciem niewielkiej ilości wody oraz smażenie z minimalną ilością tłuszczu minimalizuje utratę witamin, minerałów i smaku.</span></p>
+ <p class="def"><span style="font-family: arial, helvetica, sans-serif; font-size: small;" class="def">- Uchwyty odporne na nagrzewanie</span></p>
+ <p class="def"><span style="font-family: arial, helvetica, sans-serif; font-size: small;" class="def">- Atrakcyjny wygląd połączony z praktycznością</span></p>
+ <p class="def"><span style="font-family: arial, helvetica, sans-serif; font-size: small;" class="def">- Żywność i cząstki tłuszczu nie gromadzą się przy załamaniach krawędzi </span></p>
+ <p class="def"><span style="font-family: arial, helvetica, sans-serif; font-size: small;" class="def">- Łatwe do mycia (nie zaleca się myć w zmywarkach aby zachować nienaganny wygląd złotych elementów)<br class="def">
+ </span></p>
+ <p class="def">&nbsp;</p>
+ </div>
+ </div>
+</div>
+<p class="def"><span style="font-size: small; font-family: arial, helvetica, sans-serif;" class="def">W skład kompletu wchodzą:</span><br style="font-family: &quot;Alegreya Sans&quot;, sans-serif; font-size: 16px;" class="def">
+<br style="font-family: &quot;Alegreya Sans&quot;, sans-serif; font-size: 16px;" class="def">
+<span style="font-family: arial, helvetica, sans-serif; font-size: small;" class="def">- rondel&nbsp; z pokrywką 2,1 L Ø 16 cm x 10,5 cm</span><br style="font-family: &quot;Alegreya Sans&quot;, sans-serif; font-size: 16px;" class="def">
+<span style="font-family: arial, helvetica, sans-serif; font-size: small;" class="def">- garnek z pokrywką 2,1 L Ø 16 cm x 10,5 cm</span><br style="font-family: &quot;Alegreya Sans&quot;, sans-serif; font-size: 16px;" class="def">
+<span style="font-family: arial, helvetica, sans-serif; font-size: small;" class="def">- garnek z pokrywką 2,9 L Ø 18 cm x 11,5 cm</span><br style="font-family: &quot;Alegreya Sans&quot;, sans-serif; font-size: 16px;" class="def">
+<span style="font-family: arial, helvetica, sans-serif; font-size: small;" class="def">- garnek z pokrywką 3,9 L Ø 20 cm x 12,5 cm</span><br style="font-family: &quot;Alegreya Sans&quot;, sans-serif; font-size: 16px;" class="def">
+<span style="font-family: arial, helvetica, sans-serif; font-size: small;" class="def">- garnek z pokrywką 6,6 L Ø 24 cm x 14,5 cm</span><br style="font-family: &quot;Alegreya Sans&quot;, sans-serif; font-size: 16px;" class="def">
+<span style="font-family: arial, helvetica, sans-serif; font-size: small;" class="def">- patelnia z powłoką nieprzywieralną Xylan z pokrywką 3,4 L Ø 24 cm x 7,5 cm</span></p>]]></prod_desc>
+  <prod_shortdesc></prod_shortdesc>
+  <prod_info1></prod_info1>
+  <prod_info2></prod_info2>
+  <prod_info3></prod_info3>
+  <prod_info4></prod_info4>
+  <prod_info5></prod_info5>
+  <prod_note></prod_note>
+  <prod_unit_price_factor></prod_unit_price_factor>
+  <prod_unit_price_base_unit></prod_unit_price_base_unit>
+  <prod_allegro_earn></prod_allegro_earn>
+  <prod_allegro_close_if_amount></prod_allegro_close_if_amount>
+  <prod_producer_id>13</prod_producer_id>
+  <prod_producer_contact_id>7</prod_producer_contact_id>
+  <prod_link>https://kinghoff.online/12-ELEMENTOWY-ZESTAW-GARNKOW-KINGHOFF-KH-1767-p3938</prod_link>
+  <info_options>
+   <option name="Długość" remote_id="48">55</option>
+   <option name="Szerokość" remote_id="64">30</option>
+   <option name="Wysokość" remote_id="84">25</option>
+   <option name="Kod CN" remote_id="19">73239300</option>
+  </info_options>
+  <prod_price_base>228.72</prod_price_base>
+  <prod_price_net_base>185.95</prod_price_net_base>
+  <prod_price_net>185.95</prod_price_net>
+  <cat_path>Garnki/Zestawy garnków</cat_path>
+  <unit_price></unit_price>
+  <prod_safety_informations_required>1</prod_safety_informations_required>
+  <prod_safety_text><![CDATA[<p>Posiada oznaczenie CE (zgodność z normami UE).</p>
+<p>Utylizować zgodnie z lokalnymi przepisami dotyczącymi odpad&oacute;w.</p>]]></prod_safety_text>
+  <min_price_30d>228.72</min_price_30d>
+  <prod_img>
+   <img>https://kinghoff.online/images/kinghoff/23000-24000/12-ELEMENTOWY-ZESTAW-GARNKOW-KINGHOFF-KH-4450_[23120]_1200.jpg</img>
+   <img>https://kinghoff.online/images/kinghoff/23000-24000/12-ELEMENTOWY-ZESTAW-GARNKOW-KINGHOFF-KH-4450_[23126]_1200.jpg</img>
+   <img>https://kinghoff.online/images/kinghoff/23000-24000/12-ELEMENTOWY-ZESTAW-GARNKOW-KINGHOFF-KH-4450_[23121]_1200.jpg</img>
+   <img>https://kinghoff.online/images/kinghoff/23000-24000/12-ELEMENTOWY-ZESTAW-GARNKOW-KINGHOFF-KH-4450_[23122]_1200.jpg</img>
+   <img>https://kinghoff.online/images/kinghoff/23000-24000/12-ELEMENTOWY-ZESTAW-GARNKOW-KINGHOFF-KH-4450_[23123]_1200.jpg</img>
+   <img>https://kinghoff.online/images/kinghoff/23000-24000/12-ELEMENTOWY-ZESTAW-GARNKOW-KINGHOFF-KH-4450_[23127]_1200.jpg</img>
+   <img>https://kinghoff.online/images/kinghoff/23000-24000/12-ELEMENTOWY-ZESTAW-GARNKOW-KINGHOFF-KH-4450_[23128]_1200.jpg</img>
+   <img>https://kinghoff.online/images/kinghoff/23000-24000/12-ELEMENTOWY-ZESTAW-GARNKOW-KINGHOFF-KH-4450_[23129]_1200.jpg</img>
+   <img>https://kinghoff.online/images/kinghoff/23000-24000/12-ELEMENTOWY-ZESTAW-GARNKOW-KINGHOFF-KH-4450_[23124]_1200.jpg</img>
+  </prod_img>
+ </item>
+ <item>
+  <prod_name>12 ELEMENTOWY ZESTAW GARNKÓW KINGHOFF KH-4450</prod_name>
+  <prod_id>567</prod_id>
+  <prod_price>232.41</prod_price>
+  <prod_boxamount>2.0000</prod_boxamount>
+  <prod_tax_id>188.95</prod_tax_id>
+  <taxpercent>23</taxpercent>
+  <prod_oldprice></prod_oldprice>
+  <prod_amount>36.0000</prod_amount>
+  <prod_unit>szt.</prod_unit>
+  <prod_hidden>0</prod_hidden>
+  <prod_search_hidden>0</prod_search_hidden>
+  <prod_symbol>KH-4450</prod_symbol>
+  <prod_weight>150</prod_weight>
+  <prd_name>KINGHOFF</prd_name>
+  <prod_override_by_stock></prod_override_by_stock>
+  <prod_pkwiu></prod_pkwiu>
+  <prod_ean>5908287244504</prod_ean>
+  <prod_isbn></prod_isbn>
+  <prod_barcode></prod_barcode>
+  <prod_gtu></prod_gtu>
+  <prod_shipping_time>48</prod_shipping_time>
+  <prod_dimensions></prod_dimensions>
+  <prod_orlen_paczka_dimensions></prod_orlen_paczka_dimensions>
+  <prod_desc><![CDATA[<p class="def"><span style="font-family: &quot;Alegreya Sans&quot;, sans-serif; font-size: small;" class="def">&nbsp;Stal nierdzewna.</span><br style="font-family: &quot;Alegreya Sans&quot;, sans-serif; font-size: 16px;" class="def">
+<span style="font-family: &quot;Alegreya Sans&quot;, sans-serif; font-size: small;" class="def">Powierzchnia satynowa.</span><br style="font-family: &quot;Alegreya Sans&quot;, sans-serif; font-size: 16px;" class="def">
+<span style="font-family: &quot;Alegreya Sans&quot;, sans-serif; font-size: small;" class="def">Dno termiczne 5 warstwowe.</span><br style="font-family: &quot;Alegreya Sans&quot;, sans-serif; font-size: 16px;" class="def">
+<span style="font-family: &quot;Alegreya Sans&quot;, sans-serif; font-size: small;" class="def">Praktyczne ukształtowanie brzegu zapobiega skapywaniu.</span><br style="font-family: &quot;Alegreya Sans&quot;, sans-serif; font-size: 16px;" class="def">
+<span style="font-family: &quot;Alegreya Sans&quot;, sans-serif; font-size: small;" class="def">Praktyczne miarki wewnątrz ułatwiają dozowanie.</span><br style="font-family: &quot;Alegreya Sans&quot;, sans-serif; font-size: 16px;" class="def">
+<span style="font-family: &quot;Alegreya Sans&quot;, sans-serif; font-size: small;" class="def">Szklane pokrywy.</span><br style="font-family: &quot;Alegreya Sans&quot;, sans-serif; font-size: 16px;" class="def">
+<span style="font-family: &quot;Alegreya Sans&quot;, sans-serif; font-size: small;" class="def">Patelnia w zestawie z powłoką nieprzywieralną XYLAN PLUS.</span><br style="font-family: &quot;Alegreya Sans&quot;, sans-serif; font-size: 16px;" class="def">
+<span style="font-family: &quot;Alegreya Sans&quot;, sans-serif; font-size: small;" class="def">Garnki nadają się na wszystkie rodzaje kuchni włącznie z kuchnią indukcyjną.</span><br style="font-family: &quot;Alegreya Sans&quot;, sans-serif; font-size: 16px;" class="def">
+<span style="font-family: &quot;Alegreya Sans&quot;, sans-serif; font-size: small;" class="def">Można myć z zmywarce.</span><br style="font-family: &quot;Alegreya Sans&quot;, sans-serif; font-size: 16px;" class="def">
+<br style="font-family: &quot;Alegreya Sans&quot;, sans-serif; font-size: 16px;" class="def">
+<span style="font-family: &quot;Alegreya Sans&quot;, sans-serif; font-size: small;" class="def">- rondel&nbsp; z pokrywką 2,1 L Ø 16 cm x 10,5 cm</span><br style="font-family: &quot;Alegreya Sans&quot;, sans-serif; font-size: 16px;" class="def">
+<span style="font-family: &quot;Alegreya Sans&quot;, sans-serif; font-size: small;" class="def">- garnek z pokrywką 2,1 L Ø 16 cm x 10,5 cm</span><br style="font-family: &quot;Alegreya Sans&quot;, sans-serif; font-size: 16px;" class="def">
+<span style="font-family: &quot;Alegreya Sans&quot;, sans-serif; font-size: small;" class="def">- garnek z pokrywką 2,9 L Ø 18 cm x 11,5 cm</span><br style="font-family: &quot;Alegreya Sans&quot;, sans-serif; font-size: 16px;" class="def">
+<span style="font-family: &quot;Alegreya Sans&quot;, sans-serif; font-size: small;" class="def">- garnek z pokrywką 3,9 L Ø 20 cm x 12,5 cm</span><br style="font-family: &quot;Alegreya Sans&quot;, sans-serif; font-size: 16px;" class="def">
+<span style="font-family: &quot;Alegreya Sans&quot;, sans-serif; font-size: small;" class="def">- garnek z pokrywką 6,6 L Ø 24 cm x 14,5 cm</span><br style="font-family: &quot;Alegreya Sans&quot;, sans-serif; font-size: 16px;" class="def">
+<span style="font-family: &quot;Alegreya Sans&quot;, sans-serif; font-size: small;" class="def">- patelnia z pokrywką 3,4 L Ø 24 cm x 7,5 cm</span></p>]]></prod_desc>
+  <prod_shortdesc></prod_shortdesc>
+  <prod_info1></prod_info1>
+  <prod_info2></prod_info2>
+  <prod_info3></prod_info3>
+  <prod_info4></prod_info4>
+  <prod_info5></prod_info5>
+  <prod_note></prod_note>
+  <prod_unit_price_factor></prod_unit_price_factor>
+  <prod_unit_price_base_unit></prod_unit_price_base_unit>
+  <prod_allegro_earn></prod_allegro_earn>
+  <prod_allegro_close_if_amount></prod_allegro_close_if_amount>
+  <prod_producer_id>13</prod_producer_id>
+  <prod_producer_contact_id>7</prod_producer_contact_id>
+  <prod_link>https://kinghoff.online/12-ELEMENTOWY-ZESTAW-GARNKOW-KINGHOFF-KH-4450-p567</prod_link>
+  <info_options>
+   <option name="Długość" remote_id="48">55</option>
+   <option name="Szerokość" remote_id="63">27</option>
+   <option name="Wysokość" remote_id="84">25</option>
+   <option name="Kod CN" remote_id="19">73239300</option>
+  </info_options>
+  <prod_price_base>232.41</prod_price_base>
+  <prod_price_net_base>188.95</prod_price_net_base>
+  <prod_price_net>188.95</prod_price_net>
+  <cat_path>Garnki/Zestawy garnków</cat_path>
+  <unit_price></unit_price>
+  <prod_safety_informations_required>1</prod_safety_informations_required>
+  <prod_safety_text><![CDATA[<p>Posiada oznaczenie CE (zgodność z normami UE).</p>
+<p>Utylizować zgodnie z lokalnymi przepisami dotyczącymi odpad&oacute;w.</p>]]></prod_safety_text>
+  <min_price_30d>232.41</min_price_30d>
+  <prod_img>
+   <img>https://kinghoff.online/images/kinghoff/0-1000/12-ELEMENTOWY-ZESTAW-GARNKOW-KINGHOFF-KH-4450_[855]_1200.jpg</img>
+   <img>https://kinghoff.online/images/kinghoff/18000-19000/12-ELEMENTOWY-ZESTAW-GARNKOW-KINGHOFF-KH-4450_[18917]_1200.jpg</img>
+   <img>https://kinghoff.online/images/kinghoff/18000-19000/12-ELEMENTOWY-ZESTAW-GARNKOW-KINGHOFF-KH-4450_[18918]_1200.jpg</img>
+   <img>https://kinghoff.online/images/kinghoff/18000-19000/12-ELEMENTOWY-ZESTAW-GARNKOW-KINGHOFF-KH-4450_[18919]_1200.jpg</img>
+   <img>https://kinghoff.online/images/kinghoff/21000-22000/12-ELEMENTOWY-ZESTAW-GARNKOW-KINGHOFF-KH-4450_[21732]_1200.jpg</img>
+   <img>https://kinghoff.online/images/kinghoff/21000-22000/12-ELEMENTOWY-ZESTAW-GARNKOW-KINGHOFF-KH-4450_[21731]_1200.jpg</img>
+   <img>https://kinghoff.online/images/kinghoff/21000-22000/12-ELEMENTOWY-ZESTAW-GARNKOW-KINGHOFF-KH-4450_[21733]_1200.jpg</img>
+   <img>https://kinghoff.online/images/kinghoff/21000-22000/12-ELEMENTOWY-ZESTAW-GARNKOW-KINGHOFF-KH-4450_[21739]_1200.jpg</img>
+   <img>https://kinghoff.online/images/kinghoff/21000-22000/12-ELEMENTOWY-ZESTAW-GARNKOW-KINGHOFF-KH-4450_[21735]_1200.jpg</img>
+   <img>https://kinghoff.online/images/kinghoff/21000-22000/12-ELEMENTOWY-ZESTAW-GARNKOW-KINGHOFF-KH-4450_[21736]_1200.jpg</img>
+   <img>https://kinghoff.online/images/kinghoff/21000-22000/12-ELEMENTOWY-ZESTAW-GARNKOW-KINGHOFF-KH-4450_[21737]_1200.jpg</img>
+   <img>https://kinghoff.online/images/kinghoff/21000-22000/12-ELEMENTOWY-ZESTAW-GARNKOW-KINGHOFF-KH-4450_[21738]_1200.jpg</img>
+  </prod_img>
+ </item>
+ <item>
+  <prod_name>12 ELEMENTOWY ZESTAW GARNKÓW KINGHOFF KH-4457</prod_name>
+  <prod_id>568</prod_id>
+  <prod_price>252.95</prod_price>
+  <prod_boxamount>2.0000</prod_boxamount>
+  <prod_tax_id>205.65</prod_tax_id>
+  <taxpercent>23</taxpercent>
+  <prod_oldprice></prod_oldprice>
+  <prod_amount>77.0000</prod_amount>
+  <prod_unit>szt.</prod_unit>
+  <prod_hidden>0</prod_hidden>
+  <prod_search_hidden>0</prod_search_hidden>
+  <prod_symbol>KH-4457</prod_symbol>
+  <prod_weight>7800</prod_weight>
+  <prd_name>KINGHOFF</prd_name>
+  <prod_override_by_stock></prod_override_by_stock>
+  <prod_pkwiu></prod_pkwiu>
+  <prod_ean>5908287244573</prod_ean>
+  <prod_isbn></prod_isbn>
+  <prod_barcode></prod_barcode>
+  <prod_gtu></prod_gtu>
+  <prod_shipping_time>48</prod_shipping_time>
+  <prod_dimensions></prod_dimensions>
+  <prod_orlen_paczka_dimensions></prod_orlen_paczka_dimensions>
+  <prod_desc><![CDATA[<p style="margin: 1em 0px; padding: 0px; border: 0px; outline: none 0px; font-size: 12px; background-image: initial; background-position: initial; background-size: initial; background-repeat: initial; background-attachment: initial; background-origin: initial; background-clip: initial; font-family: &quot;Alegreya Sans&quot;, sans-serif;" class="def"><span style="margin: 0px; padding: 0px; border: 0px; outline: none 0px; font-size: small; background: transparent; font-family: arial, helvetica, sans-serif;" class="def">Stal nierdzewna.<br class="def">
+Powierzchnia satynowa.<br class="def">
+Dno termiczne 5 warstwowe.<br class="def">
+Praktyczne ukształtowanie brzegu zapobiega skapywaniu.<br class="def">
+Praktyczne miarki wewnątrz ułatwiają dozowanie.<br class="def">
+Szklane pokrywy.<br class="def">
+Patelnia w zestawie z granitową powłoką nieprzywieralną.<br class="def">
+Garnki nadają się na wszystkie rodzaje kuchni włącznie z kuchnią indukcyjną.<br class="def">
+Można myć z zmywarce.<br class="def">
+<br class="def">
+- rondel&nbsp; z pokrywką 2,1 L Ø 16 cm x 10,5 cm<br class="def">
+- garnek z pokrywką 2,1 L Ø 16 cm x 10,5 cm<br class="def">
+- garnek z pokrywką 2,9 L Ø 18 cm x 11,5 cm<br class="def">
+- garnek z pokrywką 3,9 L Ø 20 cm x 12,5 cm<br class="def">
+- garnek z pokrywką 6,6 L Ø 24 cm x 14,5 cm<br class="def">
+- patelnia z pokrywką 3,4 L Ø 24 cm x 7,5 cm</span></p>
+<p style="margin: 1em 0px; padding: 0px; border: 0px; outline: none 0px; font-size: 12px; background-image: initial; background-position: initial; background-size: initial; background-repeat: initial; background-attachment: initial; background-origin: initial; background-clip: initial; font-family: &quot;Alegreya Sans&quot;, sans-serif;" class="def"><span style="margin: 0px; padding: 0px; border: 0px; outline: none 0px; background: transparent; font-family: arial, helvetica, sans-serif; font-size: small;" class="def">&nbsp;</span></p>
+<p style="margin: 1em 0px; padding: 0px; border: 0px; outline: none 0px; font-size: 12px; background-image: initial; background-position: initial; background-size: initial; background-repeat: initial; background-attachment: initial; background-origin: initial; background-clip: initial; font-family: &quot;Alegreya Sans&quot;, sans-serif;" class="def"><span style="margin: 0px; padding: 0px; border: 0px; outline: none 0px; font-size: small; background: transparent; font-family: arial, helvetica, sans-serif;" class="def"><span style="margin: 0px; padding: 0px; border: 0px; outline: none 0px; background: transparent;" class="def"><span style="margin: 0px; padding: 0px; border: 0px; outline: none 0px; background: transparent; font-weight: bold;" class="def">Granitowa powłoka non-stick</span>&nbsp;jest wzbogacona miałem granitowym, dzięki czemu uzyskuje większą twardość. Jest twardsza niż teflon, ale przy tym zachowuje jego zalety: nie przypala, dobrze rozprowadza ciepło. Łączy zalety naczyń żeliwnych i teflonowych. Ma wszelkie zalety teflonu, ale jest bardziej odporna na uszkodzenia, przewyższaa w tym nawet powłoki ceramiczne.&nbsp;<br class="def">
+Granitowa powłoka sprawia, że naczynia są wyjątkowo odporne na wszelkie zarysowania i trwałe. Ten typ garnków i patelni pozwala również na smażenie przy użyciu minimalnej ilości tłuszczu, ponieważ naczynie rozgrzewa się podobnie do kamienia i oddaje ciepło całą swą powierzchnią. Patelnia posiada antypoślizgową, silikonową rączkę.</span></span></p>
+<p style="margin: 1em 0px; padding: 0px; border: 0px; outline: none 0px; font-size: 12px; background-image: initial; background-position: initial; background-size: initial; background-repeat: initial; background-attachment: initial; background-origin: initial; background-clip: initial; font-family: &quot;Alegreya Sans&quot;, sans-serif;" class="def"><span style="margin: 0px; padding: 0px; border: 0px; outline: none 0px; background: transparent; font-family: arial, helvetica, sans-serif; font-size: small;" class="def">&nbsp;</span></p>
+<p style="margin: 1em 0px; padding: 0px; border: 0px; outline: none 0px; font-size: 12px; background-image: initial; background-position: initial; background-size: initial; background-repeat: initial; background-attachment: initial; background-origin: initial; background-clip: initial; font-family: &quot;Alegreya Sans&quot;, sans-serif;" class="def"><span style="margin: 0px; padding: 0px; border: 0px; outline: none 0px; font-size: small; background: transparent; font-family: arial, helvetica, sans-serif;" class="def"><span style="margin: 0px; padding: 0px; border: 0px; outline: none 0px; background: transparent;" class="def">Unikalna kompozycja aluminiowego korpusu i ferromagnetycznego dna umożliwia użytkowanie tej aluminiowej patelni na kuchni INDUKCYJNEJ i innych rodzajach kuchni i wykorzystywania najlepszych właściwości akutermicznych odlewanego aluminium na wszystkich kuchenkach i płytach grzewczych.&nbsp;<span style="margin: 0px; padding: 0px; border: 0px; outline: none 0px; background: transparent;" class="def">Możliwość gotowania/smażenia w temperaturze do 260°C.</span></span></span></p>
+<p style="margin: 1em 0px; padding: 0px; border: 0px; outline: none 0px; font-size: 12px; background-image: initial; background-position: initial; background-size: initial; background-repeat: initial; background-attachment: initial; background-origin: initial; background-clip: initial; font-family: &quot;Alegreya Sans&quot;, sans-serif;" class="def"><span style="margin: 0px; padding: 0px; border: 0px; outline: none 0px; font-size: small; background: transparent;" class="def">&nbsp;</span></p>]]></prod_desc>
+  <prod_shortdesc></prod_shortdesc>
+  <prod_info1></prod_info1>
+  <prod_info2></prod_info2>
+  <prod_info3></prod_info3>
+  <prod_info4></prod_info4>
+  <prod_info5></prod_info5>
+  <prod_note></prod_note>
+  <prod_unit_price_factor></prod_unit_price_factor>
+  <prod_unit_price_base_unit></prod_unit_price_base_unit>
+  <prod_allegro_earn></prod_allegro_earn>
+  <prod_allegro_close_if_amount></prod_allegro_close_if_amount>
+  <prod_producer_id>13</prod_producer_id>
+  <prod_producer_contact_id>7</prod_producer_contact_id>
+  <prod_link>https://kinghoff.online/12-ELEMENTOWY-ZESTAW-GARNKOW-KINGHOFF-KH-4457-p568</prod_link>
+  <info_options>
+   <option name="Długość" remote_id="48">55</option>
+   <option name="Szerokość" remote_id="63">27</option>
+   <option name="Wysokość" remote_id="84">25</option>
+   <option name="Kod CN" remote_id="19">73239300</option>
+  </info_options>
+  <prod_price_base>252.95</prod_price_base>
+  <prod_price_net_base>205.65</prod_price_net_base>
+  <prod_price_net>205.65</prod_price_net>
+  <cat_path>Garnki/Zestawy garnków</cat_path>
+  <unit_price></unit_price>
+  <prod_safety_informations_required>1</prod_safety_informations_required>
+  <prod_safety_text><![CDATA[<p>Posiada oznaczenie CE (zgodność z normami UE).</p>
+<p>Utylizować zgodnie z lokalnymi przepisami dotyczącymi odpad&oacute;w.</p>]]></prod_safety_text>
+  <min_price_30d>252.95</min_price_30d>
+  <prod_img>
+   <img>https://kinghoff.online/images/kinghoff/0-1000/12-ELEMENTOWY-ZESTAW-GARNKOW-KINGHOFF-KH-4457_[856]_1200.jpg</img>
+   <img>https://kinghoff.online/images/kinghoff/1000-2000/12-ELEMENTOWY-ZESTAW-GARNKOW-KINGHOFF-KH-4457_[1482]_1200.jpg</img>
+   <img>https://kinghoff.online/images/kinghoff/21000-22000/12-ELEMENTOWY-ZESTAW-GARNKOW-KINGHOFF-KH-4457_[21745]_1200.jpg</img>
+   <img>https://kinghoff.online/images/kinghoff/21000-22000/12-ELEMENTOWY-ZESTAW-GARNKOW-KINGHOFF-KH-4457_[21740]_1200.jpg</img>
+   <img>https://kinghoff.online/images/kinghoff/21000-22000/12-ELEMENTOWY-ZESTAW-GARNKOW-KINGHOFF-KH-4457_[21741]_1200.jpg</img>
+   <img>https://kinghoff.online/images/kinghoff/21000-22000/12-ELEMENTOWY-ZESTAW-GARNKOW-KINGHOFF-KH-4457_[21742]_1200.jpg</img>
+   <img>https://kinghoff.online/images/kinghoff/21000-22000/12-ELEMENTOWY-ZESTAW-GARNKOW-KINGHOFF-KH-4457_[21743]_1200.jpg</img>
+   <img>https://kinghoff.online/images/kinghoff/21000-22000/12-ELEMENTOWY-ZESTAW-GARNKOW-KINGHOFF-KH-4457_[21744]_1200.jpg</img>
+   <img>https://kinghoff.online/images/kinghoff/21000-22000/12-ELEMENTOWY-ZESTAW-GARNKOW-KINGHOFF-KH-4457_[21746]_1200.jpg</img>
+   <img>https://kinghoff.online/images/kinghoff/21000-22000/12-ELEMENTOWY-ZESTAW-GARNKOW-KINGHOFF-KH-4457_[21747]_1200.jpg</img>
+   <img>https://kinghoff.online/images/kinghoff/21000-22000/12-ELEMENTOWY-ZESTAW-GARNKOW-KINGHOFF-KH-4457_[21748]_1200.jpg</img>
+   <img>https://kinghoff.online/images/kinghoff/21000-22000/12-ELEMENTOWY-ZESTAW-GARNKOW-KINGHOFF-KH-4457_[21749]_1200.jpg</img>
+  </prod_img>
+ </item>
+ <item>
+  <prod_name>3 PATELNIE GRANITOWE GRANIT WOOD KINGHOFF KH-1030</prod_name>
+  <prod_id>206</prod_id>
+  <prod_price>153.57</prod_price>
+  <prod_boxamount>4.0000</prod_boxamount>
+  <prod_tax_id>124.85</prod_tax_id>
+  <taxpercent>23</taxpercent>
+  <prod_oldprice></prod_oldprice>
+  <prod_amount>32.0000</prod_amount>
+  <prod_unit>szt.</prod_unit>
+  <prod_hidden>0</prod_hidden>
+  <prod_search_hidden>0</prod_search_hidden>
+  <prod_symbol>KH-1030</prod_symbol>
+  <prod_weight>2600</prod_weight>
+  <prd_name>KINGHOFF</prd_name>
+  <prod_override_by_stock></prod_override_by_stock>
+  <prod_pkwiu></prod_pkwiu>
+  <prod_ean>5908287210301</prod_ean>
+  <prod_isbn></prod_isbn>
+  <prod_barcode></prod_barcode>
+  <prod_gtu></prod_gtu>
+  <prod_shipping_time>48</prod_shipping_time>
+  <prod_dimensions></prod_dimensions>
+  <prod_orlen_paczka_dimensions></prod_orlen_paczka_dimensions>
+  <prod_desc><![CDATA[<p style="margin: 1em 0px; padding: 0px; border: 0px; outline: none 0px; font-size: 13px; background-image: initial; background-position: initial; background-size: initial; background-repeat: initial; background-attachment: initial; background-origin: initial; background-clip: initial; color: #333333; font-family: OpenSans, &quot;Helvetica Neue&quot;, Helvetica, Arial, FreeSans, sans-serif;" class="def"><span style="margin: 0px; padding: 0px; border: 0px; outline: none 0px; font-size: small; background: transparent; color: #000000; font-family: arial, helvetica, sans-serif;" class="def"><span style="margin: 0px; padding: 0px; border: 0px; outline: none 0px; background: transparent; font-weight: bold;" class="def">Zestaw patelni&nbsp;<span style="margin: 0px; padding: 0px; border: 0px; outline: none 0px; background: transparent;" class="def"><span style="margin: 0px; padding: 0px; border: 0px; outline: none 0px; background: transparent;" class="def"><span style="margin: 0px; padding: 0px; border: 0px; outline: none 0px; background: transparent;" class="def"><span style="margin: 0px; padding: 0px; border: 0px; outline: none 0px; background: transparent;" class="def">Ø20cm,&nbsp;</span></span></span></span>Ø24cm,&nbsp;<span style="margin: 0px; padding: 0px; border: 0px; outline: none 0px; background: transparent;" class="def"><span style="margin: 0px; padding: 0px; border: 0px; outline: none 0px; background: transparent;" class="def"><span style="margin: 0px; padding: 0px; border: 0px; outline: none 0px; background: transparent;" class="def"><span style="margin: 0px; padding: 0px; border: 0px; outline: none 0px; background: transparent;" class="def">Ø28cm&nbsp;</span></span></span></span>firmy KINGHOFF z serii GRANIT WOOD<br class="def">
+</span></span></p>
+<p style="margin: 1em 0px; padding: 0px; border: 0px; outline: none 0px; font-size: 13px; background-image: initial; background-position: initial; background-size: initial; background-repeat: initial; background-attachment: initial; background-origin: initial; background-clip: initial; color: #333333; font-family: OpenSans, &quot;Helvetica Neue&quot;, Helvetica, Arial, FreeSans, sans-serif;" class="def"><span style="margin: 0px; padding: 0px; border: 0px; outline: none 0px; font-size: small; background: transparent; font-family: arial, helvetica, sans-serif; color: #000000;" class="def">Patelnia wykonana z wysokiej jakości odlewanego&nbsp;aluminium.</span><br class="def">
+<span style="margin: 0px; padding: 0px; border: 0px; outline: none 0px; font-size: small; background: transparent; color: #000000; font-family: arial, helvetica, sans-serif;" class="def">Potrójna granitowa powłoka anty-przywierająca.</span><br class="def">
+<span style="margin: 0px; padding: 0px; border: 0px; outline: none 0px; font-size: small; background: transparent; color: #000000; font-family: arial, helvetica, sans-serif;" class="def">Uchwyty powlekane silikonem typu SOFT TOUCH o wyglądzie do złudzenia przypominającym drewno.</span><br class="def">
+<span style="margin: 0px; padding: 0px; border: 0px; outline: none 0px; font-size: small; background: transparent; color: #000000; font-family: arial, helvetica, sans-serif;" class="def">Naczynia można myć w zmywarce.&nbsp;</span><br class="def">
+<span style="margin: 0px; padding: 0px; border: 0px; outline: none 0px; font-size: small; background: transparent; color: #000000; font-family: arial, helvetica, sans-serif;" class="def">Przystosowane do wszystkich rodzajów kuchenek: gazowa, elektryczna, ceramiczna, halogenowa, indykcyjna</span></p>
+<p style="margin: 1em 0px; padding: 0px; border: 0px; outline: none 0px; font-size: 13px; background-image: initial; background-position: initial; background-size: initial; background-repeat: initial; background-attachment: initial; background-origin: initial; background-clip: initial; color: #333333; font-family: OpenSans, &quot;Helvetica Neue&quot;, Helvetica, Arial, FreeSans, sans-serif;" class="def"><span style="margin: 0px; padding: 0px; border: 0px; outline: none 0px; font-size: small; background: transparent; color: #000000; font-family: arial, helvetica, sans-serif;" class="def"><span style="margin: 0px; padding: 0px; border: 0px; outline: none 0px; background: transparent; font-weight: bold;" class="def">CECHY</span>:</span></p>
+<ul style="margin: 1em 0px; padding: 0px 0px 0px 40px; border: 0px; outline: none 0px; font-size: 13px; background-image: initial; background-position: initial; background-size: initial; background-repeat: initial; background-attachment: initial; background-origin: initial; background-clip: initial; list-style-position: initial; list-style-image: initial; color: #333333; font-family: OpenSans, &quot;Helvetica Neue&quot;, Helvetica, Arial, FreeSans, sans-serif;" class="def">
+ <li style="margin: 0px; padding: 0px; border: 0px; outline: none 0px; background: transparent; line-height: 20px;" class="def"><span style="margin: 0px; padding: 0px; border: 0px; outline: none 0px; font-size: small; background: transparent; color: #000000; font-family: arial, helvetica, sans-serif;" class="def">3-warstwowa powłoka&nbsp;granitowa</span></li>
+ <li style="margin: 0px; padding: 0px; border: 0px; outline: none 0px; background: transparent; line-height: 20px;" class="def"><span style="margin: 0px; padding: 0px; border: 0px; outline: none 0px; font-size: small; background: transparent; font-family: arial, helvetica, sans-serif;" class="def"><span style="margin: 0px; padding: 0px; border: 0px; outline: none 0px; background: transparent; color: #000000;" class="def">silikonowe uchwyty</span></span></li>
+ <li style="margin: 0px; padding: 0px; border: 0px; outline: none 0px; background: transparent; line-height: 20px;" class="def"><span style="margin: 0px; padding: 0px; border: 0px; outline: none 0px; font-size: small; background: transparent; color: #000000; font-family: arial, helvetica, sans-serif;" class="def">bezpieczne gotowanie i smażenie w temperaturze: -20 do +220 °C</span></li>
+ <li style="margin: 0px; padding: 0px; border: 0px; outline: none 0px; background: transparent; line-height: 20px;" class="def"><span style="margin: 0px; padding: 0px; border: 0px; outline: none 0px; font-size: small; background: transparent; color: #000000; font-family: arial, helvetica, sans-serif;" class="def">przystosowane do zmywarki<br class="def">
+ </span></li>
+ <li style="margin: 0px; padding: 0px; border: 0px; outline: none 0px; background: transparent; line-height: 20px;" class="def"><span style="margin: 0px; padding: 0px; border: 0px; outline: none 0px; font-size: small; background: transparent; color: #000000; font-family: arial, helvetica, sans-serif;" class="def">Eco Friendly - nie zawiera związków PFOA, ołowiu, kadmu.</span></li>
+ <li style="margin: 0px; padding: 0px; border: 0px; outline: none 0px; background: transparent; line-height: 20px;" class="def"><span style="margin: 0px; padding: 0px; border: 0px; outline: none 0px; font-size: small; background: transparent; color: #000000; font-family: arial, helvetica, sans-serif;" class="def">kolor:&nbsp;szary z brązowymi uchwytami (<span style="margin: 0px; padding: 0px; border: 0px; outline: none 0px; background: transparent; color: #800000;" class="def">imitacja drewna</span>)</span></li>
+</ul>
+<p style="margin: 1em 0px; padding: 0px; border: 0px; outline: none 0px; font-size: 13px; background-image: initial; background-position: initial; background-size: initial; background-repeat: initial; background-attachment: initial; background-origin: initial; background-clip: initial; color: #333333; font-family: OpenSans, &quot;Helvetica Neue&quot;, Helvetica, Arial, FreeSans, sans-serif;" class="def"><span style="margin: 0px; padding: 0px; border: 0px; outline: none 0px; font-size: small; background: transparent; color: #000000; font-family: arial, helvetica, sans-serif;" class="def"><span style="margin: 0px; padding: 0px; border: 0px; outline: none 0px; background: transparent; font-weight: bold;" class="def">Rozmiary:</span></span></p>
+<p style="margin: 1em 0px; padding: 0px; border: 0px; outline: none 0px; font-size: 13px; background-image: initial; background-position: initial; background-size: initial; background-repeat: initial; background-attachment: initial; background-origin: initial; background-clip: initial; color: #333333; font-family: OpenSans, &quot;Helvetica Neue&quot;, Helvetica, Arial, FreeSans, sans-serif;" class="def"><span style="margin: 0px; padding: 0px; border: 0px; outline: none 0px; font-size: small; background: transparent; color: #000000; font-family: arial, helvetica, sans-serif;" class="def"><span style="margin: 0px; padding: 0px; border: 0px; outline: none 0px; background: transparent; font-weight: bold;" class="def">Ø20 x 4,5cm</span></span></p>
+<p style="margin: 1em 0px; padding: 0px; border: 0px; outline: none 0px; font-size: 13px; background-image: initial; background-position: initial; background-size: initial; background-repeat: initial; background-attachment: initial; background-origin: initial; background-clip: initial; color: #333333; font-family: OpenSans, &quot;Helvetica Neue&quot;, Helvetica, Arial, FreeSans, sans-serif;" class="def"><span style="margin: 0px; padding: 0px; border: 0px; outline: none 0px; font-size: small; background: transparent; color: #000000; font-family: arial, helvetica, sans-serif;" class="def"><span style="margin: 0px; padding: 0px; border: 0px; outline: none 0px; background: transparent; font-weight: bold;" class="def">Ø24 x 5cm</span></span></p>
+<p style="margin: 1em 0px; padding: 0px; border: 0px; outline: none 0px; font-size: 13px; background-image: initial; background-position: initial; background-size: initial; background-repeat: initial; background-attachment: initial; background-origin: initial; background-clip: initial; color: #333333; font-family: OpenSans, &quot;Helvetica Neue&quot;, Helvetica, Arial, FreeSans, sans-serif;" class="def"><span style="margin: 0px; padding: 0px; border: 0px; outline: none 0px; font-size: small; background: transparent; color: #000000; font-family: arial, helvetica, sans-serif;" class="def"><span style="margin: 0px; padding: 0px; border: 0px; outline: none 0px; background: transparent; font-weight: bold;" class="def">Ø28 x 5,5cm</span></span></p>
+<p style="margin: 1em 0px; padding: 0px; border: 0px; outline: none 0px; font-size: 10.6667px; background-image: initial; background-position: initial; background-size: initial; background-repeat: initial; background-attachment: initial; background-origin: initial; background-clip: initial; color: #666666; font-family: Tahoma, Arial, sans-serif;" class="def"><span style="margin: 0px; padding: 0px; border: 0px; outline: none 0px; font-size: small; background: transparent; color: #000000; font-family: arial, helvetica, sans-serif;" class="def"><span style="margin: 0px; padding: 0px; border: 0px; outline: none 0px; background: transparent; font-weight: bold;" class="def">Powłoka granitowa</span>&nbsp;jest to powłoka teflonowa wzbogacona miałem granitowym, dzięki czemu uzyskuje większą twardość. Jest twardsza niż teflon, ale przy tym zachowuje jego zalety: nie przypala, dobrze rozprowadza ciepło. Łączy zalety naczyń żeliwnych i teflonowych. Ma wszelkie zalety teflonu, ale jest bardziej odporna na uszkodzenia, przewyższana w tym nawet powłoki ceramiczne.</span><br class="def">
+<span style="margin: 0px; padding: 0px; border: 0px; outline: none 0px; font-size: small; background: transparent; color: #000000; font-family: arial, helvetica, sans-serif;" class="def">Granitowa powłoka sprawia, że naczynia są wyjątkowo odporne na wszelkie zarysowania i trwałe. Ten typ garnków i patelni pozwala również na smażenie przy użyciu minimalnej ilości tłuszczu, ponieważ naczynie rozgrzewa się podobnie do kamienia i oddaje ciepło całą swą powierzchnią.</span></p>
+<p style="margin: 1em 0px; padding: 0px; border: 0px; outline: none 0px; font-size: 12px; background-image: initial; background-position: initial; background-size: initial; background-repeat: initial; background-attachment: initial; background-origin: initial; background-clip: initial; font-family: &quot;Alegreya Sans&quot;, sans-serif;" class="def"><span style="margin: 0px; padding: 0px; border: 0px; outline: none 0px; font-size: small; background: transparent; font-family: arial, helvetica, sans-serif;" class="def">Kompozycja aluminiowego korpusu i ferromagnetycznego dna umożliwia użytkowanie na kuchni indukcyjnej oraz na wszystkich innych rodzajach kuchni i wykorzystywania najlepszych właściwości akutermicznych odlewanego i kutego aluminium na wszystkich kuchenkach i płytach grzewczych. Możliwość gotowania/smażenia w temperaturze do 220°C</span></p>]]></prod_desc>
+  <prod_shortdesc></prod_shortdesc>
+  <prod_info1></prod_info1>
+  <prod_info2></prod_info2>
+  <prod_info3></prod_info3>
+  <prod_info4></prod_info4>
+  <prod_info5></prod_info5>
+  <prod_note></prod_note>
+  <prod_unit_price_factor></prod_unit_price_factor>
+  <prod_unit_price_base_unit></prod_unit_price_base_unit>
+  <prod_allegro_earn></prod_allegro_earn>
+  <prod_allegro_close_if_amount></prod_allegro_close_if_amount>
+  <prod_producer_id>13</prod_producer_id>
+  <prod_producer_contact_id>7</prod_producer_contact_id>
+  <prod_link>https://kinghoff.online/3-PATELNIE-GRANITOWE-GRANIT-WOOD-KINGHOFF-KH-1030-p206</prod_link>
+  <info_options>
+   <option name="Długość" remote_id="43">43</option>
+   <option name="Szerokość" remote_id="64">30</option>
+   <option name="Wysokość" remote_id="84">25</option>
+   <option name="Kod CN" remote_id="27">76151010</option>
+  </info_options>
+  <prod_price_base>153.57</prod_price_base>
+  <prod_price_net_base>124.85</prod_price_net_base>
+  <prod_price_net>124.85</prod_price_net>
+  <cat_path>Patelnie i woki/Patelnie uniwersalne</cat_path>
+  <unit_price></unit_price>
+  <prod_safety_informations_required>1</prod_safety_informations_required>
+  <prod_safety_text><![CDATA[<p>Posiada oznaczenie CE (zgodność z normami UE).</p>
+<p>Utylizować zgodnie z lokalnymi przepisami dotyczącymi odpad&oacute;w.</p>]]></prod_safety_text>
+  <min_price_30d>153.57</min_price_30d>
+  <prod_img>
+   <img>https://kinghoff.online/images/kinghoff/0-1000/3-PATELNIE-GRANITOWE-GRANIT-WOOD-KINGHOFF-KH-1030_[359]_1200.jpg</img>
+   <img>https://kinghoff.online/images/kinghoff/16000-17000/3-PATELNIE-GRANITOWE-GRANIT-WOOD-KINGHOFF-KH-1030_[16467]_1200.jpg</img>
+   <img>https://kinghoff.online/images/kinghoff/16000-17000/3-PATELNIE-GRANITOWE-GRANIT-WOOD-KINGHOFF-KH-1030_[16468]_1200.jpg</img>
+   <img>https://kinghoff.online/images/kinghoff/43000-44000/3-PATELNIE-GRANITOWE-GRANIT-WOOD-KINGHOFF-KH-1030_[43745]_1200.jpg</img>
+  </prod_img>
+ </item>
+ <item>
+  <prod_name>5 elementowy zestaw przyborów kuchennych Kassel 93706</prod_name>
+  <prod_id>705</prod_id>
+  <prod_price>44.16</prod_price>
+  <prod_boxamount>16.0000</prod_boxamount>
+  <prod_tax_id>35.9</prod_tax_id>
+  <taxpercent>23</taxpercent>
+  <prod_oldprice></prod_oldprice>
+  <prod_amount>15.0000</prod_amount>
+  <prod_unit>szt.</prod_unit>
+  <prod_hidden>0</prod_hidden>
+  <prod_search_hidden>0</prod_search_hidden>
+  <prod_symbol>93706</prod_symbol>
+  <prod_weight>650</prod_weight>
+  <prd_name>KASSEL</prd_name>
+  <prod_override_by_stock></prod_override_by_stock>
+  <prod_pkwiu></prod_pkwiu>
+  <prod_ean>5902340937068</prod_ean>
+  <prod_isbn></prod_isbn>
+  <prod_barcode></prod_barcode>
+  <prod_gtu></prod_gtu>
+  <prod_shipping_time>48</prod_shipping_time>
+  <prod_dimensions></prod_dimensions>
+  <prod_orlen_paczka_dimensions></prod_orlen_paczka_dimensions>
+  <prod_desc><![CDATA[<p style="margin: 1em 0px; padding: 0px; border: 0px; outline: none 0px; font-size: 12px; background-image: initial; background-position: initial; background-size: initial; background-repeat: initial; background-attachment: initial; background-origin: initial; background-clip: initial; font-family: &quot;Alegreya Sans&quot;, sans-serif;" class="def"><span style="margin: 0px; padding: 0px; border: 0px; outline: none 0px; font-size: small; background: transparent; font-family: arial, helvetica, sans-serif;" class="def">Zestaw przyborów kuchennych wykonanych z wysokiej jakości stali nierdzewnej oraz litego drewna akacjowego.<br class="def">
+</span></p>
+<p style="margin: 1em 0px; padding: 0px; border: 0px; outline: none 0px; font-size: 12px; background-image: initial; background-position: initial; background-size: initial; background-repeat: initial; background-attachment: initial; background-origin: initial; background-clip: initial; font-family: &quot;Alegreya Sans&quot;, sans-serif;" class="def"><span style="margin: 0px; padding: 0px; border: 0px; outline: none 0px; font-size: small; background: transparent; font-family: arial, helvetica, sans-serif;" class="def">W skład zestawu wchodzą:</span></p>
+<p style="margin: 1em 0px; padding: 0px; border: 0px; outline: none 0px; font-size: 12px; background-image: initial; background-position: initial; background-size: initial; background-repeat: initial; background-attachment: initial; background-origin: initial; background-clip: initial; font-family: &quot;Alegreya Sans&quot;, sans-serif;" class="def"><span style="margin: 0px; padding: 0px; border: 0px; outline: none 0px; font-size: small; background: transparent; font-family: arial, helvetica, sans-serif;" class="def">- nóż do pizzy<br class="def">
+</span></p>
+<p style="margin: 1em 0px; padding: 0px; border: 0px; outline: none 0px; font-size: 12px; background-image: initial; background-position: initial; background-size: initial; background-repeat: initial; background-attachment: initial; background-origin: initial; background-clip: initial; font-family: &quot;Alegreya Sans&quot;, sans-serif;" class="def"><span style="margin: 0px; padding: 0px; border: 0px; outline: none 0px; font-size: small; background: transparent; font-family: arial, helvetica, sans-serif;" class="def">- wyciskacz do czosnku<br class="def">
+</span></p>
+<p style="margin: 1em 0px; padding: 0px; border: 0px; outline: none 0px; font-size: 12px; background-image: initial; background-position: initial; background-size: initial; background-repeat: initial; background-attachment: initial; background-origin: initial; background-clip: initial; font-family: &quot;Alegreya Sans&quot;, sans-serif;" class="def"><span style="margin: 0px; padding: 0px; border: 0px; outline: none 0px; font-size: small; background: transparent; font-family: arial, helvetica, sans-serif;" class="def">- obieraczka do warzyw i owoców</span></p>
+<p style="margin: 1em 0px; padding: 0px; border: 0px; outline: none 0px; font-size: 12px; background-image: initial; background-position: initial; background-size: initial; background-repeat: initial; background-attachment: initial; background-origin: initial; background-clip: initial; font-family: &quot;Alegreya Sans&quot;, sans-serif;" class="def"><span style="margin: 0px; padding: 0px; border: 0px; outline: none 0px; font-size: small; background: transparent; font-family: arial, helvetica, sans-serif;" class="def">- ostrzałka</span></p>
+<p style="margin: 1em 0px; padding: 0px; border: 0px; outline: none 0px; font-size: 12px; background-image: initial; background-position: initial; background-size: initial; background-repeat: initial; background-attachment: initial; background-origin: initial; background-clip: initial; font-family: &quot;Alegreya Sans&quot;, sans-serif;" class="def"><span style="margin: 0px; padding: 0px; border: 0px; outline: none 0px; font-size: small; background: transparent; font-family: arial, helvetica, sans-serif;" class="def">- tareczka</span></p>
+<p style="margin: 1em 0px; padding: 0px; border: 0px; outline: none 0px; font-size: 12px; background-image: initial; background-position: initial; background-size: initial; background-repeat: initial; background-attachment: initial; background-origin: initial; background-clip: initial; font-family: &quot;Alegreya Sans&quot;, sans-serif;" class="def"><span style="margin: 0px; padding: 0px; border: 0px; outline: none 0px; font-size: small; background: transparent; font-family: arial, helvetica, sans-serif;" class="def">Całość pakowana w estetyczne, ekologiczne pudełko.</span></p>]]></prod_desc>
+  <prod_shortdesc></prod_shortdesc>
+  <prod_info1></prod_info1>
+  <prod_info2></prod_info2>
+  <prod_info3></prod_info3>
+  <prod_info4></prod_info4>
+  <prod_info5></prod_info5>
+  <prod_note></prod_note>
+  <prod_unit_price_factor></prod_unit_price_factor>
+  <prod_unit_price_base_unit></prod_unit_price_base_unit>
+  <prod_allegro_earn></prod_allegro_earn>
+  <prod_allegro_close_if_amount></prod_allegro_close_if_amount>
+  <prod_producer_id>15</prod_producer_id>
+  <prod_producer_contact_id>27</prod_producer_contact_id>
+  <prod_link>https://kinghoff.online/5-elementowy-zestaw-przyborow-kuchennych-Kassel-93706-p705</prod_link>
+  <info_options>
+   <option name="Długość" remote_id="13">20</option>
+   <option name="Szerokość" remote_id="17">20</option>
+   <option name="Wysokość" remote_id="79">8</option>
+   <option name="Kod CN" remote_id="28">44191100</option>
+  </info_options>
+  <prod_price_base>44.16</prod_price_base>
+  <prod_price_net_base>35.9</prod_price_net_base>
+  <prod_price_net>35.9</prod_price_net>
+  <cat_path>Akcesoria kuchenne/Przybory kuchenne</cat_path>
+  <unit_price></unit_price>
+  <prod_safety_informations_required>1</prod_safety_informations_required>
+  <prod_safety_text><![CDATA[<p>Posiada oznaczenie CE (zgodność z normami UE).</p>
+<p>Utylizować zgodnie z lokalnymi przepisami dotyczącymi odpad&oacute;w.</p>]]></prod_safety_text>
+  <min_price_30d>44.16</min_price_30d>
+  <prod_img>
+   <img>https://kinghoff.online/images/kinghoff/1000-2000/5-elementowy-zestaw-przyborow-kuchennych-Kassel-93706_[1059]_1200.jpg</img>
+   <img>https://kinghoff.online/images/kinghoff/24000-25000/5-elementowy-zestaw-przyborow-kuchennych-Kassel-93706_[24071]_1200.jpg</img>
+   <img>https://kinghoff.online/images/kinghoff/24000-25000/5-elementowy-zestaw-przyborow-kuchennych-Kassel-93706_[24072]_1200.jpg</img>
+   <img>https://kinghoff.online/images/kinghoff/24000-25000/5-elementowy-zestaw-przyborow-kuchennych-Kassel-93706_[24073]_1200.jpg</img>
+   <img>https://kinghoff.online/images/kinghoff/24000-25000/5-elementowy-zestaw-przyborow-kuchennych-Kassel-93706_[24074]_1200.jpg</img>
+   <img>https://kinghoff.online/images/kinghoff/24000-25000/5-elementowy-zestaw-przyborow-kuchennych-Kassel-93706_[24075]_1200.jpg</img>
+   <img>https://kinghoff.online/images/kinghoff/24000-25000/5-elementowy-zestaw-przyborow-kuchennych-Kassel-93706_[24076]_1200.jpg</img>
+   <img>https://kinghoff.online/images/kinghoff/24000-25000/5-elementowy-zestaw-przyborow-kuchennych-Kassel-93706_[24077]_1200.jpg</img>
+  </prod_img>
+ </item>
+ <item>
+  <prod_name>6 elementowy zestaw akacjowych przyborów kuchennych Kinghoff KH-1325</prod_name>
+  <prod_id>1209</prod_id>
+  <prod_price>90.96</prod_price>
+  <prod_boxamount>16.0000</prod_boxamount>
+  <prod_tax_id>73.95</prod_tax_id>
+  <taxpercent>23</taxpercent>
+  <prod_oldprice></prod_oldprice>
+  <prod_amount>23.0000</prod_amount>
+  <prod_unit>szt.</prod_unit>
+  <prod_hidden>0</prod_hidden>
+  <prod_search_hidden>0</prod_search_hidden>
+  <prod_symbol>KH-1325</prod_symbol>
+  <prod_weight>1800</prod_weight>
+  <prd_name>KINGHOFF</prd_name>
+  <prod_override_by_stock></prod_override_by_stock>
+  <prod_pkwiu></prod_pkwiu>
+  <prod_ean>5908287213258</prod_ean>
+  <prod_isbn></prod_isbn>
+  <prod_barcode></prod_barcode>
+  <prod_gtu></prod_gtu>
+  <prod_shipping_time>48</prod_shipping_time>
+  <prod_dimensions></prod_dimensions>
+  <prod_orlen_paczka_dimensions></prod_orlen_paczka_dimensions>
+  <prod_desc><![CDATA[<p class="def"><span style="font-family: arial, helvetica, sans-serif; font-size: small;" class="def">Zestaw przyborów kuchennych wykonanych z drewna akacjowego i nylonu termoplastycznego. Przybory dedykowane do naczyń z powłokami teflonowymi i ceramicznymi wrażliwymi na zarysowania.<br class="def">
+</span></p>
+<p class="def"><span style="font-family: arial, helvetica, sans-serif; font-size: small;" class="def">- Użyto wyłącznie materiałów ekologicznych i bezpiecznych.</span></p>
+<p class="def"><span style="font-family: arial, helvetica, sans-serif; font-size: small;" class="def">- Część nylonowa odporna na temperaturę do 200°c</span></p>
+<p class="def"><span style="font-family: arial, helvetica, sans-serif; font-size: small;" class="def">- Produkty nie rysujące powierzchni przeznaczone do wszystkich rodzajów naczyń.</span></p>
+<p class="def"><span style="font-family: arial, helvetica, sans-serif; font-size: small;" class="def">- Ze względu na naturalne drewno stanowiące pochwyt nie zaleca się mycia w zmywarkach.</span></p>
+<p class="def"><span style="font-family: arial, helvetica, sans-serif; font-size: small;" class="def">W zestawie <br class="def">
+</span></p>
+<p class="def"><span style="font-family: arial, helvetica, sans-serif; font-size: small;" class="def">Stojak z drewna akacjowego o wymiarach 10.5 x 10.5 x 16.5cm</span></p>
+<p class="def"><span style="font-family: arial, helvetica, sans-serif; font-size: small;" class="def">&nbsp; &nbsp; W komplecie:</span></p>
+<p class="def"><span style="font-family: arial, helvetica, sans-serif; font-size: small;" class="def">1 x łyżka cedzakowa</span></p>
+<p class="def"><span style="font-family: arial, helvetica, sans-serif; font-size: small;" class="def">1 x łyżka klasyczna</span></p>
+<p class="def"><span style="font-family: arial, helvetica, sans-serif; font-size: small;" class="def">1 x łyżka do makaronu</span></p>
+<p class="def"><span style="font-family: arial, helvetica, sans-serif; font-size: small;" class="def">1 x szpatuła z otworami</span></p>
+<p class="def"><span style="font-family: arial, helvetica, sans-serif; font-size: small;" class="def">1 x łyżka wazowa</span></p>
+<p class="def"><span style="font-family: arial, helvetica, sans-serif; font-size: small;" class="def">1 x ubijak do ziemniaków</span></p>]]></prod_desc>
+  <prod_shortdesc></prod_shortdesc>
+  <prod_info1></prod_info1>
+  <prod_info2></prod_info2>
+  <prod_info3></prod_info3>
+  <prod_info4></prod_info4>
+  <prod_info5></prod_info5>
+  <prod_note></prod_note>
+  <prod_unit_price_factor></prod_unit_price_factor>
+  <prod_unit_price_base_unit></prod_unit_price_base_unit>
+  <prod_allegro_earn></prod_allegro_earn>
+  <prod_allegro_close_if_amount></prod_allegro_close_if_amount>
+  <prod_producer_id>13</prod_producer_id>
+  <prod_producer_contact_id>7</prod_producer_contact_id>
+  <prod_link>https://kinghoff.online/6-elementowy-zestaw-akacjowych-przyborow-kuchennych-Kinghoff-KH-1325-p1209</prod_link>
+  <info_options>
+   <option name="Długość" remote_id="34">30</option>
+   <option name="Szerokość" remote_id="16">15</option>
+   <option name="Wysokość" remote_id="23">15</option>
+   <option name="Kod CN" remote_id="28">44191100</option>
+  </info_options>
+  <prod_price_base>90.96</prod_price_base>
+  <prod_price_net_base>73.95</prod_price_net_base>
+  <prod_price_net>73.95</prod_price_net>
+  <cat_path>Akcesoria kuchenne/Przybory kuchenne</cat_path>
+  <unit_price></unit_price>
+  <prod_safety_informations_required>1</prod_safety_informations_required>
+  <prod_safety_text><![CDATA[<p>Posiada oznaczenie CE (zgodność z normami UE).</p>
+<p>Utylizować zgodnie z lokalnymi przepisami dotyczącymi odpad&oacute;w.</p>]]></prod_safety_text>
+  <min_price_30d>90.96</min_price_30d>
+  <prod_img>
+   <img>https://kinghoff.online/images/kinghoff/3000-4000/5-elementowy-zestaw-akacjowych-przyborow-kuchennych-Kassel-93571_[3139]_1200.jpg</img>
+   <img>https://kinghoff.online/images/kinghoff/21000-22000/6-elementowy-zestaw-akacjowych-przyborow-kuchennych-Kinghoff-KH-1325_[21172]_1200.jpg</img>
+   <img>https://kinghoff.online/images/kinghoff/3000-4000/5-elementowy-zestaw-akacjowych-przyborow-kuchennych-Kassel-93571_[3140]_1200.jpg</img>
+  </prod_img>
+ </item>
+ <item>
+  <prod_name>6-ELEMENTOWY ZESTAW NOŻY GRANITOWYCH ZURICH SZ-1611</prod_name>
+  <prod_id>4439</prod_id>
+  <prod_price>31.98</prod_price>
+  <prod_boxamount>12.0000</prod_boxamount>
+  <prod_tax_id>26</prod_tax_id>
+  <taxpercent>23</taxpercent>
+  <prod_oldprice></prod_oldprice>
+  <prod_amount>23.0000</prod_amount>
+  <prod_unit>szt.</prod_unit>
+  <prod_hidden>0</prod_hidden>
+  <prod_search_hidden>0</prod_search_hidden>
+  <prod_symbol>SZ-1611</prod_symbol>
+  <prod_weight>1000</prod_weight>
+  <prd_name>SWISS ZURICH</prd_name>
+  <prod_override_by_stock></prod_override_by_stock>
+  <prod_pkwiu></prod_pkwiu>
+  <prod_ean>5908287216112</prod_ean>
+  <prod_isbn></prod_isbn>
+  <prod_barcode></prod_barcode>
+  <prod_gtu></prod_gtu>
+  <prod_shipping_time>48</prod_shipping_time>
+  <prod_dimensions></prod_dimensions>
+  <prod_orlen_paczka_dimensions></prod_orlen_paczka_dimensions>
+  <prod_desc><![CDATA[<div data-tab="box_description" class="def">
+ <div class="def">
+ <div itemprop="description" class="def">
+ <div data-tab="box_description" class="def">
+ <div class="def">
+ <div itemprop="description" class="def">
+ <div class="def">
+ <div data-tab="box_description" class="def">
+ <div class="def">
+ <div itemprop="description" class="def">
+ <div data-tab="box_description" class="def">
+ <div class="def">
+ <div itemprop="description" class="def">
+ <div data-tab="box_description" class="def">
+ <div class="def">
+ <div itemprop="description" class="def">
+ <div class="def">
+ <ul class="def">
+ </ul>
+ <ul class="def">
+ <li class="def"><span style="font-family: arial, helvetica, sans-serif; font-size: 12pt;" class="def">noże wyprodukowane w wysokiej temperaturze, w zaawansowanym technologicznie procesie syntezy – ostrza cechuje długa żywotność</span></li>
+ <li class="def"><span style="font-family: arial, helvetica, sans-serif; font-size: 12pt;" class="def">bez konieczności ostrzenia</span></li>
+ <li class="def"><span style="font-family: arial, helvetica, sans-serif; font-size: 12pt;" class="def">wyposażone w ergonomiczne, antypoślizgowe uchwyty – wygodne i pewne trzymanie</span></li>
+ <li class="def"><span style="font-family: arial, helvetica, sans-serif; font-size: 12pt;" class="def">materiał: stal nierdzewna z powłoką&nbsp;granitową – nie pozostawiają na żywności nieprzyjemnego, metalicznego posmaku</span></li>
+ <li class="def"><span style="font-family: arial, helvetica, sans-serif; font-size: 12pt;" class="def">bardzo ostra nietępiąca się powierzchnia</span></li>
+ <li class="def"><span style="font-family: arial, helvetica, sans-serif; font-size: 12pt;" class="def">brak plam po produktach spożywczych</span></li>
+ <li class="def"><span style="font-family: arial, helvetica, sans-serif; font-size: 12pt;" class="def">powierzchnia antybakteryjna&nbsp;</span></li>
+ <li class="def"><span style="font-family: arial, helvetica, sans-serif; font-size: 12pt;" class="def">nie rdzewieją</span></li>
+ <li class="def"><span style="font-family: arial, helvetica, sans-serif; font-size: 12pt;" class="def">nie pozostawiają smaku metalu na krojonej żywności</span></li>
+ <li class="def"><span style="font-family: arial, helvetica, sans-serif; font-size: 12pt;" class="def">zalecane używanie noży na drewnianych i plastikowych deskach do krojenia&nbsp;</span></li>
+ </ul>
+ <p class="def"><span style="font-family: arial, helvetica, sans-serif; font-size: 12pt;" class="def">W zestawie:</span></p>
+ <ul class="def">
+ <li class="def"><span style="font-family: arial, helvetica, sans-serif; font-size: 12pt;" class="def">nóż szefa kuchni: 20 cm</span></li>
+ <li class="def"><span style="font-family: arial, helvetica, sans-serif; font-size: 12pt;" class="def">nóż uniwersalny: 20 cm</span></li>
+ <li class="def"><span style="font-family: arial, helvetica, sans-serif; font-size: 12pt;" class="def">nóż do chleba: 20 cm</span></li>
+ <li class="def"><span style="font-family: arial, helvetica, sans-serif; font-size: 12pt;" class="def">nóż: 12,5 cm</span></li>
+ <li class="def"><span style="font-family: arial, helvetica, sans-serif; font-size: 12pt;" class="def">nóż do obierania: 8,75 cm</span></li>
+ <li class="def"><span style="font-family: arial, helvetica, sans-serif; font-size: 12pt;" class="def">ceramiczna obieraczka</span></li>
+ <li class="def"><span style="font-family: arial, helvetica, sans-serif; font-size: 12pt;" class="def">elegancka kaseta z zamkiem magnetycznym</span></li>
+ </ul>
+ <p class="def"><span style="font-family: arial, helvetica, sans-serif; font-size: small;" class="def"><span style="font-size: 12pt;" class="def">&nbsp;Noży kuchennych nie zaleca się myć w zmywarkach</span></span></p>
+ <ul class="def">
+ </ul>
+ </div>
+ </div>
+ </div>
+ </div>
+ </div>
+ </div>
+ </div>
+ </div>
+ </div>
+ </div>
+ </div>
+ </div>
+ </div>
+ </div>
+ </div>
+ </div>
+</div>
+<ul class="def">
+</ul>
+<ul class="def">
+</ul>]]></prod_desc>
+  <prod_shortdesc></prod_shortdesc>
+  <prod_info1></prod_info1>
+  <prod_info2></prod_info2>
+  <prod_info3></prod_info3>
+  <prod_info4></prod_info4>
+  <prod_info5></prod_info5>
+  <prod_note></prod_note>
+  <prod_unit_price_factor></prod_unit_price_factor>
+  <prod_unit_price_base_unit></prod_unit_price_base_unit>
+  <prod_allegro_earn></prod_allegro_earn>
+  <prod_allegro_close_if_amount></prod_allegro_close_if_amount>
+  <prod_producer_id>75</prod_producer_id>
+  <prod_producer_contact_id>44</prod_producer_contact_id>
+  <prod_link>https://kinghoff.online/6-ELEMENTOWY-ZESTAW-NOZY-GRANITOWYCH-ZURICH-SZ-1611-p4439</prod_link>
+  <info_options>
+   <option name="Długość" remote_id="41">37</option>
+   <option name="Szerokość" remote_id="62">23</option>
+   <option name="Wysokość" remote_id="21">5</option>
+   <option name="Kod CN" remote_id="29">82111000</option>
+  </info_options>
+  <prod_price_base>31.98</prod_price_base>
+  <prod_price_net_base>26</prod_price_net_base>
+  <prod_price_net>26</prod_price_net>
+  <cat_path>Noże i akcesoria/Zestawy noży</cat_path>
+  <unit_price></unit_price>
+  <prod_safety_informations_required>1</prod_safety_informations_required>
+  <prod_safety_text><![CDATA[<p>Posiada oznaczenie CE (zgodność z normami UE).</p>
+<p>Utylizować zgodnie z lokalnymi przepisami dotyczącymi odpad&oacute;w.</p>]]></prod_safety_text>
+  <min_price_30d>31.98</min_price_30d>
+  <prod_img>
+   <img>https://kinghoff.online/images/kinghoff/28000-29000/ZESTAW-5-KUCHENNYCH-NOZY-W-STOJAKU-KLAUSBERG-KB-7615_[28831]_1200.jpg</img>
+   <img>https://kinghoff.online/images/kinghoff/28000-29000/ZESTAW-5-KUCHENNYCH-NOZY-W-STOJAKU-KLAUSBERG-KB-7615_[28833]_1200.jpg</img>
+   <img>https://kinghoff.online/images/kinghoff/28000-29000/ZESTAW-5-KUCHENNYCH-NOZY-W-STOJAKU-KLAUSBERG-KB-7615_[28832]_1200.jpg</img>
+  </prod_img>
+ </item>
+ <item>
+  <prod_name>8 ELEMENTOWY ZESTAW GARNKÓW KINGHOFF KH-4448</prod_name>
+  <prod_id>565</prod_id>
+  <prod_price>162.3</prod_price>
+  <prod_boxamount>2.0000</prod_boxamount>
+  <prod_tax_id>131.95</prod_tax_id>
+  <taxpercent>23</taxpercent>
+  <prod_oldprice></prod_oldprice>
+  <prod_amount>67.0000</prod_amount>
+  <prod_unit>szt.</prod_unit>
+  <prod_hidden>0</prod_hidden>
+  <prod_search_hidden>0</prod_search_hidden>
+  <prod_symbol>KH-4448</prod_symbol>
+  <prod_weight>5400</prod_weight>
+  <prd_name>KINGHOFF</prd_name>
+  <prod_override_by_stock></prod_override_by_stock>
+  <prod_pkwiu></prod_pkwiu>
+  <prod_ean>5908287244481</prod_ean>
+  <prod_isbn></prod_isbn>
+  <prod_barcode></prod_barcode>
+  <prod_gtu></prod_gtu>
+  <prod_shipping_time>48</prod_shipping_time>
+  <prod_dimensions></prod_dimensions>
+  <prod_orlen_paczka_dimensions></prod_orlen_paczka_dimensions>
+  <prod_desc><![CDATA[<p style="margin: 1em 0px; padding: 0px; border: 0px; outline: none 0px; font-size: 12px; background-image: initial; background-position: initial; background-size: initial; background-repeat: initial; background-attachment: initial; background-origin: initial; background-clip: initial; font-family: &quot;Alegreya Sans&quot;, sans-serif;" class="def"><span style="margin: 0px; padding: 0px; border: 0px; outline: none 0px; font-size: small; background: transparent; font-family: arial, helvetica, sans-serif;" class="def">Specyfikacja:</span></p>
+<div style="margin: 0px; padding: 0px; border: 0px; outline: none 0px; font-size: 12px; background-image: initial; background-position: initial; background-size: initial; background-repeat: initial; background-attachment: initial; background-origin: initial; background-clip: initial; font-family: &quot;Alegreya Sans&quot;, sans-serif; line-height: 18px;" class="def">
+ <div style="margin: 0px; padding: 0px; border: 0px; outline: none 0px; background: transparent;" class="def">
+ <span style="margin: 0px; padding: 0px; border: 0px; outline: none 0px; font-size: small; background: transparent; font-family: arial, helvetica, sans-serif;" class="def">- Wykonany z wysokiej jakości stali nierdzewnej</span>
+ </div>
+ <div style="margin: 0px; padding: 0px; border: 0px; outline: none 0px; background: transparent;" class="def">
+ <span style="margin: 0px; padding: 0px; border: 0px; outline: none 0px; font-size: small; background: transparent; font-family: arial, helvetica, sans-serif;" class="def">. Odpowiedni do wszelkich rodzajów źródeł podgrzewania także indukcyjnych<br class="def">
+ </span>
+ </div>
+ <div style="margin: 0px; padding: 0px; border: 0px; outline: none 0px; background: transparent;" class="def">
+ <span style="margin: 0px; padding: 0px; border: 0px; outline: none 0px; font-size: small; background: transparent; font-family: arial, helvetica, sans-serif;" class="def">- Bezpieczne w zmywarkach automatycznych&nbsp;</span>
+ </div>
+ <div style="margin: 0px; padding: 0px; border: 0px; outline: none 0px; background: transparent;" class="def">
+ <span style="margin: 0px; padding: 0px; border: 0px; outline: none 0px; font-size: small; background: transparent; font-family: arial, helvetica, sans-serif;" class="def">W zestawie:</span>
+ </div>
+ <div style="margin: 0px; padding: 0px; border: 0px; outline: none 0px; background: transparent;" class="def">
+ <span style="margin: 0px; padding: 0px; border: 0px; outline: none 0px; font-size: small; background: transparent; font-family: arial, helvetica, sans-serif;" class="def">&nbsp;</span>
+ </div>
+ <div style="margin: 0px; padding: 0px; border: 0px; outline: none 0px; background: transparent;" class="def">
+ <span style="margin: 0px; padding: 0px; border: 0px; outline: none 0px; font-size: small; background: transparent; font-family: arial, helvetica, sans-serif;" class="def">- 2,1 L &nbsp; &nbsp;Ø 16 cm x 10,5 cm &nbsp;Garnek z pokrywką&nbsp;</span>
+ </div>
+ <div style="margin: 0px; padding: 0px; border: 0px; outline: none 0px; background: transparent;" class="def">
+ <span style="margin: 0px; padding: 0px; border: 0px; outline: none 0px; font-size: small; background: transparent; font-family: arial, helvetica, sans-serif;" class="def">- 2,9 L &nbsp; &nbsp;Ø 18 cm x 11,5 cm &nbsp;Garnek z pokrywką&nbsp;</span>
+ </div>
+ <div style="margin: 0px; padding: 0px; border: 0px; outline: none 0px; background: transparent;" class="def">
+ <span style="margin: 0px; padding: 0px; border: 0px; outline: none 0px; font-size: small; background: transparent; font-family: arial, helvetica, sans-serif;" class="def">- 3,9 L &nbsp; &nbsp;Ø 20 cm x 12,5 cm &nbsp;Garnek z pokrywką&nbsp;</span>
+ </div>
+ <div style="margin: 0px; padding: 0px; border: 0px; outline: none 0px; background: transparent;" class="def">
+ <span style="margin: 0px; padding: 0px; border: 0px; outline: none 0px; font-size: small; background: transparent; font-family: arial, helvetica, sans-serif;" class="def">- 6,6 L &nbsp; &nbsp;Ø 24 cm x 14,5 cm &nbsp;Garnek z pokrywką&nbsp;</span>
+ </div>
+</div>]]></prod_desc>
+  <prod_shortdesc></prod_shortdesc>
+  <prod_info1></prod_info1>
+  <prod_info2></prod_info2>
+  <prod_info3></prod_info3>
+  <prod_info4></prod_info4>
+  <prod_info5></prod_info5>
+  <prod_note></prod_note>
+  <prod_unit_price_factor></prod_unit_price_factor>
+  <prod_unit_price_base_unit></prod_unit_price_base_unit>
+  <prod_allegro_earn></prod_allegro_earn>
+  <prod_allegro_close_if_amount></prod_allegro_close_if_amount>
+  <prod_producer_id>13</prod_producer_id>
+  <prod_producer_contact_id>7</prod_producer_contact_id>
+  <prod_link>https://kinghoff.online/8-ELEMENTOWY-ZESTAW-GARNKOW-KINGHOFF-KH-4448-p565</prod_link>
+  <info_options>
+   <option name="Długość" remote_id="44">45</option>
+   <option name="Szerokość" remote_id="63">27</option>
+   <option name="Wysokość" remote_id="82">20</option>
+   <option name="Kod CN" remote_id="19">73239300</option>
+  </info_options>
+  <prod_price_base>162.3</prod_price_base>
+  <prod_price_net_base>131.95</prod_price_net_base>
+  <prod_price_net>131.95</prod_price_net>
+  <cat_path>Garnki/Zestawy garnków</cat_path>
+  <unit_price></unit_price>
+  <prod_safety_informations_required>1</prod_safety_informations_required>
+  <prod_safety_text><![CDATA[<p>Posiada oznaczenie CE (zgodność z normami UE).</p>
+<p>Utylizować zgodnie z lokalnymi przepisami dotyczącymi odpad&oacute;w.</p>]]></prod_safety_text>
+  <min_price_30d>162.3</min_price_30d>
+  <prod_img>
+   <img>https://kinghoff.online/images/kinghoff/0-1000/8-ELEMENTOWY-ZESTAW-GARNKOW-KINGHOFF-KH-4448_[853]_1200.jpg</img>
+   <img>https://kinghoff.online/images/kinghoff/21000-22000/8-ELEMENTOWY-ZESTAW-GARNKOW-KINGHOFF-KH-4448_[21722]_1200.jpg</img>
+   <img>https://kinghoff.online/images/kinghoff/21000-22000/8-ELEMENTOWY-ZESTAW-GARNKOW-KINGHOFF-KH-4448_[21724]_1200.jpg</img>
+   <img>https://kinghoff.online/images/kinghoff/21000-22000/8-ELEMENTOWY-ZESTAW-GARNKOW-KINGHOFF-KH-4448_[21723]_1200.jpg</img>
+   <img>https://kinghoff.online/images/kinghoff/21000-22000/8-ELEMENTOWY-ZESTAW-GARNKOW-KINGHOFF-KH-4448_[21725]_1200.jpg</img>
+   <img>https://kinghoff.online/images/kinghoff/21000-22000/8-ELEMENTOWY-ZESTAW-GARNKOW-KINGHOFF-KH-4448_[21730]_1200.jpg</img>
+   <img>https://kinghoff.online/images/kinghoff/21000-22000/8-ELEMENTOWY-ZESTAW-GARNKOW-KINGHOFF-KH-4448_[21728]_1200.jpg</img>
+  </prod_img>
+ </item>
+ <item>
+  <prod_name>AKACJOWA DESKA KUCHENNA 35 x 23cm KASSEL 93601</prod_name>
+  <prod_id>730</prod_id>
+  <prod_price>52.83</prod_price>
+  <prod_boxamount>12.0000</prod_boxamount>
+  <prod_tax_id>42.95</prod_tax_id>
+  <taxpercent>23</taxpercent>
+  <prod_oldprice></prod_oldprice>
+  <prod_amount>22.0000</prod_amount>
+  <prod_unit>szt.</prod_unit>
+  <prod_hidden>0</prod_hidden>
+  <prod_search_hidden>0</prod_search_hidden>
+  <prod_symbol>93601</prod_symbol>
+  <prod_weight>900</prod_weight>
+  <prd_name>KASSEL</prd_name>
+  <prod_override_by_stock></prod_override_by_stock>
+  <prod_pkwiu></prod_pkwiu>
+  <prod_ean>5902340936016</prod_ean>
+  <prod_isbn></prod_isbn>
+  <prod_barcode>5902340936016</prod_barcode>
+  <prod_gtu></prod_gtu>
+  <prod_shipping_time>48</prod_shipping_time>
+  <prod_dimensions></prod_dimensions>
+  <prod_orlen_paczka_dimensions></prod_orlen_paczka_dimensions>
+  <prod_desc><![CDATA[<div data-tab="box_description" class="def">
+ <div class="def">
+ <div itemprop="description" class="def">
+ <div data-tab="box_description" class="def">
+ <div class="def">
+ <div itemprop="description" class="def">
+ <p class="def"><span style="font-family: arial, helvetica, sans-serif; font-size: small;" class="def">Ekologiczny materiał użyty do produkcji deski zapewnia dużą trwałość, solidność i estetyczny wygląd. Drewno akacjowe jest twarde i wytrzymałe, bardziej odporne na ścieranie i uszkodzenia, a jednocześnie nie tępi noży. Deska może służyć także do serwowania serów i wędlin.</span></p>
+ <p class="def"><span style="font-family: arial, helvetica, sans-serif; font-size: small;" class="def">Deska wykonana jest z naturalnego drewna akacjowego i poszczególne egzemplarze mogą różnić się odcieniem i strukturą słojów. Desek nie zaleca się myć w zmywarkach.</span></p>
+ <p class="def"><span style="color: #000000; font-family: arial, helvetica, sans-serif; font-size: small;" class="def"><strong class="def">Specyfikacja:</strong></span></p>
+ <p class="def"><span style="font-family: arial, helvetica, sans-serif; font-size: small;" class="def">długość: 35 cm /&nbsp;<span style="line-height: 1.5em;" class="def">szerokość: 23 cm /&nbsp;</span><span style="line-height: 1.5em;" class="def">grubość: 1,4 cm</span></span></p>
+ <p class="def"><span style="font-family: arial, helvetica, sans-serif; font-size: small;" class="def">Deska jest impregnowana olejem jadalnym.</span></p>
+ <p class="def"><span style="font-family: arial, helvetica, sans-serif; font-size: small;" class="def">Deska pakowana jest w ekologiczne pudełeczko z szarej tektury.</span></p>
+ </div>
+ </div>
+ </div>
+ </div>
+ </div>
+</div>]]></prod_desc>
+  <prod_shortdesc></prod_shortdesc>
+  <prod_info1></prod_info1>
+  <prod_info2></prod_info2>
+  <prod_info3></prod_info3>
+  <prod_info4></prod_info4>
+  <prod_info5></prod_info5>
+  <prod_note></prod_note>
+  <prod_unit_price_factor></prod_unit_price_factor>
+  <prod_unit_price_base_unit></prod_unit_price_base_unit>
+  <prod_allegro_earn></prod_allegro_earn>
+  <prod_allegro_close_if_amount></prod_allegro_close_if_amount>
+  <prod_producer_id>15</prod_producer_id>
+  <prod_producer_contact_id>27</prod_producer_contact_id>
+  <prod_link>https://kinghoff.online/AKACJOWA-DESKA-KUCHENNA-35-x-23cm-KASSEL-93601-p730</prod_link>
+  <info_options>
+   <option name="Długość" remote_id="40">35</option>
+   <option name="Szerokość" remote_id="62">23</option>
+   <option name="Wysokość" remote_id="21">5</option>
+   <option name="Kod CN" remote_id="119">44199090</option>
+  </info_options>
+  <prod_price_base>52.83</prod_price_base>
+  <prod_price_net_base>42.95</prod_price_net_base>
+  <prod_price_net>42.95</prod_price_net>
+  <cat_path>Akcesoria kuchenne/Deski kuchenne</cat_path>
+  <unit_price></unit_price>
+  <prod_safety_informations_required>1</prod_safety_informations_required>
+  <prod_safety_text><![CDATA[<p>Posiada oznaczenie CE (zgodność z normami UE).</p>
+<p>Utylizować zgodnie z lokalnymi przepisami dotyczącymi odpad&oacute;w.</p>]]></prod_safety_text>
+  <min_price_30d>52.83</min_price_30d>
+  <prod_img>
+   <img>https://kinghoff.online/images/kinghoff/1000-2000/AKACJOWA-DESKA-DO-SERWOWANIA-SEROW-30x22cm-KASSEL-93603_[1139]_1200.jpg</img>
+   <img>https://kinghoff.online/images/kinghoff/21000-22000/AKACJOWA-DESKA-KUCHENNA-35-23cm-KASSEL-93601_[21174]_1200.jpg</img>
+   <img>https://kinghoff.online/images/kinghoff/1000-2000/AKACJOWA-DESKA-DO-SERWOWANIA-SEROW-30x22cm-KASSEL-93603_[1140]_1200.jpg</img>
+   <img>https://kinghoff.online/images/kinghoff/21000-22000/AKACJOWA-DESKA-KUCHENNA-35-23cm-KASSEL-93601_[21175]_1200.jpg</img>
+   <img>https://kinghoff.online/images/kinghoff/21000-22000/AKACJOWA-DESKA-KUCHENNA-35-23cm-KASSEL-93601_[21176]_1200.jpg</img>
+   <img>https://kinghoff.online/images/kinghoff/21000-22000/AKACJOWA-DESKA-KUCHENNA-35-23cm-KASSEL-93601_[21177]_1200.jpg</img>
+  </prod_img>
+ </item>
+ <item>
+  <prod_name>AKACJOWY MŁYNEK DO PIEPRZU + SOLNICZKA KLAUSBERG KB-7594</prod_name>
+  <prod_id>3811</prod_id>
+  <prod_price>45.45</prod_price>
+  <prod_boxamount>12.0000</prod_boxamount>
+  <prod_tax_id>36.95</prod_tax_id>
+  <taxpercent>23</taxpercent>
+  <prod_oldprice></prod_oldprice>
+  <prod_amount>31.0000</prod_amount>
+  <prod_unit>szt.</prod_unit>
+  <prod_hidden>0</prod_hidden>
+  <prod_search_hidden>0</prod_search_hidden>
+  <prod_symbol>KB-7594</prod_symbol>
+  <prod_weight>450</prod_weight>
+  <prd_name>KLAUSBERG</prd_name>
+  <prod_override_by_stock></prod_override_by_stock>
+  <prod_pkwiu></prod_pkwiu>
+  <prod_ean>5908287275942</prod_ean>
+  <prod_isbn></prod_isbn>
+  <prod_barcode></prod_barcode>
+  <prod_gtu></prod_gtu>
+  <prod_shipping_time>48</prod_shipping_time>
+  <prod_dimensions></prod_dimensions>
+  <prod_orlen_paczka_dimensions></prod_orlen_paczka_dimensions>
+  <prod_desc><![CDATA[<div onclick="this.remove()" class="def">
+</div>
+<h2 class="def"><span style="font-size: small; font-family: arial, helvetica, sans-serif;" class="def">Akacjowy młynek do pieprzu + solniczka Klausberg KB-7594</span></h2>
+<p class="def"><span style="font-size: small; font-family: arial, helvetica, sans-serif;" class="def">Wyjątkowy zestaw akacjowego młynka do pieprzu i solniczki Klausberg KB-7594 to niezbędne narzędzia w każdej kuchni. Dzięki swojej eleganckiej konstrukcji i wysokiej jakości wykonaniu, ten zestaw będzie doskonale pasował zarówno do tradycyjnych, jak i nowoczesnych wnętrz.</span></p>
+<p class="def"><span style="font-size: small; font-family: arial, helvetica, sans-serif;" class="def">Młynek do pieprzu jest wyposażony w precyzyjny mechanizm ceramiczny, który umożliwia łatwe mielenie świeżego pieprzu na drobne lub grubsze ziarna. Dzięki temu możesz dostosować intensywność smaku według własnych preferencji. </span></p>
+<p class="def"><span style="font-size: small; font-family: arial, helvetica, sans-serif;" class="def">Zestaw akacjowego młynka do pieprzu i solniczki Klausberg KB-7594 to nie tylko praktyczne narzędzia, ale również piękna ozdoba na stole. Wykonane z wysokiej jakości drewna akacjowego, młynek i solniczka dodadzą elegancji i naturalnego uroku każdemu wnętrzu. Dodatkowo, akacja jest twardym drewnem o dużych właściwościach antybakteryjnych, co sprawia że zestaw jest higieniczny i łatwy do utrzymania w czystości.</span></p>
+<p class="def"><span style="font-family: arial, helvetica, sans-serif; font-size: 12pt;" class="def">Specyfikacja:</span></p>
+<p class="def"><span style="font-family: arial, helvetica, sans-serif; font-size: 12pt;" class="def">Zestaw na drewnianej podstawce - młynek do pieprzu + solniczka. </span></p>
+<p class="def"><span style="font-family: arial, helvetica, sans-serif; font-size: 12pt;" class="def">Wykonane z drewna akacjowego charakteryzującego się dużą wytrzymałością i odpornością na uszkodzenia. Częściowo lakierowane na kolor czarny.&nbsp; </span></p>
+<p class="def"><span style="font-family: arial, helvetica, sans-serif; font-size: 12pt;" class="def">Młynek wyposażony w ceramiczny mechanizm mielący.</span><br class="def">
+<br class="def">
+<span style="font-family: arial, helvetica, sans-serif; font-size: 12pt;" class="def">Posiada regulację grubości mielenia.</span><br class="def">
+<br class="def">
+<span style="font-family: arial, helvetica, sans-serif; font-size: 12pt;" class="def">Wysokość 13cm. Średnica 6cm</span><br class="def">
+<br class="def">
+<span style="font-family: arial, helvetica, sans-serif; font-size: 12pt;" class="def">Prosta, klasyczna forma sprawia, że zestaw może być on eleganckim dopełnieniem wystroju kuchni a także stanowić ciekawy element dekoracyjny zastawy stołowej. <br class="def">
+</span></p>
+<p class="def"><span style="font-family: arial, helvetica, sans-serif; font-size: 12pt;" class="def">Zestaw pakowany jest w ekologiczne pudełko z szarej tektury</span></p>]]></prod_desc>
+  <prod_shortdesc></prod_shortdesc>
+  <prod_info1></prod_info1>
+  <prod_info2></prod_info2>
+  <prod_info3></prod_info3>
+  <prod_info4></prod_info4>
+  <prod_info5></prod_info5>
+  <prod_note></prod_note>
+  <prod_unit_price_factor></prod_unit_price_factor>
+  <prod_unit_price_base_unit></prod_unit_price_base_unit>
+  <prod_allegro_earn></prod_allegro_earn>
+  <prod_allegro_close_if_amount></prod_allegro_close_if_amount>
+  <prod_producer_id>14</prod_producer_id>
+  <prod_producer_contact_id>6</prod_producer_contact_id>
+  <prod_link>https://kinghoff.online/AKACJOWY-MLYNEK-DO-PIEPRZU-SOLNICZKA-KLAUSBERG-KB-7594-p3811</prod_link>
+  <info_options>
+   <option name="Długość" remote_id="12">15</option>
+   <option name="Szerokość" remote_id="15">10</option>
+   <option name="Wysokość" remote_id="23">15</option>
+   <option name="Kod CN" remote_id="32">69111000</option>
+  </info_options>
+  <prod_price_base>45.45</prod_price_base>
+  <prod_price_net_base>36.95</prod_price_net_base>
+  <prod_price_net>36.95</prod_price_net>
+  <cat_path>Akcesoria kuchenne/Młynki</cat_path>
+  <unit_price></unit_price>
+  <prod_safety_informations_required>1</prod_safety_informations_required>
+  <prod_safety_text><![CDATA[<p>Posiada oznaczenie CE (zgodność z normami UE).</p>
+<p>Utylizować zgodnie z lokalnymi przepisami dotyczącymi odpad&oacute;w.</p>]]></prod_safety_text>
+  <min_price_30d>45.45</min_price_30d>
+  <prod_img>
+   <img>https://kinghoff.online/images/kinghoff/21000-22000/AKACJOWY-MLYNEK-DO-PIEPRZU-SOLNICZKA-KASSEL-93574_[21658]_1200.jpg</img>
+   <img>https://kinghoff.online/images/kinghoff/21000-22000/AKACJOWY-MLYNEK-DO-PIEPRZU-SOLNICZKA-KASSEL-93574_[21659]_1200.jpg</img>
+   <img>https://kinghoff.online/images/kinghoff/21000-22000/AKACJOWY-MLYNEK-DO-PIEPRZU-SOLNICZKA-KASSEL-93574_[21660]_1200.jpg</img>
+  </prod_img>
+ </item>
+ <item>
+  <prod_name>AKACJOWY MŁYNEK DO PIEPRZU + SOLNICZKA KLAUSBERG KB-7859</prod_name>
+  <prod_id>5288</prod_id>
+  <prod_price>53.94</prod_price>
+  <prod_boxamount>12.0000</prod_boxamount>
+  <prod_tax_id>43.85</prod_tax_id>
+  <taxpercent>23</taxpercent>
+  <prod_oldprice></prod_oldprice>
+  <prod_amount>42.0000</prod_amount>
+  <prod_unit>szt.</prod_unit>
+  <prod_hidden>0</prod_hidden>
+  <prod_search_hidden>0</prod_search_hidden>
+  <prod_symbol>KB-7859</prod_symbol>
+  <prod_weight>450</prod_weight>
+  <prd_name>KLAUSBERG</prd_name>
+  <prod_override_by_stock></prod_override_by_stock>
+  <prod_pkwiu></prod_pkwiu>
+  <prod_ean>5908287278592</prod_ean>
+  <prod_isbn></prod_isbn>
+  <prod_barcode>5902340935750</prod_barcode>
+  <prod_gtu></prod_gtu>
+  <prod_shipping_time>48</prod_shipping_time>
+  <prod_dimensions></prod_dimensions>
+  <prod_orlen_paczka_dimensions></prod_orlen_paczka_dimensions>
+  <prod_desc><![CDATA[<div id="collapsedescription" class="def">
+ <div class="def">
+ <div class="def">
+ <p class="def"><span style="font-family: arial, helvetica, sans-serif;" class="def"><strong class="def">Naturalna elegancja na Twoim stole – zestaw przypraw KLAUSBERG KB-7859 to połączenie trwałości, funkcjonalności i ekologicznego stylu.</strong></span></p>
+ <p class="def"><span style="font-family: arial, helvetica, sans-serif;" class="def"><strong class="def">Cechy produktu:</strong></span></p>
+ <ul class="def">
+ <li style="font-family: arial, helvetica, sans-serif;" class="def">
+ <p class="def"><span style="font-family: arial, helvetica, sans-serif;" class="def">Wykonany z litego drewna akacjowego – naturalne pochodzenie, wyjątkowe usłojenie, bez dodatków plastiku</span></p>
+ </li>
+ <li style="font-family: arial, helvetica, sans-serif;" class="def">
+ <p class="def"><span style="font-family: arial, helvetica, sans-serif;" class="def">Ceramiczny mechanizm młynka – odporny na korozję, idealny do pieprzu, ziół i innych przypraw</span></p>
+ </li>
+ <li style="font-family: arial, helvetica, sans-serif;" class="def">
+ <p class="def"><span style="font-family: arial, helvetica, sans-serif;" class="def">Regulacja grubości mielenia – dostosuj stopień zmielenia do własnych preferencji</span></p>
+ </li>
+ <li style="font-family: arial, helvetica, sans-serif;" class="def">
+ <p class="def"><span style="font-family: arial, helvetica, sans-serif;" class="def">Solniczka z tego samego drewna – spójna estetyka i wygoda użytkowania</span></p>
+ </li>
+ <li style="font-family: arial, helvetica, sans-serif;" class="def">
+ <p class="def"><span style="font-family: arial, helvetica, sans-serif;" class="def">Kompaktowe wymiary – średnica 6 cm, wysokość 7,5 cm</span></p>
+ </li>
+ <li style="font-family: arial, helvetica, sans-serif;" class="def">
+ <p class="def"><span style="font-family: arial, helvetica, sans-serif;" class="def">Ekologiczne opakowanie typu ECO BOX – gotowe do wręczenia jako prezent</span></p>
+ </li>
+ <li style="font-family: arial, helvetica, sans-serif;" class="def">
+ <p class="def"><span style="font-family: arial, helvetica, sans-serif;" class="def">Styl ECO – produkt wolny od chemii, lakierów i sztucznych dodatków</span></p>
+ </li>
+ </ul>
+ <p class="def"></p>
+ <p class="def"><span style="font-family: arial, helvetica, sans-serif;" class="def"><strong class="def">Podsumowanie:</strong></span><br class="def">
+ <span style="font-family: arial, helvetica, sans-serif;" class="def">Zestaw KLAUSBERG KB-7859 to idealny wybór dla osób ceniących naturalne materiały, wysoką jakość wykonania i ponadczasowy styl. Świetnie sprawdzi się w kuchni, na stole w jadalni, a także jako elegancki prezent. Każdy egzemplarz jest unikatowy – tak jak Twoje wnętrze.</span></p>
+ </div>
+ </div>
+</div>]]></prod_desc>
+  <prod_shortdesc></prod_shortdesc>
+  <prod_info1></prod_info1>
+  <prod_info2></prod_info2>
+  <prod_info3></prod_info3>
+  <prod_info4></prod_info4>
+  <prod_info5></prod_info5>
+  <prod_note></prod_note>
+  <prod_unit_price_factor></prod_unit_price_factor>
+  <prod_unit_price_base_unit></prod_unit_price_base_unit>
+  <prod_allegro_earn></prod_allegro_earn>
+  <prod_allegro_close_if_amount></prod_allegro_close_if_amount>
+  <prod_producer_id>14</prod_producer_id>
+  <prod_producer_contact_id>6</prod_producer_contact_id>
+  <prod_link>https://kinghoff.online/AKACJOWY-MLYNEK-DO-PIEPRZU-SOLNICZKA-KLAUSBERG-KB-7859-p5288</prod_link>
+  <info_options>
+   <option name="Długość" remote_id="11">10</option>
+   <option name="Szerokość" remote_id="14">5</option>
+   <option name="Wysokość" remote_id="79">8</option>
+   <option name="Kod CN" remote_id="32">69111000</option>
+  </info_options>
+  <prod_price_base>53.94</prod_price_base>
+  <prod_price_net_base>43.85</prod_price_net_base>
+  <prod_price_net>43.85</prod_price_net>
+  <cat_path>Akcesoria kuchenne/Młynki</cat_path>
+  <unit_price></unit_price>
+  <prod_safety_informations_required>0</prod_safety_informations_required>
+  <prod_safety_text></prod_safety_text>
+  <min_price_30d>53.94</min_price_30d>
+  <prod_img>
+   <img>https://kinghoff.online/images/kinghoff/41000-42000/AKACJOWY-MLYNEK-DO-PIEPRZU-SOLNICZKA-KASSEL-93575_[41672]_1200.jpg</img>
+   <img>https://kinghoff.online/images/kinghoff/41000-42000/AKACJOWY-MLYNEK-DO-PIEPRZU-SOLNICZKA-KASSEL-93575_[41673]_1200.jpg</img>
+   <img>https://kinghoff.online/images/kinghoff/41000-42000/AKACJOWY-MLYNEK-DO-PIEPRZU-SOLNICZKA-KASSEL-93575_[41674]_1200.jpg</img>
+   <img>https://kinghoff.online/images/kinghoff/41000-42000/AKACJOWY-MLYNEK-DO-PIEPRZU-SOLNICZKA-KASSEL-93575_[41675]_1200.jpg</img>
+   <img>https://kinghoff.online/images/kinghoff/41000-42000/AKACJOWY-MLYNEK-DO-PIEPRZU-SOLNICZKA-KASSEL-93575_[41676]_1200.jpg</img>
+   <img>https://kinghoff.online/images/kinghoff/41000-42000/AKACJOWY-MLYNEK-DO-PIEPRZU-SOLNICZKA-KASSEL-93575_[41677]_1200.jpg</img>
+   <img>https://kinghoff.online/images/kinghoff/41000-42000/AKACJOWY-MLYNEK-DO-PIEPRZU-SOLNICZKA-KASSEL-93575_[41678]_1200.jpg</img>
+   <img>https://kinghoff.online/images/kinghoff/41000-42000/AKACJOWY-MLYNEK-DO-PIEPRZU-SOLNICZKA-KASSEL-93575_[41679]_1200.jpg</img>
+   <img>https://kinghoff.online/images/kinghoff/41000-42000/AKACJOWY-MLYNEK-DO-PIEPRZU-SOLNICZKA-KASSEL-93575_[41680]_1200.jpg</img>
+  </prod_img>
+ </item>
+ <item>
+  <prod_name>AKACJOWY MŁYNEK DO PIEPRZU SOLI 25cm KLAUSBERG KB-7592</prod_name>
+  <prod_id>3809</prod_id>
+  <prod_price>36.84</prod_price>
+  <prod_boxamount>12.0000</prod_boxamount>
+  <prod_tax_id>29.95</prod_tax_id>
+  <taxpercent>23</taxpercent>
+  <prod_oldprice></prod_oldprice>
+  <prod_amount>36.0000</prod_amount>
+  <prod_unit>szt.</prod_unit>
+  <prod_hidden>0</prod_hidden>
+  <prod_search_hidden>0</prod_search_hidden>
+  <prod_symbol>KB-7592</prod_symbol>
+  <prod_weight>450</prod_weight>
+  <prd_name>KLAUSBERG</prd_name>
+  <prod_override_by_stock></prod_override_by_stock>
+  <prod_pkwiu></prod_pkwiu>
+  <prod_ean>5908287275928</prod_ean>
+  <prod_isbn></prod_isbn>
+  <prod_barcode></prod_barcode>
+  <prod_gtu></prod_gtu>
+  <prod_shipping_time>48</prod_shipping_time>
+  <prod_dimensions></prod_dimensions>
+  <prod_orlen_paczka_dimensions></prod_orlen_paczka_dimensions>
+  <prod_desc><![CDATA[<h2 class="def"><span style="font-family: arial, helvetica, sans-serif; font-size: small;" class="def">Akacjowy młynek do pieprzu soli 25cm Klausberg KB-7592</span></h2>
+<p class="def"><span style="font-family: arial, helvetica, sans-serif; font-size: small;" class="def">Wyjątkowy akacjowy młynek do pieprzu i soli o wysokości 25 cm to niezbędny dodatek do Twojej kuchni. Ten elegancki i funkcjonalny produkt marki Klausberg zapewni Ci doskonałe przyprawienie potraw oraz piękne wykończenie stołu podczas każdego posiłku.</span></p>
+<h2 class="def"><span style="font-family: arial, helvetica, sans-serif; font-size: small;" class="def">Elegancja i trwałość</span></h2>
+<p class="def"><span style="font-family: arial, helvetica, sans-serif; font-size: small;" class="def">Ten młynek został wykonany z wysokiej jakości drewna akacjowego, które jest znane ze swojej wytrzymałości i naturalnego piękna. Drewno akacji charakteryzuje się unikalnym wzorem słojów, co sprawia, że każdy egzemplarz jest niepowtarzalny. Dodatkowo, drewno akacji jest odporne na wilgoć i uszkodzenia mechaniczne, dzięki czemu ten młynek będzie służył Ci przez wiele lat.</span></p>
+<h2 class="def"><span style="font-family: arial, helvetica, sans-serif; font-size: small;" class="def">Precyzyjne mielenie</span></h2>
+<p class="def"><span style="font-family: arial, helvetica, sans-serif; font-size: small;" class="def">Dzięki zaawansowanemu mechanizmowi ceramicznemu wewnątrz młynka, będziesz mieć pełną kontrolę nad grubością mielonego pieprzu lub soli. Możesz łatwo dostosować ustawienia mielenia według własnych preferencji smakowych - od delikatnie posiekanych ziaren po drobno zmielony proszek. Mechanizm ceramiczny jest również odporny na korozję, co zapewnia długotrwałe i niezawodne użytkowanie młynka.</span></p>
+<p class="def"><span style="font-family: arial, helvetica, sans-serif; font-size: small;" class="def">Wykonany z drewna akacjowego charakteryzującego się dużą wytrzymałością i odpornością na uszkodzenia. Wyposażony w ceramiczny mechanizm mielący.</span><br class="def">
+<br class="def">
+<span style="font-family: arial, helvetica, sans-serif; font-size: small;" class="def">Posiada regulację grubości mielenia.</span><br class="def">
+<br class="def">
+<span style="font-family: arial, helvetica, sans-serif; font-size: small;" class="def">Wysokość 25cm. Średnica 5,5cm</span><br class="def">
+<br class="def">
+<span style="font-family: arial, helvetica, sans-serif; font-size: small;" class="def">Prosta, klasyczna forma sprawia, że może być on eleganckim dopełnieniem wystroju kuchni a także stanowić ciekawy element dekoracyjny zastawy stołowej. Młynek wykonany jest z naturalnego drewna akacjowego i poszczególne egzemplarze mogą różnić się odcieniem i strukturą słojów.<br class="def">
+ </span></p>
+<p class="def"><span style="font-family: arial, helvetica, sans-serif; font-size: small;" class="def">Młynek pakowany jest w ekologiczne pudełko z szarej tektury.</span></p>]]></prod_desc>
+  <prod_shortdesc></prod_shortdesc>
+  <prod_info1></prod_info1>
+  <prod_info2></prod_info2>
+  <prod_info3></prod_info3>
+  <prod_info4></prod_info4>
+  <prod_info5></prod_info5>
+  <prod_note></prod_note>
+  <prod_unit_price_factor></prod_unit_price_factor>
+  <prod_unit_price_base_unit></prod_unit_price_base_unit>
+  <prod_allegro_earn></prod_allegro_earn>
+  <prod_allegro_close_if_amount></prod_allegro_close_if_amount>
+  <prod_producer_id>14</prod_producer_id>
+  <prod_producer_contact_id>6</prod_producer_contact_id>
+  <prod_link>https://kinghoff.online/AKACJOWY-MLYNEK-DO-PIEPRZU-SOLI-25cm-KLAUSBERG-KB-7592-p3809</prod_link>
+  <info_options>
+   <option name="Długość" remote_id="11">10</option>
+   <option name="Szerokość" remote_id="14">5</option>
+   <option name="Wysokość" remote_id="84">25</option>
+   <option name="Kod CN" remote_id="32">69111000</option>
+  </info_options>
+  <prod_price_base>36.84</prod_price_base>
+  <prod_price_net_base>29.95</prod_price_net_base>
+  <prod_price_net>29.95</prod_price_net>
+  <cat_path>Akcesoria kuchenne/Młynki</cat_path>
+  <unit_price></unit_price>
+  <prod_safety_informations_required>1</prod_safety_informations_required>
+  <prod_safety_text><![CDATA[<p>Posiada oznaczenie CE (zgodność z normami UE).</p>
+<p>Utylizować zgodnie z lokalnymi przepisami dotyczącymi odpad&oacute;w.</p>]]></prod_safety_text>
+  <min_price_30d>36.84</min_price_30d>
+  <prod_img>
+   <img>https://kinghoff.online/images/kinghoff/21000-22000/AKACJOWY-MLYNEK-DO-PIEPRZU-SOLI-25cm-KASSEL-93572_[21645]_1200.jpg</img>
+   <img>https://kinghoff.online/images/kinghoff/21000-22000/AKACJOWY-MLYNEK-DO-PIEPRZU-SOLI-25cm-KASSEL-93572_[21647]_1200.jpg</img>
+   <img>https://kinghoff.online/images/kinghoff/21000-22000/AKACJOWY-MLYNEK-DO-PIEPRZU-SOLI-25cm-KASSEL-93572_[21646]_1200.jpg</img>
+   <img>https://kinghoff.online/images/kinghoff/21000-22000/AKACJOWY-MLYNEK-DO-PIEPRZU-SOLI-25cm-KASSEL-93572_[21648]_1200.jpg</img>
+  </prod_img>
+ </item>
+ <item>
+  <prod_name>AKACJOWY MŁYNEK DO PIEPRZU SOLI 31,5cm KLAUSBERG KB-7593</prod_name>
+  <prod_id>3810</prod_id>
+  <prod_price>45.45</prod_price>
+  <prod_boxamount>12.0000</prod_boxamount>
+  <prod_tax_id>36.95</prod_tax_id>
+  <taxpercent>23</taxpercent>
+  <prod_oldprice></prod_oldprice>
+  <prod_amount>9.0000</prod_amount>
+  <prod_unit>szt.</prod_unit>
+  <prod_hidden>0</prod_hidden>
+  <prod_search_hidden>0</prod_search_hidden>
+  <prod_symbol>KB-7593</prod_symbol>
+  <prod_weight>450</prod_weight>
+  <prd_name>KLAUSBERG</prd_name>
+  <prod_override_by_stock></prod_override_by_stock>
+  <prod_pkwiu></prod_pkwiu>
+  <prod_ean>5908287275935</prod_ean>
+  <prod_isbn></prod_isbn>
+  <prod_barcode></prod_barcode>
+  <prod_gtu></prod_gtu>
+  <prod_shipping_time>48</prod_shipping_time>
+  <prod_dimensions></prod_dimensions>
+  <prod_orlen_paczka_dimensions></prod_orlen_paczka_dimensions>
+  <prod_desc><![CDATA[<p class="def"><span style="font-family: arial, helvetica, sans-serif; font-size: small;" class="def">Wyjątkowy akacjowy młynek do pieprzu i soli o wysokości 31,5 cm to niezbędny dodatek do Twojej kuchni. Ten elegancki i funkcjonalny produkt marki Klausberg zapewni Ci doskonałe przyprawienie potraw oraz piękne wykończenie stołu podczas każdego posiłku.</span></p>
+<h2 class="def"><span style="font-family: arial, helvetica, sans-serif; font-size: small;" class="def">Elegancja i trwałość</span></h2>
+<p class="def"><span style="font-family: arial, helvetica, sans-serif; font-size: small;" class="def">Ten młynek został wykonany z wysokiej jakości drewna akacjowego, które jest znane ze swojej wytrzymałości i naturalnego piękna. Drewno akacji charakteryzuje się unikalnym wzorem słojów, co sprawia, że każdy egzemplarz jest niepowtarzalny. Dodatkowo, drewno akacji jest odporne na wilgoć i uszkodzenia mechaniczne, dzięki czemu ten młynek będzie służył Ci przez wiele lat.</span></p>
+<h2 class="def"><span style="font-family: arial, helvetica, sans-serif; font-size: small;" class="def">Precyzyjne mielenie</span></h2>
+<p class="def"><span style="font-family: arial, helvetica, sans-serif; font-size: small;" class="def">Dzięki zaawansowanemu mechanizmowi ceramicznemu wewnątrz młynka, będziesz mieć pełną kontrolę nad grubością mielonego pieprzu lub soli. Możesz łatwo dostosować ustawienia mielenia według własnych preferencji smakowych - od delikatnie posiekanych ziaren po drobno zmielony proszek. Mechanizm ceramiczny jest również odporny na korozję, co zapewnia długotrwałe i niezawodne użytkowanie młynka.</span></p>
+<p class="def"><br class="def">
+<br class="def">
+<span style="font-family: arial, helvetica, sans-serif; font-size: small;" class="def">Wysokość 31,5 cm. Średnica 5,5 cm</span><br class="def">
+<br class="def">
+<span style="font-family: arial, helvetica, sans-serif; font-size: small;" class="def">Prosta, klasyczna forma sprawia, że może być on eleganckim dopełnieniem wystroju kuchni a także stanowić ciekawy element dekoracyjny zastawy stołowej. Młynek wykonany jest z naturalnego drewna akacjowego i poszczególne egzemplarze mogą różnić się odcieniem i strukturą słojów.<br class="def">
+ </span></p>
+<p class="def"><span style="font-family: arial, helvetica, sans-serif; font-size: small;" class="def">Młynek pakowany jest w ekologiczne pudełko z szarej tektury.</span></p>]]></prod_desc>
+  <prod_shortdesc></prod_shortdesc>
+  <prod_info1></prod_info1>
+  <prod_info2></prod_info2>
+  <prod_info3></prod_info3>
+  <prod_info4></prod_info4>
+  <prod_info5></prod_info5>
+  <prod_note></prod_note>
+  <prod_unit_price_factor></prod_unit_price_factor>
+  <prod_unit_price_base_unit></prod_unit_price_base_unit>
+  <prod_allegro_earn></prod_allegro_earn>
+  <prod_allegro_close_if_amount></prod_allegro_close_if_amount>
+  <prod_producer_id>14</prod_producer_id>
+  <prod_producer_contact_id>6</prod_producer_contact_id>
+  <prod_link>https://kinghoff.online/AKACJOWY-MLYNEK-DO-PIEPRZU-SOLI-31-5cm-KLAUSBERG-KB-7593-p3810</prod_link>
+  <info_options>
+   <option name="Długość" remote_id="11">10</option>
+   <option name="Szerokość" remote_id="14">5</option>
+   <option name="Wysokość" remote_id="84">25</option>
+   <option name="Kod CN" remote_id="32">69111000</option>
+  </info_options>
+  <prod_price_base>45.45</prod_price_base>
+  <prod_price_net_base>36.95</prod_price_net_base>
+  <prod_price_net>36.95</prod_price_net>
+  <cat_path>Akcesoria kuchenne/Młynki</cat_path>
+  <unit_price></unit_price>
+  <prod_safety_informations_required>1</prod_safety_informations_required>
+  <prod_safety_text><![CDATA[<p>Posiada oznaczenie CE (zgodność z normami UE).</p>
+<p>Utylizować zgodnie z lokalnymi przepisami dotyczącymi odpad&oacute;w.</p>]]></prod_safety_text>
+  <min_price_30d>45.45</min_price_30d>
+  <prod_img>
+   <img>https://kinghoff.online/images/kinghoff/21000-22000/AKACJOWY-MLYNEK-DO-PIEPRZU-SOLI-25cm-KLAUSBERG-KB-7592_[21653]_1200.jpg</img>
+   <img>https://kinghoff.online/images/kinghoff/21000-22000/AKACJOWY-MLYNEK-DO-PIEPRZU-SOLI-25cm-KLAUSBERG-KB-7592_[21651]_1200.jpg</img>
+   <img>https://kinghoff.online/images/kinghoff/21000-22000/AKACJOWY-MLYNEK-DO-PIEPRZU-SOLI-25cm-KLAUSBERG-KB-7592_[21654]_1200.jpg</img>
+   <img>https://kinghoff.online/images/kinghoff/21000-22000/AKACJOWY-MLYNEK-DO-PIEPRZU-SOLI-25cm-KLAUSBERG-KB-7592_[21655]_1200.jpg</img>
+  </prod_img>
+ </item>
+ <item>
+  <prod_name>AKUMULATOROWA GOLARKA DO UBRAŃ USUWANIA ZMECHACEŃ KLAUSBERG KB-7803</prod_name>
+  <prod_id>4951</prod_id>
+  <prod_price>34.38</prod_price>
+  <prod_boxamount>24.0000</prod_boxamount>
+  <prod_tax_id>27.95</prod_tax_id>
+  <taxpercent>23</taxpercent>
+  <prod_oldprice></prod_oldprice>
+  <prod_amount>47.0000</prod_amount>
+  <prod_unit>szt.</prod_unit>
+  <prod_hidden>0</prod_hidden>
+  <prod_search_hidden>0</prod_search_hidden>
+  <prod_symbol>KB-7803</prod_symbol>
+  <prod_weight>300</prod_weight>
+  <prd_name>KLAUSBERG</prd_name>
+  <prod_override_by_stock></prod_override_by_stock>
+  <prod_pkwiu></prod_pkwiu>
+  <prod_ean>5908287278035</prod_ean>
+  <prod_isbn></prod_isbn>
+  <prod_barcode></prod_barcode>
+  <prod_gtu></prod_gtu>
+  <prod_shipping_time>48</prod_shipping_time>
+  <prod_dimensions></prod_dimensions>
+  <prod_orlen_paczka_dimensions></prod_orlen_paczka_dimensions>
+  <prod_desc><![CDATA[<p class="def">Akumulatorowa golarka do ubrań na baterie to praktyczne narzędzie do szybkiego i skutecznego usuwania zmechaceń, kłaczków i drobnych nitek z powierzchni tkanin, co pozwala odświeżyć wygląd ubrań i tekstyliów domowych. Kompaktowa i ergonomiczna, świetnie leży w dłoni i jest łatwa w obsłudze, dzięki czemu proces usuwania zmechaceń jest wygodny i szybki.</p>
+<p class="def">Zasilanie akumulatorowe sprawia, że urządzenie jest wyjątkowo poręczne i mobilne – można go używać bez potrzeby podłączania do prądu, co idealnie sprawdza się także w podróży. Golarka posiada specjalną, obracającą się głowicę z ostrzami zabezpieczoną siateczką, która efektywnie zbiera kłaczki, nie uszkadzając przy tym delikatnych tkanin. W zestawie pędzelek do czyszczenia ostrzy.</p>
+<p class="def">Golarka jest wyposażona w pojemnik na zebrane zmechacenia, który można łatwo opróżnić po każdym użyciu. Dzięki temu, że działa na baterie, urządzenie jest ekonomiczne i wygodne, a jednocześnie skuteczne w odświeżaniu różnych materiałów – od swetrów, przez płaszcze, po kanapy i koce.</p>
+<p class="def"><strong class="def">Włściwości:</strong></p>
+<ul class="def">
+ <li class="def">Tnie wszelkiego rodzaju meszki.</li>
+ <li class="def">Ostre i wytrzymałe ostrze ze stali nierdzewnej równomiernie usuwa kłaczki bez uszkadzania tkaniny.</li>
+ <li class="def">Nadaje się do wszystkich rodzajów odzieży i tkanin&nbsp;</li>
+ <li class="def">Zasilanie akumulator 2×400 mAH Akumulator Ni-MH</li>
+ <li class="def">Czas działania do 45 minut&nbsp;</li>
+ <li class="def">Czas ładowania 8 godzin&nbsp;</li>
+ <li class="def">W zestawie kabel USB do ładowania</li>
+ <li class="def">W zestawie pędzelek do czyszczenia pozostałości.</li>
+ <li class="def">Wyjmowany pojemnik na usunięte zmechacenia</li>
+ <li class="def">Wymiar: 6 x 14 x 7,4 cm</li>
+</ul>]]></prod_desc>
+  <prod_shortdesc></prod_shortdesc>
+  <prod_info1></prod_info1>
+  <prod_info2></prod_info2>
+  <prod_info3></prod_info3>
+  <prod_info4></prod_info4>
+  <prod_info5></prod_info5>
+  <prod_note></prod_note>
+  <prod_unit_price_factor></prod_unit_price_factor>
+  <prod_unit_price_base_unit></prod_unit_price_base_unit>
+  <prod_allegro_earn></prod_allegro_earn>
+  <prod_allegro_close_if_amount></prod_allegro_close_if_amount>
+  <prod_producer_id>14</prod_producer_id>
+  <prod_producer_contact_id>6</prod_producer_contact_id>
+  <prod_link>https://kinghoff.online/AKUMULATOROWA-GOLARKA-DO-UBRAN-USUWANIA-ZMECHACEN-KLAUSBERG-KB-7803-p4951</prod_link>
+  <info_options>
+   <option name="Długość" remote_id="12">15</option>
+   <option name="Szerokość" remote_id="15">10</option>
+   <option name="Wysokość" remote_id="21">5</option>
+   <option name="Kod CN" remote_id="112">76151080</option>
+  </info_options>
+  <prod_price_base>34.38</prod_price_base>
+  <prod_price_net_base>27.95</prod_price_net_base>
+  <prod_price_net>27.95</prod_price_net>
+  <cat_path>Drobne AGD/Golarki do ubrań</cat_path>
+  <unit_price></unit_price>
+  <prod_safety_informations_required>1</prod_safety_informations_required>
+  <prod_safety_text><![CDATA[<p>Posiada oznaczenie CE (zgodność z normami UE).</p>
+<p>Utylizować zgodnie z lokalnymi przepisami dotyczącymi odpad&oacute;w.</p>]]></prod_safety_text>
+  <min_price_30d>34.38</min_price_30d>
+  <prod_img>
+   <img>https://kinghoff.online/images/kinghoff/36000-37000/GOLARKA-DO-UBRAN-USUWANIA-ZMECHACEN-KLAUSBERG-KB-7802_[36135]_1200.jpg</img>
+   <img>https://kinghoff.online/images/kinghoff/36000-37000/GOLARKA-DO-UBRAN-USUWANIA-ZMECHACEN-KLAUSBERG-KB-7802_[36136]_1200.jpg</img>
+   <img>https://kinghoff.online/images/kinghoff/36000-37000/GOLARKA-DO-UBRAN-USUWANIA-ZMECHACEN-KLAUSBERG-KB-7802_[36137]_1200.jpg</img>
+   <img>https://kinghoff.online/images/kinghoff/36000-37000/GOLARKA-DO-UBRAN-USUWANIA-ZMECHACEN-KLAUSBERG-KB-7802_[36138]_1200.jpg</img>
+   <img>https://kinghoff.online/images/kinghoff/36000-37000/GOLARKA-DO-UBRAN-USUWANIA-ZMECHACEN-KLAUSBERG-KB-7802_[36139]_1200.jpg</img>
+   <img>https://kinghoff.online/images/kinghoff/36000-37000/GOLARKA-DO-UBRAN-USUWANIA-ZMECHACEN-KLAUSBERG-KB-7802_[36140]_1200.jpg</img>
+   <img>https://kinghoff.online/images/kinghoff/36000-37000/GOLARKA-DO-UBRAN-USUWANIA-ZMECHACEN-KLAUSBERG-KB-7802_[36141]_1200.jpg</img>
+   <img>https://kinghoff.online/images/kinghoff/36000-37000/GOLARKA-DO-UBRAN-USUWANIA-ZMECHACEN-KLAUSBERG-KB-7802_[36142]_1200.jpg</img>
+  </prod_img>
+ </item>
+ <item>
+  <prod_name>AKUMULATOROWA GOLARKA DO UBRAŃ USUWANIA ZMECHACEŃ KLAUSBERG KB-7804</prod_name>
+  <prod_id>4952</prod_id>
+  <prod_price>34.38</prod_price>
+  <prod_boxamount>24.0000</prod_boxamount>
+  <prod_tax_id>27.95</prod_tax_id>
+  <taxpercent>23</taxpercent>
+  <prod_oldprice></prod_oldprice>
+  <prod_amount>24.0000</prod_amount>
+  <prod_unit>szt.</prod_unit>
+  <prod_hidden>0</prod_hidden>
+  <prod_search_hidden>0</prod_search_hidden>
+  <prod_symbol>KB-7804</prod_symbol>
+  <prod_weight>300</prod_weight>
+  <prd_name>KLAUSBERG</prd_name>
+  <prod_override_by_stock></prod_override_by_stock>
+  <prod_pkwiu></prod_pkwiu>
+  <prod_ean>5908287278042</prod_ean>
+  <prod_isbn></prod_isbn>
+  <prod_barcode></prod_barcode>
+  <prod_gtu></prod_gtu>
+  <prod_shipping_time>48</prod_shipping_time>
+  <prod_dimensions></prod_dimensions>
+  <prod_orlen_paczka_dimensions></prod_orlen_paczka_dimensions>
+  <prod_desc><![CDATA[<p class="def">Akumulatorowa golarka do ubrań to praktyczne narzędzie do szybkiego i skutecznego usuwania zmechaceń, kłaczków i drobnych nitek z powierzchni tkanin, co pozwala odświeżyć wygląd ubrań i tekstyliów domowych. Kompaktowa i ergonomiczna, świetnie leży w dłoni i jest łatwa w obsłudze, dzięki czemu proces usuwania zmechaceń jest wygodny i szybki.</p>
+<p class="def">Zasilanie akumulatorowe sprawia, że urządzenie jest wyjątkowo poręczne i mobilne – można go używać bez potrzeby podłączania do prądu, co idealnie sprawdza się także w podróży. Golarka posiada specjalną, obracającą się głowicę z ostrzami zabezpieczoną siateczką, która efektywnie zbiera kłaczki, nie uszkadzając przy tym delikatnych tkanin. W zestawie pędzelek do czyszczenia ostrzy.</p>
+<p class="def">Golarka jest wyposażona w pojemnik na zebrane zmechacenia, który można łatwo opróżnić po każdym użyciu. Dzięki temu, że działa na baterie, urządzenie jest ekonomiczne i wygodne, a jednocześnie skuteczne w odświeżaniu różnych materiałów – od swetrów, przez płaszcze, po kanapy i koce.</p>
+<p class="def"><strong class="def">Włściwości:</strong></p>
+<ul class="def">
+ <li class="def">Tnie wszelkiego rodzaju meszki.</li>
+ <li class="def">Ostre i wytrzymałe ostrze ze stali nierdzewnej równomiernie usuwa kłaczki bez uszkadzania tkaniny.</li>
+ <li class="def">Nadaje się do wszystkich rodzajów odzieży i tkanin&nbsp;</li>
+ <li class="def">Zasilanie akumulator 2×400 mAH Akumulator Ni-MH</li>
+ <li class="def">Czas działania do 45 minut&nbsp;</li>
+ <li class="def">Czas ładowania 8 godzin&nbsp;</li>
+ <li class="def">W zestawie kabel USB do ładowania</li>
+ <li class="def">W zestawie pędzelek do czyszczenia pozostałości.</li>
+ <li class="def">Wyjmowany pojemnik na usunięte zmechacenia</li>
+ <li class="def">Wymiar: 6 x 14 x 7,4 cm</li>
+</ul>]]></prod_desc>
+  <prod_shortdesc></prod_shortdesc>
+  <prod_info1></prod_info1>
+  <prod_info2></prod_info2>
+  <prod_info3></prod_info3>
+  <prod_info4></prod_info4>
+  <prod_info5></prod_info5>
+  <prod_note></prod_note>
+  <prod_unit_price_factor></prod_unit_price_factor>
+  <prod_unit_price_base_unit></prod_unit_price_base_unit>
+  <prod_allegro_earn></prod_allegro_earn>
+  <prod_allegro_close_if_amount></prod_allegro_close_if_amount>
+  <prod_producer_id>14</prod_producer_id>
+  <prod_producer_contact_id>6</prod_producer_contact_id>
+  <prod_link>https://kinghoff.online/AKUMULATOROWA-GOLARKA-DO-UBRAN-USUWANIA-ZMECHACEN-KLAUSBERG-KB-7804-p4952</prod_link>
+  <info_options>
+   <option name="Długość" remote_id="12">15</option>
+   <option name="Szerokość" remote_id="15">10</option>
+   <option name="Wysokość" remote_id="21">5</option>
+   <option name="Kod CN" remote_id="112">76151080</option>
+  </info_options>
+  <prod_price_base>34.38</prod_price_base>
+  <prod_price_net_base>27.95</prod_price_net_base>
+  <prod_price_net>27.95</prod_price_net>
+  <cat_path>Drobne AGD/Golarki do ubrań</cat_path>
+  <unit_price></unit_price>
+  <prod_safety_informations_required>1</prod_safety_informations_required>
+  <prod_safety_text><![CDATA[<p>Posiada oznaczenie CE (zgodność z normami UE).</p>
+<p>Utylizować zgodnie z lokalnymi przepisami dotyczącymi odpad&oacute;w.</p>]]></prod_safety_text>
+  <min_price_30d>34.38</min_price_30d>
+  <prod_img>
+   <img>https://kinghoff.online/images/kinghoff/36000-37000/GOLARKA-DO-UBRAN-USUWANIA-ZMECHACEN-KLAUSBERG-KB-7803_[36151]_1200.jpg</img>
+   <img>https://kinghoff.online/images/kinghoff/36000-37000/GOLARKA-DO-UBRAN-USUWANIA-ZMECHACEN-KLAUSBERG-KB-7803_[36152]_1200.jpg</img>
+   <img>https://kinghoff.online/images/kinghoff/36000-37000/GOLARKA-DO-UBRAN-USUWANIA-ZMECHACEN-KLAUSBERG-KB-7803_[36153]_1200.jpg</img>
+   <img>https://kinghoff.online/images/kinghoff/36000-37000/GOLARKA-DO-UBRAN-USUWANIA-ZMECHACEN-KLAUSBERG-KB-7803_[36154]_1200.jpg</img>
+   <img>https://kinghoff.online/images/kinghoff/36000-37000/GOLARKA-DO-UBRAN-USUWANIA-ZMECHACEN-KLAUSBERG-KB-7803_[36155]_1200.jpg</img>
+   <img>https://kinghoff.online/images/kinghoff/36000-37000/GOLARKA-DO-UBRAN-USUWANIA-ZMECHACEN-KLAUSBERG-KB-7803_[36156]_1200.jpg</img>
+   <img>https://kinghoff.online/images/kinghoff/36000-37000/GOLARKA-DO-UBRAN-USUWANIA-ZMECHACEN-KLAUSBERG-KB-7803_[36157]_1200.jpg</img>
+   <img>https://kinghoff.online/images/kinghoff/36000-37000/GOLARKA-DO-UBRAN-USUWANIA-ZMECHACEN-KLAUSBERG-KB-7803_[36158]_1200.jpg</img>
+   <img>https://kinghoff.online/images/kinghoff/36000-37000/GOLARKA-DO-UBRAN-USUWANIA-ZMECHACEN-KLAUSBERG-KB-7803_[36159]_1200.jpg</img>
+  </prod_img>
+ </item>
+ <item>
+  <prod_name>AKUMULATOROWA GOLARKA DO UBRAŃ USUWANIA ZMECHACEŃ KLAUSBERG KB-7805</prod_name>
+  <prod_id>4953</prod_id>
+  <prod_price>38.07</prod_price>
+  <prod_boxamount>24.0000</prod_boxamount>
+  <prod_tax_id>30.95</prod_tax_id>
+  <taxpercent>23</taxpercent>
+  <prod_oldprice></prod_oldprice>
+  <prod_amount>47.0000</prod_amount>
+  <prod_unit>szt.</prod_unit>
+  <prod_hidden>0</prod_hidden>
+  <prod_search_hidden>0</prod_search_hidden>
+  <prod_symbol>KB-7805</prod_symbol>
+  <prod_weight>300</prod_weight>
+  <prd_name>KLAUSBERG</prd_name>
+  <prod_override_by_stock></prod_override_by_stock>
+  <prod_pkwiu></prod_pkwiu>
+  <prod_ean>5908287278059</prod_ean>
+  <prod_isbn></prod_isbn>
+  <prod_barcode></prod_barcode>
+  <prod_gtu></prod_gtu>
+  <prod_shipping_time>48</prod_shipping_time>
+  <prod_dimensions></prod_dimensions>
+  <prod_orlen_paczka_dimensions></prod_orlen_paczka_dimensions>
+  <prod_desc><![CDATA[<p class="def">Akumulatorowa golarka do ubrań to praktyczne narzędzie do szybkiego i skutecznego usuwania zmechaceń, kłaczków i drobnych nitek z powierzchni tkanin, co pozwala odświeżyć wygląd ubrań i tekstyliów domowych. Kompaktowa i ergonomiczna, świetnie leży w dłoni i jest łatwa w obsłudze, dzięki czemu proces usuwania zmechaceń jest wygodny i szybki.</p>
+<p class="def">Zasilanie akumulatorowe sprawia, że urządzenie jest wyjątkowo poręczne i mobilne – można go używać bez potrzeby podłączania do prądu, co idealnie sprawdza się także w podróży. Golarka posiada specjalną, obracającą się głowicę z ostrzami zabezpieczoną siateczką, która efektywnie zbiera kłaczki, nie uszkadzając przy tym delikatnych tkanin. W zestawie pędzelek do czyszczenia ostrzy.</p>
+<p class="def">Golarka jest wyposażona w pojemnik na zebrane zmechacenia, który można łatwo opróżnić po każdym użyciu. Dzięki temu, że działa na baterie, urządzenie jest ekonomiczne i wygodne, a jednocześnie skuteczne w odświeżaniu różnych materiałów – od swetrów, przez płaszcze, po kanapy i koce.</p>
+<p class="def"><strong class="def">Włściwości:</strong></p>
+<ul class="def">
+ <li class="def">Tnie wszelkiego rodzaju meszki.</li>
+ <li class="def">Ostre i wytrzymałe ostrze ze stali nierdzewnej równomiernie usuwa kłaczki bez uszkadzania tkaniny.</li>
+ <li class="def">Nadaje się do wszystkich rodzajów odzieży i tkanin&nbsp;</li>
+ <li class="def">Zasilanie akumulator 2×400 mAH Akumulator Ni-MH</li>
+ <li class="def">Czas działania do 45 minut&nbsp;</li>
+ <li class="def">Czas ładowania 8 godzin&nbsp;</li>
+ <li class="def">W zestawie kabel USB do ładowania</li>
+ <li class="def">W zestawie pędzelek do czyszczenia pozostałości.</li>
+ <li class="def">Wyjmowany pojemnik na usunięte zmechacenia</li>
+ <li class="def">Wymiar: 8,5 x 13,4 x 8,5 cm</li>
+</ul>]]></prod_desc>
+  <prod_shortdesc></prod_shortdesc>
+  <prod_info1></prod_info1>
+  <prod_info2></prod_info2>
+  <prod_info3></prod_info3>
+  <prod_info4></prod_info4>
+  <prod_info5></prod_info5>
+  <prod_note></prod_note>
+  <prod_unit_price_factor></prod_unit_price_factor>
+  <prod_unit_price_base_unit></prod_unit_price_base_unit>
+  <prod_allegro_earn></prod_allegro_earn>
+  <prod_allegro_close_if_amount></prod_allegro_close_if_amount>
+  <prod_producer_id>14</prod_producer_id>
+  <prod_producer_contact_id>6</prod_producer_contact_id>
+  <prod_link>https://kinghoff.online/AKUMULATOROWA-GOLARKA-DO-UBRAN-USUWANIA-ZMECHACEN-KLAUSBERG-KB-7805-p4953</prod_link>
+  <info_options>
+   <option name="Długość" remote_id="11">10</option>
+   <option name="Szerokość" remote_id="59">7</option>
+   <option name="Wysokość" remote_id="23">15</option>
+   <option name="Kod CN" remote_id="112">76151080</option>
+  </info_options>
+  <prod_price_base>38.07</prod_price_base>
+  <prod_price_net_base>30.95</prod_price_net_base>
+  <prod_price_net>30.95</prod_price_net>
+  <cat_path>Drobne AGD/Golarki do ubrań</cat_path>
+  <unit_price></unit_price>
+  <prod_safety_informations_required>1</prod_safety_informations_required>
+  <prod_safety_text><![CDATA[<p>Posiada oznaczenie CE (zgodność z normami UE).</p>
+<p>Utylizować zgodnie z lokalnymi przepisami dotyczącymi odpad&oacute;w.</p>]]></prod_safety_text>
+  <min_price_30d>38.07</min_price_30d>
+  <prod_img>
+   <img>https://kinghoff.online/images/kinghoff/36000-37000/AKUMULATOROWA-GOLARKA-DO-UBRAN-USUWANIA-ZMECHACEN-KLAUSBERG-KB-7804_[36169]_1200.jpg</img>
+   <img>https://kinghoff.online/images/kinghoff/36000-37000/AKUMULATOROWA-GOLARKA-DO-UBRAN-USUWANIA-ZMECHACEN-KLAUSBERG-KB-7804_[36170]_1200.jpg</img>
+   <img>https://kinghoff.online/images/kinghoff/36000-37000/AKUMULATOROWA-GOLARKA-DO-UBRAN-USUWANIA-ZMECHACEN-KLAUSBERG-KB-7804_[36171]_1200.jpg</img>
+   <img>https://kinghoff.online/images/kinghoff/36000-37000/AKUMULATOROWA-GOLARKA-DO-UBRAN-USUWANIA-ZMECHACEN-KLAUSBERG-KB-7804_[36172]_1200.jpg</img>
+   <img>https://kinghoff.online/images/kinghoff/36000-37000/AKUMULATOROWA-GOLARKA-DO-UBRAN-USUWANIA-ZMECHACEN-KLAUSBERG-KB-7804_[36173]_1200.jpg</img>
+   <img>https://kinghoff.online/images/kinghoff/36000-37000/AKUMULATOROWA-GOLARKA-DO-UBRAN-USUWANIA-ZMECHACEN-KLAUSBERG-KB-7804_[36174]_1200.jpg</img>
+   <img>https://kinghoff.online/images/kinghoff/36000-37000/AKUMULATOROWA-GOLARKA-DO-UBRAN-USUWANIA-ZMECHACEN-KLAUSBERG-KB-7804_[36175]_1200.jpg</img>
+   <img>https://kinghoff.online/images/kinghoff/36000-37000/AKUMULATOROWA-GOLARKA-DO-UBRAN-USUWANIA-ZMECHACEN-KLAUSBERG-KB-7804_[36176]_1200.jpg</img>
+   <img>https://kinghoff.online/images/kinghoff/36000-37000/AKUMULATOROWA-GOLARKA-DO-UBRAN-USUWANIA-ZMECHACEN-KLAUSBERG-KB-7804_[36177]_1200.jpg</img>
+   <img>https://kinghoff.online/images/kinghoff/36000-37000/AKUMULATOROWA-GOLARKA-DO-UBRAN-USUWANIA-ZMECHACEN-KLAUSBERG-KB-7805_[36197]_1200.jpg</img>
+  </prod_img>
+ </item>
+ <item>
+  <prod_name>AKUMULATOROWA GOLARKA DO UBRAŃ USUWANIA ZMECHACEŃ KLAUSBERG KB-7806</prod_name>
+  <prod_id>4954</prod_id>
+  <prod_price>38.07</prod_price>
+  <prod_boxamount>24.0000</prod_boxamount>
+  <prod_tax_id>30.95</prod_tax_id>
+  <taxpercent>23</taxpercent>
+  <prod_oldprice></prod_oldprice>
+  <prod_amount>45.0000</prod_amount>
+  <prod_unit>szt.</prod_unit>
+  <prod_hidden>0</prod_hidden>
+  <prod_search_hidden>0</prod_search_hidden>
+  <prod_symbol>KB-7806</prod_symbol>
+  <prod_weight>300</prod_weight>
+  <prd_name>KLAUSBERG</prd_name>
+  <prod_override_by_stock></prod_override_by_stock>
+  <prod_pkwiu></prod_pkwiu>
+  <prod_ean>5908287278066</prod_ean>
+  <prod_isbn></prod_isbn>
+  <prod_barcode></prod_barcode>
+  <prod_gtu></prod_gtu>
+  <prod_shipping_time>48</prod_shipping_time>
+  <prod_dimensions></prod_dimensions>
+  <prod_orlen_paczka_dimensions></prod_orlen_paczka_dimensions>
+  <prod_desc><![CDATA[<p class="def">Akumulatorowa golarka do ubrań to praktyczne narzędzie do szybkiego i skutecznego usuwania zmechaceń, kłaczków i drobnych nitek z powierzchni tkanin, co pozwala odświeżyć wygląd ubrań i tekstyliów domowych. Kompaktowa i ergonomiczna, świetnie leży w dłoni i jest łatwa w obsłudze, dzięki czemu proces usuwania zmechaceń jest wygodny i szybki.</p>
+<p class="def">Zasilanie akumulatorowe sprawia, że urządzenie jest wyjątkowo poręczne i mobilne – można go używać bez potrzeby podłączania do prądu, co idealnie sprawdza się także w podróży. Golarka posiada specjalną, obracającą się głowicę z ostrzami zabezpieczoną siateczką, która efektywnie zbiera kłaczki, nie uszkadzając przy tym delikatnych tkanin. W zestawie pędzelek do czyszczenia ostrzy.</p>
+<p class="def">Golarka jest wyposażona w pojemnik na zebrane zmechacenia, który można łatwo opróżnić po każdym użyciu. Dzięki temu, że działa na baterie, urządzenie jest ekonomiczne i wygodne, a jednocześnie skuteczne w odświeżaniu różnych materiałów – od swetrów, przez płaszcze, po kanapy i koce.</p>
+<p class="def"><strong class="def">Włściwości:</strong></p>
+<ul class="def">
+ <li class="def">Tnie wszelkiego rodzaju meszki.</li>
+ <li class="def">Ostre i wytrzymałe ostrze ze stali nierdzewnej równomiernie usuwa kłaczki bez uszkadzania tkaniny.</li>
+ <li class="def">Nadaje się do wszystkich rodzajów odzieży i tkanin&nbsp;</li>
+ <li class="def">Zasilanie akumulator 2×400 mAH Akumulator Ni-MH</li>
+ <li class="def">Czas działania do 45 minut&nbsp;</li>
+ <li class="def">Czas ładowania 8 godzin&nbsp;</li>
+ <li class="def">W zestawie kabel USB do ładowania</li>
+ <li class="def">W zestawie pędzelek do czyszczenia pozostałości.</li>
+ <li class="def">Wyjmowany pojemnik na usunięte zmechacenia</li>
+ <li class="def">Wymiar: 8,5 x 13,4 x 8,5 cm</li>
+</ul>]]></prod_desc>
+  <prod_shortdesc></prod_shortdesc>
+  <prod_info1></prod_info1>
+  <prod_info2></prod_info2>
+  <prod_info3></prod_info3>
+  <prod_info4></prod_info4>
+  <prod_info5></prod_info5>
+  <prod_note></prod_note>
+  <prod_unit_price_factor></prod_unit_price_factor>
+  <prod_unit_price_base_unit></prod_unit_price_base_unit>
+  <prod_allegro_earn></prod_allegro_earn>
+  <prod_allegro_close_if_amount></prod_allegro_close_if_amount>
+  <prod_producer_id>14</prod_producer_id>
+  <prod_producer_contact_id>6</prod_producer_contact_id>
+  <prod_link>https://kinghoff.online/AKUMULATOROWA-GOLARKA-DO-UBRAN-USUWANIA-ZMECHACEN-KLAUSBERG-KB-7806-p4954</prod_link>
+  <info_options>
+   <option name="Długość" remote_id="11">10</option>
+   <option name="Szerokość" remote_id="59">7</option>
+   <option name="Wysokość" remote_id="23">15</option>
+   <option name="Kod CN" remote_id="112">76151080</option>
+  </info_options>
+  <prod_price_base>38.07</prod_price_base>
+  <prod_price_net_base>30.95</prod_price_net_base>
+  <prod_price_net>30.95</prod_price_net>
+  <cat_path>Drobne AGD/Golarki do ubrań</cat_path>
+  <unit_price></unit_price>
+  <prod_safety_informations_required>1</prod_safety_informations_required>
+  <prod_safety_text><![CDATA[<p>Posiada oznaczenie CE (zgodność z normami UE).</p>
+<p>Utylizować zgodnie z lokalnymi przepisami dotyczącymi odpad&oacute;w.</p>]]></prod_safety_text>
+  <min_price_30d>38.07</min_price_30d>
+  <prod_img>
+   <img>https://kinghoff.online/images/kinghoff/36000-37000/AKUMULATOROWA-GOLARKA-DO-UBRAN-USUWANIA-ZMECHACEN-KLAUSBERG-KB-7805_[36187]_1200.jpg</img>
+   <img>https://kinghoff.online/images/kinghoff/36000-37000/AKUMULATOROWA-GOLARKA-DO-UBRAN-USUWANIA-ZMECHACEN-KLAUSBERG-KB-7805_[36188]_1200.jpg</img>
+   <img>https://kinghoff.online/images/kinghoff/36000-37000/AKUMULATOROWA-GOLARKA-DO-UBRAN-USUWANIA-ZMECHACEN-KLAUSBERG-KB-7805_[36189]_1200.jpg</img>
+   <img>https://kinghoff.online/images/kinghoff/36000-37000/AKUMULATOROWA-GOLARKA-DO-UBRAN-USUWANIA-ZMECHACEN-KLAUSBERG-KB-7805_[36190]_1200.jpg</img>
+   <img>https://kinghoff.online/images/kinghoff/36000-37000/AKUMULATOROWA-GOLARKA-DO-UBRAN-USUWANIA-ZMECHACEN-KLAUSBERG-KB-7805_[36191]_1200.jpg</img>
+   <img>https://kinghoff.online/images/kinghoff/36000-37000/AKUMULATOROWA-GOLARKA-DO-UBRAN-USUWANIA-ZMECHACEN-KLAUSBERG-KB-7805_[36192]_1200.jpg</img>
+   <img>https://kinghoff.online/images/kinghoff/36000-37000/AKUMULATOROWA-GOLARKA-DO-UBRAN-USUWANIA-ZMECHACEN-KLAUSBERG-KB-7805_[36193]_1200.jpg</img>
+   <img>https://kinghoff.online/images/kinghoff/36000-37000/AKUMULATOROWA-GOLARKA-DO-UBRAN-USUWANIA-ZMECHACEN-KLAUSBERG-KB-7805_[36194]_1200.jpg</img>
+   <img>https://kinghoff.online/images/kinghoff/36000-37000/AKUMULATOROWA-GOLARKA-DO-UBRAN-USUWANIA-ZMECHACEN-KLAUSBERG-KB-7805_[36195]_1200.jpg</img>
+   <img>https://kinghoff.online/images/kinghoff/36000-37000/AKUMULATOROWA-GOLARKA-DO-UBRAN-USUWANIA-ZMECHACEN-KLAUSBERG-KB-7805_[36196]_1200.jpg</img>
+  </prod_img>
+ </item>
+ <item>
+  <prod_name>ANALITYCZNA WAGA ŁAZIENKOWA SMART IOS ANDROID KLAUSBERG KB-7852</prod_name>
+  <prod_id>5050</prod_id>
+  <prod_price>112.98</prod_price>
+  <prod_boxamount>12.0000</prod_boxamount>
+  <prod_tax_id>91.85</prod_tax_id>
+  <taxpercent>23</taxpercent>
+  <prod_oldprice></prod_oldprice>
+  <prod_amount>28.0000</prod_amount>
+  <prod_unit>szt.</prod_unit>
+  <prod_hidden>0</prod_hidden>
+  <prod_search_hidden>0</prod_search_hidden>
+  <prod_symbol>KB-7852</prod_symbol>
+  <prod_weight>2000</prod_weight>
+  <prd_name>KLAUSBERG</prd_name>
+  <prod_override_by_stock></prod_override_by_stock>
+  <prod_pkwiu></prod_pkwiu>
+  <prod_ean>5908287278523</prod_ean>
+  <prod_isbn></prod_isbn>
+  <prod_barcode></prod_barcode>
+  <prod_gtu></prod_gtu>
+  <prod_shipping_time>48</prod_shipping_time>
+  <prod_dimensions></prod_dimensions>
+  <prod_orlen_paczka_dimensions></prod_orlen_paczka_dimensions>
+  <prod_desc><![CDATA[<div id="collapsedescription" class="def">
+ <div class="def">
+ <div class="def">
+ <p class="def">Waga łazienkowa <strong class="def">KLAUSBERG KB-7852</strong> to zaawansowane urządzenie, które umożliwia kompleksowy pomiar składu ciała w warunkach domowych. Dzięki precyzyjnej technologii oraz nowoczesnemu designowi w czarnym kolorze, waga ta spełni oczekiwania nawet najbardziej wymagających użytkowników. Idealna dla osób dbających o zdrowie, monitorujących postępy w treningu lub chcących lepiej zrozumieć swoje ciało.</p>
+ <ul class="def">
+ <li class="def">Inteligentna transmisja Bluetooth umożliwia synchronizację z aplikacją MovingLife na systemy Android i iOS, pozwalając na łatwe śledzenie wyników.</li>
+ <li class="def">Osiem elektrod zapewnia wysoką dokładność pomiarów dzięki jednoczesnemu wykorzystaniu czterech elektrod na stopy i czterech na dłonie.</li>
+ <li class="def">Urządzenie mierzy szeroki zakres parametrów, w tym wagę, wskaźnik BMI, zawartość tkanki tłuszczowej, poziom nawodnienia, masę mięśniową, masę kostną, białko, tłuszcz trzewny, tłuszcz podskórny oraz beztłuszczową masę ciała.</li>
+ <li class="def">Dodatkowo waga określa wiek metaboliczny, typ sylwetki (somatotyp), podstawowe (BMR) i aktywne zapotrzebowanie kaloryczne (AMR) oraz oferuje ogólną ocenę składu ciała.</li>
+ <li class="def">Maksymalna nośność wynosi 180 kg (400 funtów), z precyzyjnym podziałem na 100 g (0,2 funta), co gwarantuje dokładność pomiarów.</li>
+ <li class="def">Automatyczne włączanie i wyłączanie zwiększa wygodę użytkowania, a wbudowane wskaźniki ostrzegają o niskim poziomie baterii oraz błędach pomiarowych.</li>
+ <li class="def">Waga została wyposażona w czytelny wyświetlacz LED, który zapewnia wygodę odczytu wyników w każdych warunkach oświetleniowych.</li>
+ <li class="def">Zasilana czterema bateriami AAA (1,5 V), co czyni ją prostą w obsłudze i łatwą do utrzymania w gotowości.</li>
+ </ul>
+ <p class="def">Dzięki segmentowej analizie składu ciała waga <strong class="def">KLAUSBERG KB-7852</strong> pozwala uzyskać szczegółowe dane dotyczące różnych części ciała, co czyni ją idealnym wyborem dla osób trenujących lub pragnących dokładnie monitorować zmiany w swojej sylwetce. Możliwość zapisywania i analizy danych w aplikacji daje użytkownikowi pełną kontrolę nad postępami.</p>
+ <p class="def"><b class="def">Waga podaje następujące parametry ciała:</b></p>
+ <ul class="def">
+ <li class="def">Waga</li>
+ <li class="def">Indeks BMI</li>
+ <li class="def">Zawartość tłuszczu</li>
+ <li class="def">Nawodnienie</li>
+ <li class="def">Mięśnie szkieletowe</li>
+ <li class="def">Kości</li>
+ <li class="def">Białko</li>
+ <li class="def">Mięśnie</li>
+ <li class="def">Tłuszcz trzewny</li>
+ <li class="def">BMR / AMR</li>
+ <li class="def">Tłuszcz podskórny</li>
+ <li class="def">Ocena ogólna</li>
+ <li class="def">Wiek ciała</li>
+ <li class="def">Somatotyp</li>
+ <li class="def">Beztłuszczowa masa ciała</li>
+ </ul>
+ <p class="def">Waga łazienkowa <strong class="def">KLAUSBERG KB-7852</strong> to połączenie nowoczesnej technologii, funkcjonalności i eleganckiego wzornictwa. Jej zaawansowane funkcje pomiarowe czynią ją niezastąpionym narzędziem w codziennej trosce o zdrowie i kondycję. To idealne rozwiązanie dla każdego, kto chce precyzyjnie kontrolować swoje ciało i wprowadzać świadome zmiany w swoim stylu życia.</p>
+ </div>
+ </div>
+</div>]]></prod_desc>
+  <prod_shortdesc></prod_shortdesc>
+  <prod_info1></prod_info1>
+  <prod_info2></prod_info2>
+  <prod_info3></prod_info3>
+  <prod_info4></prod_info4>
+  <prod_info5></prod_info5>
+  <prod_note></prod_note>
+  <prod_unit_price_factor></prod_unit_price_factor>
+  <prod_unit_price_base_unit></prod_unit_price_base_unit>
+  <prod_allegro_earn></prod_allegro_earn>
+  <prod_allegro_close_if_amount></prod_allegro_close_if_amount>
+  <prod_producer_id>14</prod_producer_id>
+  <prod_producer_contact_id>6</prod_producer_contact_id>
+  <prod_link>https://kinghoff.online/ANALITYCZNA-WAGA-LAZIENKOWA-SMART-IOS-ANDROID-KLAUSBERG-KB-7852-p5050</prod_link>
+  <info_options>
+   <option name="Długość" remote_id="39">33</option>
+   <option name="Szerokość" remote_id="65">33</option>
+   <option name="Wysokość" remote_id="21">5</option>
+   <option name="Kod CN" remote_id="110">84231010</option>
+  </info_options>
+  <prod_price_base>112.98</prod_price_base>
+  <prod_price_net_base>91.85</prod_price_net_base>
+  <prod_price_net>91.85</prod_price_net>
+  <cat_path>Akcesoria kuchenne/Wagi łazienkowe</cat_path>
+  <unit_price></unit_price>
+  <prod_safety_informations_required>1</prod_safety_informations_required>
+  <prod_safety_text><![CDATA[<p>Posiada oznaczenie CE (zgodność z normami UE).</p>
+<p>Utylizować zgodnie z lokalnymi przepisami dotyczącymi odpad&oacute;w.</p>]]></prod_safety_text>
+  <min_price_30d>112.98</min_price_30d>
+  <prod_img>
+   <img>https://kinghoff.online/images/kinghoff/37000-38000/ELEKTRONICZNA-WAGA-LAZIENKOWA-do-180-kg-KINGHOFF-KH-1827_[37906]_1200.jpg</img>
+   <img>https://kinghoff.online/images/kinghoff/37000-38000/ELEKTRONICZNA-WAGA-LAZIENKOWA-do-180-kg-KINGHOFF-KH-1827_[37907]_1200.jpg</img>
+   <img>https://kinghoff.online/images/kinghoff/37000-38000/ELEKTRONICZNA-WAGA-LAZIENKOWA-do-180-kg-KINGHOFF-KH-1827_[37908]_1200.jpg</img>
+   <img>https://kinghoff.online/images/kinghoff/37000-38000/ELEKTRONICZNA-WAGA-LAZIENKOWA-do-180-kg-KINGHOFF-KH-1827_[37909]_1200.jpg</img>
+   <img>https://kinghoff.online/images/kinghoff/37000-38000/ELEKTRONICZNA-WAGA-LAZIENKOWA-do-180-kg-KINGHOFF-KH-1827_[37910]_1200.jpg</img>
+   <img>https://kinghoff.online/images/kinghoff/37000-38000/ELEKTRONICZNA-WAGA-LAZIENKOWA-do-180-kg-KINGHOFF-KH-1827_[37911]_1200.jpg</img>
+  </prod_img>
+ </item>
+ <item>
+  <prod_name>ANALITYCZNA WAGA ŁAZIENKOWA SMART IOS ANDROID KLAUSBERG KB-7853</prod_name>
+  <prod_id>5051</prod_id>
+  <prod_price>112.98</prod_price>
+  <prod_boxamount>12.0000</prod_boxamount>
+  <prod_tax_id>91.85</prod_tax_id>
+  <taxpercent>23</taxpercent>
+  <prod_oldprice></prod_oldprice>
+  <prod_amount>39.0000</prod_amount>
+  <prod_unit>szt.</prod_unit>
+  <prod_hidden>0</prod_hidden>
+  <prod_search_hidden>0</prod_search_hidden>
+  <prod_symbol>KB-7853</prod_symbol>
+  <prod_weight>2000</prod_weight>
+  <prd_name>KLAUSBERG</prd_name>
+  <prod_override_by_stock></prod_override_by_stock>
+  <prod_pkwiu></prod_pkwiu>
+  <prod_ean>5908287278530</prod_ean>
+  <prod_isbn></prod_isbn>
+  <prod_barcode></prod_barcode>
+  <prod_gtu></prod_gtu>
+  <prod_shipping_time>48</prod_shipping_time>
+  <prod_dimensions></prod_dimensions>
+  <prod_orlen_paczka_dimensions></prod_orlen_paczka_dimensions>
+  <prod_desc><![CDATA[<div id="collapsedescription" class="def">
+ <div class="def">
+ <div class="def">
+ <p class="def">Analityczna waga łazienkowa <strong class="def">KLAUSBERG KB-7853</strong> to zaawansowane urządzenie, które umożliwia kompleksowy pomiar składu ciała w warunkach domowych. Dzięki precyzyjnej technologii oraz nowoczesnemu designowi w białym kolorze, waga ta spełni oczekiwania nawet najbardziej wymagających użytkowników. Idealna dla osób dbających o zdrowie, monitorujących postępy w treningu lub chcących lepiej zrozumieć swoje ciało.</p>
+ <ul class="def">
+ <li class="def">Inteligentna transmisja Bluetooth umożliwia synchronizację z aplikacją MovingLife na systemy Android i iOS, pozwalając na łatwe śledzenie wyników.</li>
+ <li class="def">Osiem elektrod zapewnia wysoką dokładność pomiarów dzięki jednoczesnemu wykorzystaniu czterech elektrod na stopy i czterech na dłonie.</li>
+ <li class="def">Urządzenie mierzy szeroki zakres parametrów, w tym wagę, wskaźnik BMI, zawartość tkanki tłuszczowej, poziom nawodnienia, masę mięśniową, masę kostną, białko, tłuszcz trzewny, tłuszcz podskórny oraz beztłuszczową masę ciała.</li>
+ <li class="def">Dodatkowo waga określa wiek metaboliczny, typ sylwetki (somatotyp), podstawowe (BMR) i aktywne zapotrzebowanie kaloryczne (AMR) oraz oferuje ogólną ocenę składu ciała.</li>
+ <li class="def">Maksymalna nośność wynosi 180 kg (400 funtów), z precyzyjnym podziałem na 100 g (0,2 funta), co gwarantuje dokładność pomiarów.</li>
+ <li class="def">Automatyczne włączanie i wyłączanie zwiększa wygodę użytkowania, a wbudowane wskaźniki ostrzegają o niskim poziomie baterii oraz błędach pomiarowych.</li>
+ <li class="def">Waga została wyposażona w czytelny wyświetlacz LED, który zapewnia wygodę odczytu wyników w każdych warunkach oświetleniowych.</li>
+ <li class="def">Zasilana czterema bateriami AAA (1,5 V), co czyni ją prostą w obsłudze i łatwą do utrzymania w gotowości.</li>
+ </ul>
+ <p class="def">Dzięki segmentowej analizie składu ciała waga <strong class="def">KLAUSBERG KB-7853</strong> pozwala uzyskać szczegółowe dane dotyczące różnych części ciała, co czyni ją idealnym wyborem dla osób trenujących lub pragnących dokładnie monitorować zmiany w swojej sylwetce. Możliwość zapisywania i analizy danych w aplikacji daje użytkownikowi pełną kontrolę nad postępami.</p>
+ <p class="def"><b class="def">Waga podaje następujące parametry ciała:</b></p>
+ <ul class="def">
+ <li class="def">Waga</li>
+ <li class="def">Indeks BMI</li>
+ <li class="def">Zawartość tłuszczu</li>
+ <li class="def">Nawodnienie</li>
+ <li class="def">Mięśnie szkieletowe</li>
+ <li class="def">Kości</li>
+ <li class="def">Białko</li>
+ <li class="def">Mięśnie</li>
+ <li class="def">Tłuszcz trzewny</li>
+ <li class="def">BMR / AMR</li>
+ <li class="def">Tłuszcz podskórny</li>
+ <li class="def">Ocena ogólna</li>
+ <li class="def">Wiek ciała</li>
+ <li class="def">Somatotyp</li>
+ <li class="def">Beztłuszczowa masa ciała</li>
+ </ul>
+ <p class="def"></p>
+ <p class="def">Waga łazienkowa <strong class="def">KLAUSBERG KB-7853</strong> to połączenie nowoczesnej technologii, funkcjonalności i eleganckiego wzornictwa. Jej zaawansowane funkcje pomiarowe czynią ją niezastąpionym narzędziem w codziennej trosce o zdrowie i kondycję. To idealne rozwiązanie dla każdego, kto chce precyzyjnie kontrolować swoje ciało i wprowadzać świadome zmiany w swoim stylu życia.</p>
+ </div>
+ </div>
+</div>]]></prod_desc>
+  <prod_shortdesc></prod_shortdesc>
+  <prod_info1></prod_info1>
+  <prod_info2></prod_info2>
+  <prod_info3></prod_info3>
+  <prod_info4></prod_info4>
+  <prod_info5></prod_info5>
+  <prod_note></prod_note>
+  <prod_unit_price_factor></prod_unit_price_factor>
+  <prod_unit_price_base_unit></prod_unit_price_base_unit>
+  <prod_allegro_earn></prod_allegro_earn>
+  <prod_allegro_close_if_amount></prod_allegro_close_if_amount>
+  <prod_producer_id>14</prod_producer_id>
+  <prod_producer_contact_id>6</prod_producer_contact_id>
+  <prod_link>https://kinghoff.online/ANALITYCZNA-WAGA-LAZIENKOWA-SMART-IOS-ANDROID-KLAUSBERG-KB-7853-p5051</prod_link>
+  <info_options>
+   <option name="Długość" remote_id="39">33</option>
+   <option name="Szerokość" remote_id="65">33</option>
+   <option name="Wysokość" remote_id="21">5</option>
+   <option name="Kod CN" remote_id="110">84231010</option>
+  </info_options>
+  <prod_price_base>112.98</prod_price_base>
+  <prod_price_net_base>91.85</prod_price_net_base>
+  <prod_price_net>91.85</prod_price_net>
+  <cat_path>Akcesoria kuchenne/Wagi łazienkowe</cat_path>
+  <unit_price></unit_price>
+  <prod_safety_informations_required>1</prod_safety_informations_required>
+  <prod_safety_text><![CDATA[<p>Posiada oznaczenie CE (zgodność z normami UE).</p>
+<p>Utylizować zgodnie z lokalnymi przepisami dotyczącymi odpad&oacute;w.</p>]]></prod_safety_text>
+  <min_price_30d>112.98</min_price_30d>
+  <prod_img>
+   <img>https://kinghoff.online/images/kinghoff/37000-38000/ANALITYCZNA-WAGA-LAZIENKOWA-SMART-IOS-ANDROID-KLUSBERG-KB-7852_[37918]_1200.jpg</img>
+   <img>https://kinghoff.online/images/kinghoff/37000-38000/ANALITYCZNA-WAGA-LAZIENKOWA-SMART-IOS-ANDROID-KLUSBERG-KB-7852_[37919]_1200.jpg</img>
+   <img>https://kinghoff.online/images/kinghoff/37000-38000/ANALITYCZNA-WAGA-LAZIENKOWA-SMART-IOS-ANDROID-KLUSBERG-KB-7852_[37920]_1200.jpg</img>
+   <img>https://kinghoff.online/images/kinghoff/37000-38000/ANALITYCZNA-WAGA-LAZIENKOWA-SMART-IOS-ANDROID-KLUSBERG-KB-7852_[37921]_1200.jpg</img>
+   <img>https://kinghoff.online/images/kinghoff/37000-38000/ANALITYCZNA-WAGA-LAZIENKOWA-SMART-IOS-ANDROID-KLUSBERG-KB-7852_[37922]_1200.jpg</img>
+   <img>https://kinghoff.online/images/kinghoff/37000-38000/ANALITYCZNA-WAGA-LAZIENKOWA-SMART-IOS-ANDROID-KLUSBERG-KB-7852_[37923]_1200.jpg</img>
+  </prod_img>
+ </item>
+ <item>
+  <prod_name>ANALITYCZNA WAGA ŁAZIENKOWA SMART IOS ANDROID KLAUSBERG KB-7854</prod_name>
+  <prod_id>5052</prod_id>
+  <prod_price>127.86</prod_price>
+  <prod_boxamount>12.0000</prod_boxamount>
+  <prod_tax_id>103.95</prod_tax_id>
+  <taxpercent>23</taxpercent>
+  <prod_oldprice></prod_oldprice>
+  <prod_amount>5.0000</prod_amount>
+  <prod_unit>szt.</prod_unit>
+  <prod_hidden>0</prod_hidden>
+  <prod_search_hidden>0</prod_search_hidden>
+  <prod_symbol>KB-7854</prod_symbol>
+  <prod_weight>2000</prod_weight>
+  <prd_name>KLAUSBERG</prd_name>
+  <prod_override_by_stock></prod_override_by_stock>
+  <prod_pkwiu></prod_pkwiu>
+  <prod_ean>5908287278547</prod_ean>
+  <prod_isbn></prod_isbn>
+  <prod_barcode></prod_barcode>
+  <prod_gtu></prod_gtu>
+  <prod_shipping_time>48</prod_shipping_time>
+  <prod_dimensions></prod_dimensions>
+  <prod_orlen_paczka_dimensions></prod_orlen_paczka_dimensions>
+  <prod_desc><![CDATA[<div id="collapsedescription" class="def">
+ <div class="def">
+ <div class="def">
+ <p class="def">Waga łazienkowa KLAUSBERG KB-7854 to urządzenie stworzone z myślą o osobach, które cenią sobie precyzję, funkcjonalność i nowoczesny design. Wyjątkowa konstrukcja łączy estetykę z zaawansowaną technologią, pozwalając na szczegółowe monitorowanie parametrów ciała w domowym zaciszu. To niezastąpione narzędzie dla każdego, kto dba o zdrowie, sylwetkę oraz prowadzi aktywny tryb życia.</p>
+ <

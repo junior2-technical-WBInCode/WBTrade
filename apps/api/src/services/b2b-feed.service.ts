@@ -3,11 +3,16 @@ import { ProductStatus } from '@prisma/client';
 import { Response } from 'express';
 import { calculateB2bPriceForProduct } from './b2b-pricing.service';
 
-const HIDDEN_TAGS = ['błąd zdjęcia', 'błąd zdjęcia '];
+const HIDDEN_TAGS = ['błąd zdjęcia', 'błąd zdjęcia ', 'nie wrzucać-zabronione'];
 const DELIVERY_TAGS = [
   'Paczkomaty i Kurier', 'paczkomaty i kurier',
   'Tylko kurier', 'tylko kurier',
   'do 2 kg', 'do 5 kg', 'do 10 kg', 'do 20 kg', 'do 31,5 kg',
+];
+const PACZKOMAT_TAGS = ['Paczkomaty i Kurier', 'paczkomaty i kurier'];
+const PACKAGE_TAGS = [
+  'produkt w paczce: 1', 'produkt w paczce: 2', 'produkt w paczce: 3',
+  'produkt w paczce: 4', 'produkt w paczce: 5',
 ];
 
 function escapeXml(unsafe: string): string {
@@ -75,6 +80,11 @@ async function fetchProducts(skip: number, batchSize: number): Promise<FeedProdu
       NOT: { tags: { hasSome: HIDDEN_TAGS } },
       tags: { hasSome: DELIVERY_TAGS },
       images: { some: {} },
+      category: { isActive: true },
+      OR: [
+        { NOT: { tags: { hasSome: PACZKOMAT_TAGS } } },
+        { tags: { hasSome: PACKAGE_TAGS } },
+      ],
     },
     select: {
       sku: true,

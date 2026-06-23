@@ -11,7 +11,7 @@ const PACZKOMAT_TAGS = ['Paczkomaty i Kurier', 'paczkomaty i kurier'];
 // Pattern to match "produkt w paczce X" tag
 const PACKAGE_LIMIT_PATTERN = /produkt\s*w\s*paczce|produkty?\s*w\s*paczce/i;
 // Tags that hide products completely
-const HIDDEN_TAGS = ['błąd zdjęcia', 'błąd zdjęcia '];
+const HIDDEN_TAGS = ['błąd zdjęcia', 'błąd zdjęcia ', 'nie wrzucać-zabronione'];
 // Domeny zdjęć które blokują hotlinking - produkty z takimi zdjęciami nie będą wyświetlane
 // b2b.leker.pl usunięte - produkty Leker ponownie widoczne, tag "błąd zdjęcia" filtruje wadliwe
 const BLOCKED_IMAGE_DOMAINS: string[] = [];
@@ -119,6 +119,17 @@ export class RecommendationsService {
       const searchProducts = await prisma.product.findMany({
         where: {
           status: 'ACTIVE',
+          price: { gt: 0 },
+          NOT: { tags: { hasSome: HIDDEN_TAGS } },
+          variants: {
+            some: {
+              inventory: {
+                some: {
+                  quantity: { gt: 0 }
+                }
+              }
+            }
+          },
           OR: searchTerms.flatMap((term) => [
             { name: { contains: term, mode: 'insensitive' } },
             { description: { contains: term, mode: 'insensitive' } },
@@ -168,8 +179,19 @@ export class RecommendationsService {
       const categoryProducts = await prisma.product.findMany({
         where: {
           status: 'ACTIVE',
+          price: { gt: 0 },
           categoryId: { in: categoryIds },
           id: { notIn: Array.from(addedProductIds) },
+          NOT: { tags: { hasSome: HIDDEN_TAGS } },
+          variants: {
+            some: {
+              inventory: {
+                some: {
+                  quantity: { gt: 0 }
+                }
+              }
+            }
+          },
         },
         include: {
           images: { orderBy: { order: 'asc' }, take: 1 },
@@ -229,8 +251,19 @@ export class RecommendationsService {
         const similarProducts = await prisma.product.findMany({
           where: {
             status: 'ACTIVE',
+            price: { gt: 0 },
             categoryId: { in: Array.from(orderedCategoryIds) },
             id: { notIn: Array.from(addedProductIds) },
+            NOT: { tags: { hasSome: HIDDEN_TAGS } },
+            variants: {
+              some: {
+                inventory: {
+                  some: {
+                    quantity: { gt: 0 }
+                  }
+                }
+              }
+            },
           },
           include: {
             images: { orderBy: { order: 'asc' }, take: 1 },
@@ -268,6 +301,16 @@ export class RecommendationsService {
           status: 'ACTIVE',
           price: { gt: 0 }, // Don't show products with price 0
           id: { notIn: Array.from(addedProductIds) },
+          NOT: { tags: { hasSome: HIDDEN_TAGS } },
+          variants: {
+            some: {
+              inventory: {
+                some: {
+                  quantity: { gt: 0 }
+                }
+              }
+            }
+          },
         },
         include: {
           images: { orderBy: { order: 'asc' }, take: 1 },

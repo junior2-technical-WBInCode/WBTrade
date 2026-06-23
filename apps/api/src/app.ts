@@ -382,16 +382,19 @@ app.get('/api/debug-prefix', async (req, res) => {
     const { PrismaClient } = require('@prisma/client');
     const prisma = new PrismaClient();
 
+    const { wholesalerConfigService } = await import('./services/wholesaler-config.service');
+    const allConfig = await wholesalerConfigService.getAll();
+
     // 1. Test prefix mapping
-    const testNames = ['Forcetop', 'Leker', 'Hurtownia Przemysłowa', 'BTP', 'HP'];
     const prefixes: Record<string, string> = {};
-    for (const name of testNames) {
-      prefixes[name] = (baselinkerService as any).getInventoryPrefix(name);
+    for (const wh of allConfig) {
+      prefixes[wh.name] = wh.prefix;
     }
 
     // 2. Count DB products by prefix
     const dbCounts: Record<string, number> = {};
-    for (const pfx of ['btp-', 'leker-', 'hp-', 'outlet-']) {
+    const prefixList = [...new Set([...allConfig.map(w => w.prefix).filter(Boolean), 'outlet-'])];
+    for (const pfx of prefixList) {
       dbCounts[pfx] = await prisma.product.count({ where: { baselinkerProductId: { startsWith: pfx } } });
     }
     const totalWithBlId = await prisma.product.count({ where: { baselinkerProductId: { not: null } } });

@@ -4,7 +4,7 @@ import { Response } from 'express';
 
 // Reuse helpers from google-feed.service
 // Tags that hide products from the storefront
-const HIDDEN_TAGS = ['błąd zdjęcia', 'błąd zdjęcia '];
+const HIDDEN_TAGS = ['błąd zdjęcia', 'błąd zdjęcia ', 'nie wrzucać-zabronione'];
 const DELIVERY_TAGS = [
   'Paczkomaty i Kurier', 'paczkomaty i kurier',
   'Tylko kurier', 'tylko kurier',
@@ -221,6 +221,7 @@ export async function streamCampaignFeed(
       NOT: { tags: { hasSome: HIDDEN_TAGS } },
       tags: { hasSome: DELIVERY_TAGS },
       images: { some: {} },
+      category: { isActive: true },
       OR: [
         { NOT: { tags: { hasSome: PACZKOMAT_TAGS } } },
         { tags: { hasSome: PACKAGE_TAGS } },
