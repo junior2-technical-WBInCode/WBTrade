@@ -2,9 +2,9 @@ import { prisma } from '../db';
 import { baselinkerOrdersService } from '../services/baselinker-orders.service';
 
 async function main() {
-  const orderNumbers = ['WB-MQKM21K3-FV00', 'WB-MQKLWNAO-FV00'];
+  const orderNumbers = ['WB-MQJ6BYCF-FV00', 'WB-MQJ69HAP-FV00', 'WB-MQJ6FFW5-FV00'];
 
-  console.log('--- Rozpoczynam naprawę 2 zamówień ---');
+  console.log('--- Rozpoczynam naprawę 3 zamówień ---');
 
   for (const num of orderNumbers) {
     const order = await prisma.order.findUnique({
