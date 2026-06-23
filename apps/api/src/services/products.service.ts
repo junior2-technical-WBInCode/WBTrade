@@ -380,6 +380,49 @@ export class ProductsService {
     // If search is provided, use Meilisearch for better results
     // But also check if the search looks like a SKU (numeric or alphanumeric code)
     if (search && search.trim()) {
+      // Check if search contains commas, which indicates multiple SKUs
+      if (search.includes(',')) {
+        const skus = search.split(',').map(s => s.trim()).filter(Boolean);
+        if (skus.length > 0) {
+          const skuMatches = await prisma.product.findMany({
+            where: {
+              OR: [
+                { sku: { in: skus, mode: 'insensitive' } },
+                { variants: { some: { sku: { in: skus, mode: 'insensitive' } } } }
+              ],
+              status: 'ACTIVE',
+              price: { gt: 0 },
+            },
+            include: {
+              images: {
+                orderBy: { order: 'asc' },
+              },
+              category: true,
+              variants: {
+                include: {
+                  inventory: true,
+                },
+              },
+            },
+          });
+          
+          if (skuMatches.length > 0) {
+            const transformed = transformProducts(skuMatches);
+            // Filter products: "Paczkomaty i Kurier" requires "produkt w paczce" tag
+            let filteredProducts = filterProductsWithPackageInfo(transformed);
+            filteredProducts = sortOutOfStockToEnd(filteredProducts);
+            
+            return {
+              products: filteredProducts,
+              total: filteredProducts.length,
+              page: 1,
+              limit: Math.max(limit, filteredProducts.length),
+              totalPages: 1,
+            };
+          }
+        }
+      }
+
       // First try to find by exact SKU match
       const skuMatch = await prisma.product.findMany({
         where: {

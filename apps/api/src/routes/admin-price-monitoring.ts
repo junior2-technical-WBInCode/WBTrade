@@ -13,6 +13,8 @@ router.use(authGuard, adminOnly);
  */
 router.get('/', async (req: Request, res: Response) => {
   try {
+    const { userId } = req.query;
+
     const monitors = await prisma.productPriceMonitor.findMany({
       include: {
         product: {
@@ -35,10 +37,51 @@ router.get('/', async (req: Request, res: Response) => {
       orderBy: { createdAt: 'desc' },
     });
 
+    // Apply B2B pricing if userId is provided
+    if (userId && typeof userId === 'string') {
+      const { getB2bUserInfo, applyB2bPricing } = require('../services/b2b-pricing.service');
+      const b2bInfo = await getB2bUserInfo(userId);
+      if (b2bInfo) {
+        for (const monitor of monitors) {
+          if (monitor.product) {
+            monitor.product = await applyB2bPricing(monitor.product, b2bInfo);
+          }
+        }
+      }
+    }
+
     res.json(monitors);
   } catch (error) {
     console.error('Error fetching monitored products:', error);
     res.status(500).json({ message: 'Błąd podczas pobierania monitorowanych produktów' });
+  }
+});
+
+/**
+ * GET /api/admin/price-monitoring/users
+ * Pobiera listę użytkowników B2B dla panelu monitorowania cen.
+ */
+router.get('/users', async (req: Request, res: Response) => {
+  try {
+    const users = await prisma.user.findMany({
+      where: {
+        role: 'B2B_PARTNER',
+        b2bStatus: 'APPROVED',
+      },
+      select: {
+        id: true,
+        email: true,
+        firstName: true,
+        lastName: true,
+        companyName: true,
+      },
+      orderBy: { email: 'asc' },
+    });
+
+    res.json(users);
+  } catch (error) {
+    console.error('Error fetching B2B users:', error);
+    res.status(500).json({ message: 'Błąd podczas pobierania użytkowników B2B' });
   }
 });
 
@@ -153,6 +196,8 @@ router.delete('/:productId', async (req: Request, res: Response) => {
  */
 router.get('/alerts', async (req: Request, res: Response) => {
   try {
+    const { userId } = req.query;
+
     const alerts = await prisma.productPriceAlert.findMany({
       include: {
         monitor: {
@@ -163,6 +208,8 @@ router.get('/alerts', async (req: Request, res: Response) => {
                 name: true,
                 sku: true,
                 price: true,
+                baselinkerProductId: true,
+                purchasePrice: true,
                 images: {
                   select: { url: true },
                   orderBy: { order: 'asc' },
@@ -176,6 +223,33 @@ router.get('/alerts', async (req: Request, res: Response) => {
       orderBy: { createdAt: 'desc' },
       take: 50,
     });
+
+    // Apply B2B pricing to alert prices if userId is provided
+    if (userId && typeof userId === 'string') {
+      const { getB2bUserInfo, calculateB2bPriceForProduct } = require('../services/b2b-pricing.service');
+      const b2bInfo = await getB2bUserInfo(userId);
+      if (b2bInfo) {
+        for (const alert of alerts) {
+          const product = alert.monitor?.product;
+          if (product) {
+            alert.oldPrice = await calculateB2bPriceForProduct(
+              Number(alert.oldPrice),
+              product.baselinkerProductId,
+              product.sku,
+              b2bInfo,
+              product.purchasePrice
+            ) as any;
+            alert.newPrice = await calculateB2bPriceForProduct(
+              Number(alert.newPrice),
+              product.baselinkerProductId,
+              product.sku,
+              b2bInfo,
+              product.purchasePrice
+            ) as any;
+          }
+        }
+      }
+    }
 
     res.json(alerts);
   } catch (error) {

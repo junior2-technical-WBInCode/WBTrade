@@ -74,6 +74,10 @@ export default function PriceMonitoringPage() {
   const [loading, setLoading] = useState(true);
   const [message, setMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
 
+  // B2B User state
+  const [b2bUsers, setB2bUsers] = useState<Array<{ id: string; email: string; firstName: string; lastName: string; companyName: string | null }>>([]);
+  const [selectedUserId, setSelectedUserId] = useState<string>('');
+
   // Search Modal state
   const [showSearchModal, setShowSearchModal] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
@@ -81,11 +85,31 @@ export default function PriceMonitoringPage() {
   const [searchLoading, setSearchLoading] = useState(false);
   const [selectedProductIds, setSelectedProductIds] = useState<Set<string>>(new Set());
 
+  // Fetch B2B users list
+  const fetchB2bUsers = useCallback(async () => {
+    try {
+      const token = getAuthToken();
+      const res = await fetch(`${API_URL}/admin/price-monitoring/users`, {
+        headers: {
+          'Content-Type': 'application/json',
+          ...(token && { Authorization: `Bearer ${token}` }),
+        },
+      });
+      if (res.ok) {
+        const data = await res.json();
+        setB2bUsers(data);
+      }
+    } catch (err) {
+      console.error('Error fetching B2B users:', err);
+    }
+  }, []);
+
   // Fetch all monitored products
   const fetchMonitors = useCallback(async () => {
     try {
       const token = getAuthToken();
-      const res = await fetch(`${API_URL}/admin/price-monitoring`, {
+      const queryParam = selectedUserId ? `?userId=${selectedUserId}` : '';
+      const res = await fetch(`${API_URL}/admin/price-monitoring${queryParam}`, {
         headers: {
           'Content-Type': 'application/json',
           ...(token && { Authorization: `Bearer ${token}` }),
@@ -99,13 +123,14 @@ export default function PriceMonitoringPage() {
       console.error(err);
       setMessage({ type: 'error', text: err.message || 'Błąd pobierania danych' });
     }
-  }, []);
+  }, [selectedUserId]);
 
   // Fetch recent alerts
   const fetchAlerts = useCallback(async () => {
     try {
       const token = getAuthToken();
-      const res = await fetch(`${API_URL}/admin/price-monitoring/alerts`, {
+      const queryParam = selectedUserId ? `?userId=${selectedUserId}` : '';
+      const res = await fetch(`${API_URL}/admin/price-monitoring/alerts${queryParam}`, {
         headers: {
           'Content-Type': 'application/json',
           ...(token && { Authorization: `Bearer ${token}` }),
@@ -118,17 +143,42 @@ export default function PriceMonitoringPage() {
     } catch (err: any) {
       console.error(err);
     }
-  }, []);
+  }, [selectedUserId]);
 
   const loadData = useCallback(async () => {
     setLoading(true);
-    await Promise.all([fetchMonitors(), fetchAlerts()]);
+    await Promise.all([fetchMonitors(), fetchAlerts(), fetchB2bUsers()]);
     setLoading(false);
-  }, [fetchMonitors, fetchAlerts]);
+  }, [fetchMonitors, fetchAlerts, fetchB2bUsers]);
 
   useEffect(() => {
-    loadData();
-  }, [loadData]);
+    fetchB2bUsers();
+  }, [fetchB2bUsers]);
+
+  useEffect(() => {
+    setLoading(true);
+    Promise.all([fetchMonitors(), fetchAlerts()]).finally(() => setLoading(false));
+  }, [fetchMonitors, fetchAlerts]);
+
+  // Select/Deselect all search results
+  const handleSelectAllResults = () => {
+    if (searchResults.length === 0) return;
+    
+    setSelectedProductIds(prev => {
+      const newSet = new Set(prev);
+      const allSearchIds = searchResults.map(p => p.id);
+      const areAllSelected = allSearchIds.every(id => newSet.has(id));
+      
+      if (areAllSelected) {
+        // Deselect all from this search
+        allSearchIds.forEach(id => newSet.delete(id));
+      } else {
+        // Select all from this search
+        allSearchIds.forEach(id => newSet.add(id));
+      }
+      return newSet;
+    });
+  };
 
   // Toggle settings (alertOnIncrease / alertOnDecrease)
   const handleToggleSetting = async (productId: string, field: 'alertOnIncrease' | 'alertOnDecrease', value: boolean) => {
@@ -297,7 +347,19 @@ export default function PriceMonitoringPage() {
             Wybierz produkty do śledzenia cen i otrzymuj powiadomienia, gdy się zmienią.
           </p>
         </div>
-        <div className="flex gap-3">
+        <div className="flex items-center gap-3">
+          <select
+            value={selectedUserId}
+            onChange={(e) => setSelectedUserId(e.target.value)}
+            className="px-3 py-2 bg-slate-800 border border-slate-700 rounded-lg text-slate-300 focus:outline-none focus:ring-2 focus:ring-orange-500 text-sm max-w-xs"
+          >
+            <option value="">Cena sugerowana (detaliczna)</option>
+            {b2bUsers.map(user => (
+              <option key={user.id} value={user.id}>
+                {user.companyName ? `${user.companyName} (${user.firstName} ${user.lastName})` : `${user.firstName} ${user.lastName}`} - {user.email}
+              </option>
+            ))}
+          </select>
           <button
             onClick={() => loadData()}
             className="p-2 bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-300 rounded-lg transition-colors"
@@ -580,7 +642,7 @@ export default function PriceMonitoringPage() {
                     type="text"
                     value={searchQuery}
                     onChange={e => setSearchQuery(e.target.value)}
-                    placeholder="Wpisz nazwę produktu lub SKU..."
+                    placeholder="Wpisz nazwę lub SKU (np. SKU1, SKU2...)"
                     className="w-full pl-9 pr-4 py-2 bg-slate-900 border border-slate-700 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent text-sm"
                   />
                 </div>
@@ -592,6 +654,22 @@ export default function PriceMonitoringPage() {
                   {searchLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : 'Szukaj'}
                 </button>
               </form>
+
+              {/* Select All bar */}
+              {searchResults.length > 0 && (
+                <div className="flex justify-between items-center px-1 flex-shrink-0">
+                  <span className="text-xs text-slate-400">Znaleziono {searchResults.length} produktów</span>
+                  <button
+                    type="button"
+                    onClick={handleSelectAllResults}
+                    className="text-xs text-orange-400 hover:text-orange-300 font-medium transition-colors"
+                  >
+                    {searchResults.map(p => p.id).every(id => selectedProductIds.has(id))
+                      ? 'Odznacz wszystkie'
+                      : 'Zaznacz wszystkie z wyników'}
+                  </button>
+                </div>
+              )}
 
               {/* Search Results */}
               <div className="flex-1 overflow-y-auto border border-slate-700 bg-slate-900/30 rounded-lg divide-y divide-slate-700/50">
