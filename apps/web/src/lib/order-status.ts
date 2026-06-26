@@ -15,8 +15,8 @@ export function getStatusLabel(status: string, paymentStatus?: string): string {
   if (status === 'CANCELLED') return 'Anulowano';
   if (status === 'REFUNDED') return 'Zwrócono';
 
-  // If payment is still pending (and order isn't cancelled/refunded), show payment-awaiting label
-  if (paymentStatus === 'PENDING' || status === 'OPEN') {
+  // If order is in OPEN or PENDING status, it is awaiting payment
+  if (status === 'OPEN' || status === 'PENDING') {
     return 'Oczekuje na płatność';
   }
 
@@ -46,7 +46,7 @@ export function getStatusColor(status: string, paymentStatus?: string): string {
   if (status === 'REFUNDED') return 'bg-gray-100 text-gray-700 dark:bg-gray-900/30 dark:text-gray-300';
 
   // Unpaid orders get orange
-  if (paymentStatus === 'PENDING' || status === 'OPEN' || status === 'PENDING') {
+  if (status === 'OPEN' || status === 'PENDING') {
     return 'bg-orange-100 text-orange-700 dark:bg-orange-900/30 dark:text-orange-300';
   }
 
@@ -65,11 +65,11 @@ export function getStatusColor(status: string, paymentStatus?: string): string {
 
 /**
  * Check if an order is considered "unpaid" for filtering purposes.
- * OPEN and PENDING statuses, or any order with paymentStatus PENDING (that isn't cancelled/refunded).
+ * OPEN and PENDING statuses.
  */
 export function isUnpaidOrder(status: string, paymentStatus?: string): boolean {
   if (status === 'CANCELLED' || status === 'REFUNDED') return false;
-  return status === 'OPEN' || status === 'PENDING' || paymentStatus === 'PENDING';
+  return status === 'OPEN' || status === 'PENDING';
 }
 
 /**
