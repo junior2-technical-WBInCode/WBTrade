@@ -6,6 +6,7 @@ import { roundMoney, addMoney, subtractMoney } from '../lib/currency';
 import { createBaselinkerProvider } from '../providers/baselinker';
 import { decryptToken } from '../lib/encryption';
 import { getB2bUserInfo, calculateB2bPriceForProduct } from './b2b-pricing.service';
+import { referralService } from './referral.service';
 
 // Courier name mapping for display
 const COURIER_NAMES: Record<string, string> = {
@@ -85,6 +86,12 @@ interface CreateOrderData {
   // Business order fields (for FV00 suffix)
   billingNip?: string;
   billingCompanyName?: string;
+  // Referral / affiliate fields
+  referral?: {
+    lastClick: string;
+    touched: string[];
+  };
+  buyerIp?: string;
 }
 
 interface GetAllOrdersParams {
@@ -324,6 +331,7 @@ export class OrdersService {
         include: {
           items: true,
           statusHistory: true,
+          user: true,
         },
       });
 
@@ -367,6 +375,14 @@ export class OrdersService {
           });
         }
       }
+      
+      // Attribute the order to an affiliate partner if ref links used
+      await referralService.attributeOrder(tx, order, data.referral, {
+        userId: data.userId,
+        email: data.guestEmail || order.user?.email || '',
+        nip: data.billingNip,
+        ip: data.buyerIp,
+      });
 
       return order;
     });
@@ -711,6 +727,11 @@ export class OrdersService {
 
     if (!result) return null;
 
+    // Cancel related referral
+    referralService.cancelForOrder(id).catch((err) => {
+      console.error(`[OrdersService] Error cancelling referral for order ${id}:`, err);
+    });
+
     // Sync cancellation to Baselinker only if actually cancelled (not pending approval)
     if (!result.pendingApproval && result.order.baselinkerOrderId) {
       setTimeout(() => {
@@ -943,7 +964,7 @@ export class OrdersService {
    * Process refund for an order (admin)
    */
   async refund(id: string, reason?: string) {
-    return prisma.$transaction(async (tx) => {
+    const result = await prisma.$transaction(async (tx) => {
       const order = await tx.order.findUnique({
         where: { id },
         include: {
@@ -1044,6 +1065,14 @@ export class OrdersService {
 
       return refundedOrder;
     });
+
+    if (result) {
+      referralService.cancelForOrder(id, reason || 'Order refunded').catch((err) => {
+        console.error(`[OrdersService] Error cancelling referral for refunded order ${id}:`, err);
+      });
+    }
+
+    return result;
   }
 
   /**
@@ -1164,6 +1193,11 @@ export class OrdersService {
     if (updatedOrder) {
       console.log(`[DEV] Triggering Baselinker status update for simulated payment, order ${id}`);
       
+      // Mark referral as paid (beginhold)
+      referralService.markPaid(id).catch((err) => {
+        console.error(`[DEV] Error marking referral as paid for order ${id}:`, err);
+      });
+
       // Update product sales count for popularity tracking
       for (const item of updatedOrder.items) {
         const variant = await prisma.productVariant.findUnique({
@@ -1461,6 +1495,11 @@ export class OrdersService {
     });
 
     if (!result) return null;
+
+    // Cancel related referral
+    referralService.cancelForOrder(id, 'Cancellation request approved by admin').catch((err) => {
+      console.error(`[OrdersService] Error cancelling referral for order ${id} after approval:`, err);
+    });
 
     // Sync cancellation to Baselinker
     if (result.order.baselinkerOrderId) {

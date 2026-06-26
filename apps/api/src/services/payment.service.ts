@@ -23,6 +23,7 @@ import { baselinkerOrdersService } from './baselinker-orders.service';
 import { popularityService } from './popularity.service';
 import { emailService } from './email.service';
 import { ordersService } from './orders.service';
+import { referralService } from './referral.service';
 
 // Provider configurations from environment
 const providerConfigs: Record<PaymentProviderId, Partial<PaymentProviderConfig>> = {
@@ -435,6 +436,11 @@ export class PaymentService {
       if (result.status === 'succeeded') {
         console.log(`[PaymentService] Payment succeeded, triggering Baselinker status update for order ${order.id}`);
         
+        // Mark referral as paid to begin the 14-day clearance hold
+        referralService.markPaid(order.id).catch((err) => {
+          console.error(`[PaymentService] Error marking referral as paid for order ${order.id}:`, err);
+        });
+
         // Mark coupon as used NOW (only after payment is confirmed)
         if (order.couponCode) {
           try {

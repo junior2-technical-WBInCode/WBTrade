@@ -7,6 +7,8 @@ import { ThemeProvider } from '../contexts/ThemeContext';
 import { GoogleTagManager, GoogleTagManagerNoScript } from '../components/analytics/GoogleTagManager';
 import LazyOverlays from '../components/LazyOverlays';
 import { Metadata } from 'next';
+import { ReferralTracker } from '../components/ReferralTracker';
+import { Suspense } from 'react';
 
 const inter = Inter({
   subsets: ['latin', 'latin-ext'],
@@ -132,6 +134,9 @@ export default function RootLayout({
           <AuthProvider>
             <CartProvider>
               <WishlistProvider>
+                <Suspense fallback={null}>
+                  <ReferralTracker />
+                </Suspense>
                 {children}
                 <LazyOverlays />
               </WishlistProvider>

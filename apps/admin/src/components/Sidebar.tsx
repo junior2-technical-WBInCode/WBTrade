@@ -183,6 +183,15 @@ const navSections: NavSection[] = [
         icon: Building2,
       },
       {
+        title: 'Program Partnerski',
+        href: '/partners',
+        icon: Users,
+        submenu: [
+          { title: 'Partnerzy', href: '/partners' },
+          { title: 'Wypłaty', href: '/payouts' },
+        ],
+      },
+      {
         title: 'Magazyn (WMS)',
         href: '/warehouse',
         icon: Warehouse,
