@@ -391,7 +391,7 @@ export default function PartnershipPage() {
                           </thead>
                           <tbody className="divide-y divide-gray-100 dark:divide-secondary-700/50">
                             {links.map((l) => {
-                              const refUrl = `${window.location.origin}${l.product ? `/products/${l.product.slug}` : ''}?ref=${l.code}`;
+                              const refUrl = `${window.location.origin}${l.product ? `/products/${l.product.slug || l.product.id}` : ''}?ref=${l.code}`;
                               return (
                                 <tr key={l.id} className="hover:bg-gray-50/50 dark:hover:bg-secondary-800/30">
                                   <td className="px-4 py-3.5 font-medium text-gray-900 dark:text-white">

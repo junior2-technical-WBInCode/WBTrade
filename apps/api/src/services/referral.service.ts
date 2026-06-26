@@ -161,15 +161,23 @@ export class ReferralService {
     let productId: string | null = null;
 
     if (productUrl) {
-      // Extract slug from URL (e.g. /products/lego-city-60123 -> lego-city-60123)
+      // Extract slug or id from URL (e.g. /products/lego-city-60123 or /products/clwq8uwtj00021481d6p9g1j2)
       const slugMatch = productUrl.match(/\/products?\/([^/?#]+)/i) 
                       || productUrl.match(/\/([^/?#]+)$/);
       if (slugMatch) {
-        const slug = slugMatch[1];
-        const product = await prisma.product.findUnique({
-          where: { slug },
+        const identifier = slugMatch[1];
+        // 1. Try to find by ID
+        let product = await prisma.product.findUnique({
+          where: { id: identifier },
           select: { id: true },
         });
+        // 2. If not found by ID, try to find by slug
+        if (!product) {
+          product = await prisma.product.findUnique({
+            where: { slug: identifier },
+            select: { id: true },
+          });
+        }
         if (product) {
           productId = product.id;
         }
