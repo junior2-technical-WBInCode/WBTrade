@@ -57,9 +57,9 @@ export function ReferralTracker() {
     Cookies.set('ref_touched', touchedStr, { expires: COOKIE_EXPIRY_DAYS, path: '/' });
     localStorage.setItem('ref_touched', touchedStr);
 
-    // 3. Register click in backend (background request)
-    const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000';
-    fetch(`${API_URL}/api/referrals/click`, {
+    const API_URL = (process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api').replace(/\/$/, '');
+    const cleanUrl = API_URL.endsWith('/api') ? `${API_URL}/referrals/click` : `${API_URL}/api/referrals/click`;
+    fetch(cleanUrl, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ code: trimmedCode }),
