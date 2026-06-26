@@ -125,7 +125,11 @@ export default function PartnershipPage() {
         name: newLinkLabel || undefined,
       });
       setSuccess('Link partnerski został utworzony!');
-      setLinks((prev) => [newLink, ...prev]);
+      setLinks((prev) => [{
+        ...newLink,
+        salesCount: newLink.salesCount ?? 0,
+        totalCommission: newLink.totalCommission ?? 0,
+      }, ...prev]);
       setNewLinkUrl('');
       setNewLinkLabel('');
     } catch (err: any) {
@@ -395,8 +399,8 @@ export default function PartnershipPage() {
                                   </td>
                                   <td className="px-4 py-3.5 font-mono text-xs text-orange-500">{l.code}</td>
                                   <td className="px-4 py-3.5 text-center">{l.clicks}</td>
-                                  <td className="px-4 py-3.5 text-center">{l.salesCount}</td>
-                                  <td className="px-4 py-3.5 text-right font-medium text-gray-950 dark:text-white">{l.totalCommission.toFixed(2)} PLN</td>
+                                  <td className="px-4 py-3.5 text-center">{l.salesCount ?? 0}</td>
+                                  <td className="px-4 py-3.5 text-right font-medium text-gray-950 dark:text-white">{(l.totalCommission ?? 0).toFixed(2)} PLN</td>
                                   <td className="px-4 py-3.5">
                                     <button
                                       onClick={() => copyToClipboard(refUrl, l.id)}
