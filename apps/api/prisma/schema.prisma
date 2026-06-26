@@ -55,6 +55,9 @@ model User {
   shoppingLists              ShoppingList[]
   supportTickets             SupportTicket[]
   notifications              UserNotification[]
+  // Affiliate program
+  lastLoginIp                String?            @map("last_login_ip")
+  partnerProfile             PartnerProfile?
 
   @@map("users")
 }
@@ -145,6 +148,7 @@ model Product {
   shoppingListItems      ShoppingListItem[]
   saleCampaignProducts   SaleCampaignProduct[]
   priceMonitor           ProductPriceMonitor?
+  referralLinks          ReferralLink[]
 
   @@index([slug])
   @@index([sku])
@@ -409,6 +413,7 @@ model Order {
   supportTickets           SupportTicket[]
   returnRequests           ReturnRequest[]
   deliveryDelayAlerts      DeliveryDelayAlert[]
+  referral                 Referral?
   billingAddress           Address?             @relation("BillingAddress", fields: [billingAddressId], references: [id])
   shippingAddress          Address?             @relation("ShippingAddress", fields: [shippingAddressId], references: [id])
   user                     User?                @relation(fields: [userId], references: [id])
@@ -434,6 +439,7 @@ model OrderItem {
   order       Order          @relation(fields: [orderId], references: [id], onDelete: Cascade)
   variant     ProductVariant @relation(fields: [variantId], references: [id])
   returnItems ReturnItem[]
+  referralItem ReferralItem?
 
   @@index([orderId])
   @@map("order_items")
@@ -1225,3 +1231,138 @@ model ProductPriceAlert {
   @@map("product_price_alerts")
 }
 
+// ============================================
+// AFFILIATE / PARTNER PROGRAM
+// ============================================
+
+model PartnerProfile {
+  id                 String           @id @default(cuid())
+  userId             String           @unique @map("user_id")
+  referralCode       String           @unique @map("referral_code")
+  status             PartnerStatus    @default(PENDING)
+  commissionRate     Decimal          @default(5.00) @map("commission_rate") @db.Decimal(5, 2)
+  subCommissionRate  Decimal          @default(1.00) @map("sub_commission_rate") @db.Decimal(5, 2)
+  bankAccountNumber  String?          @map("bank_account_number")
+  companyName        String?          @map("company_name")
+  nip                String?
+  createdAt          DateTime         @default(now()) @map("created_at")
+  updatedAt          DateTime         @updatedAt @map("updated_at")
+
+  parentPartnerId    String?          @map("parent_partner_id")
+  parentPartner      PartnerProfile?  @relation("PartnerHierarchy", fields: [parentPartnerId], references: [id], onDelete: SetNull)
+  subPartners        PartnerProfile[] @relation("PartnerHierarchy")
+
+  user               User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  referralLinks      ReferralLink[]
+  referrals          Referral[]       @relation("PrimaryReferrals")
+  subReferrals       Referral[]       @relation("ParentReferrals")
+  payouts            ReferralPayout[]
+
+  @@index([status])
+  @@map("partner_profiles")
+}
+
+model ReferralLink {
+  id            String         @id @default(cuid())
+  partnerId     String         @map("partner_id")
+  code          String         @unique
+  productId     String?        @map("product_id")
+  name          String?
+  clicks        Int            @default(0)
+  createdAt     DateTime       @default(now()) @map("created_at")
+  updatedAt     DateTime       @updatedAt @map("updated_at")
+
+  partner       PartnerProfile @relation(fields: [partnerId], references: [id], onDelete: Cascade)
+  product       Product?       @relation(fields: [productId], references: [id], onDelete: SetNull)
+  referralItems ReferralItem[]
+
+  @@index([partnerId])
+  @@index([productId])
+  @@map("referral_links")
+}
+
+model Referral {
+  id                String          @id @default(cuid())
+  orderId           String          @unique @map("order_id")
+  status            ReferralStatus  @default(PENDING)
+
+  partnerId         String          @map("partner_id")
+  primaryCommission Decimal         @map("primary_commission") @db.Decimal(10, 2)
+  partner           PartnerProfile  @relation("PrimaryReferrals", fields: [partnerId], references: [id], onDelete: Cascade)
+
+  parentPartnerId   String?         @map("parent_partner_id")
+  parentCommission  Decimal         @default(0) @map("parent_commission") @db.Decimal(10, 2)
+  parentPartner     PartnerProfile? @relation("ParentReferrals", fields: [parentPartnerId], references: [id], onDelete: SetNull)
+
+  fraudNote         String?         @map("fraud_note")
+  paidAt            DateTime?       @map("paid_at")
+  approvedAt        DateTime?       @map("approved_at")
+  createdAt         DateTime        @default(now()) @map("created_at")
+  updatedAt         DateTime        @updatedAt @map("updated_at")
+
+  order             Order           @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  items             ReferralItem[]
+
+  @@index([partnerId, status])
+  @@index([status, paidAt])
+  @@map("referrals")
+}
+
+model ReferralItem {
+  id                      String        @id @default(cuid())
+  referralId              String        @map("referral_id")
+  orderItemId             String        @unique @map("order_item_id")
+  referralLinkId          String?       @map("referral_link_id")
+  primaryCommissionAmount Decimal       @map("primary_commission_amount") @db.Decimal(10, 2)
+  parentCommissionAmount  Decimal       @default(0) @map("parent_commission_amount") @db.Decimal(10, 2)
+
+  referral                Referral      @relation(fields: [referralId], references: [id], onDelete: Cascade)
+  orderItem               OrderItem     @relation(fields: [orderItemId], references: [id], onDelete: Cascade)
+  referralLink            ReferralLink? @relation(fields: [referralLinkId], references: [id], onDelete: SetNull)
+
+  @@index([referralId])
+  @@map("referral_items")
+}
+
+model ReferralPayout {
+  id          String        @id @default(cuid())
+  partnerId   String        @map("partner_id")
+  amount      Decimal       @db.Decimal(10, 2)
+  type        PayoutType    @default(CASH)
+  status      PayoutStatus  @default(PENDING)
+  invoiceUrl  String?       @map("invoice_url")
+  couponCode  String?       @map("coupon_code")
+  notes       String?
+  processedAt DateTime?     @map("processed_at")
+  createdAt   DateTime      @default(now()) @map("created_at")
+
+  partner     PartnerProfile @relation(fields: [partnerId], references: [id], onDelete: Cascade)
+
+  @@index([partnerId, status])
+  @@map("referral_payouts")
+}
+
+enum PartnerStatus {
+  PENDING
+  APPROVED
+  REJECTED
+  SUSPENDED
+}
+
+enum ReferralStatus {
+  PENDING
+  PAID
+  APPROVED
+  CANCELLED
+}
+
+enum PayoutType {
+  CASH
+  COUPON
+}
+
+enum PayoutStatus {
+  PENDING
+  COMPLETED
+  REJECTED
+}

@@ -506,6 +506,7 @@ export class SecureAuthService {
         failedLoginAttempts: 0,
         lockedUntil: null,
         lastLoginAt: new Date(),
+        lastLoginIp: ipAddress || null,
       },
     });
 

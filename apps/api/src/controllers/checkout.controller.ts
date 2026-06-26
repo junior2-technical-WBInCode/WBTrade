@@ -367,6 +367,8 @@ export async function createCheckout(req: Request, res: Response): Promise<void>
       guestPhone,
       // Guest address data (when not using saved address)
       guestAddress,
+      // Referral program fields
+      referral,
     } = req.body;
 
     // For guest checkout, validate required guest fields
@@ -821,6 +823,9 @@ export async function createCheckout(req: Request, res: Response): Promise<void>
       guestFirstName: isGuestCheckout ? guestFirstName : undefined,
       guestLastName: isGuestCheckout ? guestLastName : undefined,
       guestPhone: isGuestCheckout ? guestPhone : undefined,
+      // Referral program fields
+      referral: referral || undefined,
+      buyerIp: (req.headers['x-forwarded-for'] as string)?.split(',')[0].trim() || req.ip || undefined,
     });
 
     // Clear only ordered items from cart (if partial checkout)

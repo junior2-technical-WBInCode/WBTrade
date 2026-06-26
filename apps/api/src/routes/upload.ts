@@ -97,6 +97,44 @@ router.post('/images', authGuard, upload.array('images', 10), (req: Request, res
   }
 });
 
+// Configure PDF upload for invoices (up to 10MB)
+const invoiceUpload = multer({
+  storage,
+  fileFilter: (req, file, cb) => {
+    if (file.mimetype === 'application/pdf') {
+      cb(null, true);
+    } else {
+      cb(new Error('Nieprawidłowy format pliku. Dozwolone są tylko pliki PDF.'));
+    }
+  },
+  limits: {
+    fileSize: 10 * 1024 * 1024, // 10MB max
+  }
+});
+
+// Upload PDF invoice (for partners)
+router.post('/invoice', authGuard, invoiceUpload.single('invoice'), (req: Request, res: Response) => {
+  try {
+    if (!req.file) {
+      return res.status(400).json({ message: 'Brak pliku' });
+    }
+
+    const baseUrl = process.env.API_URL || `http://localhost:${process.env.APP_PORT || 5000}`;
+    const invoiceUrl = `${baseUrl}/uploads/${req.file.filename}`;
+
+    res.json({
+      success: true,
+      url: invoiceUrl,
+      filename: req.file.filename,
+      originalName: req.file.originalname,
+      size: req.file.size
+    });
+  } catch (error) {
+    console.error('Invoice upload error:', error);
+    res.status(500).json({ message: 'Błąd podczas przesyłania faktury' });
+  }
+});
+
 // Delete uploaded file
 router.delete('/:filename', authGuard, (req: Request, res: Response) => {
   try {

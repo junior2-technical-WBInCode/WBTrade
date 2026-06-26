@@ -8,6 +8,7 @@ import { useCart } from '@/contexts/CartContext';
 import { useAuth } from '@/contexts/AuthContext';
 import { checkoutApi, addressesApi, ApiClientError, CartItem } from '@/lib/api';
 import { roundMoney } from '@/lib/currency';
+import { getReferralData, clearReferralData } from '@/components/ReferralTracker';
 import CheckoutSteps from './components/CheckoutSteps';
 import CheckoutAuthChoice from './components/CheckoutAuthChoice';
 import AddressForm from './components/AddressForm';
@@ -406,6 +407,7 @@ function CheckoutPageContent() {
           addToCollectiveInvoice: false, // Guests cannot use B2B collective invoices
           // Only include selected items (Empik-style selection)
           selectedItemIds: checkoutItems.map(item => item.id),
+          referral: getReferralData() || undefined,
           packageShipping: checkoutData.shipping.packageShipping?.map(pkg => ({
             packageId: pkg.packageId,
             method: pkg.method,
@@ -444,8 +446,9 @@ function CheckoutPageContent() {
           },
         });
 
-        // Clear localStorage selected items after successful order
+        // Clear localStorage selected items and referral cookies after successful order
         localStorage.removeItem('checkoutSelectedItems');
+        clearReferralData();
 
         // Store one-time guest access token + email in sessionStorage
         // This allows viewing the confirmation page exactly once in this tab
@@ -513,6 +516,7 @@ function CheckoutPageContent() {
         acceptTerms: checkoutData.acceptTerms,
         wantInvoice: checkoutData.wantInvoice,
         addToCollectiveInvoice: checkoutData.addToCollectiveInvoice,
+        referral: getReferralData() || undefined,
         // Only include selected items (Empik-style selection)
         selectedItemIds: checkoutItems.map(item => item.id),
         packageShipping: checkoutData.shipping.packageShipping?.map(pkg => ({
@@ -528,8 +532,9 @@ function CheckoutPageContent() {
         })),
       });
 
-      // Clear localStorage selected items after successful order
+      // Clear localStorage selected items and referral cookies after successful order
       localStorage.removeItem('checkoutSelectedItems');
+      clearReferralData();
 
       // If payment URL is provided, redirect to payment gateway
       if (checkoutResponse.paymentUrl) {

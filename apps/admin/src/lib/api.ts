@@ -236,3 +236,36 @@ export const dashboardApi = {
   // Pobierz alerty
   getAlerts: (): Promise<DashboardAlert[]> => fetchWithAuth('/api/admin/dashboard/alerts'),
 };
+
+// ============================================
+// PARTNER / AFFILIATE PROGRAM ADMIN API
+// ============================================
+
+export const partnersApi = {
+  list: (status?: string, page = 1, limit = 20): Promise<any> =>
+    fetchWithAuth(`/api/admin/partners?page=${page}&limit=${limit}${status ? `&status=${status}` : ''}`),
+  
+  getDetail: (id: string): Promise<any> =>
+    fetchWithAuth(`/api/admin/partners/${id}`),
+  
+  updateStatus: (id: string, status: 'APPROVED' | 'REJECTED' | 'SUSPENDED'): Promise<any> =>
+    fetchWithAuth(`/api/admin/partners/${id}/status`, {
+      method: 'PATCH',
+      body: JSON.stringify({ status }),
+    }),
+  
+  listPayouts: (status?: string, page = 1, limit = 20): Promise<any> =>
+    fetchWithAuth(`/api/admin/partners/payouts/list?page=${page}&limit=${limit}${status ? `&status=${status}` : ''}`),
+  
+  completePayout: (id: string, notes?: string): Promise<any> =>
+    fetchWithAuth(`/api/admin/partners/payouts/${id}/complete`, {
+      method: 'PATCH',
+      body: JSON.stringify({ notes }),
+    }),
+  
+  rejectPayout: (id: string, reason?: string): Promise<any> =>
+    fetchWithAuth(`/api/admin/partners/payouts/${id}/reject`, {
+      method: 'PATCH',
+      body: JSON.stringify({ reason }),
+    }),
+};

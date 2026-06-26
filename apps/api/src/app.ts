@@ -68,6 +68,8 @@ import b2bLabelsRoutes from './routes/b2b-labels';
 import adminB2bRoutes from './routes/admin-b2b';
 import adminInvoicesRoutes from './routes/admin-invoices';
 import manufacturersRoutes from './routes/manufacturers';
+import referralsRoutes from './routes/referrals';
+import adminPartnersRoutes from './routes/admin-partners';
 import { generalRateLimiter } from './middleware/rate-limit.middleware';
 import { initializeMeilisearch, meiliClient, PRODUCTS_INDEX, isMeilisearchAvailable } from './lib/meilisearch';
 import { startSearchIndexWorker } from './workers/search-index.worker';
@@ -1059,6 +1061,8 @@ app.use('/api/b2b', b2bRoutes); // B2B cooperation (apply, status)
 app.use('/api/b2b-labels', b2bLabelsRoutes); // B2B shipping label upload/download
 app.use('/api/admin/b2b', adminB2bRoutes); // Admin B2B management
 app.use('/api/admin/invoices', adminInvoicesRoutes); // Admin invoices from Fakturownia
+app.use('/api/referrals', referralsRoutes); // Referral/Affiliate program
+app.use('/api/admin/partners', adminPartnersRoutes); // Admin partner/referral management
 
 // Serve uploaded files statically
 app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
@@ -1287,6 +1291,10 @@ app.listen(PORT, async () => {
     // 5. Loyalty cron worker - birthday/quarterly/monthly coupons
     const { startLoyaltyCronWorker } = await import('./workers/loyalty-cron.worker');
     startLoyaltyCronWorker();
+
+    // 5b. Affiliate cron worker - referral hold release
+    const { startAffiliateCronWorker } = await import('./workers/affiliate-cron.worker');
+    startAffiliateCronWorker();
 
     // 6. Delivery delay detection - every 6 hours (08:00, 14:00, 20:00, 02:00)
     const { deliveryDelayService } = await import('./services/delivery-delay.service');

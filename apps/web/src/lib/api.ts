@@ -1211,6 +1211,10 @@ export interface CheckoutRequest {
       phone?: string;
     };
   };
+  referral?: {
+    lastClick: string;
+    touched: string[];
+  };
 }
 
 export interface CheckoutResponse {
@@ -1779,6 +1783,99 @@ export const notificationsApi = {
 
   markAllAsRead: () =>
     api.patch<{ success: boolean }>('/notifications/read-all', {}),
+};
+
+// ============================================
+// REFERRAL / AFFILIATE PROGRAM API
+// ============================================
+
+export interface PartnerStats {
+  totalClicks: number;
+  totalReferrals: number;
+  referrals: Array<{
+    id: string;
+    status: string;
+    primaryCommission: number;
+    createdAt: string;
+    paidAt: string | null;
+    approvedAt: string | null;
+    order: {
+      orderNumber: string;
+      total: number;
+    };
+  }>;
+  recentPayouts: Array<{
+    id: string;
+    amount: number;
+    type: 'CASH' | 'COUPON';
+    status: 'PENDING' | 'COMPLETED' | 'REJECTED';
+    couponCode: string | null;
+    invoiceUrl: string | null;
+    notes: string | null;
+    processedAt: string | null;
+    createdAt: string;
+  }>;
+}
+
+export interface PartnerProfileData {
+  id: string;
+  userId: string;
+  referralCode: string;
+  status: 'PENDING' | 'APPROVED' | 'REJECTED' | 'SUSPENDED';
+  commissionRate: number;
+  bankAccountNumber: string | null;
+  companyName: string | null;
+  nip: string | null;
+  createdAt: string;
+  updatedAt: string;
+  balance: {
+    available: number;
+    frozen: number;
+    totalEarned: number;
+    reserved: number;
+  };
+  stats: PartnerStats;
+  user: {
+    email: string;
+    firstName: string;
+    lastName: string;
+  };
+}
+
+export interface ReferralLinkData {
+  id: string;
+  code: string;
+  name: string | null;
+  productId: string | null;
+  product?: {
+    id: string;
+    name: string;
+    slug: string;
+  } | null;
+  clicks: number;
+  salesCount: number;
+  totalCommission: number;
+  createdAt: string;
+}
+
+export const referralApi = {
+  getProfile: () =>
+    api.get<PartnerProfileData>('/referrals/profile'),
+
+  register: (dto: { bankAccountNumber?: string; companyName?: string; nip?: string; invitedBy?: string }) =>
+    api.post<PartnerProfileData>('/referrals/register', dto),
+
+  createLink: (dto: { productUrl?: string; name?: string }) =>
+    api.post<ReferralLinkData>('/referrals/links', dto),
+
+  listLinks: () =>
+    api.get<ReferralLinkData[]>('/referrals/links'),
+
+  redeemCoupon: (amount: number) =>
+    api.post<{ couponCode: string; amount: number }>('/referrals/payouts/coupon', { amount }),
+
+  requestCashPayout: (amount: number, invoiceUrl?: string) =>
+    api.post<any>('/referrals/payouts/cash', { amount, invoiceUrl }),
 };
 
 export default api;
