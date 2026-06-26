@@ -202,7 +202,11 @@ export class ReferralService {
       },
     });
 
-    return link;
+    return {
+      ...link,
+      salesCount: 0,
+      totalCommission: 0,
+    };
   }
 
   /**
