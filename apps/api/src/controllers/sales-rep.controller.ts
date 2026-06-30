@@ -113,83 +113,75 @@ export class SalesControllerRep {
 
       // Shipping cost calculation
       let shippingCost = 0;
-      let enrichedPackageShipping = data.packageShipping;
+      let enrichedPackageShipping: any[] = [];
 
-      if (data.packageShipping && Array.isArray(data.packageShipping) && data.packageShipping.length > 0) {
-        const cartItemsForShipping = cart.items.map(item => ({
-          variantId: item.variant.id,
-          quantity: item.quantity,
-        }));
-        
-        const serverShippingResult = await shippingCalculatorService.getShippingOptionsPerPackage(cartItemsForShipping, {
-          isB2b: true,
-          cartSubtotal: subtotal,
-        });
-        const serverPackages = serverShippingResult.packagesWithOptions;
-        
-        let b2bCharged = false;
-        for (let i = 0; i < data.packageShipping.length; i++) {
-          const clientPkg = data.packageShipping[i];
-          const serverPkg = serverPackages.find(sp => sp.package.id === clientPkg.packageId) || serverPackages[i];
-          
-          if (serverPkg) {
-            const serverMethod = serverPkg.shippingMethods.find(
-              (m: any) => m.id === clientPkg.method && m.available
-            );
-            
-            if (serverMethod) {
-              let calculatedPrice = serverMethod.price;
-              if (clientPkg.method === 'b2b_wysylka_wlasna') {
-                if (b2bCharged) {
-                  calculatedPrice = 0;
-                } else {
-                  b2bCharged = true;
-                }
-              }
-              clientPkg.price = calculatedPrice;
-            } else {
-              res.status(400).json({ message: `Metoda dostawy "${clientPkg.method}" jest niedostępna.` });
-              return;
-            }
-          } else {
-            res.status(400).json({ message: 'Błąd podziału przesyłek.' });
-            return;
-          }
-        }
-        
-        shippingCost = data.packageShipping.reduce((sum: number, pkg: any) => sum + (pkg.price || 0), 0);
-        
-        // Enrich packages with product items
-        const itemsByWholesaler: Record<string, typeof cart.items> = {};
-        for (const cartItem of cart.items) {
-          const wholesaler = cartItem.variant?.product?.wholesaler || 'default';
-          if (!itemsByWholesaler[wholesaler]) {
-            itemsByWholesaler[wholesaler] = [];
-          }
-          itemsByWholesaler[wholesaler].push(cartItem);
-        }
+      const cartItemsForShipping = cart.items.map(item => ({
+        variantId: item.variant.id,
+        quantity: item.quantity,
+      }));
+      
+      const serverShippingResult = await shippingCalculatorService.getShippingOptionsPerPackage(cartItemsForShipping, {
+        isB2b: true,
+        cartSubtotal: subtotal,
+      });
+      const serverPackages = serverShippingResult.packagesWithOptions;
 
-        enrichedPackageShipping = data.packageShipping.map((pkg: any, index: number) => {
-          let matchedItems = pkg.wholesaler ? itemsByWholesaler[pkg.wholesaler] : null;
-          if (!matchedItems) {
-            const wholesalerKeys = Object.keys(itemsByWholesaler);
-            if (index < wholesalerKeys.length) {
-              matchedItems = itemsByWholesaler[wholesalerKeys[index]];
-            }
-          }
-
-          const pkgItems = (matchedItems || []).map((item: any) => ({
-            productId: item.variant?.product?.id || '',
-            productName: item.variant?.product?.name || 'Unknown',
-            variantId: item.variant?.id || '',
-            variantName: item.variant?.name || 'Default',
-            quantity: item.quantity,
-            image: item.variant?.product?.images?.[0]?.url || null,
-          }));
-
-          return { ...pkg, items: pkgItems };
-        });
+      // Map frontend shipping method to system method key
+      let selectedSystemMethod = 'dpd_kurier';
+      if (data.shippingMethod === 'inpost_paczkomaty') {
+        selectedSystemMethod = 'inpost_paczkomat';
+      } else if (data.shippingMethod === 'b2b_wysylka_wlasna') {
+        selectedSystemMethod = 'b2b_wysylka_wlasna';
       }
+
+      // Group cart items by wholesaler for enrichment
+      const itemsByWholesaler = {};
+      for (const cartItem of cart.items) {
+        const wholesaler = cartItem.variant?.product?.wholesaler || 'default';
+        if (!itemsByWholesaler[wholesaler]) {
+          itemsByWholesaler[wholesaler] = [];
+        }
+        itemsByWholesaler[wholesaler].push(cartItem);
+      }
+
+      let b2bCharged = false;
+      enrichedPackageShipping = serverPackages.map((serverPkg, index) => {
+        const method = serverPkg.shippingMethods.find(m => m.id === selectedSystemMethod && m.available)
+          || serverPkg.shippingMethods.find(m => m.available)
+          || serverPkg.shippingMethods[0];
+
+        let price = method ? method.price : 0;
+        // B2B free shipping rules for self shipment
+        if (method && method.id === 'b2b_wysylka_wlasna') {
+          if (b2bCharged) {
+            price = 0;
+          } else {
+            b2bCharged = true;
+          }
+        }
+
+        const wholesaler = serverPkg.package.wholesaler || 'default';
+        const matchedItems = itemsByWholesaler[wholesaler] || [];
+
+        const pkgItems = matchedItems.map((item) => ({
+          productId: item.variant?.product?.id || '',
+          productName: item.variant?.product?.name || 'Unknown',
+          variantId: item.variant?.id || '',
+          variantName: item.variant?.name || 'Default',
+          quantity: item.quantity,
+          image: item.variant?.product?.images?.[0]?.url || null,
+        }));
+
+        shippingCost += price;
+
+        return {
+          packageId: serverPkg.package.id,
+          wholesaler,
+          method: method ? method.id : selectedSystemMethod,
+          price,
+          items: pkgItems,
+        };
+      });
 
       // Check if customer already has a user account by email
       const customerUser = await prisma.user.findUnique({

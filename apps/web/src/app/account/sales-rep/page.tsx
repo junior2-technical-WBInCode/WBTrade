@@ -488,7 +488,7 @@ export default function SalesRepPage() {
                                 </div>
                                 <div className="text-right whitespace-nowrap">
                                   <p className="text-sm font-bold text-gray-900 dark:text-white">{(item.price * item.quantity).toFixed(2)} zł</p>
-                                  <p className="text-xs text-gray-400 dark:text-gray-500">Marża sklepu: {item.marginPct.toFixed(1)}%</p>
+                                  
                                 </div>
                               </div>
                             ))}
