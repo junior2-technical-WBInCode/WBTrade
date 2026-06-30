@@ -151,7 +151,10 @@ export default function InvoicesPage() {
                 <button
                   onClick={() => {
                     const header = 'Nr faktury;Zamówienie;Status;Data;Firma;NIP;Kwota brutto\n';
-                    const rows = orders.map((o) => {
+                    const targetOrders = selectedOrderIds.length > 0
+                      ? orders.filter((o) => selectedOrderIds.includes(o.id))
+                      : orders;
+                    const rows = targetOrders.map((o) => {
                       const invoiceNr = (o.collectiveInvoiceNumber || o.invoiceNumber || '').replace(/;/g, ',');
                       const date = new Date(o.createdAt).toLocaleDateString('pl-PL');
                       const company = (o.billingCompanyName || '').replace(/;/g, ',');
