@@ -377,12 +377,16 @@ export class OrdersService {
       }
       
       // Attribute the order to an affiliate partner if ref links used
-      await referralService.attributeOrder(tx, order, data.referral, {
-        userId: data.userId,
-        email: data.guestEmail || order.user?.email || '',
-        nip: data.billingNip,
-        ip: data.buyerIp,
-      });
+      try {
+        await referralService.attributeOrder(tx, order, data.referral, {
+          userId: data.userId,
+          email: data.guestEmail || order.user?.email || '',
+          nip: data.billingNip,
+          ip: data.buyerIp,
+        });
+      } catch (err) {
+        console.error(`[OrdersService] Failed to attribute order ${order.orderNumber} to referral partner:`, err);
+      }
 
       return order;
     });

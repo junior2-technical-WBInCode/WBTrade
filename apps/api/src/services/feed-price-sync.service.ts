@@ -192,11 +192,15 @@ export class FeedPriceSyncService {
       console.log('Loading active products and variants from database...');
       
       const prefixFilter = config.skuPrefix || config.prefix;
+      const blPrefix = config.prefix || (config.key ? `${config.key}-` : '');
 
       const dbProducts = await prisma.product.findMany({
         where: {
           status: 'ACTIVE',
-          ...(prefixFilter ? { sku: { startsWith: prefixFilter, mode: 'insensitive' } } : {}),
+          OR: [
+            ...(blPrefix ? [{ baselinkerProductId: { startsWith: blPrefix, mode: 'insensitive' as const } }] : []),
+            ...(prefixFilter ? [{ sku: { startsWith: prefixFilter, mode: 'insensitive' as const } }] : []),
+          ]
         },
         select: {
           id: true,
@@ -212,7 +216,16 @@ export class FeedPriceSyncService {
       const dbVariants = await prisma.productVariant.findMany({
         where: {
           product: { status: 'ACTIVE' },
-          ...(prefixFilter ? { sku: { startsWith: prefixFilter, mode: 'insensitive' } } : {}),
+          OR: [
+            ...(prefixFilter ? [{ sku: { startsWith: prefixFilter, mode: 'insensitive' as const } }] : []),
+            {
+              product: {
+                OR: [
+                  ...(blPrefix ? [{ baselinkerProductId: { startsWith: blPrefix, mode: 'insensitive' as const } }] : []),
+                ]
+              }
+            }
+          ]
         },
         select: {
           id: true,
@@ -297,6 +310,14 @@ export class FeedPriceSyncService {
             feedItemsBySkuMap.set(id, data);
             feedItemsBySkuMap.set('hp-' + id, data);
             feedItemsBySkuMap.set('HP-' + id, data);
+
+            const ean = this.getAttrValueFromAttrs(node, 'EAN');
+            if (ean) {
+              feedItemsMap.set(ean, data);
+              feedItemsBySkuMap.set('hp-' + ean, data);
+              feedItemsBySkuMap.set('HP-' + ean, data);
+              feedItemsBySkuMap.set(ean, data);
+            }
           }
         }
       } 
@@ -478,6 +499,15 @@ export class FeedPriceSyncService {
           // Try SKU match
           if (!match && feedItemsBySkuMap.has(variant.sku)) {
             match = feedItemsBySkuMap.get(variant.sku);
+          }
+          // Try matching default variant SKU by stripping '-DEFAULT'
+          if (!match && variant.sku && variant.sku.endsWith('-DEFAULT')) {
+            const baseSku = variant.sku.substring(0, variant.sku.length - 8);
+            if (feedItemsBySkuMap.has(baseSku)) {
+              match = feedItemsBySkuMap.get(baseSku);
+            } else if (feedItemsBySkuMap.has('hp-' + baseSku)) {
+              match = feedItemsBySkuMap.get('hp-' + baseSku);
+            }
           }
 
           if (match) {

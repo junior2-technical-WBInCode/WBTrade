@@ -450,7 +450,7 @@ export class ReferralService {
    */
   async markPaid(orderId: string): Promise<void> {
     try {
-      await prisma.referral.updateMany({
+      const result = await prisma.referral.updateMany({
         where: {
           orderId,
           status: 'PENDING',
@@ -460,30 +460,35 @@ export class ReferralService {
           paidAt: new Date(),
         },
       });
+      if (result.count === 0) {
+        console.log(`[Referral] No pending referral found for order ${orderId}`);
+      }
     } catch (err) {
-      // No referral for this order — that's normal
-      console.log(`[Referral] No pending referral found for order ${orderId}`);
+      console.error(`[Referral] Error marking referral as paid for order ${orderId}:`, err);
     }
   }
 
   /**
    * Cancel referral when order is cancelled/refunded.
-   * Only cancels if not already APPROVED and paid out.
+   * Supports claw-back of APPROVED commissions, returning partner's balance to negative if paid.
    */
   async cancelForOrder(orderId: string, reason?: string): Promise<void> {
     try {
-      await prisma.referral.updateMany({
+      const result = await prisma.referral.updateMany({
         where: {
           orderId,
-          status: { in: ['PENDING', 'PAID'] },
+          status: { in: ['PENDING', 'PAID', 'APPROVED'] },
         },
         data: {
           status: 'CANCELLED',
           fraudNote: reason || 'Order cancelled/refunded',
         },
       });
-    } catch {
-      // Ignore — no referral or already approved
+      if (result.count === 0) {
+        console.log(`[Referral] No active referral found for order ${orderId} to cancel`);
+      }
+    } catch (err) {
+      console.error(`[Referral] Error cancelling referral for order ${orderId}:`, err);
     }
   }
 
@@ -886,6 +891,51 @@ export class ReferralService {
         notes: reason || null,
       },
     });
+  }
+
+  /**
+   * Adjusts the partner's payout record if a referral coupon was only partially used.
+   * Returns the unused portion of the coupon back to the partner's available balance.
+   */
+  async handleCouponUsage(couponCode: string, discount: number | Prisma.Decimal): Promise<void> {
+    try {
+      const coupon = await prisma.coupon.findUnique({
+        where: { code: couponCode },
+      });
+
+      if (!coupon || coupon.couponSource !== 'REFERRAL') return;
+
+      const couponValue = toNum(coupon.value);
+      const discountAmount = toNum(discount);
+
+      if (couponValue > discountAmount) {
+        const remainder = roundMoney(couponValue - discountAmount);
+
+        // Find the payout associated with this coupon code
+        const payout = await prisma.referralPayout.findFirst({
+          where: { couponCode, status: 'COMPLETED' },
+        });
+
+        if (payout) {
+          const originalAmount = toNum(payout.amount);
+          const newAmount = roundMoney(originalAmount - remainder);
+
+          await prisma.referralPayout.update({
+            where: { id: payout.id },
+            data: {
+              amount: newAmount,
+              notes: payout.notes
+                ? `${payout.notes} (Pierwotna wartość kuponu: ${couponValue} PLN, wykorzystano: ${discountAmount} PLN, zwrócono: ${remainder} PLN)`
+                : `Wykorzystano: ${discountAmount} PLN z kuponu ${couponValue} PLN. Zwrócono resztę: ${remainder} PLN.`,
+            },
+          });
+
+          console.log(`[Referral] Adjusted payout ${payout.id} from ${originalAmount} to ${newAmount} PLN. ${remainder} PLN returned to partner.`);
+        }
+      }
+    } catch (err) {
+      console.error(`[Referral] Error adjusting payout for coupon ${couponCode}:`, err);
+    }
   }
 }
 
