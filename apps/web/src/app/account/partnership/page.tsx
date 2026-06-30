@@ -504,8 +504,8 @@ export default function PartnershipPage() {
                             {profile.stats.referrals.map((ref) => (
                               <tr key={ref.id} className="hover:bg-gray-50/50 dark:hover:bg-secondary-800/30">
                                   <td className="px-4 py-3.5 font-medium text-gray-900 dark:text-white">{ref.order.orderNumber}</td>
-                                  <td className="px-4 py-3.5 text-center">{ref.order.total.toFixed(2)} PLN</td>
-                                  <td className="px-4 py-3.5 text-right font-medium text-orange-500">{ref.primaryCommission.toFixed(2)} PLN</td>
+                                  <td className="px-4 py-3.5 text-center">{Number(ref.order.total).toFixed(2)} PLN</td>
+                                  <td className="px-4 py-3.5 text-right font-medium text-orange-500">{Number(ref.primaryCommission).toFixed(2)} PLN</td>
                                   <td className="px-4 py-3.5 text-center">{statusBadge(ref.status)}</td>
                                   <td className="px-4 py-3.5 text-right text-xs">{formatDate(ref.createdAt)}</td>
                               </tr>
@@ -536,21 +536,21 @@ export default function PartnershipPage() {
                           <tbody className="divide-y divide-gray-100 dark:divide-secondary-700/50">
                             {profile.stats.recentPayouts.map((pay) => (
                               <tr key={pay.id} className="hover:bg-gray-50/50 dark:hover:bg-secondary-800/30">
-                                <td className="px-4 py-3.5 font-medium text-gray-900 dark:text-white">
-                                  {pay.type === 'COUPON' ? 'Kupon' : 'Przelew bankowy'}
-                                </td>
-                                <td className="px-4 py-3.5 text-xs font-mono">
-                                  {pay.couponCode && (
-                                    <div>Kod kuponu: <span className="font-bold text-orange-500">{pay.couponCode}</span></div>
-                                  )}
-                                  {pay.invoiceUrl && (
-                                    <a href={pay.invoiceUrl} target="_blank" rel="noopener noreferrer" className="text-orange-500 hover:underline">Podgląd faktury</a>
-                                  )}
-                                  {pay.notes && <div className="text-gray-400 mt-1">{pay.notes}</div>}
-                                </td>
-                                <td className="px-4 py-3.5 text-right font-medium text-gray-950 dark:text-white">{pay.amount.toFixed(2)} PLN</td>
-                                <td className="px-4 py-3.5 text-center">{statusBadge(pay.status)}</td>
-                                <td className="px-4 py-3.5 text-right text-xs">{formatDate(pay.createdAt)}</td>
+                                  <td className="px-4 py-3.5 font-medium text-gray-900 dark:text-white">
+                                    {pay.type === 'COUPON' ? 'Kupon' : 'Przelew bankowy'}
+                                  </td>
+                                  <td className="px-4 py-3.5 text-xs font-mono">
+                                    {pay.couponCode && (
+                                      <div>Kod kuponu: <span className="font-bold text-orange-500">{pay.couponCode}</span></div>
+                                    )}
+                                    {pay.invoiceUrl && (
+                                      <a href={pay.invoiceUrl} target="_blank" rel="noopener noreferrer" className="text-orange-500 hover:underline">Podgląd faktury</a>
+                                    )}
+                                    {pay.notes && <div className="text-gray-400 mt-1">{pay.notes}</div>}
+                                  </td>
+                                  <td className="px-4 py-3.5 text-right font-medium text-gray-950 dark:text-white">{Number(pay.amount).toFixed(2)} PLN</td>
+                                  <td className="px-4 py-3.5 text-center">{statusBadge(pay.status)}</td>
+                                  <td className="px-4 py-3.5 text-right text-xs">{formatDate(pay.createdAt)}</td>
                               </tr>
                             ))}
                           </tbody>
