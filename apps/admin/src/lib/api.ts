@@ -269,3 +269,38 @@ export const partnersApi = {
       body: JSON.stringify({ reason }),
     }),
 };
+
+export const adminSalesRepsApi = {
+  list: (): Promise<any> =>
+    fetchWithAuth('/api/admin/sales-reps'),
+
+  listPayouts: (status?: string): Promise<any> =>
+    fetchWithAuth(`/api/admin/sales-reps/payouts${status ? `?status=${status}` : ''}`),
+
+  completePayout: (id: string, notes?: string): Promise<any> =>
+    fetchWithAuth(`/api/admin/sales-reps/payouts/${id}/complete`, {
+      method: 'PATCH',
+      body: JSON.stringify({ notes }),
+    }),
+
+  rejectPayout: (id: string, notes?: string): Promise<any> =>
+    fetchWithAuth(`/api/admin/sales-reps/payouts/${id}/reject`, {
+      method: 'PATCH',
+      body: JSON.stringify({ notes }),
+    }),
+
+  getConfig: (): Promise<any> =>
+    fetchWithAuth('/api/admin/settings/sales-rep-config'),
+
+  saveConfig: (config: {
+    baseCommissionPct: number;
+    maxDiscountPct: number;
+    minCompanyMarginPct: number;
+    markupMultiplier: number;
+    holdDays: number;
+  }): Promise<any> =>
+    fetchWithAuth('/api/admin/settings/sales-rep-config', {
+      method: 'POST',
+      body: JSON.stringify(config),
+    }),
+};

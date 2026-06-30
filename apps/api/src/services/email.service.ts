@@ -1346,6 +1346,109 @@ export class EmailService {
       return { success: false, error: err.message };
     }
   }
+
+  async sendPaymentLinkEmail(
+    to: string,
+    customerName: string,
+    orderNumber: string,
+    orderId: string,
+    total: number
+  ): Promise<EmailResult> {
+    try {
+      const resend = getResend();
+      const paymentUrl = `${SITE_URL}/order/${orderId}/payment`;
+
+      const { data, error } = await resend.emails.send({
+        from: FROM_EMAIL,
+        to: [to],
+        subject: `Dokończ płatność za zamówienie #${orderNumber}`,
+        html: emailWrapper({
+          title: 'Dokończ płatność online',
+          headerColor: 'linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%)',
+          content: `
+            ${greeting(customerName)}
+            ${paragraph(`Twoje zamówienie <strong>#${escapeHtml(orderNumber)}</strong> o wartości <strong>${total.toFixed(2)} PLN</strong> zostało przygotowane przez naszego handlowca.`)}
+            ${paragraph('Aby dokończyć zamówienie i opłacić je online, kliknij w poniższy przycisk:')}
+            ${ctaButton('💳 Opłać zamówienie online', paymentUrl)}
+            ${paragraph('Link do płatności wygaśnie za kilka dni. Po opłaceniu zamówienia natychmiast przystąpimy do jego realizacji.')}
+          `,
+        }),
+      });
+
+      if (error) return { success: false, error: error.message };
+      console.log(`✅ [EmailService] Payment link email sent to ${to} for order ${orderNumber}`);
+      return { success: true, messageId: data?.id };
+    } catch (err: any) {
+      return { success: false, error: err.message };
+    }
+  }
+
+  async sendBankTransferDetailsEmail(
+    to: string,
+    customerName: string,
+    orderNumber: string,
+    total: number
+  ): Promise<EmailResult> {
+    try {
+      const resend = getResend();
+      const { data, error } = await resend.emails.send({
+        from: FROM_EMAIL,
+        to: [to],
+        subject: `Dane do przelewu bankowego - Zamówienie #${orderNumber}`,
+        html: emailWrapper({
+          title: 'Dane do przelewu bankowego',
+          headerColor: 'linear-gradient(135deg, #0284c7 0%, #0369a1 100%)',
+          content: `
+            ${greeting(customerName)}
+            ${paragraph(`Twoje zamówienie <strong>#${escapeHtml(orderNumber)}</strong> o wartości <strong>${total.toFixed(2)} PLN</strong> zostało utworzone. Poniżej znajdują się dane do wykonania przelewu tradycyjnego:`)}
+            
+            <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="margin: 20px 0 24px 0;">
+              <tr>
+                <td style="background-color: #eff6ff; border: 1px solid #bfdbfe; border-radius: 12px; padding: 16px 20px;">
+                  <p style="margin: 0 0 10px; color: #1e3a8a; font-size: 15px; font-weight: 700;">🏦 Dane do przelewu tradycyjnego</p>
+                  <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="font-size: 14px; color: #1e293b; line-height: 1.6;">
+                    <tr>
+                      <td width="35%" style="color: #64748b; padding: 3px 0; font-size: 13px;">Odbiorca:</td>
+                      <td style="font-weight: 600; padding: 3px 0; color: #1e293b;">WB PARTNERS Sp. z o.o.</td>
+                    </tr>
+                    <tr>
+                      <td style="color: #64748b; padding: 3px 0; font-size: 13px;">Adres odbiorcy:</td>
+                      <td style="font-weight: 500; padding: 3px 0; color: #1e293b;">ul. Juliusza Słowackiego 24/11, 35-060 Rzeszów</td>
+                    </tr>
+                    <tr>
+                      <td style="color: #64748b; padding: 3px 0; font-size: 13px;">Bank:</td>
+                      <td style="font-weight: 600; padding: 3px 0; color: #1e293b;">ING</td>
+                    </tr>
+                    <tr>
+                      <td style="color: #64748b; padding: 3px 0; font-size: 13px;">Numer konta:</td>
+                      <td style="font-family: monospace; font-weight: 700; padding: 3px 0; color: #1e3a8a; font-size: 15px; letter-spacing: 0.5px;">19 1050 1445 1000 0090 8466 1967</td>
+                    </tr>
+                    <tr>
+                      <td style="color: #64748b; padding: 3px 0; font-size: 13px;">Tytuł przelewu:</td>
+                      <td style="font-family: monospace; font-weight: 700; padding: 3px 0; color: #ea580c; font-size: 15px;">#${escapeHtml(orderNumber)}</td>
+                    </tr>
+                    <tr>
+                      <td style="color: #64748b; padding: 3px 0; font-size: 13px;">Kwota:</td>
+                      <td style="font-weight: 700; padding: 3px 0; color: #ea580c; font-size: 15px;">${total.toFixed(2)} zł</td>
+                    </tr>
+                  </table>
+                  <p style="margin: 10px 0 0; color: #1e3a8a; font-size: 12px; font-style: italic;">Zamówienie zostanie przekazane do realizacji po zaksięgowaniu wpłaty.</p>
+                </td>
+              </tr>
+            </table>
+            
+            ${paragraph('Prosimy o dokonanie płatności w ciągu 7 dni. Po zaksięgowaniu wpłaty otrzymasz kolejne powiadomienie o zmianie statusu zamówienia.')}
+          `,
+        }),
+      });
+
+      if (error) return { success: false, error: error.message };
+      console.log(`✅ [EmailService] Bank transfer details email sent to ${to} for order ${orderNumber}`);
+      return { success: true, messageId: data?.id };
+    } catch (err: any) {
+      return { success: false, error: err.message };
+    }
+  }
 }
 
 export const emailService = new EmailService();

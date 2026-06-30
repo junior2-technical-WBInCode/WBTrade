@@ -39,7 +39,7 @@ interface UserDetail {
   firstName: string;
   lastName: string;
   phone: string | null;
-  role: 'CUSTOMER' | 'ADMIN' | 'WAREHOUSE';
+  role: 'CUSTOMER' | 'ADMIN' | 'WAREHOUSE' | 'B2B_PARTNER' | 'HANDLOWIEC';
   isActive: boolean;
   emailVerified: boolean;
   emailVerifiedAt: string | null;
@@ -63,18 +63,24 @@ const roleColors: Record<string, string> = {
   ADMIN: 'bg-purple-500/20 text-purple-400 border-purple-500/30',
   WAREHOUSE: 'bg-blue-500/20 text-blue-400 border-blue-500/30',
   CUSTOMER: 'bg-slate-500/20 text-slate-300 border-slate-500/30',
+  B2B_PARTNER: 'bg-teal-500/20 text-teal-400 border-teal-500/30',
+  HANDLOWIEC: 'bg-orange-500/20 text-orange-400 border-orange-500/30',
 };
 
 const roleLabels: Record<string, string> = {
   ADMIN: 'Administrator',
   WAREHOUSE: 'Magazynier',
   CUSTOMER: 'Klient',
+  B2B_PARTNER: 'Partner B2B',
+  HANDLOWIEC: 'Handlowiec',
 };
 
 const roleIcons: Record<string, React.ReactNode> = {
   ADMIN: <Shield className="w-4 h-4" />,
   WAREHOUSE: <Package className="w-4 h-4" />,
   CUSTOMER: <User className="w-4 h-4" />,
+  B2B_PARTNER: <User className="w-4 h-4" />,
+  HANDLOWIEC: <Shield className="w-4 h-4" />,
 };
 
 const orderStatusColors: Record<string, string> = {
@@ -120,7 +126,7 @@ export default function UserDetailPage({ params }: { params: Promise<{ id: strin
 
   // Role change
   const [showRoleModal, setShowRoleModal] = useState(false);
-  const [newRole, setNewRole] = useState<'CUSTOMER' | 'ADMIN' | 'WAREHOUSE'>('CUSTOMER');
+  const [newRole, setNewRole] = useState<'CUSTOMER' | 'ADMIN' | 'WAREHOUSE' | 'B2B_PARTNER' | 'HANDLOWIEC'>('CUSTOMER');
 
   useEffect(() => {
     if (token && id) loadUser();
@@ -687,7 +693,7 @@ export default function UserDetailPage({ params }: { params: Promise<{ id: strin
               Użytkownik: <span className="text-white">{user.firstName} {user.lastName}</span>
             </p>
             <div className="space-y-2 mb-4">
-              {(['CUSTOMER', 'WAREHOUSE', 'ADMIN'] as const).map(role => (
+              {(['CUSTOMER', 'WAREHOUSE', 'B2B_PARTNER', 'HANDLOWIEC', 'ADMIN'] as const).map(role => (
                 <button
                   key={role}
                   onClick={() => setNewRole(role)}

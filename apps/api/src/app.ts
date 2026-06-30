@@ -70,6 +70,8 @@ import adminInvoicesRoutes from './routes/admin-invoices';
 import manufacturersRoutes from './routes/manufacturers';
 import referralsRoutes from './routes/referrals';
 import adminPartnersRoutes from './routes/admin-partners';
+import salesRepRoutes from './routes/sales-rep';
+import adminSalesRepsRoutes from './routes/admin-sales-reps';
 import { generalRateLimiter } from './middleware/rate-limit.middleware';
 import { initializeMeilisearch, meiliClient, PRODUCTS_INDEX, isMeilisearchAvailable } from './lib/meilisearch';
 import { startSearchIndexWorker } from './workers/search-index.worker';
@@ -1063,6 +1065,8 @@ app.use('/api/admin/b2b', adminB2bRoutes); // Admin B2B management
 app.use('/api/admin/invoices', adminInvoicesRoutes); // Admin invoices from Fakturownia
 app.use('/api/referrals', referralsRoutes); // Referral/Affiliate program
 app.use('/api/admin/partners', adminPartnersRoutes); // Admin partner/referral management
+app.use('/api/admin/sales-reps', adminSalesRepsRoutes); // Admin sales rep (handlowiec) management
+app.use('/api/sales-rep', salesRepRoutes); // Sales Rep (handlowiec) routes
 
 // Serve uploaded files statically
 app.use('/uploads', express.static(path.join(__dirname, '../uploads')));

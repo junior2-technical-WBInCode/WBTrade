@@ -6,6 +6,7 @@
  */
 
 import { referralService } from '../services/referral.service';
+import { salesRepService } from '../services/sales-rep.service';
 
 let lastCheckDate = '';
 
@@ -25,8 +26,11 @@ async function checkAffiliateTasks() {
       } else {
         console.log('[AffiliateCron] Finished: No eligible referrals to process.');
       }
+
+      console.log('[SalesRepCron] Starting daily commission holds processing...');
+      await salesRepService.processCommissionHolds();
     } catch (error) {
-      console.error('[AffiliateCron] Error processing referral holds:', error);
+      console.error('[AffiliateCron/SalesRepCron] Error processing holds:', error);
     }
   }
 }

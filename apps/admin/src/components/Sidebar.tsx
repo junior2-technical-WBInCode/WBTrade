@@ -192,6 +192,16 @@ const navSections: NavSection[] = [
         ],
       },
       {
+        title: 'Handlowcy',
+        href: '/sales-reps',
+        icon: Users,
+        submenu: [
+          { title: 'Lista handlowców', href: '/sales-reps' },
+          { title: 'Wypłaty prowizji', href: '/sales-reps/payouts' },
+          { title: 'Ustawienia progów', href: '/sales-reps/settings' },
+        ],
+      },
+      {
         title: 'Magazyn (WMS)',
         href: '/warehouse',
         icon: Warehouse,

@@ -9,11 +9,11 @@ import { UserRole } from '@prisma/client';
 
 const createUserSchema = z.object({
   email: z.string().email('Nieprawidlowy adres email'),
-  password: z.string().min(8, 'Haslo musi miec co najmniej 8 znaków'),
+  password: z.string().min(8, 'Haslo musi miec co najmniej 8 znakï¿½w'),
   firstName: z.string().min(1, 'First name is required'),
   lastName: z.string().min(1, 'Last name is required'),
   phone: z.string().optional(),
-  role: z.enum(['CUSTOMER', 'ADMIN', 'WAREHOUSE']).optional(),
+  role: z.enum(['CUSTOMER', 'ADMIN', 'WAREHOUSE', 'B2B_PARTNER', 'HANDLOWIEC']).optional(),
 });
 
 const updateUserSchema = z.object({
@@ -21,16 +21,16 @@ const updateUserSchema = z.object({
   firstName: z.string().min(1).optional(),
   lastName: z.string().min(1).optional(),
   phone: z.string().nullable().optional(),
-  role: z.enum(['CUSTOMER', 'ADMIN', 'WAREHOUSE']).optional(),
+  role: z.enum(['CUSTOMER', 'ADMIN', 'WAREHOUSE', 'B2B_PARTNER', 'HANDLOWIEC']).optional(),
   isActive: z.boolean().optional(),
 });
 
 const changeRoleSchema = z.object({
-  role: z.enum(['CUSTOMER', 'ADMIN', 'WAREHOUSE']),
+  role: z.enum(['CUSTOMER', 'ADMIN', 'WAREHOUSE', 'B2B_PARTNER', 'HANDLOWIEC']),
 });
 
 const resetPasswordSchema = z.object({
-  password: z.string().min(8, 'Haslo musi miec co najmniej 8 znaków'),
+  password: z.string().min(8, 'Haslo musi miec co najmniej 8 znakï¿½w'),
 });
 
 // ============================================
@@ -67,7 +67,7 @@ export const usersController = {
       res.json(result);
     } catch (error) {
       console.error('Error fetching users:', error);
-      res.status(500).json({ message: 'Nie udalo sie pobrac uzytkowników' });
+      res.status(500).json({ message: 'Nie udalo sie pobrac uzytkownikï¿½w' });
     }
   },
 
@@ -81,7 +81,7 @@ export const usersController = {
       res.json(stats);
     } catch (error) {
       console.error('Error fetching user stats:', error);
-      res.status(500).json({ message: 'Nie udalo sie pobrac statystyk uzytkowników' });
+      res.status(500).json({ message: 'Nie udalo sie pobrac statystyk uzytkownikï¿½w' });
     }
   },
 

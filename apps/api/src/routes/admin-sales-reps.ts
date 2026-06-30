@@ -1,0 +1,115 @@
+import { Router } from 'express';
+import { prisma } from '../db';
+import { authGuard, adminOnly } from '../middleware/auth.middleware';
+import { salesRepService } from '../services/sales-rep.service';
+
+const router = Router();
+
+router.use(authGuard, adminOnly);
+
+/**
+ * GET /api/admin/sales-reps
+ * List all users with HANDLOWIEC role and their metrics
+ */
+router.get('/', async (req, res) => {
+  try {
+    const reps = await prisma.user.findMany({
+      where: { role: 'HANDLOWIEC' },
+      select: {
+        id: true,
+        email: true,
+        firstName: true,
+        lastName: true,
+        companyName: true,
+        nip: true,
+        createdAt: true,
+      },
+    });
+
+    const repsWithBalances = await Promise.all(
+      reps.map(async (rep) => {
+        const balance = await salesRepService.computeBalance(rep.id);
+        return {
+          ...rep,
+          balance,
+        };
+      })
+    );
+
+    res.json({ success: true, salesReps: repsWithBalances });
+  } catch (error: any) {
+    console.error('[AdminSalesReps] Error listing sales reps:', error);
+    res.status(500).json({ message: 'Błąd pobierania listy handlowców.' });
+  }
+});
+
+/**
+ * GET /api/admin/sales-reps/payouts
+ * List all payout requests (optional filter by status)
+ */
+router.get('/payouts', async (req, res) => {
+  try {
+    const { status } = req.query;
+    const whereClause: any = {};
+    if (status) {
+      whereClause.status = status as any;
+    }
+
+    const payouts = await prisma.salesRepPayout.findMany({
+      where: whereClause,
+      include: {
+        salesRep: {
+          select: {
+            id: true,
+            email: true,
+            firstName: true,
+            lastName: true,
+            companyName: true,
+          },
+        },
+      },
+      orderBy: { createdAt: 'desc' },
+    });
+
+    res.json({ success: true, payouts });
+  } catch (error: any) {
+    console.error('[AdminSalesReps] Error listing payouts:', error);
+    res.status(500).json({ message: 'Błąd pobierania wniosków o wypłaty.' });
+  }
+});
+
+/**
+ * PATCH /api/admin/sales-reps/payouts/:id/complete
+ * Complete payout request
+ */
+router.patch('/payouts/:id/complete', async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { notes } = req.body;
+
+    const payout = await salesRepService.completePayout(id, notes);
+    res.json({ success: true, message: 'Wypłata została zatwierdzona.', payout });
+  } catch (error: any) {
+    console.error('[AdminSalesReps] Error completing payout:', error);
+    res.status(500).json({ message: error.message || 'Błąd zatwierdzania wypłaty.' });
+  }
+});
+
+/**
+ * PATCH /api/admin/sales-reps/payouts/:id/reject
+ * Reject payout request
+ */
+router.patch('/payouts/:id/reject', async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { notes } = req.body;
+
+    const payout = await salesRepService.rejectPayout(id, notes);
+    res.json({ success: true, message: 'Wypłata została odrzucona.', payout });
+  } catch (error: any) {
+    console.error('[AdminSalesReps] Error rejecting payout:', error);
+    res.status(500).json({ message: error.message || 'Błąd odrzucania wypłaty.' });
+  }
+});
+
+export default router;

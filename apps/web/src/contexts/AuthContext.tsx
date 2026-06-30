@@ -63,7 +63,15 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api';
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
-  const [user, setUser] = useState<User | null>(null);
+  const [rawUser, setRawUser] = useState<User | null>(null);
+  const user = React.useMemo(() => {
+    if (rawUser && rawUser.role !== 'B2B_PARTNER') {
+      return { ...rawUser, b2bStatus: 'NONE' };
+    }
+    return rawUser;
+  }, [rawUser]);
+  const setUser = setRawUser;
+  
   const [isLoading, setIsLoading] = useState(true);
   const [tokens, setTokens] = useState<AuthTokens | null>(null);
   const [initialLoadDone, setInitialLoadDone] = useState(false);

@@ -7,6 +7,7 @@ import { createBaselinkerProvider } from '../providers/baselinker';
 import { decryptToken } from '../lib/encryption';
 import { getB2bUserInfo, calculateB2bPriceForProduct } from './b2b-pricing.service';
 import { referralService } from './referral.service';
+import { salesRepService } from './sales-rep.service';
 
 // Courier name mapping for display
 const COURIER_NAMES: Record<string, string> = {
@@ -736,6 +737,11 @@ export class OrdersService {
       console.error(`[OrdersService] Error cancelling referral for order ${id}:`, err);
     });
 
+    // Cancel sales rep commission
+    salesRepService.cancelForOrder(id).catch((err) => {
+      console.error(`[OrdersService] Error cancelling sales rep commission for order ${id}:`, err);
+    });
+
     // Sync cancellation to Baselinker only if actually cancelled (not pending approval)
     if (!result.pendingApproval && result.order.baselinkerOrderId) {
       setTimeout(() => {
@@ -1073,6 +1079,10 @@ export class OrdersService {
     if (result) {
       referralService.cancelForOrder(id, reason || 'Order refunded').catch((err) => {
         console.error(`[OrdersService] Error cancelling referral for refunded order ${id}:`, err);
+      });
+
+      salesRepService.cancelForOrder(id).catch((err) => {
+        console.error(`[OrdersService] Error cancelling sales rep commission for refunded order ${id}:`, err);
       });
     }
 
@@ -1503,6 +1513,11 @@ export class OrdersService {
     // Cancel related referral
     referralService.cancelForOrder(id, 'Cancellation request approved by admin').catch((err) => {
       console.error(`[OrdersService] Error cancelling referral for order ${id} after approval:`, err);
+    });
+
+    // Cancel sales rep commission
+    salesRepService.cancelForOrder(id).catch((err) => {
+      console.error(`[OrdersService] Error cancelling sales rep commission for order ${id} after approval:`, err);
     });
 
     // Sync cancellation to Baselinker
