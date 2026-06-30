@@ -44,6 +44,36 @@ router.get('/', async (req, res) => {
 });
 
 /**
+ * POST /api/admin/sales-reps/promote
+ * Grant the HANDLOWIEC role to a user by email (admin-only).
+ * Body: { email: string }
+ */
+router.post('/promote', async (req, res) => {
+  try {
+    const email = String(req.body?.email || '').toLowerCase().trim();
+    if (!email) {
+      res.status(400).json({ message: 'Podaj adres e-mail konta.' });
+      return;
+    }
+    const user = await prisma.user.findUnique({ where: { email } });
+    if (!user) {
+      res.status(404).json({ message: `Nie znaleziono konta o adresie ${email}.` });
+      return;
+    }
+    if (user.role === 'HANDLOWIEC') {
+      res.json({ success: true, alreadyRep: true, message: 'To konto już jest handlowcem.' });
+      return;
+    }
+    await prisma.user.update({ where: { id: user.id }, data: { role: 'HANDLOWIEC' } });
+    // Role lives in the JWT (~8h) — the user must re-login to gain panel access.
+    res.json({ success: true, message: `Nadano rolę HANDLOWIEC dla ${email}. Konto musi się przelogować.` });
+  } catch (error: any) {
+    console.error('[AdminSalesReps] Error promoting user:', error);
+    res.status(500).json({ message: 'Błąd nadawania roli handlowca.' });
+  }
+});
+
+/**
  * GET /api/admin/sales-reps/payouts
  * List all payout requests (optional filter by status)
  */

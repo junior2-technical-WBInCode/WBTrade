@@ -19,14 +19,14 @@ const isValidCUID = (id: string): boolean => {
  */
 const addItemSchema = z.object({
   variantId: z.string().regex(/^c[a-z0-9]{20,}$/i, 'Invalid variant ID'),
-  quantity: z.number().int().positive().max(100).optional().default(1),
+  quantity: z.number().int().positive().max(10000).optional().default(1),
 });
 
 /**
  * Update item quantity schema
  */
 const updateItemSchema = z.object({
-  quantity: z.number().int().min(0, 'Quantity cannot be negative').max(100, 'Maximum quantity is 100'),
+  quantity: z.number().int().min(0, 'Quantity cannot be negative').max(10000, 'Maximum quantity is 10000'),
 });
 
 /**

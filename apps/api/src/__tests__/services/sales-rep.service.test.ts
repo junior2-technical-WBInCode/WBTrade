@@ -182,6 +182,7 @@ describe('SalesRepService', () => {
       expect(prisma.order.update).toHaveBeenCalledWith({
         where: { id: 'order-1' },
         data: {
+          salesRepId: 'rep-1',
           discount: 0,
           total: { decrement: 0 },
           repDiscountPct: new Prisma.Decimal(0),
@@ -212,6 +213,7 @@ describe('SalesRepService', () => {
       expect(prisma.order.update).toHaveBeenCalledWith({
         where: { id: 'order-1' },
         data: {
+          salesRepId: 'rep-1',
           discount: 20,
           total: { decrement: 20 },
           repDiscountPct: new Prisma.Decimal(10),
@@ -242,6 +244,7 @@ describe('SalesRepService', () => {
       expect(prisma.order.update).toHaveBeenCalledWith({
         where: { id: 'order-1' },
         data: {
+          salesRepId: 'rep-1',
           discount: 26,
           total: { decrement: 26 },
           repDiscountPct: new Prisma.Decimal(13),

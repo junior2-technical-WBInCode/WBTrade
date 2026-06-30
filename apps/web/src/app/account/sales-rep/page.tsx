@@ -32,6 +32,7 @@ export default function SalesRepPage() {
 
   // Merchant Cart & Offers Creator
   const [cartData, setCartData] = useState<SalesRepCartData | null>(null);
+  const [repConfig, setRepConfig] = useState<{ maxDiscountPct: number; pool: number } | null>(null);
   const [cartLoading, setCartLoading] = useState(true);
   const [discountPct, setDiscountPct] = useState(0);
 
@@ -121,11 +122,22 @@ export default function SalesRepPage() {
     }
   };
 
+  // Load commission config (slider max + pool) so the panel follows admin thresholds.
+  const fetchConfig = async () => {
+    try {
+      const res = await salesRepApi.getConfig();
+      if (res.success) setRepConfig({ maxDiscountPct: res.maxDiscountPct, pool: res.pool });
+    } catch (err) {
+      console.error('Error fetching config:', err);
+    }
+  };
+
   useEffect(() => {
     if (isAuthenticated && user?.role === 'HANDLOWIEC') {
       fetchBalance();
       fetchCommissions(commissionsPage);
       fetchCart();
+      fetchConfig();
     }
   }, [isAuthenticated, user, commissionsPage]);
 
@@ -274,14 +286,19 @@ export default function SalesRepPage() {
     );
   }
 
-  // Pre-calculate live totals based on discountPct
-  const commissionPoolPct = 18;
+  // Pre-calculate live totals based on discountPct (pool + max from admin config)
+  const commissionPoolPct = repConfig?.pool ?? 18;
+  const maxDiscount = repConfig?.maxDiscountPct ?? 13;
   const repCommissionPct = Math.max(0, commissionPoolPct - discountPct);
   
   const baseTotal = cartData?.subtotal || 0;
-  const discountVal = (baseTotal * discountPct) / 100;
+  // Rabat i prowizja liczone od CENY ZAKUPU (purchaseTotal) — identycznie jak backend
+  // (attributeCommission: discount = purchaseTotal * d%). Wcześniej liczone od ceny
+  // detalicznej, przez co panel pokazywał inną kwotę niż zamówienie/mail klienta.
+  const purchaseBase = cartData?.purchaseTotal || 0;
+  const discountVal = (purchaseBase * discountPct) / 100;
   const finalPrice = Math.max(0, baseTotal - discountVal);
-  const repCommissionVal = (baseTotal * repCommissionPct) / 100;
+  const repCommissionVal = (purchaseBase * repCommissionPct) / 100;
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-secondary-900">
@@ -523,7 +540,7 @@ export default function SalesRepPage() {
                       <input
                         type="range"
                         min="0"
-                        max="13"
+                        max={maxDiscount}
                         value={discountPct}
                         onChange={(e) => setDiscountPct(parseInt(e.target.value))}
                         disabled={cartLoading || !cartData || cartData.items.length === 0}

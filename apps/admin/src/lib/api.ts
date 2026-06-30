@@ -274,6 +274,12 @@ export const adminSalesRepsApi = {
   list: (): Promise<any> =>
     fetchWithAuth('/api/admin/sales-reps'),
 
+  promote: (email: string): Promise<any> =>
+    fetchWithAuth('/api/admin/sales-reps/promote', {
+      method: 'POST',
+      body: JSON.stringify({ email }),
+    }),
+
   listPayouts: (status?: string): Promise<any> =>
     fetchWithAuth(`/api/admin/sales-reps/payouts${status ? `?status=${status}` : ''}`),
 

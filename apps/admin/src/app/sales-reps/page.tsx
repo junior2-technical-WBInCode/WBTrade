@@ -9,6 +9,9 @@ export default function SalesRepsListPage() {
   const [reps, setReps] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
+  const [promoteEmail, setPromoteEmail] = useState('');
+  const [promoteMsg, setPromoteMsg] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
+  const [promoting, setPromoting] = useState(false);
 
   const fetchReps = async () => {
     try {
@@ -22,6 +25,23 @@ export default function SalesRepsListPage() {
       setError(err.message || 'Błąd pobierania listy handlowców.');
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handlePromote = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!promoteEmail.trim()) return;
+    setPromoting(true);
+    setPromoteMsg(null);
+    try {
+      const data = await adminSalesRepsApi.promote(promoteEmail.trim());
+      setPromoteMsg({ type: 'success', text: data.message || 'Nadano rolę handlowca.' });
+      setPromoteEmail('');
+      fetchReps();
+    } catch (err: any) {
+      setPromoteMsg({ type: 'error', text: err.message || 'Błąd nadawania roli.' });
+    } finally {
+      setPromoting(false);
     }
   };
 
@@ -50,6 +70,33 @@ export default function SalesRepsListPage() {
             {error}
           </div>
         )}
+
+        {/* Promote a user to HANDLOWIEC */}
+        <div className="bg-white dark:bg-secondary-800 rounded-xl border border-gray-100 dark:border-secondary-700/50 p-4">
+          <h2 className="font-semibold text-gray-900 dark:text-white mb-1">Nadaj rolę handlowca</h2>
+          <p className="text-xs text-gray-500 dark:text-gray-400 mb-3">Wpisz e-mail istniejącego konta. Po nadaniu roli użytkownik musi się przelogować.</p>
+          <form onSubmit={handlePromote} className="flex flex-wrap gap-2 items-center">
+            <input
+              type="email"
+              value={promoteEmail}
+              onChange={(e) => setPromoteEmail(e.target.value)}
+              placeholder="email@klienta.pl"
+              className="flex-1 min-w-[220px] px-3 py-2 rounded-lg border border-gray-200 dark:border-secondary-700 bg-white dark:bg-secondary-900 text-sm text-gray-900 dark:text-white"
+            />
+            <button
+              type="submit"
+              disabled={promoting}
+              className="bg-orange-500 hover:bg-orange-600 text-white font-semibold text-sm px-4 py-2 rounded-lg transition-colors disabled:opacity-50"
+            >
+              {promoting ? 'Nadaję...' : 'Nadaj rolę HANDLOWIEC'}
+            </button>
+          </form>
+          {promoteMsg && (
+            <p className={`mt-2 text-xs ${promoteMsg.type === 'success' ? 'text-green-600 dark:text-green-400' : 'text-red-600 dark:text-red-400'}`}>
+              {promoteMsg.text}
+            </p>
+          )}
+        </div>
 
         {/* List Table */}
         <div className="bg-white dark:bg-secondary-800 rounded-xl border border-gray-100 dark:border-secondary-700/50 overflow-hidden">

@@ -51,7 +51,11 @@ export class PayUProvider implements IPaymentProvider {
       clientId: process.env.PAYU_CLIENT_ID || '',
       clientSecret: process.env.PAYU_CLIENT_SECRET || '',
       secondKey: process.env.PAYU_SECOND_KEY || '',
-      sandbox: process.env.PAYU_SANDBOX === 'true' || process.env.NODE_ENV !== 'production',
+      // Jawnie ustawiony PAYU_SANDBOX jest nadrzędny (false => produkcja, nawet w dev).
+      // Brak zmiennej => domyślnie sandbox poza produkcją.
+      sandbox: process.env.PAYU_SANDBOX !== undefined
+        ? process.env.PAYU_SANDBOX === 'true'
+        : process.env.NODE_ENV !== 'production',
     };
 
     this.baseUrl = this.payuConfig.sandbox

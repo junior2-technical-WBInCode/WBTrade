@@ -1950,6 +1950,9 @@ export const salesRepApi = {
 
   checkout: (data: any) =>
     api.post<any>('/sales-rep/checkout', data),
+
+  getConfig: () =>
+    api.get<{ success: boolean; maxDiscountPct: number; baseCommissionPct: number; pool: number }>('/sales-rep/config'),
 };
 
 export default api;

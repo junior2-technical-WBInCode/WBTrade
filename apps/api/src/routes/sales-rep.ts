@@ -47,4 +47,13 @@ router.get('/cart', (req, res, next) => {
   salesRepController.getCart(req, res).catch(next);
 });
 
+/**
+ * GET /api/sales-rep/config
+ * Public-to-rep commission config (pool + max discount) so the panel slider/preview
+ * follow the admin-configured thresholds instead of hardcoded literals.
+ */
+router.get('/config', (req, res, next) => {
+  salesRepController.getConfig(req, res).catch(next);
+});
+
 export default router;

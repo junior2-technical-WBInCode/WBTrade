@@ -18,7 +18,7 @@ function toNum(val: any): number {
 
 // Validation schema for checkout
 const repCheckoutSchema = z.object({
-  discountPct: z.number().min(0).max(18), // We will validate against maxDiscountPct from DB dynamic settings
+  discountPct: z.number().min(0).max(100), // Real cap = cfg.maxDiscountPct, enforced in the handler + attributeCommission
   customerEmail: z.string().email('Nieprawidłowy adres e-mail klienta.'),
   customerFirstName: z.string().min(1, 'Imię klienta jest wymagane.'),
   customerLastName: z.string().min(1, 'Nazwisko klienta jest wymagane.'),
@@ -263,9 +263,18 @@ export class SalesControllerRep {
       const total = Number(updatedOrder?.total ?? subtotal + shippingCost);
       const commissionAmount = Number(updatedOrder?.salesRepCommission?.commissionAmount ?? 0);
 
+      // Pozycje produktowe do maila ofertowego (klient widzi co zamawia)
+      const emailItems = cart.items.map((item) => ({
+        name: item.variant.name && item.variant.name !== item.variant.product.name
+          ? `${item.variant.product.name} — ${item.variant.name}`
+          : item.variant.product.name,
+        quantity: item.quantity,
+        unitPrice: Number(item.variant.price),
+      }));
+
       // Send payment email to customer based on payment method
       const isOnlinePayment = data.paymentMethod === 'payu' || data.paymentMethod === 'imoje' || data.paymentMethod === 'blik' || data.paymentMethod === 'card';
-      
+
       if (isOnlinePayment) {
         // Send email with PayU/online payment link
         await emailService.sendPaymentLinkEmail(
@@ -273,7 +282,8 @@ export class SalesControllerRep {
           `${data.customerFirstName} ${data.customerLastName}`,
           order.orderNumber,
           order.id,
-          total
+          total,
+          emailItems
         ).catch(err => console.error('[SalesRepController] Error sending payment link email:', err));
       } else {
         // Send email with bank transfer details
@@ -281,14 +291,16 @@ export class SalesControllerRep {
           data.customerEmail,
           `${data.customerFirstName} ${data.customerLastName}`,
           order.orderNumber,
-          total
+          total,
+          emailItems
         ).catch(err => console.error('[SalesRepController] Error sending bank transfer email:', err));
       }
 
-      // Return details to handlowiec - NO paymentUrl or PayU session
+      // Return details to handlowiec — NO paymentUrl, NO PayU session, and NO orderId.
+      // orderId is withheld so the rep cannot reconstruct /order/{id}/payment and pay the
+      // client's order themselves (the payment link must reach only the client by email).
       res.json({
         success: true,
-        orderId: order.id,
         orderNumber: order.orderNumber,
         status: 'created',
         paymentMethod: data.paymentMethod,
@@ -425,6 +437,16 @@ export class SalesControllerRep {
           const margin = price - effectivePurchasePrice;
           const marginPct = price > 0 ? (margin / price) * 100 : 0;
 
+          // Outlet/promo items are rejected at checkout and excluded from the
+          // commission/discount base — flag them so the preview matches the order.
+          const isOutletPromo = variant
+            ? await salesRepService.isOutletOrPromoProduct({
+                baselinkerProductId: variant.product.baselinkerProductId,
+                compareAtPrice: variant.compareAtPrice ?? variant.product.compareAtPrice,
+                price: variant.price ?? variant.product.price,
+              })
+            : false;
+
           return {
             id: item.id,
             productId: item.variant.product.id,
@@ -436,14 +458,22 @@ export class SalesControllerRep {
             purchasePrice: effectivePurchasePrice,
             margin,
             marginPct,
+            isOutletPromo,
             image: item.variant.product.images?.[0]?.url || null,
           };
         })
       );
 
+      // Subtotal = all items (what the client pays). purchaseTotal (the discount/commission
+      // base preview) EXCLUDES outlet/promo, matching attributeCommission on the backend.
       const subtotal = itemsWithCosts.reduce((sum, item) => sum + item.price * item.quantity, 0);
-      const purchaseTotal = itemsWithCosts.reduce((sum, item) => sum + item.purchasePrice * item.quantity, 0);
-      const marginTotal = subtotal - purchaseTotal;
+      const purchaseTotalAll = itemsWithCosts.reduce((sum, item) => sum + item.purchasePrice * item.quantity, 0);
+      const purchaseTotal = itemsWithCosts.reduce(
+        (sum, item) => sum + (item.isOutletPromo ? 0 : item.purchasePrice * item.quantity),
+        0
+      );
+      // Margin shown to the rep is the real margin across ALL items.
+      const marginTotal = subtotal - purchaseTotalAll;
       const marginTotalPct = subtotal > 0 ? (marginTotal / subtotal) * 100 : 0;
 
       res.json({
@@ -457,6 +487,25 @@ export class SalesControllerRep {
     } catch (error: any) {
       console.error('[SalesRepController] Error getting rep cart:', error);
       res.status(500).json({ message: 'Błąd pobierania koszyka handlowego.' });
+    }
+  }
+
+  /**
+   * GET /api/sales-rep/config
+   * Commission thresholds for the rep panel (slider max + pool), from admin config.
+   */
+  async getConfig(_req: Request, res: Response): Promise<void> {
+    try {
+      const cfg = await salesRepService.getSalesRepConfig();
+      res.json({
+        success: true,
+        maxDiscountPct: cfg.maxDiscountPct,
+        baseCommissionPct: cfg.baseCommissionPct,
+        pool: cfg.baseCommissionPct + cfg.maxDiscountPct,
+      });
+    } catch (error: any) {
+      console.error('[SalesRepController] Error getting rep config:', error);
+      res.status(500).json({ message: 'Błąd pobierania konfiguracji.' });
     }
   }
 }

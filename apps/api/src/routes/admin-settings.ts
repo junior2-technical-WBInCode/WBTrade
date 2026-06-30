@@ -144,6 +144,16 @@ router.post('/sales-rep-config', async (req, res) => {
       return;
     }
 
+    // Per-parameter bounds (the pool check alone lets e.g. base=-5 through).
+    if (base < 0 || maxDiscount < 0 || minMargin < 0 || hold < 0) {
+      res.status(400).json({ message: 'Parametry prowizji/rabatu/marży/karencji nie mogą być ujemne.' });
+      return;
+    }
+    if (markup <= 1) {
+      res.status(400).json({ message: 'Mnożnik marży (markupMultiplier) musi być większy niż 1.' });
+      return;
+    }
+
     const pool = base + maxDiscount;
     const maxPool = (markup - 1) * 100 - minMargin;
 

@@ -1347,12 +1347,39 @@ export class EmailService {
     }
   }
 
+  /** Tabela zamówionych produktów do maila ofertowego (email-safe, inline style). */
+  private orderItemsTable(items?: Array<{ name: string; quantity: number; unitPrice: number }>): string {
+    if (!items || items.length === 0) return '';
+    const rows = items.map((it) => {
+      const lineTotal = it.unitPrice * it.quantity;
+      return `
+        <tr>
+          <td style="padding:10px; border-bottom:1px solid #e2e8f0; font-size:14px; color:#1e293b;">${escapeHtml(it.name)}</td>
+          <td style="padding:10px; border-bottom:1px solid #e2e8f0; font-size:14px; color:#475569; text-align:center; white-space:nowrap;">${it.quantity} szt.</td>
+          <td style="padding:10px; border-bottom:1px solid #e2e8f0; font-size:14px; color:#475569; text-align:right; white-space:nowrap;">${it.unitPrice.toFixed(2)} zł</td>
+          <td style="padding:10px; border-bottom:1px solid #e2e8f0; font-size:14px; color:#1e293b; font-weight:600; text-align:right; white-space:nowrap;">${lineTotal.toFixed(2)} zł</td>
+        </tr>`;
+    }).join('');
+    return `
+      <p style="margin: 20px 0 8px; color:#1e293b; font-size:15px; font-weight:700;">📦 Zamówione produkty</p>
+      <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="border-collapse:collapse; margin-bottom:8px; border:1px solid #e2e8f0; border-radius:8px; overflow:hidden;">
+        <tr style="background:#f8fafc;">
+          <td style="padding:10px; font-size:12px; color:#64748b;">Produkt</td>
+          <td style="padding:10px; font-size:12px; color:#64748b; text-align:center;">Ilość</td>
+          <td style="padding:10px; font-size:12px; color:#64748b; text-align:right;">Cena</td>
+          <td style="padding:10px; font-size:12px; color:#64748b; text-align:right;">Wartość</td>
+        </tr>
+        ${rows}
+      </table>`;
+  }
+
   async sendPaymentLinkEmail(
     to: string,
     customerName: string,
     orderNumber: string,
     orderId: string,
-    total: number
+    total: number,
+    items?: Array<{ name: string; quantity: number; unitPrice: number }>
   ): Promise<EmailResult> {
     try {
       const resend = getResend();
@@ -1368,6 +1395,7 @@ export class EmailService {
           content: `
             ${greeting(customerName)}
             ${paragraph(`Twoje zamówienie <strong>#${escapeHtml(orderNumber)}</strong> o wartości <strong>${total.toFixed(2)} PLN</strong> zostało przygotowane przez naszego handlowca.`)}
+            ${this.orderItemsTable(items)}
             ${paragraph('Aby dokończyć zamówienie i opłacić je online, kliknij w poniższy przycisk:')}
             ${ctaButton('💳 Opłać zamówienie online', paymentUrl)}
             ${paragraph('Link do płatności wygaśnie za kilka dni. Po opłaceniu zamówienia natychmiast przystąpimy do jego realizacji.')}
@@ -1387,7 +1415,8 @@ export class EmailService {
     to: string,
     customerName: string,
     orderNumber: string,
-    total: number
+    total: number,
+    items?: Array<{ name: string; quantity: number; unitPrice: number }>
   ): Promise<EmailResult> {
     try {
       const resend = getResend();
@@ -1401,7 +1430,8 @@ export class EmailService {
           content: `
             ${greeting(customerName)}
             ${paragraph(`Twoje zamówienie <strong>#${escapeHtml(orderNumber)}</strong> o wartości <strong>${total.toFixed(2)} PLN</strong> zostało utworzone. Poniżej znajdują się dane do wykonania przelewu tradycyjnego:`)}
-            
+            ${this.orderItemsTable(items)}
+
             <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="margin: 20px 0 24px 0;">
               <tr>
                 <td style="background-color: #eff6ff; border: 1px solid #bfdbfe; border-radius: 12px; padding: 16px 20px;">

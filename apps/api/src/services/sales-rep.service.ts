@@ -158,9 +158,16 @@ export class SalesRepService {
 
       // Base price = purchasePrice (variant or product) or fallback to unitPrice/markupMultiplier
       const purchasePrice = toNum(variant.purchasePrice ?? product.purchasePrice);
-      const effectiveBasePrice = purchasePrice > 0 
-        ? purchasePrice 
-        : toNum(item.unitPrice) / cfg.markupMultiplier;
+      const usedFallback = !(purchasePrice > 0);
+      const effectiveBasePrice = usedFallback
+        ? toNum(item.unitPrice) / cfg.markupMultiplier
+        : purchasePrice;
+
+      if (usedFallback) {
+        // Commission/discount base is estimated from the configured markup, not a real
+        // purchase price — may over/under-pay. Flag for review.
+        console.warn(`[SalesRepService] Order ${orderId}: variant ${variant.id} has no purchasePrice — using fallback base ${effectiveBasePrice.toFixed(2)} (unitPrice/${cfg.markupMultiplier}).`);
+      }
 
       baseTotal += effectiveBasePrice * item.quantity;
     }
@@ -169,10 +176,12 @@ export class SalesRepService {
     const discountAmount = roundMoney(baseTotal * (discountPct / 100));
     const commissionAmount = roundMoney(baseTotal * (commissionPct / 100));
 
-    // Update order with the discount
+    // Update order with the discount + link the sales rep (so orders.sales_rep_id is set,
+    // not just the commission row — enables order→rep reporting/joins).
     await tx.order.update({
       where: { id: orderId },
       data: {
+        salesRepId,
         discount: discountAmount,
         total: {
           decrement: discountAmount, // Subtract the discount from order total
@@ -229,10 +238,14 @@ export class SalesRepService {
     });
     const reserved = toNum(reservedResult._sum.amount);
 
-    const available = roundMoney(approved - reserved);
+    const net = roundMoney(approved - reserved);
 
     return {
-      available: Math.max(0, available),
+      // Withdrawable amount is clamped at 0; `net`/`owed` surface clawback debt
+      // (commission paid out then cancelled via refund) instead of hiding it.
+      available: Math.max(0, net),
+      net,
+      owed: net < 0 ? roundMoney(-net) : 0,
       frozen: roundMoney(frozen),
       totalEarned: roundMoney(totalEarned),
       reserved: roundMoney(reserved),
@@ -293,6 +306,23 @@ export class SalesRepService {
     holdDate.setDate(holdDate.getDate() - cfg.holdDays);
 
     try {
+      // Self-heal: PENDING commissions whose order is already PAID but markPaid was missed
+      // → promote to PAID now so the hold clock starts (otherwise stuck PENDING forever).
+      const orphaned = await prisma.salesRepCommission.findMany({
+        where: {
+          status: 'PENDING',
+          order: { paymentStatus: 'PAID', status: { notIn: ['CANCELLED', 'REFUNDED'] } },
+        },
+        select: { id: true },
+      });
+      if (orphaned.length > 0) {
+        await prisma.salesRepCommission.updateMany({
+          where: { id: { in: orphaned.map((c) => c.id) } },
+          data: { status: 'PAID', paidAt: new Date() },
+        });
+        console.log(`[SalesRepService] Self-healed ${orphaned.length} PENDING commission(s) for already-paid orders.`);
+      }
+
       const result = await prisma.salesRepCommission.updateMany({
         where: {
           status: 'PAID',
@@ -317,6 +347,10 @@ export class SalesRepService {
   async requestPayout(salesRepId: string, amount: number, invoiceUrl: string) {
     if (amount <= 0) throw new Error('Kwota wypłaty musi być większa niż 0.');
     if (!invoiceUrl) throw new Error('Wymagany jest link do faktury.');
+    // Invoice must come from our own upload endpoint, not an arbitrary external URL.
+    if (!invoiceUrl.includes('/uploads/')) {
+      throw new Error('Nieprawidłowy link do faktury — wgraj plik przez formularz.');
+    }
 
     return prisma.$transaction(
       async (tx) => {
