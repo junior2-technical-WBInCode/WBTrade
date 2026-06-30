@@ -16,6 +16,7 @@ import { ShippingProviderId } from '../types/shipping.types';
 import { getB2bUserInfo } from '../services/b2b-pricing.service';
 import { CreatePaymentRequest, PaymentMethodType, PaymentProviderId } from '../types/payment.types';
 import { loyaltyService } from '../services/loyalty.service';
+import { referralService } from '../services/referral.service';
 
 /**
  * Map frontend payment method names to API payment method types
@@ -854,6 +855,11 @@ export async function createCheckout(req: Request, res: Response): Promise<void>
             data: { usedCount: { increment: 1 } },
           });
           console.log(`[Checkout] Coupon ${cart.couponCode} marked as used for COD order ${order.orderNumber}`);
+
+          // If the coupon was issued for a partner referral payout, handle any unused remainder
+          if (coupon.couponSource === 'REFERRAL') {
+            await referralService.handleCouponUsage(cart.couponCode, order.discount);
+          }
           
           // Record coupon usage per user (for single use per user coupons)
           if (userId && coupon.singleUsePerUser) {

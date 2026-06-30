@@ -449,6 +449,11 @@ export class PaymentService {
               data: { usedCount: { increment: 1 } },
             });
             console.log(`[PaymentService] Coupon ${order.couponCode} marked as used for order ${order.orderNumber}`);
+
+            // If the coupon was issued for a partner referral payout, handle any unused remainder
+            if (coupon.couponSource === 'REFERRAL') {
+              await referralService.handleCouponUsage(order.couponCode, order.discount);
+            }
             
             // Record coupon usage per user (for single use per user coupons)
             if (order.userId && coupon.singleUsePerUser) {
