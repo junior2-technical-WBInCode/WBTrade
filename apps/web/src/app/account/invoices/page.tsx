@@ -8,6 +8,7 @@ import Footer from '../../../components/Footer';
 import { useAuth } from '../../../contexts/AuthContext';
 import { ordersApi, Order } from '../../../lib/api';
 import AccountSidebar from '../../../components/AccountSidebar';
+import { getStatusLabel } from '../../../lib/order-status';
 
 export default function InvoicesPage() {
   const router = useRouter();
@@ -149,14 +150,15 @@ export default function InvoicesPage() {
               {orders.length > 0 && (
                 <button
                   onClick={() => {
-                    const header = 'Nr faktury;Zamówienie;Data;Firma;NIP;Kwota brutto\n';
+                    const header = 'Nr faktury;Zamówienie;Status;Data;Firma;NIP;Kwota brutto\n';
                     const rows = orders.map((o) => {
                       const invoiceNr = (o.collectiveInvoiceNumber || o.invoiceNumber || '').replace(/;/g, ',');
                       const date = new Date(o.createdAt).toLocaleDateString('pl-PL');
                       const company = (o.billingCompanyName || '').replace(/;/g, ',');
                       const nip = o.billingNip || '';
                       const total = Number(o.total).toFixed(2);
-                      return `${invoiceNr};${o.orderNumber};${date};${company};${nip};${total}`;
+                      const status = getStatusLabel(o.status, o.paymentStatus);
+                      return `${invoiceNr};${o.orderNumber};${status};${date};${company};${nip};${total}`;
                     }).join('\n');
                     const csv = header + rows;
                     const blob = new Blob(['\uFEFF' + csv], { type: 'text/csv;charset=utf-8;' });
