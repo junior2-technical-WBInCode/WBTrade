@@ -18,7 +18,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="pl">
+    <html lang="pl" className="dark">
       <body className={`${inter.className} bg-admin-bg text-admin-text antialiased`}>
         <AuthProvider>
           <ModalProvider>
