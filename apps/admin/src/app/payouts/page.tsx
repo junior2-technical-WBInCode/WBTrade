@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from 'react';
 import { partnersApi } from '@/lib/api';
-import AdminLayout from '@/components/AdminLayout';
 import Link from 'next/link';
 
 function formatDate(dateStr: string | null | undefined): string {
@@ -72,8 +71,7 @@ export default function PayoutsListPage() {
   };
 
   return (
-    <AdminLayout>
-      <div className="space-y-6">
+          <div className="space-y-6">
         <div>
           <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Program Partnerski — Wypłaty</h1>
           <p className="text-sm text-gray-500 dark:text-gray-400">Przeglądaj wnioski o wypłatę prowizji partnerskich i akceptuj przelewy gotówkowe.</p>
@@ -235,6 +233,5 @@ export default function PayoutsListPage() {
           )}
         </div>
       </div>
-    </AdminLayout>
   );
 }

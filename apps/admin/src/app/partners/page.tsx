@@ -3,7 +3,6 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { partnersApi } from '@/lib/api';
-import AdminLayout from '@/components/AdminLayout';
 
 export default function PartnersListPage() {
   const [partners, setPartners] = useState<any[]>([]);
@@ -51,8 +50,7 @@ export default function PartnersListPage() {
   };
 
   return (
-    <AdminLayout>
-      <div className="space-y-6">
+          <div className="space-y-6">
         <div className="flex justify-between items-center flex-wrap gap-4">
           <div>
             <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Program Partnerski — Partnerzy</h1>
@@ -212,6 +210,5 @@ export default function PartnersListPage() {
           )}
         </div>
       </div>
-    </AdminLayout>
   );
 }

@@ -1,7 +1,6 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import AdminLayout from '@/components/AdminLayout';
 import { adminSalesRepsApi } from '@/lib/api';
 
 export default function SalesRepsPayoutsPage() {
@@ -79,8 +78,7 @@ export default function SalesRepsPayoutsPage() {
   };
 
   return (
-    <AdminLayout>
-      <div className="space-y-6">
+    <div className="space-y-6">
         <div>
           <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Wypłaty Prowizji Handlowych</h1>
           <p className="text-sm text-gray-500 dark:text-gray-400">Przeglądaj, weryfikuj faktury i zatwierdzaj wypłaty prowizji dla handlowców.</p>
@@ -203,7 +201,6 @@ export default function SalesRepsPayoutsPage() {
             </div>
           )}
         </div>
-      </div>
 
       {/* Notes Modal */}
       {notesModalOpen && (
@@ -249,6 +246,6 @@ export default function SalesRepsPayoutsPage() {
           </div>
         </div>
       )}
-    </AdminLayout>
+    </div>
   );
 }

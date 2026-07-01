@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import AdminLayout from '@/components/AdminLayout';
+
 import { adminSalesRepsApi } from '@/lib/api';
 
 export default function SalesRepsListPage() {
@@ -50,8 +50,7 @@ export default function SalesRepsListPage() {
   }, []);
 
   return (
-    <AdminLayout>
-      <div className="space-y-6">
+    <div className="space-y-6">
         <div className="flex justify-between items-center flex-wrap gap-4">
           <div>
             <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Handlowcy</h1>
@@ -163,7 +162,6 @@ export default function SalesRepsListPage() {
             </div>
           )}
         </div>
-      </div>
-    </AdminLayout>
+    </div>
   );
 }
