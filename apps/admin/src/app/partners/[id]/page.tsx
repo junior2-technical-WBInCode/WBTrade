@@ -3,7 +3,6 @@
 import { useState, useEffect } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import { partnersApi } from '@/lib/api';
-import AdminLayout from '@/components/AdminLayout';
 import Link from 'next/link';
 
 function formatDate(dateStr: string | null | undefined): string {
@@ -66,30 +65,25 @@ export default function PartnerDetailPage() {
 
   if (loading) {
     return (
-      <AdminLayout>
-        <div className="py-20 flex justify-center">
+              <div className="py-20 flex justify-center">
           <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-orange-500" />
         </div>
-      </AdminLayout>
     );
   }
 
   if (error || !partner) {
     return (
-      <AdminLayout>
-        <div className="space-y-4">
+              <div className="space-y-4">
           <Link href="/partners" className="text-sm font-semibold text-orange-500 hover:underline">← Powrót do listy</Link>
           <div className="p-4 bg-red-50 text-red-700 border border-red-200 rounded-xl">
             {error || 'Nie znaleziono partnera.'}
           </div>
         </div>
-      </AdminLayout>
     );
   }
 
   return (
-    <AdminLayout>
-      <div className="space-y-8">
+          <div className="space-y-8">
         <div className="flex justify-between items-start flex-wrap gap-4">
           <div>
             <Link href="/partners" className="text-xs font-semibold text-orange-500 hover:underline block mb-2">← Powrót do listy</Link>
@@ -271,6 +265,5 @@ export default function PartnerDetailPage() {
           )}
         </div>
       </div>
-    </AdminLayout>
   );
 }

@@ -1,7 +1,6 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import AdminLayout from '@/components/AdminLayout';
 import { adminSalesRepsApi } from '@/lib/api';
 
 export default function SalesRepsSettingsPage() {
@@ -77,8 +76,7 @@ export default function SalesRepsSettingsPage() {
   const marginIsViolated = companyMarginLeft < minCompanyMarginPct;
 
   return (
-    <AdminLayout>
-      <div className="max-w-4xl mx-auto space-y-6">
+          <div className="max-w-4xl mx-auto space-y-6">
         <div>
           <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Ustawienia Progów i Rentowności</h1>
           <p className="text-sm text-gray-500 dark:text-gray-400">Konfiguruj prowizje, maksymalne rabaty i mnożniki cen zakupu z analizą marży firmy na żywo.</p>
@@ -238,6 +236,5 @@ export default function SalesRepsSettingsPage() {
           </div>
         </div>
       </div>
-    </AdminLayout>
   );
 }
