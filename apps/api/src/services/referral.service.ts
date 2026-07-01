@@ -735,6 +735,7 @@ export class ReferralService {
             value: amount,
             maximumUses: 1,
             singleUsePerUser: true,
+            userId: partner.userId,
             restrictedToEmail: partner.user.email,
             couponSource: 'REFERRAL',
             isActive: true,
