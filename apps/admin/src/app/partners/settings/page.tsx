@@ -3,6 +3,31 @@
 import { useState, useEffect } from 'react';
 import { partnersApi } from '@/lib/api';
 
+// Metadata for the three override calculation bases — used by the visualization card.
+const OVERRIDE_BASES = [
+  {
+    id: 'downline_commission',
+    label: 'Kaskada',
+    sub: 'od prowizji poziomu pod',
+    formula: 'baza × (stawka₁ × … × stawkaₙ)',
+    desc: 'Każdy kolejny poziom liczony jest od prowizji poziomu niżej — stawki mnożą się kaskadowo, więc udział szybko maleje w głąb.',
+  },
+  {
+    id: 'seller_commission',
+    label: 'Płaska od prowizji',
+    sub: 'od prowizji sprzedawcy',
+    formula: 'baza × stawkaₙ',
+    desc: 'Każdy poziom dostaje procent od prowizji bezpośredniego sprzedawcy (bazy), niezależnie od pozostałych poziomów.',
+  },
+  {
+    id: 'sale_base',
+    label: 'Płaska od sprzedaży',
+    sub: 'od wartości sprzedaży',
+    formula: 'stawkaₙ (wprost od sprzedaży)',
+    desc: 'Każdy poziom dostaje procent wprost od wartości sprzedaży — najhojniejszy i najdroższy wariant.',
+  },
+] as const;
+
 export default function MlmSettingsPage() {
   const [enabled, setEnabled] = useState(false);
   const [maxDepth, setMaxDepth] = useState(5);
@@ -11,6 +36,7 @@ export default function MlmSettingsPage() {
   const [stopOnInactiveUpline, setStopOnInactiveUpline] = useState(true);
   const [minMarginPct, setMinMarginPct] = useState(10); // used for the safety check
   const [baseCommissionPct, setBaseCommissionPct] = useState(5); // reference base rate (% of sale) from backend
+  const [exampleSale, setExampleSale] = useState(1000); // sample sale value for the visualization card
 
   const [loading, setLoading] = useState(true);
   const [saveLoading, setSaveLoading] = useState(false);
@@ -79,6 +105,31 @@ export default function MlmSettingsPage() {
   const overridePctOfSale = computeOverridePctOfSale();
   const totalPayoutPctOfSale = baseCommissionPct + overridePctOfSale;
   const marginIsViolated = minMarginPct !== undefined && totalPayoutPctOfSale > minMarginPct;
+
+  // Per-level breakdown (% of sale for each upline level) for a given base — powers the visualization.
+  const computeLevelBreakdown = (base: string) => {
+    const rates = getRatesArray();
+    const rows: { level: number; rate: number; pctOfSale: number }[] = [];
+    let cascade = 1;
+    for (let d = 0; d < maxDepth; d++) {
+      const rate = rates[d] ?? rates[rates.length - 1] ?? 0;
+      let pct = 0;
+      if (base === 'downline_commission') {
+        cascade *= rate / 100;
+        pct = baseCommissionPct * cascade;
+      } else if (base === 'seller_commission') {
+        pct = (baseCommissionPct * rate) / 100;
+      } else {
+        pct = rate;
+      }
+      rows.push({ level: d + 1, rate, pctOfSale: pct });
+    }
+    return rows;
+  };
+
+  const fmtPct = (v: number) => `${v.toFixed(v > 0 && v < 1 ? 3 : 2)}%`;
+  const selectedBreakdown = computeLevelBreakdown(overrideBase);
+  const maxLevelPct = Math.max(...selectedBreakdown.map((r) => r.pctOfSale), 0.0001);
 
   const handleSave = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -290,6 +341,93 @@ export default function MlmSettingsPage() {
               </div>
             )}
           </div>
+        </div>
+      </div>
+
+      {/* Visualization — how each override base works, per upline level */}
+      <div className="bg-white dark:bg-secondary-800 rounded-xl p-6 border border-gray-100 dark:border-secondary-700/50 shadow-sm space-y-5">
+        <div className="flex items-start justify-between flex-wrap gap-3">
+          <div>
+            <h3 className="font-bold text-gray-900 dark:text-white">Jak działają bazy naliczania nadprowizji?</h3>
+            <p className="text-xs text-gray-500 dark:text-gray-400">Porównanie trzech baz i rozkład wypłaty na każdy poziom upline dla aktualnych stawek. Kliknij bazę, aby ją wybrać.</p>
+          </div>
+          <label className="flex items-center gap-2 text-xs font-medium text-gray-500 dark:text-gray-400">
+            Przykładowa sprzedaż:
+            <input
+              type="number"
+              min="0"
+              value={exampleSale}
+              onChange={(e) => setExampleSale(Math.max(0, parseFloat(e.target.value) || 0))}
+              className="w-28 rounded-lg border border-gray-300 dark:border-secondary-700 bg-white dark:bg-secondary-900 px-2.5 py-1.5 text-sm text-right focus:border-orange-500 focus:outline-none dark:text-white"
+            />
+            <span>zł</span>
+          </label>
+        </div>
+
+        {/* Three bases comparison */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+          {OVERRIDE_BASES.map((b) => {
+            const total = computeLevelBreakdown(b.id).reduce((s, r) => s + r.pctOfSale, 0);
+            const selected = overrideBase === b.id;
+            return (
+              <button
+                type="button"
+                key={b.id}
+                onClick={() => setOverrideBase(b.id)}
+                className={`text-left rounded-xl border p-4 transition-all ${
+                  selected
+                    ? 'border-orange-500 bg-orange-50 dark:bg-orange-950/20 ring-1 ring-orange-500'
+                    : 'border-gray-200 dark:border-secondary-700 hover:border-orange-300 dark:hover:border-orange-800'
+                }`}
+              >
+                <div className="flex items-center justify-between">
+                  <span className="text-sm font-bold text-gray-900 dark:text-white">{b.label}</span>
+                  {selected && <span className="text-[10px] uppercase font-bold text-orange-600 dark:text-orange-400">Wybrana</span>}
+                </div>
+                <p className="text-[11px] text-gray-500 dark:text-gray-400 mt-0.5">{b.sub}</p>
+                <code className="block text-[11px] text-orange-600 dark:text-orange-400 mt-2 font-mono">{b.formula}</code>
+                <p className="text-xs text-gray-500 dark:text-gray-400 mt-2 leading-snug">{b.desc}</p>
+                <div className="mt-3 pt-2 border-t border-gray-100 dark:border-secondary-700 flex items-center justify-between">
+                  <span className="text-[11px] text-gray-400">Suma nadprowizji</span>
+                  <span className="text-sm font-bold text-gray-900 dark:text-white">{fmtPct(total)} <span className="text-[11px] font-normal text-gray-400">od sprzedaży</span></span>
+                </div>
+              </button>
+            );
+          })}
+        </div>
+
+        {/* Per-level breakdown for the selected base */}
+        <div>
+          <div className="flex items-center justify-between mb-2">
+            <h4 className="text-sm font-semibold text-gray-700 dark:text-gray-300">Rozkład na poziomy upline — baza: <span className="text-orange-600 dark:text-orange-400">{OVERRIDE_BASES.find((b) => b.id === overrideBase)?.label}</span></h4>
+            <span className="text-xs text-gray-400">głębokość: {maxDepth} {maxDepth === 1 ? 'poziom' : maxDepth < 5 ? 'poziomy' : 'poziomów'}</span>
+          </div>
+          <div className="space-y-2">
+            {selectedBreakdown.map((r) => (
+              <div key={r.level} className="flex items-center gap-3">
+                <div className="w-32 shrink-0">
+                  <span className="text-sm font-semibold text-gray-900 dark:text-white">Poziom {r.level}</span>
+                  <span className="block text-[11px] text-gray-400">{r.level === 1 ? 'bezpośredni upline' : `${r.level}. w górę`} · stawka {r.rate}%</span>
+                </div>
+                <div className="flex-1 bg-gray-100 dark:bg-secondary-900 rounded-full h-6 overflow-hidden relative">
+                  <div
+                    className="h-full bg-gradient-to-r from-orange-500 to-amber-500 rounded-full transition-all duration-300"
+                    style={{ width: `${Math.max(2, (r.pctOfSale / maxLevelPct) * 100)}%` }}
+                  />
+                  <span className="absolute inset-y-0 right-2 flex items-center text-[11px] font-semibold text-gray-700 dark:text-gray-200">
+                    {fmtPct(r.pctOfSale)} · {(exampleSale * r.pctOfSale / 100).toFixed(2)} zł
+                  </span>
+                </div>
+              </div>
+            ))}
+          </div>
+          <div className="mt-3 flex items-center justify-between text-sm border-t border-gray-100 dark:border-secondary-700 pt-3">
+            <span className="font-semibold text-gray-700 dark:text-gray-300">Łącznie nadprowizje (wszystkie poziomy)</span>
+            <span className="font-bold text-orange-600 dark:text-orange-400">
+              {fmtPct(overridePctOfSale)} · {(exampleSale * overridePctOfSale / 100).toFixed(2)} zł
+            </span>
+          </div>
+          <p className="text-[11px] text-gray-400 mt-2 italic">Wartości liczone przy stawce bazowej {baseCommissionPct}% od sprzedaży. „Brakujące" poziomy (gdy głębokość &gt; liczba stawek) używają ostatniej podanej stawki.</p>
         </div>
       </div>
     </div>
