@@ -30,6 +30,21 @@ const config: Config = {
           text: '#e2e8f0',
           muted: '#94a3b8',
         },
+        // Used across the admin as dark:bg-secondary-*, dark:border-secondary-*, etc.
+        // (slate scale — matches the admin.* palette above).
+        secondary: {
+          50: '#f8fafc',
+          100: '#f1f5f9',
+          200: '#e2e8f0',
+          300: '#cbd5e1',
+          400: '#94a3b8',
+          500: '#64748b',
+          600: '#475569',
+          700: '#334155',
+          800: '#1e293b',
+          900: '#0f172a',
+          950: '#020617',
+        },
       },
       keyframes: {
         'fade-in': {
