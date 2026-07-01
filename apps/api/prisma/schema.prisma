@@ -417,6 +417,7 @@ model Order {
   returnRequests           ReturnRequest[]
   deliveryDelayAlerts      DeliveryDelayAlert[]
   referral                 Referral?
+  referralOverrides        ReferralOverride[]
   salesRepId               String?              @map("sales_rep_id")
   salesRep                 User?                @relation("SalesRepOrders", fields: [salesRepId], references: [id], onDelete: SetNull)
   repDiscountPct           Decimal?             @db.Decimal(4, 2) @map("rep_discount_pct")
@@ -1265,6 +1266,7 @@ model PartnerProfile {
   referrals          Referral[]       @relation("PrimaryReferrals")
   subReferrals       Referral[]       @relation("ParentReferrals")
   payouts            ReferralPayout[]
+  overrideEarnings   ReferralOverride[] @relation("OverrideBeneficiary")
 
   @@index([status])
   @@map("partner_profiles")
@@ -1310,6 +1312,7 @@ model Referral {
 
   order             Order           @relation(fields: [orderId], references: [id], onDelete: Cascade)
   items             ReferralItem[]
+  overrides         ReferralOverride[]
 
   @@index([partnerId, status])
   @@index([status, paidAt])
@@ -1348,6 +1351,31 @@ model ReferralPayout {
 
   @@index([partnerId, status])
   @@map("referral_payouts")
+}
+
+// MLM override commissions — one record per upline partner per sale
+// enabled=false → this table stays empty; existing Referral logic unchanged
+model ReferralOverride {
+  id            String         @id @default(cuid())
+  referralId    String         @map("referral_id")     // source sale Referral
+  orderId       String         @map("order_id")         // denorm for holds/cancel/markPaid
+  beneficiaryId String         @map("beneficiary_id")   // upline partner receiving override
+  level         Int                                      // 1 = seller's parent, 2 = grandparent, ...
+  amount        Decimal        @map("amount") @db.Decimal(10, 2)
+  status        ReferralStatus @default(PENDING)         // reuse existing enum
+  paidAt        DateTime?      @map("paid_at")
+  approvedAt    DateTime?      @map("approved_at")
+  createdAt     DateTime       @default(now()) @map("created_at")
+  updatedAt     DateTime       @updatedAt @map("updated_at")
+
+  referral    Referral       @relation(fields: [referralId], references: [id], onDelete: Cascade)
+  order       Order          @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  beneficiary PartnerProfile @relation("OverrideBeneficiary", fields: [beneficiaryId], references: [id], onDelete: Cascade)
+
+  @@index([beneficiaryId, status])
+  @@index([orderId])
+  @@index([referralId])
+  @@map("referral_overrides")
 }
 
 enum PartnerStatus {

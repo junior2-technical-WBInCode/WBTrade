@@ -7,7 +7,7 @@ import Header from '../../../components/Header';
 import Footer from '../../../components/Footer';
 import AccountSidebar from '../../../components/AccountSidebar';
 import { useAuth } from '../../../contexts/AuthContext';
-import { referralApi, PartnerProfileData, ReferralLinkData, ApiClientError } from '../../../lib/api';
+import { referralApi, PartnerProfileData, ReferralLinkData, ApiClientError, ReferralOverrideData, DownlinePartnerNode } from '../../../lib/api';
 
 function formatDate(dateStr: string | null | undefined): string {
   if (!dateStr) return '—';
@@ -24,14 +24,38 @@ function statusBadge(status: string) {
     case 'APPROVED':
       return <span className="bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-400 text-xs px-2.5 py-1 rounded-full font-medium">Zatwierdzone</span>;
     case 'CANCELLED':
-      return <span className="bg-red-100 dark:bg-red-900/30 text-red-800 dark:text-red-400 text-xs px-2.5 py-1 rounded-full font-medium">Anulowane</span>;
+      return <span className="bg-red-100 dark:bg-red-950/20 text-red-800 dark:text-red-400 text-xs px-2.5 py-1 rounded-full font-medium">Anulowane</span>;
     case 'COMPLETED':
       return <span className="bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-400 text-xs px-2.5 py-1 rounded-full font-medium">Zrealizowano</span>;
     case 'REJECTED':
-      return <span className="bg-red-100 dark:bg-red-900/30 text-red-800 dark:text-red-400 text-xs px-2.5 py-1 rounded-full font-medium">Odrzucono</span>;
+      return <span className="bg-red-100 dark:bg-red-950/20 text-red-800 dark:text-red-400 text-xs px-2.5 py-1 rounded-full font-medium">Odrzucono</span>;
     default:
       return <span className="bg-gray-100 dark:bg-secondary-800 text-gray-800 dark:text-gray-400 text-xs px-2.5 py-1 rounded-full font-medium">{status}</span>;
   }
+}
+
+function DownlineTree({ nodes }: { nodes: DownlinePartnerNode[] }) {
+  if (!nodes || nodes.length === 0) {
+    return <p className="text-sm text-gray-400 dark:text-gray-500">Brak poleconych partnerów w strukturze.</p>;
+  }
+
+  const renderNode = (node: DownlinePartnerNode) => (
+    <div key={node.id} className="pl-4 border-l-2 border-orange-200 dark:border-orange-950 mt-3 first:mt-0">
+      <div className="flex items-center gap-2 text-sm text-gray-800 dark:text-gray-200">
+        <span className="font-medium">{node.user.firstName} {node.user.lastName}</span>
+        <span className="text-xs font-mono text-orange-500">({node.referralCode})</span>
+        <span className="text-xs bg-gray-100 dark:bg-secondary-800 text-gray-500 dark:text-gray-400 px-2 py-0.5 rounded-full font-medium">{node.status}</span>
+        <span className="text-[10px] text-gray-400">{new Date(node.createdAt).toLocaleDateString('pl-PL')}</span>
+      </div>
+      {node.children && node.children.length > 0 && (
+        <div className="space-y-1 mt-1">
+          {node.children.map(renderNode)}
+        </div>
+      )}
+    </div>
+  );
+
+  return <div className="space-y-2 py-2">{nodes.map(renderNode)}</div>;
 }
 
 export default function PartnershipPage() {
@@ -40,6 +64,8 @@ export default function PartnershipPage() {
 
   const [profile, setProfile] = useState<PartnerProfileData | null>(null);
   const [links, setLinks] = useState<ReferralLinkData[]>([]);
+  const [overrides, setOverrides] = useState<ReferralOverrideData[]>([]);
+  const [downline, setDownline] = useState<DownlinePartnerNode[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
@@ -69,8 +95,14 @@ export default function PartnershipPage() {
       const data = await referralApi.getProfile();
       setProfile(data);
       if (data.status === 'APPROVED') {
-        const linksData = await referralApi.listLinks();
+        const [linksData, overridesData, downlineData] = await Promise.all([
+          referralApi.listLinks(),
+          referralApi.listOverrides(),
+          referralApi.getDownline(),
+        ]);
         setLinks(linksData);
+        setOverrides(overridesData);
+        setDownline(downlineData);
       }
     } catch (err: any) {
       if (err instanceof ApiClientError && err.statusCode === 404) {
@@ -557,6 +589,45 @@ export default function PartnershipPage() {
                         </table>
                       </div>
                     )}
+                  </div>
+
+                  {/* MLM Overrides (Nadprowizje z zespołu) */}
+                  <div>
+                    <h3 className="text-lg font-semibold text-gray-950 dark:text-white mb-4">Nadprowizje z Zespołu (MLM)</h3>
+                    {overrides.length === 0 ? (
+                      <p className="text-sm text-gray-400 dark:text-gray-500">Brak zarejestrowanych nadprowizji od partnerów z Twojej struktury.</p>
+                    ) : (
+                      <div className="overflow-x-auto">
+                        <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                          <thead className="text-xs uppercase bg-gray-50 dark:bg-secondary-900 text-gray-400">
+                            <tr>
+                              <th className="px-4 py-3">Zamówienie</th>
+                              <th className="px-4 py-3 text-center">Poziom</th>
+                              <th className="px-4 py-3 text-right">Kwota</th>
+                              <th className="px-4 py-3 text-center">Status</th>
+                              <th className="px-4 py-3 text-right">Data</th>
+                            </tr>
+                          </thead>
+                          <tbody className="divide-y divide-gray-100 dark:divide-secondary-700/50">
+                            {overrides.map((ov) => (
+                              <tr key={ov.id} className="hover:bg-gray-50/50 dark:hover:bg-secondary-800/30">
+                                <td className="px-4 py-3.5 font-medium text-gray-900 dark:text-white">{ov.order.orderNumber}</td>
+                                <td className="px-4 py-3.5 text-center">Poziom {ov.level}</td>
+                                <td className="px-4 py-3.5 text-right font-medium text-orange-500">{Number(ov.amount).toFixed(2)} PLN</td>
+                                <td className="px-4 py-3.5 text-center">{statusBadge(ov.status)}</td>
+                                <td className="px-4 py-3.5 text-right text-xs">{formatDate(ov.createdAt)}</td>
+                              </tr>
+                            ))}
+                          </tbody>
+                        </table>
+                      </div>
+                    )}
+                  </div>
+
+                  {/* MLM Downline (Twoja struktura) */}
+                  <div className="bg-gray-50 dark:bg-secondary-900/50 rounded-2xl p-6 border border-gray-100 dark:border-secondary-700/50">
+                    <h3 className="font-semibold text-gray-950 dark:text-white mb-2">Twoja Struktura Partnerska</h3>
+                    <DownlineTree nodes={downline} />
                   </div>
                 </div>
               )}

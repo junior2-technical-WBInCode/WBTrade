@@ -167,4 +167,30 @@ router.post('/payouts/cash', authGuard, partnerGuard, async (req: Request, res: 
   }
 });
 
+/**
+ * GET /api/referrals/overrides - Get list of MLM overrides for the partner
+ */
+router.get('/overrides', authGuard, partnerGuard, async (req: Request, res: Response): Promise<void> => {
+  try {
+    const partner = (req as any).partnerProfile;
+    const overrides = await referralService.listOverrides(partner.id);
+    res.json(overrides);
+  } catch (error: any) {
+    res.status(500).json({ message: error.message });
+  }
+});
+
+/**
+ * GET /api/referrals/downline - Get downline partner hierarchy tree (up to 5 levels)
+ */
+router.get('/downline', authGuard, partnerGuard, async (req: Request, res: Response): Promise<void> => {
+  try {
+    const partner = (req as any).partnerProfile;
+    const downline = await referralService.getDownline(partner.id);
+    res.json(downline);
+  } catch (error: any) {
+    res.status(500).json({ message: error.message });
+  }
+});
+
 export default router;
