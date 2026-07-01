@@ -846,13 +846,13 @@ export default function SalesRepPage() {
                                 </div>
                               </td>
                               <td className="px-4 py-3">
-                                {item.base.toFixed(2)} PLN
+                                {Number(item.base).toFixed(2)} PLN
                               </td>
                               <td className="px-4 py-3 text-orange-500 font-semibold">
                                 {item.commissionPct}% (rabat {item.discountPct}%)
                               </td>
                               <td className="px-4 py-3 font-bold text-gray-900 dark:text-white">
-                                {item.commissionAmount.toFixed(2)} PLN
+                                {Number(item.commissionAmount).toFixed(2)} PLN
                               </td>
                               <td className="px-4 py-3">
                                 <span className={`inline-block px-2 py-0.5 rounded-full text-xs font-semibold ${
