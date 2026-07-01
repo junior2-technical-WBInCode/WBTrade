@@ -243,10 +243,13 @@ export class ReferralService {
     });
 
     return links.map((link) => {
-      const approvedItems = link.referralItems.filter(
-        (ri) => ri.referral.status === 'APPROVED'
+      // Count both released (APPROVED) and held (PAID, in 14-day hold) commissions so
+      // the per-link total matches the "Zarobiono łącznie" card. Only CANCELLED/PENDING
+      // (unpaid) are excluded.
+      const earnedItems = link.referralItems.filter(
+        (ri) => ri.referral.status === 'APPROVED' || ri.referral.status === 'PAID'
       );
-      const totalCommission = approvedItems.reduce(
+      const totalCommission = earnedItems.reduce(
         (sum, ri) => sum + toNum(ri.primaryCommissionAmount),
         0
       );
