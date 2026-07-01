@@ -320,6 +320,7 @@ export const adminSalesRepsApi = {
     minCompanyMarginPct: number;
     markupMultiplier: number;
     holdDays: number;
+    blockAffiliation: boolean;
   }): Promise<any> =>
     fetchWithAuth('/api/admin/settings/sales-rep-config', {
       method: 'POST',

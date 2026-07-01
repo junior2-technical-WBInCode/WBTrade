@@ -244,6 +244,7 @@ export class SalesControllerRep {
         guestLastName: data.customerLastName,
         guestPhone: data.customerPhone,
         buyerIp: (req.headers['x-forwarded-for'] as string)?.split(',')[0].trim() || req.ip || undefined,
+        isSalesRepOrder: true,
       });
 
       // Clear merchant's cart
@@ -333,6 +334,7 @@ export class SalesControllerRep {
               orderNumber: true,
               total: true,
               status: true,
+              paymentStatus: true,
               createdAt: true,
               billingCompanyName: true,
             }

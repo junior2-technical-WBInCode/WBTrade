@@ -1950,6 +1950,7 @@ export interface SalesRepCommissionItem {
     orderNumber: string;
     total: number;
     status: string;
+    paymentStatus: string;
     createdAt: string;
     billingCompanyName: string | null;
   };

@@ -9,6 +9,7 @@ export default function SalesRepsSettingsPage() {
   const [minCompanyMarginPct, setMinCompanyMarginPct] = useState(10);
   const [markupMultiplier, setMarkupMultiplier] = useState(1.35);
   const [holdDays, setHoldDays] = useState(14);
+  const [blockAffiliation, setBlockAffiliation] = useState(true);
 
   const [loading, setLoading] = useState(true);
   const [saveLoading, setSaveLoading] = useState(false);
@@ -26,6 +27,7 @@ export default function SalesRepsSettingsPage() {
         setMinCompanyMarginPct(data.config.minCompanyMarginPct);
         setMarkupMultiplier(data.config.markupMultiplier);
         setHoldDays(data.config.holdDays);
+        setBlockAffiliation(data.config.blockAffiliation ?? true);
       }
     } catch (err: any) {
       setError(err.message || 'Błąd wczytywania konfiguracji progów handlowych.');
@@ -60,6 +62,7 @@ export default function SalesRepsSettingsPage() {
         minCompanyMarginPct,
         markupMultiplier,
         holdDays,
+        blockAffiliation,
       });
       setSuccess('Konfiguracja progów handlowych została zapisana pomyślnie.');
     } catch (err: any) {
@@ -174,6 +177,21 @@ export default function SalesRepsSettingsPage() {
                     className="w-full rounded-lg border border-gray-300 dark:border-secondary-700 bg-white dark:bg-secondary-900 px-3.5 py-2 text-sm focus:border-orange-500 focus:outline-none dark:text-white"
                   />
                   <p className="text-xs text-gray-400 mt-1">Liczba dni od momentu opłacenia zamówienia, przez którą prowizja handlowca jest zamrożona (ochrona przed zwrotami).</p>
+                </div>
+
+                <div className="rounded-lg border border-gray-200 dark:border-secondary-700 bg-gray-50 dark:bg-secondary-900/50 p-4">
+                  <label className="flex items-start gap-3 cursor-pointer">
+                    <input
+                      type="checkbox"
+                      checked={blockAffiliation}
+                      onChange={(e) => setBlockAffiliation(e.target.checked)}
+                      className="mt-0.5 h-4 w-4 rounded border-gray-300 text-orange-500 focus:ring-orange-500 cursor-pointer"
+                    />
+                    <span>
+                      <span className="block text-sm font-semibold text-gray-700 dark:text-gray-300">Ochrona przed afiliacją handlową</span>
+                      <span className="block text-xs text-gray-400 mt-1">Gdy włączona, zamówienia składane przez panel handlowca nie podlegają afiliacji — nawet jeśli kupujący ma w przeglądarce referencję afiliacyjną, nie zostanie ona naliczona.</span>
+                    </span>
+                  </label>
                 </div>
 
                 <button

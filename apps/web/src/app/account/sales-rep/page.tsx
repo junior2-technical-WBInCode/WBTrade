@@ -362,33 +362,33 @@ export default function SalesRepPage() {
               <div className="space-y-6">
                 {/* Balance Metrics Grid */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-                  <div className="bg-white dark:bg-secondary-800 rounded-xl p-5 border border-gray-100 dark:border-secondary-700 shadow-sm">
-                    <p className="text-sm font-medium text-gray-400 dark:text-gray-500">Dostępne środki</p>
-                    <p className="text-2xl font-bold text-gray-900 dark:text-white mt-1.5">
+                  <div className="bg-gradient-to-br from-orange-500 to-amber-500 rounded-2xl p-5 text-white shadow-sm transition-all hover:scale-[1.02]">
+                    <span className="text-xs uppercase font-semibold text-white/80">Dostępne środki</span>
+                    <div className="text-2xl font-bold mt-1">
                       {balanceLoading ? '...' : `${balance.available.toFixed(2)} PLN`}
-                    </p>
-                    <span className="text-xs text-green-500 font-medium block mt-1">Gotowe do wypłaty</span>
+                    </div>
+                    <p className="text-xs text-white/70 mt-2">Gotowe do wypłaty.</p>
                   </div>
-                  <div className="bg-white dark:bg-secondary-800 rounded-xl p-5 border border-gray-100 dark:border-secondary-700 shadow-sm">
-                    <p className="text-sm font-medium text-gray-400 dark:text-gray-500">Prowizje zamrożone</p>
-                    <p className="text-2xl font-bold text-gray-900 dark:text-white mt-1.5">
+                  <div className="bg-white dark:bg-secondary-800 border border-gray-100 dark:border-secondary-700 rounded-2xl p-5 shadow-sm">
+                    <span className="text-xs uppercase font-semibold text-gray-400 dark:text-gray-500">Prowizje zamrożone</span>
+                    <div className="text-2xl font-bold mt-1 text-gray-900 dark:text-white">
                       {balanceLoading ? '...' : `${balance.frozen.toFixed(2)} PLN`}
-                    </p>
-                    <span className="text-xs text-gray-400 dark:text-gray-500 block mt-1">Okres karencji (14 dni)</span>
+                    </div>
+                    <p className="text-xs text-gray-500 dark:text-gray-400 mt-2">Okres karencji (14 dni).</p>
                   </div>
-                  <div className="bg-white dark:bg-secondary-800 rounded-xl p-5 border border-gray-100 dark:border-secondary-700 shadow-sm">
-                    <p className="text-sm font-medium text-gray-400 dark:text-gray-500">Zarezerwowane</p>
-                    <p className="text-2xl font-bold text-gray-900 dark:text-white mt-1.5">
+                  <div className="bg-white dark:bg-secondary-800 border border-gray-100 dark:border-secondary-700 rounded-2xl p-5 shadow-sm">
+                    <span className="text-xs uppercase font-semibold text-gray-400 dark:text-gray-500">Zarezerwowane</span>
+                    <div className="text-2xl font-bold mt-1 text-gray-900 dark:text-white">
                       {balanceLoading ? '...' : `${balance.reserved.toFixed(2)} PLN`}
-                    </p>
-                    <span className="text-xs text-orange-500 font-medium block mt-1">W trakcie wypłacania</span>
+                    </div>
+                    <p className="text-xs text-gray-500 dark:text-gray-400 mt-2">W trakcie wypłacania.</p>
                   </div>
-                  <div className="bg-white dark:bg-secondary-800 rounded-xl p-5 border border-gray-100 dark:border-secondary-700 shadow-sm">
-                    <p className="text-sm font-medium text-gray-400 dark:text-gray-500">Suma zarobiona</p>
-                    <p className="text-2xl font-bold text-gray-900 dark:text-white mt-1.5">
+                  <div className="bg-white dark:bg-secondary-800 border border-gray-100 dark:border-secondary-700 rounded-2xl p-5 shadow-sm">
+                    <span className="text-xs uppercase font-semibold text-gray-400 dark:text-gray-500">Suma zarobiona</span>
+                    <div className="text-2xl font-bold mt-1 text-gray-900 dark:text-white">
                       {balanceLoading ? '...' : `${balance.totalEarned.toFixed(2)} PLN`}
-                    </p>
-                    <span className="text-xs text-gray-400 dark:text-gray-500 block mt-1">Od początku współpracy</span>
+                    </div>
+                    <p className="text-xs text-gray-500 dark:text-gray-400 mt-2">Od początku współpracy.</p>
                   </div>
                 </div>
 
@@ -800,10 +800,11 @@ export default function SalesRepPage() {
                           <tr>
                             <th className="px-4 py-3">Zamówienie</th>
                             <th className="px-4 py-3">Nazwa firmy</th>
+                            <th className="px-4 py-3">Status zamówienia</th>
                             <th className="px-4 py-3">Baza prowizji</th>
                             <th className="px-4 py-3">Prowizja (%)</th>
                             <th className="px-4 py-3">Kwota</th>
-                            <th className="px-4 py-3">Status</th>
+                            <th className="px-4 py-3">Status prowizji</th>
                             <th className="px-4 py-3">Data</th>
                           </tr>
                         </thead>
@@ -815,6 +816,34 @@ export default function SalesRepPage() {
                               </td>
                               <td className="px-4 py-3">
                                 {item.order?.billingCompanyName || 'Osoba prywatna'}
+                              </td>
+                              <td className="px-4 py-3">
+                                <div className="flex flex-col gap-1">
+                                  <span className={`inline-block w-fit px-2 py-0.5 rounded-full text-xs font-semibold ${
+                                    item.order?.paymentStatus === 'PAID' ? 'bg-green-100 text-green-800 dark:bg-green-950/20 dark:text-green-400' :
+                                    item.order?.paymentStatus === 'FAILED' || item.order?.paymentStatus === 'CANCELLED' ? 'bg-red-100 text-red-800 dark:bg-red-950/20 dark:text-red-400' :
+                                    item.order?.paymentStatus === 'REFUNDED' || item.order?.paymentStatus === 'PARTIALLY_REFUNDED' ? 'bg-purple-100 text-purple-800 dark:bg-purple-950/20 dark:text-purple-400' :
+                                    'bg-yellow-100 text-yellow-800 dark:bg-yellow-950/20 dark:text-yellow-400'
+                                  }`}>
+                                    {item.order?.paymentStatus === 'PAID' ? 'Opłacone' :
+                                     item.order?.paymentStatus === 'FAILED' ? 'Płatność nieudana' :
+                                     item.order?.paymentStatus === 'CANCELLED' ? 'Anulowane' :
+                                     item.order?.paymentStatus === 'REFUNDED' ? 'Zwrócone' :
+                                     item.order?.paymentStatus === 'PARTIALLY_REFUNDED' ? 'Częściowy zwrot' :
+                                     item.order?.paymentStatus === 'AWAITING_CONFIRMATION' ? 'Oczekuje potwierdzenia' :
+                                     'Nieopłacone'}
+                                  </span>
+                                  <span className="text-xs text-gray-400">
+                                    {item.order?.status === 'PENDING' ? 'Nowe' :
+                                     item.order?.status === 'CONFIRMED' ? 'Potwierdzone' :
+                                     item.order?.status === 'PROCESSING' ? 'W realizacji' :
+                                     item.order?.status === 'SHIPPED' ? 'Wysłane' :
+                                     item.order?.status === 'DELIVERED' ? 'Dostarczone' :
+                                     item.order?.status === 'CANCELLED' ? 'Anulowane' :
+                                     item.order?.status === 'REFUNDED' ? 'Zwrócone' :
+                                     item.order?.status || ''}
+                                  </span>
+                                </div>
                               </td>
                               <td className="px-4 py-3">
                                 {item.base.toFixed(2)} PLN

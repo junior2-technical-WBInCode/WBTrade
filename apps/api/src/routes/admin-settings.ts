@@ -143,7 +143,7 @@ router.get('/sales-rep-config', async (req, res) => {
  */
 router.post('/sales-rep-config', async (req, res) => {
   try {
-    const { baseCommissionPct, maxDiscountPct, minCompanyMarginPct, markupMultiplier, holdDays } = req.body;
+    const { baseCommissionPct, maxDiscountPct, minCompanyMarginPct, markupMultiplier, holdDays, blockAffiliation } = req.body;
 
     const base = Number(baseCommissionPct);
     const maxDiscount = Number(maxDiscountPct);
@@ -181,7 +181,8 @@ router.post('/sales-rep-config', async (req, res) => {
       maxDiscountPct: maxDiscount,
       minCompanyMarginPct: minMargin,
       markupMultiplier: markup,
-      holdDays: hold
+      holdDays: hold,
+      blockAffiliation: blockAffiliation !== undefined ? Boolean(blockAffiliation) : true
     };
 
     await prisma.settings.upsert({

@@ -13,6 +13,9 @@ export interface SalesRepConfig {
   minCompanyMarginPct: number;
   markupMultiplier: number;
   holdDays: number;
+  // When true, orders placed through the sales-rep panel never generate affiliate
+  // commission — even if the buyer still carries a referral cookie.
+  blockAffiliation: boolean;
 }
 
 let configCache: { config: SalesRepConfig; expiresAt: number } | null = null;
@@ -39,6 +42,7 @@ export class SalesRepService {
       minCompanyMarginPct: 10,
       markupMultiplier: 1.35,
       holdDays: DEFAULT_HOLD_DAYS,
+      blockAffiliation: true,
     };
 
     try {
@@ -57,6 +61,7 @@ export class SalesRepService {
           minCompanyMarginPct: Number(val.minCompanyMarginPct ?? defaultCfg.minCompanyMarginPct),
           markupMultiplier: Number(val.markupMultiplier ?? defaultCfg.markupMultiplier),
           holdDays: Number(val.holdDays ?? defaultCfg.holdDays),
+          blockAffiliation: val.blockAffiliation !== undefined ? Boolean(val.blockAffiliation) : defaultCfg.blockAffiliation,
         };
         configCache = { config: merged, expiresAt: now + CACHE_TTL };
         return merged;
