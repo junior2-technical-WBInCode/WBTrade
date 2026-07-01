@@ -1882,7 +1882,19 @@ export const referralApi = {
 
   getDownline: () =>
     api.get<DownlinePartnerNode[]>('/referrals/downline'),
+
+  getProductStats: () =>
+    api.get<ReferralProductStat[]>('/referrals/product-stats'),
 };
+
+export interface ReferralProductStat {
+  productId: string;
+  productName: string;
+  quantitySold: number;
+  salesValue: number;
+  commission: number;
+  lineCount: number;
+}
 
 export interface ReferralOverrideData {
   id: string;

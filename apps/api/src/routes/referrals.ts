@@ -193,4 +193,17 @@ router.get('/downline', authGuard, partnerGuard, async (req: Request, res: Respo
   }
 });
 
+/**
+ * GET /api/referrals/product-stats - Per-product best-sellers sold through the partner's links
+ */
+router.get('/product-stats', authGuard, partnerGuard, async (req: Request, res: Response): Promise<void> => {
+  try {
+    const partner = (req as any).partnerProfile;
+    const stats = await referralService.getProductStats(partner.id);
+    res.json(stats);
+  } catch (error: any) {
+    res.status(500).json({ message: error.message });
+  }
+});
+
 export default router;

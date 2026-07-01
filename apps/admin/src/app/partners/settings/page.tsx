@@ -10,6 +10,7 @@ export default function MlmSettingsPage() {
   const [overrideRatesPctStr, setOverrideRatesPctStr] = useState('10, 5, 3, 2, 1');
   const [stopOnInactiveUpline, setStopOnInactiveUpline] = useState(true);
   const [minMarginPct, setMinMarginPct] = useState(10); // used for the safety check
+  const [baseCommissionPct, setBaseCommissionPct] = useState(5); // reference base rate (% of sale) from backend
 
   const [loading, setLoading] = useState(true);
   const [saveLoading, setSaveLoading] = useState(false);
@@ -29,6 +30,7 @@ export default function MlmSettingsPage() {
           setOverrideRatesPctStr(data.config.overrideRatesPct.join(', '));
         }
         setStopOnInactiveUpline(data.config.stopOnInactiveUpline);
+        if (typeof data.baseCommissionPct === 'number') setBaseCommissionPct(data.baseCommissionPct);
       }
     } catch (err: any) {
       setError(err.message || 'Błąd wczytywania konfiguracji MLM.');
@@ -48,32 +50,35 @@ export default function MlmSettingsPage() {
       .filter((r) => !isNaN(r));
   };
 
-  // Live calculations (corresponds to computeMaxOverridePct in backend)
-  const computeMaxPayout = (): number => {
+  // Live calc — override cost as % OF SALE (matches backend computeOverridePctOfSale).
+  const computeOverridePctOfSale = (): number => {
     const rates = getRatesArray();
     if (rates.length === 0 || maxDepth === 0) return 0;
 
     if (overrideBase === 'downline_commission') {
+      // cascade: baseCommissionPct × Σ(Π rate_i/100)
       let multiplier = 1;
-      let total = 0;
+      let cascadeSum = 0;
       for (let d = 0; d < maxDepth; d++) {
         const r = (rates[d] ?? rates[rates.length - 1] ?? 0) / 100;
         multiplier *= r;
-        total += multiplier;
+        cascadeSum += multiplier;
         if (multiplier <= 0) break;
       }
-      return total * 100; // as % of primary commission C_S
+      return baseCommissionPct * cascadeSum;
     }
 
-    let total = 0;
+    let rateSum = 0;
     for (let d = 0; d < maxDepth; d++) {
-      total += rates[d] ?? rates[rates.length - 1] ?? 0;
+      rateSum += rates[d] ?? rates[rates.length - 1] ?? 0;
     }
-    return total;
+    // seller_commission: base × Σrate/100 ; sale_base: Σrate (already % of sale)
+    return overrideBase === 'seller_commission' ? (baseCommissionPct * rateSum) / 100 : rateSum;
   };
 
-  const maxOverridePct = computeMaxPayout();
-  const marginIsViolated = minMarginPct !== undefined && maxOverridePct > minMarginPct;
+  const overridePctOfSale = computeOverridePctOfSale();
+  const totalPayoutPctOfSale = baseCommissionPct + overridePctOfSale;
+  const marginIsViolated = minMarginPct !== undefined && totalPayoutPctOfSale > minMarginPct;
 
   const handleSave = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -87,7 +92,7 @@ export default function MlmSettingsPage() {
     }
 
     if (marginIsViolated) {
-      setError(`Przekroczono limit bezpieczeństwa. Maksymalna suma nadprowizji (${maxOverridePct.toFixed(2)}%) nie może przekraczać zysku firmy/marży (${minMarginPct}%).`);
+      setError(`Przekroczono limit bezpieczeństwa. Łączna wypłata partnerska (${totalPayoutPctOfSale.toFixed(2)}% od sprzedaży = baza ${baseCommissionPct}% + nadprowizje ${overridePctOfSale.toFixed(2)}%) nie może przekraczać marży firmy (${minMarginPct}%).`);
       return;
     }
 
@@ -239,15 +244,22 @@ export default function MlmSettingsPage() {
 
             <div className="space-y-3 text-sm">
               <div className="flex justify-between text-gray-500">
-                <span>Maks. % nadprowizji:</span>
-                <span className="font-semibold text-orange-500">
-                  {maxOverridePct.toFixed(2)}% {overrideBase === 'downline_commission' ? 'prowizji C_S' : 'bazy'}
-                </span>
+                <span>Prowizja bazowa:</span>
+                <span className="font-semibold text-gray-700 dark:text-gray-300">{baseCommissionPct.toFixed(2)}% od sprzedaży</span>
+              </div>
+              <div className="flex justify-between text-gray-500">
+                <span>Nadprowizje (suma):</span>
+                <span className="font-semibold text-orange-500">{overridePctOfSale.toFixed(2)}% od sprzedaży</span>
+              </div>
+              <div className="flex justify-between text-gray-500">
+                <span>Łączna wypłata partnerska:</span>
+                <span className="font-bold text-orange-600">{totalPayoutPctOfSale.toFixed(2)}% od sprzedaży</span>
               </div>
               <div className="flex justify-between text-gray-500">
                 <span>Dopuszczalna marża weryfikacji:</span>
                 <span className="font-semibold text-gray-700 dark:text-gray-300">{minMarginPct}%</span>
               </div>
+              <p className="text-[11px] text-gray-400 italic">Sufit liczony przy domyślnej stawce bazowej ({baseCommissionPct}%); realne stawki są per-partner.</p>
 
               <hr className="border-gray-100 dark:border-secondary-700" />
 
@@ -264,13 +276,13 @@ export default function MlmSettingsPage() {
                 className={`h-full rounded-full transition-all duration-300 ${
                   marginIsViolated ? 'bg-red-500' : 'bg-green-500'
                 }`}
-                style={{ width: `${Math.max(0, Math.min(100, (maxOverridePct / Math.max(1, minMarginPct)) * 100))}%` }}
+                style={{ width: `${Math.max(0, Math.min(100, (totalPayoutPctOfSale / Math.max(1, minMarginPct)) * 100))}%` }}
               />
             </div>
 
             {marginIsViolated ? (
               <div className="bg-red-50 dark:bg-red-950/20 border border-red-200 dark:border-red-900/30 p-3 rounded-lg text-xs text-red-700 dark:text-red-400 font-medium">
-                ⚠️ <strong>Uwaga!</strong> Suma nadprowizji MLM ({maxOverridePct.toFixed(2)}%) przekracza zadeklarowany limit bezpieczeństwa ({minMarginPct}%). Zapisz konfiguracji zostanie zablokowany.
+                ⚠️ <strong>Uwaga!</strong> Łączna wypłata partnerska ({totalPayoutPctOfSale.toFixed(2)}% od sprzedaży) przekracza zadeklarowaną marżę ({minMarginPct}%). Zapis konfiguracji zostanie zablokowany.
               </div>
             ) : (
               <div className="bg-green-50 dark:bg-green-950/20 border border-green-200 dark:border-green-900/30 p-3 rounded-lg text-xs text-green-700 dark:text-green-400 font-medium">

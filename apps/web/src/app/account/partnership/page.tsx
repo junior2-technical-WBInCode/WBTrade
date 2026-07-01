@@ -7,7 +7,7 @@ import Header from '../../../components/Header';
 import Footer from '../../../components/Footer';
 import AccountSidebar from '../../../components/AccountSidebar';
 import { useAuth } from '../../../contexts/AuthContext';
-import { referralApi, PartnerProfileData, ReferralLinkData, ApiClientError, ReferralOverrideData, DownlinePartnerNode } from '../../../lib/api';
+import { referralApi, PartnerProfileData, ReferralLinkData, ApiClientError, ReferralOverrideData, DownlinePartnerNode, ReferralProductStat } from '../../../lib/api';
 
 function formatDate(dateStr: string | null | undefined): string {
   if (!dateStr) return '—';
@@ -66,6 +66,7 @@ export default function PartnershipPage() {
   const [links, setLinks] = useState<ReferralLinkData[]>([]);
   const [overrides, setOverrides] = useState<ReferralOverrideData[]>([]);
   const [downline, setDownline] = useState<DownlinePartnerNode[]>([]);
+  const [productStats, setProductStats] = useState<ReferralProductStat[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
@@ -95,14 +96,16 @@ export default function PartnershipPage() {
       const data = await referralApi.getProfile();
       setProfile(data);
       if (data.status === 'APPROVED') {
-        const [linksData, overridesData, downlineData] = await Promise.all([
+        const [linksData, overridesData, downlineData, productStatsData] = await Promise.all([
           referralApi.listLinks(),
           referralApi.listOverrides(),
           referralApi.getDownline(),
+          referralApi.getProductStats(),
         ]);
         setLinks(linksData);
         setOverrides(overridesData);
         setDownline(downlineData);
+        setProductStats(productStatsData);
       }
     } catch (err: any) {
       if (err instanceof ApiClientError && err.statusCode === 404) {
@@ -628,6 +631,38 @@ export default function PartnershipPage() {
                   <div className="bg-gray-50 dark:bg-secondary-900/50 rounded-2xl p-6 border border-gray-100 dark:border-secondary-700/50">
                     <h3 className="font-semibold text-gray-950 dark:text-white mb-2">Twoja Struktura Partnerska</h3>
                     <DownlineTree nodes={downline} />
+                  </div>
+
+                  {/* Najczęściej sprzedawane produkty (per-produkt) */}
+                  <div>
+                    <h3 className="text-lg font-semibold text-gray-950 dark:text-white mb-1">Najczęściej Sprzedawane Produkty</h3>
+                    <p className="text-xs text-gray-400 dark:text-gray-500 mb-4">Rozbicie sprzedaży z Twoich linków wg produktu — każdy produkt liczony osobno, nawet jeśli klient dołożył do koszyka inne.</p>
+                    {productStats.length === 0 ? (
+                      <p className="text-sm text-gray-400 dark:text-gray-500">Brak sprzedanych produktów z Twoich linków.</p>
+                    ) : (
+                      <div className="overflow-x-auto">
+                        <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                          <thead className="text-xs uppercase bg-gray-50 dark:bg-secondary-900 text-gray-400">
+                            <tr>
+                              <th className="px-4 py-3">Produkt</th>
+                              <th className="px-4 py-3 text-center">Sprzedane szt.</th>
+                              <th className="px-4 py-3 text-right">Wartość sprzedaży</th>
+                              <th className="px-4 py-3 text-right">Twoja prowizja</th>
+                            </tr>
+                          </thead>
+                          <tbody className="divide-y divide-gray-100 dark:divide-secondary-700/50">
+                            {productStats.map((p) => (
+                              <tr key={p.productId} className="hover:bg-gray-50/50 dark:hover:bg-secondary-800/30">
+                                <td className="px-4 py-3.5 font-medium text-gray-900 dark:text-white">{p.productName}</td>
+                                <td className="px-4 py-3.5 text-center font-semibold">{p.quantitySold}</td>
+                                <td className="px-4 py-3.5 text-right">{p.salesValue.toFixed(2)} PLN</td>
+                                <td className="px-4 py-3.5 text-right font-medium text-orange-500">{p.commission.toFixed(2)} PLN</td>
+                              </tr>
+                            ))}
+                          </tbody>
+                        </table>
+                      </div>
+                    )}
                   </div>
                 </div>
               )}

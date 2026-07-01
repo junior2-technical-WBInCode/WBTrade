@@ -100,13 +100,17 @@ export class ReferralService {
       throw new Error('Nie udało się wygenerować unikalnego kodu partnerskiego.');
     }
 
-    // Resolve parent partner for MLM (Phase 3 — just store the relation)
+    // Resolve parent partner for MLM. Store the relation whenever the invite code resolves
+    // to an existing partner — regardless of that partner's current status. The override
+    // walk-up (attributeOrder) checks `ancestor.status === 'APPROVED'` at SALE time, so a
+    // not-yet-approved inviter simply earns nothing until approved. Gating the relation on
+    // APPROVED here would permanently lose the upline link if the inviter is approved later.
     let parentPartnerId: string | null = null;
     if (dto.invitedBy) {
       const parentProfile = await prisma.partnerProfile.findUnique({
         where: { referralCode: dto.invitedBy },
       });
-      if (parentProfile && parentProfile.status === 'APPROVED') {
+      if (parentProfile && parentProfile.userId !== userId) {
         parentPartnerId = parentProfile.id;
       }
     }
@@ -870,6 +874,65 @@ export class ReferralService {
     };
 
     return buildTree(partnerId, 1);
+  }
+
+  /**
+   * Per-product sales stats for a partner — "best sellers" through their links.
+   * Aggregates ReferralItem (order-item level) by PRODUCT, so a link that pointed to
+   * one product but whose order also contained other products is split correctly:
+   * each product is its own row, not lumped under the link's total.
+   */
+  async getProductStats(partnerId: string) {
+    const items = await prisma.referralItem.findMany({
+      where: { referral: { partnerId, status: { not: 'CANCELLED' } } },
+      select: {
+        primaryCommissionAmount: true,
+        orderItem: {
+          select: {
+            productName: true,
+            quantity: true,
+            unitPrice: true,
+            variant: { select: { productId: true } },
+          },
+        },
+      },
+    });
+
+    const map = new Map<string, {
+      productId: string;
+      productName: string;
+      quantitySold: number;
+      salesValue: number;
+      commission: number;
+      lineCount: number;
+    }>();
+
+    for (const it of items) {
+      const oi = it.orderItem;
+      if (!oi) continue;
+      const productId = oi.variant?.productId || oi.productName; // fallback to name if variant missing
+      const entry = map.get(productId) || {
+        productId,
+        productName: oi.productName,
+        quantitySold: 0,
+        salesValue: 0,
+        commission: 0,
+        lineCount: 0,
+      };
+      entry.quantitySold += oi.quantity;
+      entry.salesValue += toNum(oi.unitPrice) * oi.quantity;
+      entry.commission += toNum(it.primaryCommissionAmount);
+      entry.lineCount += 1;
+      map.set(productId, entry);
+    }
+
+    return Array.from(map.values())
+      .map((e) => ({
+        ...e,
+        salesValue: roundMoney(e.salesValue),
+        commission: roundMoney(e.commission),
+      }))
+      .sort((a, b) => b.quantitySold - a.quantitySold);
   }
 
   // ==============================
