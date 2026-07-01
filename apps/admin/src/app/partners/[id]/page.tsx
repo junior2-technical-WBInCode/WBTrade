@@ -136,19 +136,19 @@ export default function PartnerDetailPage() {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
           <div className="bg-white dark:bg-secondary-800 border border-gray-100 dark:border-secondary-700 p-5 rounded-2xl">
             <span className="text-xs uppercase font-semibold text-gray-400">Dostępny Balans</span>
-            <div className="text-xl font-bold mt-1 text-gray-900 dark:text-white">{partner.balance.available.toFixed(2)} PLN</div>
+            <div className="text-xl font-bold mt-1 text-gray-900 dark:text-white">{Number(partner.balance.available).toFixed(2)} PLN</div>
           </div>
           <div className="bg-white dark:bg-secondary-800 border border-gray-100 dark:border-secondary-700 p-5 rounded-2xl">
             <span className="text-xs uppercase font-semibold text-gray-400">Środki w Holdzie</span>
-            <div className="text-xl font-bold mt-1 text-gray-900 dark:text-white">{partner.balance.frozen.toFixed(2)} PLN</div>
+            <div className="text-xl font-bold mt-1 text-gray-900 dark:text-white">{Number(partner.balance.frozen).toFixed(2)} PLN</div>
           </div>
           <div className="bg-white dark:bg-secondary-800 border border-gray-100 dark:border-secondary-700 p-5 rounded-2xl">
             <span className="text-xs uppercase font-semibold text-gray-400">Zarezerwowane (wypłaty)</span>
-            <div className="text-xl font-bold mt-1 text-gray-900 dark:text-white">{partner.balance.reserved.toFixed(2)} PLN</div>
+            <div className="text-xl font-bold mt-1 text-gray-900 dark:text-white">{Number(partner.balance.reserved).toFixed(2)} PLN</div>
           </div>
           <div className="bg-white dark:bg-secondary-800 border border-gray-100 dark:border-secondary-700 p-5 rounded-2xl">
             <span className="text-xs uppercase font-semibold text-gray-400">Zarobiono łącznie</span>
-            <div className="text-xl font-bold mt-1 text-gray-900 dark:text-white">{partner.balance.totalEarned.toFixed(2)} PLN</div>
+            <div className="text-xl font-bold mt-1 text-gray-900 dark:text-white">{Number(partner.balance.totalEarned).toFixed(2)} PLN</div>
           </div>
         </div>
 
@@ -216,8 +216,8 @@ export default function PartnerDetailPage() {
                           {ref.order.orderNumber}
                         </Link>
                       </td>
-                      <td className="px-4 py-3.5 text-center">{ref.order.total.toFixed(2)} PLN</td>
-                      <td className="px-4 py-3.5 text-right font-medium text-orange-500">{ref.primaryCommission.toFixed(2)} PLN</td>
+                      <td className="px-4 py-3.5 text-center">{Number(ref.order.total).toFixed(2)} PLN</td>
+                      <td className="px-4 py-3.5 text-right font-medium text-orange-500">{Number(ref.primaryCommission).toFixed(2)} PLN</td>
                       <td className="px-4 py-3.5 text-center">{statusBadge(ref.status)}</td>
                       <td className="px-4 py-3.5 text-right text-xs">{formatDate(ref.createdAt)}</td>
                     </tr>
@@ -260,7 +260,7 @@ export default function PartnerDetailPage() {
                         )}
                         {pay.notes && <div className="text-gray-400 mt-1">{pay.notes}</div>}
                       </td>
-                      <td className="px-4 py-3.5 text-right font-medium text-gray-950 dark:text-white">{pay.amount.toFixed(2)} PLN</td>
+                      <td className="px-4 py-3.5 text-right font-medium text-gray-950 dark:text-white">{Number(pay.amount).toFixed(2)} PLN</td>
                       <td className="px-4 py-3.5 text-center">{statusBadge(pay.status)}</td>
                       <td className="px-4 py-3.5 text-right text-xs">{formatDate(pay.createdAt)}</td>
                     </tr>
