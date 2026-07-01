@@ -61,12 +61,14 @@ router.get('/my', authGuard, async (req, res) => {
     });
 
     // 2. Public promotional coupons (no userId, singleUsePerUser=true, active)
+    //    Exclude REFERRAL coupons — they are personal partner coupons
     const now = new Date();
     const publicCoupons = await prisma.coupon.findMany({
       where: {
         userId: null,
         singleUsePerUser: true,
         isActive: true,
+        couponSource: { not: 'REFERRAL' },
         OR: [
           { expiresAt: null },
           { expiresAt: { gt: now } },
