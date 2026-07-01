@@ -8,7 +8,7 @@ import { useCart } from '@/contexts/CartContext';
 import { useAuth } from '@/contexts/AuthContext';
 import { checkoutApi, addressesApi, ApiClientError, CartItem } from '@/lib/api';
 import { roundMoney } from '@/lib/currency';
-import { getReferralData, clearReferralData } from '@/components/ReferralTracker';
+import { getReferralData } from '@/components/ReferralTracker';
 import CheckoutSteps from './components/CheckoutSteps';
 import CheckoutAuthChoice from './components/CheckoutAuthChoice';
 import AddressForm from './components/AddressForm';
@@ -446,9 +446,10 @@ function CheckoutPageContent() {
           },
         });
 
-        // Clear localStorage selected items and referral cookies after successful order
+        // Clear localStorage selected items after successful order
+        // NOTE: referral cookie (ref_last_click/ref_touched) is NOT cleared here —
+        // last-click model, 30-day window: all orders within the window must be attributed.
         localStorage.removeItem('checkoutSelectedItems');
-        clearReferralData();
 
         // Store one-time guest access token + email in sessionStorage
         // This allows viewing the confirmation page exactly once in this tab
@@ -532,9 +533,10 @@ function CheckoutPageContent() {
         })),
       });
 
-      // Clear localStorage selected items and referral cookies after successful order
+      // Clear localStorage selected items after successful order
+      // NOTE: referral cookie (ref_last_click/ref_touched) is NOT cleared here —
+      // last-click model, 30-day window: all orders within the window must be attributed.
       localStorage.removeItem('checkoutSelectedItems');
-      clearReferralData();
 
       // If payment URL is provided, redirect to payment gateway
       if (checkoutResponse.paymentUrl) {

@@ -16,6 +16,7 @@ import { prisma } from '../db';
 import { Prisma, ReferralStatus } from '@prisma/client';
 import { roundMoney } from '../lib/currency';
 import { isFraud, loadPartnerForFraudCheck } from './referral-fraud.service';
+import { getMlmConfig } from './mlm-config.service';
 import crypto from 'crypto';
 
 // ─── Config ───
@@ -439,6 +440,84 @@ export class ReferralService {
       `(commission: ${totalCommission} PLN, status: ${referralStatus}` +
       `${fraudResult.isFraud ? ', FRAUD: ' + fraudResult.reason : ''})`
     );
+
+    // ── MLM walk-up (PR2) ────────────────────────────────────────────────────
+    // Load config — fast path when disabled (zero DB round-trips after cache warm).
+    const mlmCfg = await getMlmConfig();
+    if (!mlmCfg.enabled) return;                   // LEGAL GATE: disabled by default
+    if (referral.status === 'CANCELLED') return;   // fraud/anulacja źródła → brak overrides
+
+    const saleBase = commissionBase;               // needed for sale_base override mode
+    let prev = totalCommission;                    // O_0 = C_S (seller's direct commission)
+
+    // Load seller's parent to start the chain
+    let ancestorId = winningPartner.parentPartnerId;
+    let level = 1;
+    const visited = new Set<string>([winningPartner.id]); // cycle guard
+
+    while (ancestorId && level <= mlmCfg.maxDepth) {
+      if (visited.has(ancestorId)) {
+        console.warn(`[MLM] Cycle detected in partner hierarchy at ${ancestorId}, stopping.`);
+        break;
+      }
+
+      const ancestor = await tx.partnerProfile.findUnique({
+        where: { id: ancestorId },
+        select: { id: true, status: true, parentPartnerId: true },
+      });
+
+      if (!ancestor) break;
+
+      if (ancestor.status !== 'APPROVED') {
+        if (mlmCfg.stopOnInactiveUpline) {
+          console.log(`[MLM] Upline ${ancestor.id} is not APPROVED — stopping chain (stopOnInactiveUpline=true).`);
+          break;
+        } else {
+          // Skip this node (compression disabled) and continue up
+          visited.add(ancestorId);
+          ancestorId = ancestor.parentPartnerId;
+          level++;
+          continue;
+        }
+      }
+
+      // Rate for this level (0-indexed: level 1 → index 0)
+      const rates = mlmCfg.overrideRatesPct;
+      const rate = (rates[level - 1] ?? rates[rates.length - 1] ?? 0) / 100;
+
+      let amount: number;
+      if (mlmCfg.overrideBase === 'downline_commission') {
+        amount = roundMoney(prev * rate);         // kaskada: O_d = rate_d × O_{d-1}
+      } else if (mlmCfg.overrideBase === 'seller_commission') {
+        amount = roundMoney(totalCommission * rate); // płaskie od C_S
+      } else {
+        amount = roundMoney(saleBase * rate);     // sale_base
+      }
+
+      if (amount <= 0) {
+        console.log(`[MLM] Override amount reached 0 at level ${level} (${ancestor.id}), stopping.`);
+        break;
+      }
+
+      await tx.referralOverride.create({
+        data: {
+          referralId: referral.id,
+          orderId: order.id,
+          beneficiaryId: ancestor.id,
+          level,
+          amount,
+          status: referral.status, // inherit PENDING from source Referral
+        },
+      });
+
+      console.log(`[MLM] Override L${level}: partner=${ancestor.id}, amount=${amount} PLN`);
+
+      visited.add(ancestorId);
+      prev = amount;
+      ancestorId = ancestor.parentPartnerId;
+      level++;
+    }
+    // ── end MLM walk-up ──────────────────────────────────────────────────────
   }
 
   // ==============================
@@ -464,6 +543,18 @@ export class ReferralService {
       if (result.count === 0) {
         console.log(`[Referral] No pending referral found for order ${orderId}`);
       }
+
+      // Mark MLM overrides as paid
+      await prisma.referralOverride.updateMany({
+        where: {
+          orderId,
+          status: 'PENDING',
+        },
+        data: {
+          status: 'PAID',
+          paidAt: new Date(),
+        },
+      });
     } catch (err) {
       console.error(`[Referral] Error marking referral as paid for order ${orderId}:`, err);
     }
@@ -488,6 +579,17 @@ export class ReferralService {
       if (result.count === 0) {
         console.log(`[Referral] No active referral found for order ${orderId} to cancel`);
       }
+
+      // Cancel MLM overrides
+      await prisma.referralOverride.updateMany({
+        where: {
+          orderId,
+          status: { in: ['PENDING', 'PAID', 'APPROVED'] },
+        },
+        data: {
+          status: 'CANCELLED',
+        },
+      });
     } catch (err) {
       console.error(`[Referral] Error cancelling referral for order ${orderId}:`, err);
     }
@@ -502,26 +604,53 @@ export class ReferralService {
    * available = Σ(APPROVED commissions) − Σ(PENDING/COMPLETED payouts)
    */
   async computeBalance(partnerId: string) {
-    // Approved commissions
+    // Approved direct commissions
     const approvedResult = await prisma.referral.aggregate({
       where: { partnerId, status: 'APPROVED' },
       _sum: { primaryCommission: true },
     });
-    const approved = toNum(approvedResult._sum.primaryCommission);
+    const approvedDirect = toNum(approvedResult._sum.primaryCommission);
 
-    // Frozen commissions (PAID but not yet APPROVED — in 14-day hold)
+    // Approved override commissions
+    const approvedOverrideResult = await prisma.referralOverride.aggregate({
+      where: { beneficiaryId: partnerId, status: 'APPROVED' },
+      _sum: { amount: true },
+    });
+    const approvedOverride = toNum(approvedOverrideResult._sum.amount);
+
+    const approved = roundMoney(approvedDirect + approvedOverride);
+
+    // Frozen direct commissions (PAID but not yet APPROVED — in 14-day hold)
     const frozenResult = await prisma.referral.aggregate({
       where: { partnerId, status: 'PAID' },
       _sum: { primaryCommission: true },
     });
-    const frozen = toNum(frozenResult._sum.primaryCommission);
+    const frozenDirect = toNum(frozenResult._sum.primaryCommission);
 
-    // Total earned (all non-cancelled)
+    // Frozen override commissions
+    const frozenOverrideResult = await prisma.referralOverride.aggregate({
+      where: { beneficiaryId: partnerId, status: 'PAID' },
+      _sum: { amount: true },
+    });
+    const frozenOverride = toNum(frozenOverrideResult._sum.amount);
+
+    const frozen = roundMoney(frozenDirect + frozenOverride);
+
+    // Total earned direct (all non-cancelled)
     const totalResult = await prisma.referral.aggregate({
       where: { partnerId, status: { in: ['PAID', 'APPROVED'] } },
       _sum: { primaryCommission: true },
     });
-    const totalEarned = toNum(totalResult._sum.primaryCommission);
+    const totalEarnedDirect = toNum(totalResult._sum.primaryCommission);
+
+    // Total earned override commissions
+    const totalOverrideResult = await prisma.referralOverride.aggregate({
+      where: { beneficiaryId: partnerId, status: { in: ['PAID', 'APPROVED'] } },
+      _sum: { amount: true },
+    });
+    const totalEarnedOverride = toNum(totalOverrideResult._sum.amount);
+
+    const totalEarned = roundMoney(totalEarnedDirect + totalEarnedOverride);
 
     // Reserved by payouts (PENDING + COMPLETED)
     const reservedResult = await prisma.referralPayout.aggregate({
@@ -540,9 +669,9 @@ export class ReferralService {
       // future approved commissions net against it before becoming withdrawable again.
       net,
       owed: net < 0 ? roundMoney(-net) : 0,
-      frozen: roundMoney(frozen),
-      totalEarned: roundMoney(totalEarned),
-      reserved: roundMoney(reserved),
+      frozen,
+      totalEarned,
+      reserved,
     };
   }
 
@@ -561,7 +690,15 @@ export class ReferralService {
           where: { partnerId, status: 'APPROVED' },
           _sum: { primaryCommission: true },
         });
-        const approved = toNum(approvedResult._sum.primaryCommission);
+        const approvedDirect = toNum(approvedResult._sum.primaryCommission);
+
+        const approvedOverrideResult = await tx.referralOverride.aggregate({
+          where: { beneficiaryId: partnerId, status: 'APPROVED' },
+          _sum: { amount: true },
+        });
+        const approvedOverride = toNum(approvedOverrideResult._sum.amount);
+
+        const approved = roundMoney(approvedDirect + approvedOverride);
 
         const reservedResult = await tx.referralPayout.aggregate({
           where: { partnerId, status: { in: ['PENDING', 'COMPLETED'] } },
@@ -640,7 +777,15 @@ export class ReferralService {
           where: { partnerId, status: 'APPROVED' },
           _sum: { primaryCommission: true },
         });
-        const approved = toNum(approvedResult._sum.primaryCommission);
+        const approvedDirect = toNum(approvedResult._sum.primaryCommission);
+
+        const approvedOverrideResult = await tx.referralOverride.aggregate({
+          where: { beneficiaryId: partnerId, status: 'APPROVED' },
+          _sum: { amount: true },
+        });
+        const approvedOverride = toNum(approvedOverrideResult._sum.amount);
+
+        const approved = roundMoney(approvedDirect + approvedOverride);
 
         const reservedResult = await tx.referralPayout.aggregate({
           where: { partnerId, status: { in: ['PENDING', 'COMPLETED'] } },
@@ -670,6 +815,61 @@ export class ReferralService {
       },
       { isolationLevel: Prisma.TransactionIsolationLevel.Serializable }
     );
+  }
+
+  // ==============================
+  // MLM DOWNLINE & OVERRIDES (PR4)
+  // ==============================
+
+  /**
+   * List all MLM overrides (commissions from downline partners) for a beneficiary.
+   */
+  async listOverrides(partnerId: string) {
+    return prisma.referralOverride.findMany({
+      where: { beneficiaryId: partnerId },
+      include: {
+        order: {
+          select: {
+            orderNumber: true,
+            total: true,
+          },
+        },
+      },
+      orderBy: { createdAt: 'desc' },
+    });
+  }
+
+  /**
+   * Get downline partners recursively up to 5 levels deep.
+   */
+  async getDownline(partnerId: string) {
+    const maxDepth = 5;
+
+    const buildTree = async (currentId: string, currentDepth: number): Promise<any[]> => {
+      if (currentDepth > maxDepth) return [];
+      const subs = await prisma.partnerProfile.findMany({
+        where: { parentPartnerId: currentId },
+        include: {
+          user: { select: { firstName: true, lastName: true, email: true } },
+        },
+      });
+
+      const tree: any[] = [];
+      for (const sub of subs) {
+        const children = await buildTree(sub.id, currentDepth + 1);
+        tree.push({
+          id: sub.id,
+          referralCode: sub.referralCode,
+          status: sub.status,
+          createdAt: sub.createdAt,
+          user: sub.user,
+          children,
+        });
+      }
+      return tree;
+    };
+
+    return buildTree(partnerId, 1);
   }
 
   // ==============================
@@ -754,6 +954,22 @@ export class ReferralService {
       console.log(`[Referral Cron] Self-healed ${orphaned.length} PENDING referral(s) for already-paid orders`);
     }
 
+    // Self-heal overrides
+    const orphanedOverrides = await prisma.referralOverride.findMany({
+      where: {
+        status: 'PENDING',
+        order: { paymentStatus: 'PAID', status: { notIn: ['CANCELLED', 'REFUNDED'] } },
+      },
+      select: { id: true },
+    });
+    if (orphanedOverrides.length > 0) {
+      await prisma.referralOverride.updateMany({
+        where: { id: { in: orphanedOverrides.map((r) => r.id) } },
+        data: { status: 'PAID', paidAt: new Date() },
+      });
+      console.log(`[Referral Cron] Self-healed ${orphanedOverrides.length} PENDING referral override(s) for already-paid orders`);
+    }
+
     const eligible = await prisma.referral.findMany({
       where: {
         status: 'PAID',
@@ -779,6 +995,38 @@ export class ReferralService {
       } else {
         await prisma.referral.update({
           where: { id: referral.id },
+          data: {
+            status: 'APPROVED',
+            approvedAt: new Date(),
+          },
+        });
+        approved++;
+      }
+    }
+
+    // Process eligible overrides
+    const eligibleOverrides = await prisma.referralOverride.findMany({
+      where: {
+        status: 'PAID',
+        paidAt: { lte: holdDate },
+      },
+      include: {
+        order: { select: { status: true } },
+      },
+    });
+
+    for (const override of eligibleOverrides) {
+      const cancelledStatuses = ['CANCELLED', 'REFUNDED'];
+
+      if (cancelledStatuses.includes(override.order.status)) {
+        await prisma.referralOverride.update({
+          where: { id: override.id },
+          data: { status: 'CANCELLED' },
+        });
+        cancelled++;
+      } else {
+        await prisma.referralOverride.update({
+          where: { id: override.id },
           data: {
             status: 'APPROVED',
             approvedAt: new Date(),

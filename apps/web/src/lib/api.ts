@@ -1876,7 +1876,44 @@ export const referralApi = {
 
   requestCashPayout: (amount: number, invoiceUrl?: string) =>
     api.post<any>('/referrals/payouts/cash', { amount, invoiceUrl }),
+
+  listOverrides: () =>
+    api.get<ReferralOverrideData[]>('/referrals/overrides'),
+
+  getDownline: () =>
+    api.get<DownlinePartnerNode[]>('/referrals/downline'),
 };
+
+export interface ReferralOverrideData {
+  id: string;
+  referralId: string;
+  orderId: string;
+  beneficiaryId: string;
+  level: number;
+  amount: number;
+  status: string;
+  paidAt: string | null;
+  approvedAt: string | null;
+  createdAt: string;
+  order: {
+    orderNumber: string;
+    total: number;
+  };
+}
+
+export interface DownlinePartnerNode {
+  id: string;
+  referralCode: string;
+  status: string;
+  createdAt: string;
+  user: {
+    firstName: string;
+    lastName: string;
+    email: string;
+  };
+  children: DownlinePartnerNode[];
+}
+
 
 export interface SalesRepBalance {
   available: number;

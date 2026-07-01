@@ -268,6 +268,22 @@ export const partnersApi = {
       method: 'PATCH',
       body: JSON.stringify({ reason }),
     }),
+
+  getMlmConfig: (): Promise<any> =>
+    fetchWithAuth('/api/admin/settings/mlm-config'),
+
+  saveMlmConfig: (config: {
+    enabled: boolean;
+    maxDepth: number;
+    overrideBase: string;
+    overrideRatesPct: number[];
+    stopOnInactiveUpline: boolean;
+    minMarginPct?: number;
+  }): Promise<any> =>
+    fetchWithAuth('/api/admin/settings/mlm-config', {
+      method: 'POST',
+      body: JSON.stringify(config),
+    }),
 };
 
 export const adminSalesRepsApi = {

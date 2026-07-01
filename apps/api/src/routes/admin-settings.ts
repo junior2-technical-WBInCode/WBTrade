@@ -3,6 +3,14 @@ import { prisma } from '../db';
 import { invalidateCategoryCache } from '../lib/cache';
 import { authGuard, adminOnly } from '../middleware/auth.middleware';
 import { salesRepService } from '../services/sales-rep.service';
+import {
+  getMlmConfig,
+  saveMlmConfig,
+  validateMlmConfig,
+  computeMaxOverridePct,
+  DEFAULT_MLM_CONFIG,
+  type MlmConfig,
+} from '../services/mlm-config.service';
 
 const router = Router();
 
@@ -185,6 +193,72 @@ router.post('/sales-rep-config', async (req, res) => {
   } catch (error) {
     console.error('Error saving sales rep settings:', error);
     res.status(500).json({ message: 'Błąd zapisu konfiguracji handlowca' });
+  }
+});
+
+/**
+ * GET /api/admin/settings/mlm-config
+ * Zwraca aktualną konfigurację MLM + podgląd maks. łącznego % wypłaty od prowizji sprzedawcy.
+ */
+router.get('/mlm-config', async (req, res) => {
+  try {
+    const config = await getMlmConfig();
+    const maxOverridePct = computeMaxOverridePct(config);
+    res.json({ success: true, config, maxOverridePct });
+  } catch (error) {
+    console.error('Error fetching MLM config:', error);
+    res.status(500).json({ message: 'Błąd pobierania konfiguracji MLM' });
+  }
+});
+
+/**
+ * POST /api/admin/settings/mlm-config
+ * Zapisuje konfigurację MLM po walidacji (stawki, sufit marży).
+ *
+ * Body: { enabled, maxDepth, overrideBase, overrideRatesPct, stopOnInactiveUpline, minMarginPct? }
+ * minMarginPct — opcjonalne, przekazane z frontu (% minimalnej marży firmy) do walidacji sufitu.
+ */
+router.post('/mlm-config', async (req, res) => {
+  try {
+    const {
+      enabled,
+      maxDepth,
+      overrideBase,
+      overrideRatesPct,
+      stopOnInactiveUpline,
+      minMarginPct,
+    } = req.body;
+
+    const cfg: MlmConfig = {
+      enabled: Boolean(enabled ?? DEFAULT_MLM_CONFIG.enabled),
+      maxDepth: Number(maxDepth ?? DEFAULT_MLM_CONFIG.maxDepth),
+      overrideBase: overrideBase ?? DEFAULT_MLM_CONFIG.overrideBase,
+      overrideRatesPct: Array.isArray(overrideRatesPct)
+        ? overrideRatesPct.map(Number)
+        : DEFAULT_MLM_CONFIG.overrideRatesPct,
+      stopOnInactiveUpline: Boolean(stopOnInactiveUpline ?? DEFAULT_MLM_CONFIG.stopOnInactiveUpline),
+    };
+
+    const minMargin = minMarginPct !== undefined ? Number(minMarginPct) : undefined;
+    const { valid, errors } = validateMlmConfig(cfg, minMargin);
+
+    if (!valid) {
+      res.status(400).json({ message: errors.join(' '), errors });
+      return;
+    }
+
+    await saveMlmConfig(cfg);
+
+    const maxOverridePct = computeMaxOverridePct(cfg);
+    res.json({
+      success: true,
+      message: 'Konfiguracja MLM zapisana.',
+      config: cfg,
+      maxOverridePct,
+    });
+  } catch (error) {
+    console.error('Error saving MLM config:', error);
+    res.status(500).json({ message: 'Błąd zapisu konfiguracji MLM' });
   }
 });
 
