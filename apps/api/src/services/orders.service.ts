@@ -93,6 +93,10 @@ interface CreateOrderData {
     touched: string[];
   };
   buyerIp?: string;
+  // True when the order is created through the sales-rep (handlowiec) panel.
+  // Such orders are excluded from affiliate attribution when the admin
+  // protection toggle (sales_rep_config.blockAffiliation) is enabled.
+  isSalesRepOrder?: boolean;
 }
 
 interface GetAllOrdersParams {
@@ -377,14 +381,26 @@ export class OrdersService {
         }
       }
       
-      // Attribute the order to an affiliate partner if ref links used
+      // Attribute the order to an affiliate partner if ref links used.
+      // Sales-rep (handlowiec) orders are excluded from affiliation when the admin
+      // protection toggle is on — even if the buyer still carries a ref cookie, an
+      // order placed through the sales-rep panel must not generate affiliate commission.
       try {
-        await referralService.attributeOrder(tx, order, data.referral, {
-          userId: data.userId,
-          email: data.guestEmail || order.user?.email || '',
-          nip: data.billingNip,
-          ip: data.buyerIp,
-        });
+        let skipReferral = false;
+        if (data.isSalesRepOrder) {
+          const repCfg = await salesRepService.getSalesRepConfig();
+          skipReferral = repCfg.blockAffiliation;
+        }
+        if (skipReferral) {
+          console.log(`[OrdersService] Order ${order.orderNumber} is a sales-rep order — skipping affiliate attribution (blockAffiliation=on).`);
+        } else {
+          await referralService.attributeOrder(tx, order, data.referral, {
+            userId: data.userId,
+            email: data.guestEmail || order.user?.email || '',
+            nip: data.billingNip,
+            ip: data.buyerIp,
+          });
+        }
       } catch (err) {
         console.error(`[OrdersService] Failed to attribute order ${order.orderNumber} to referral partner:`, err);
       }
