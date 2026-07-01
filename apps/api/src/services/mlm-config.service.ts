@@ -52,38 +52,61 @@ function invalidateCache() {
 // ─── Helpers ─────────────────────────────────────────────────────────────────
 
 /**
- * Compute the maximum total payout percentage from a single sale, given current config.
- * For cascade (downline_commission): geometric series
- *   Σ_d=1^maxDepth  product_{i=1}^{d} (rate_i / 100)
- * expressed as % of primary commission C_S.
- * For seller_commission / sale_base: Σ rate_d (flat sum).
- *
- * Returns a percentage number, e.g. 15.5 means 15.5% additional payout per sale.
+ * Cascade sum for downline_commission mode, as a FRACTION of the primary commission C_S:
+ *   Σ_d=1^maxDepth  Π_{i=1..d} (rate_i / 100)
+ * e.g. rates [10,5] → 0.10 + 0.10*0.05 = 0.105.
  */
-export function computeMaxOverridePct(cfg: MlmConfig): number {
+function cascadeSumFraction(cfg: MlmConfig): number {
   const rates = cfg.overrideRatesPct;
-  if (rates.length === 0 || cfg.maxDepth === 0) return 0;
-
-  if (cfg.overrideBase === 'downline_commission') {
-    // Cascade: level 1 = rates[0]/100 of C_S, level 2 = rates[1]/100 of level 1, …
-    // All expressed as % of C_S for ceiling comparison.
-    let multiplier = 1;
-    let total = 0;
-    for (let d = 0; d < cfg.maxDepth; d++) {
-      const r = (rates[d] ?? rates[rates.length - 1] ?? 0) / 100;
-      multiplier *= r;
-      total += multiplier;
-      if (multiplier <= 0) break;
-    }
-    return roundMoney(total * 100); // as % of C_S
+  let multiplier = 1;
+  let total = 0;
+  for (let d = 0; d < cfg.maxDepth; d++) {
+    const r = (rates[d] ?? rates[rates.length - 1] ?? 0) / 100;
+    multiplier *= r;
+    total += multiplier;
+    if (multiplier <= 0) break;
   }
+  return total;
+}
 
-  // seller_commission or sale_base — flat sum of rates per level
+/** Sum of per-level rates (%), used for seller_commission / sale_base modes. */
+function flatRateSum(cfg: MlmConfig): number {
+  const rates = cfg.overrideRatesPct;
   let total = 0;
   for (let d = 0; d < cfg.maxDepth; d++) {
     total += rates[d] ?? rates[rates.length - 1] ?? 0;
   }
-  return roundMoney(total);
+  return total;
+}
+
+/**
+ * Override cost from a single sale, expressed as % OF SALE (not % of commission).
+ * Requires the reference base commission rate (% of sale) because cascade/seller modes
+ * derive from the seller's commission C_S = baseCommissionPct% of sale.
+ *   downline_commission: baseCommissionPct × Σ(Π rate_i/100)
+ *   seller_commission:   baseCommissionPct × (Σ rate_d)/100
+ *   sale_base:           Σ rate_d            (already % of sale)
+ */
+export function computeOverridePctOfSale(cfg: MlmConfig, baseCommissionPct: number): number {
+  const rates = cfg.overrideRatesPct;
+  if (!rates.length || cfg.maxDepth === 0) return 0;
+
+  if (cfg.overrideBase === 'downline_commission') {
+    return roundMoney(baseCommissionPct * cascadeSumFraction(cfg));
+  }
+  if (cfg.overrideBase === 'seller_commission') {
+    return roundMoney((baseCommissionPct * flatRateSum(cfg)) / 100);
+  }
+  // sale_base — rates are already % of the sale
+  return roundMoney(flatRateSum(cfg));
+}
+
+/**
+ * Total partner payout from a single sale as % OF SALE: base commission + all overrides.
+ * This is what must fit under the company margin.
+ */
+export function computeTotalPayoutPctOfSale(cfg: MlmConfig, baseCommissionPct: number): number {
+  return roundMoney(baseCommissionPct + computeOverridePctOfSale(cfg, baseCommissionPct));
 }
 
 // ─── Validation ──────────────────────────────────────────────────────────────
@@ -95,11 +118,17 @@ export interface ValidationResult {
 
 /**
  * Validate MLM config.
- * @param cfg           Config to validate.
- * @param minMarginPct  Minimum required company margin % (e.g. 10 for 10%).
- *                      When provided, the ceiling check is applied.
+ * @param cfg                Config to validate.
+ * @param minMarginPct       Minimum required company margin % (of sale). When provided
+ *                           together with baseCommissionPct, the payout-ceiling check runs.
+ * @param baseCommissionPct  Reference base commission % of sale (default partner rate).
+ *                           Needed to express override cost as % of sale for the ceiling.
  */
-export function validateMlmConfig(cfg: MlmConfig, minMarginPct?: number): ValidationResult {
+export function validateMlmConfig(
+  cfg: MlmConfig,
+  minMarginPct?: number,
+  baseCommissionPct?: number,
+): ValidationResult {
   const errors: string[] = [];
 
   if (cfg.maxDepth < 0 || cfg.maxDepth > 10) {
@@ -114,14 +143,14 @@ export function validateMlmConfig(cfg: MlmConfig, minMarginPct?: number): Valida
     errors.push('overrideBase musi być jedną z: downline_commission, seller_commission, sale_base.');
   }
 
-  if (errors.length === 0 && minMarginPct !== undefined) {
-    const maxOverridePct = computeMaxOverridePct(cfg);
-    // Primary commission is part of the margin — we only check that overrides don't dwarf it.
-    // The safety guard: total override payout (as % of C_S) should not exceed the margin ceiling.
-    // Rough guard: override % of sale_base should be <= margin. Use as informational, not hard block.
-    if (maxOverridePct > minMarginPct) {
+  if (errors.length === 0 && minMarginPct !== undefined && baseCommissionPct !== undefined) {
+    // Compare TOTAL partner payout (base + overrides), expressed as % OF SALE, against margin.
+    const base = baseCommissionPct;
+    const overridePct = computeOverridePctOfSale(cfg, base);
+    const totalPct = roundMoney(base + overridePct);
+    if (totalPct > minMarginPct) {
       errors.push(
-        `Łączny maks. % nadprowizji (${maxOverridePct.toFixed(2)}%) przekracza minimalną marżę firmy (${minMarginPct}%). Zmniejsz stawki lub ogranicz maxDepth.`
+        `Łączna wypłata partnerska (${totalPct.toFixed(2)}% od sprzedaży = baza ${base}% + nadprowizje ${overridePct.toFixed(2)}%) przekracza zadeklarowaną marżę firmy (${minMarginPct}%). Zmniejsz stawki, ogranicz maxDepth lub podnieś marżę.`
       );
     }
   }

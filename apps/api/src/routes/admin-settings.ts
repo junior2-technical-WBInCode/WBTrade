@@ -7,10 +7,14 @@ import {
   getMlmConfig,
   saveMlmConfig,
   validateMlmConfig,
-  computeMaxOverridePct,
+  computeOverridePctOfSale,
+  computeTotalPayoutPctOfSale,
   DEFAULT_MLM_CONFIG,
   type MlmConfig,
 } from '../services/mlm-config.service';
+
+// Reference base commission rate (% of sale) for the payout-ceiling preview/validation.
+const MLM_BASE_COMMISSION_PCT = parseFloat(process.env.AFFILIATE_DEFAULT_COMMISSION_RATE || '5.00');
 
 const router = Router();
 
@@ -198,13 +202,15 @@ router.post('/sales-rep-config', async (req, res) => {
 
 /**
  * GET /api/admin/settings/mlm-config
- * Zwraca aktualną konfigurację MLM + podgląd maks. łącznego % wypłaty od prowizji sprzedawcy.
+ * Zwraca aktualną konfigurację MLM + podgląd wypłaty jako % OD SPRZEDAŻY (baza + nadprowizje).
  */
 router.get('/mlm-config', async (req, res) => {
   try {
     const config = await getMlmConfig();
-    const maxOverridePct = computeMaxOverridePct(config);
-    res.json({ success: true, config, maxOverridePct });
+    const baseCommissionPct = MLM_BASE_COMMISSION_PCT;
+    const overridePctOfSale = computeOverridePctOfSale(config, baseCommissionPct);
+    const totalPayoutPctOfSale = computeTotalPayoutPctOfSale(config, baseCommissionPct);
+    res.json({ success: true, config, baseCommissionPct, overridePctOfSale, totalPayoutPctOfSale });
   } catch (error) {
     console.error('Error fetching MLM config:', error);
     res.status(500).json({ message: 'Błąd pobierania konfiguracji MLM' });
@@ -240,7 +246,7 @@ router.post('/mlm-config', async (req, res) => {
     };
 
     const minMargin = minMarginPct !== undefined ? Number(minMarginPct) : undefined;
-    const { valid, errors } = validateMlmConfig(cfg, minMargin);
+    const { valid, errors } = validateMlmConfig(cfg, minMargin, MLM_BASE_COMMISSION_PCT);
 
     if (!valid) {
       res.status(400).json({ message: errors.join(' '), errors });
@@ -249,12 +255,13 @@ router.post('/mlm-config', async (req, res) => {
 
     await saveMlmConfig(cfg);
 
-    const maxOverridePct = computeMaxOverridePct(cfg);
     res.json({
       success: true,
       message: 'Konfiguracja MLM zapisana.',
       config: cfg,
-      maxOverridePct,
+      baseCommissionPct: MLM_BASE_COMMISSION_PCT,
+      overridePctOfSale: computeOverridePctOfSale(cfg, MLM_BASE_COMMISSION_PCT),
+      totalPayoutPctOfSale: computeTotalPayoutPctOfSale(cfg, MLM_BASE_COMMISSION_PCT),
     });
   } catch (error) {
     console.error('Error saving MLM config:', error);
