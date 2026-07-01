@@ -189,6 +189,7 @@ const navSections: NavSection[] = [
         submenu: [
           { title: 'Partnerzy', href: '/partners' },
           { title: 'Wypłaty', href: '/payouts' },
+          { title: 'Ustawienia MLM', href: '/partners/settings' },
         ],
       },
       {
