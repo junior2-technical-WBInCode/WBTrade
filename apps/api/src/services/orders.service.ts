@@ -7,6 +7,7 @@ import { createBaselinkerProvider } from '../providers/baselinker';
 import { decryptToken } from '../lib/encryption';
 import { getB2bUserInfo, calculateB2bPriceForProduct } from './b2b-pricing.service';
 import { referralService } from './referral.service';
+import { salesRepService } from './sales-rep.service';
 
 // Courier name mapping for display
 const COURIER_NAMES: Record<string, string> = {
@@ -524,7 +525,7 @@ export class OrdersService {
    * Update order status
    */
   async updateStatus(id: string, status: OrderStatus, note?: string, createdBy?: string) {
-    return prisma.$transaction(async (tx) => {
+    const { order: updatedOrder, becamePaid } = await prisma.$transaction(async (tx) => {
       // Get current order state before updating
       const currentOrder = await tx.order.findUnique({
         where: { id },
@@ -614,8 +615,20 @@ export class OrdersService {
         },
       });
 
-      return order;
+      return { order, becamePaid: shouldMarkAsPaid && currentOrder.paymentStatus !== 'PAID' };
     });
+
+    // After commit: if the order just became PAID (incl. manual/offline "Opłacone"),
+    // mark partner referral AND sales-rep commission as paid → starts the 14-day hold clock.
+    // Without this, transfer/COD/manually-confirmed orders never pay out commission.
+    if (becamePaid) {
+      referralService.markPaid(updatedOrder.id).catch((err) =>
+        console.error(`[OrdersService] Error marking referral paid for order ${updatedOrder.id}:`, err));
+      salesRepService.markPaid(updatedOrder.id).catch((err) =>
+        console.error(`[OrdersService] Error marking sales-rep commission paid for order ${updatedOrder.id}:`, err));
+    }
+
+    return updatedOrder;
   }
 
   /**
@@ -734,6 +747,11 @@ export class OrdersService {
     // Cancel related referral
     referralService.cancelForOrder(id).catch((err) => {
       console.error(`[OrdersService] Error cancelling referral for order ${id}:`, err);
+    });
+
+    // Cancel sales rep commission
+    salesRepService.cancelForOrder(id).catch((err) => {
+      console.error(`[OrdersService] Error cancelling sales rep commission for order ${id}:`, err);
     });
 
     // Sync cancellation to Baselinker only if actually cancelled (not pending approval)
@@ -1074,6 +1092,10 @@ export class OrdersService {
       referralService.cancelForOrder(id, reason || 'Order refunded').catch((err) => {
         console.error(`[OrdersService] Error cancelling referral for refunded order ${id}:`, err);
       });
+
+      salesRepService.cancelForOrder(id).catch((err) => {
+        console.error(`[OrdersService] Error cancelling sales rep commission for refunded order ${id}:`, err);
+      });
     }
 
     return result;
@@ -1200,6 +1222,9 @@ export class OrdersService {
       // Mark referral as paid (beginhold)
       referralService.markPaid(id).catch((err) => {
         console.error(`[DEV] Error marking referral as paid for order ${id}:`, err);
+      });
+      salesRepService.markPaid(id).catch((err) => {
+        console.error(`[DEV] Error marking sales-rep commission as paid for order ${id}:`, err);
       });
 
       // Update product sales count for popularity tracking
@@ -1503,6 +1528,11 @@ export class OrdersService {
     // Cancel related referral
     referralService.cancelForOrder(id, 'Cancellation request approved by admin').catch((err) => {
       console.error(`[OrdersService] Error cancelling referral for order ${id} after approval:`, err);
+    });
+
+    // Cancel sales rep commission
+    salesRepService.cancelForOrder(id).catch((err) => {
+      console.error(`[OrdersService] Error cancelling sales rep commission for order ${id} after approval:`, err);
     });
 
     // Sync cancellation to Baselinker

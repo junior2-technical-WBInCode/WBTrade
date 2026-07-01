@@ -408,6 +408,7 @@ export class ReferralService {
     }
 
     // Step 5: Create Referral record
+    // 2-tier MLM (parentCommission/parentPartnerId) is deferred — Phase 3 (UOKiK risk).
     const referral = await tx.referral.create({
       data: {
         orderId: order.id,
@@ -415,7 +416,7 @@ export class ReferralService {
         status: referralStatus,
         primaryCommission: totalCommission,
         parentCommission: 0,
-        parentPartnerId: null, // MLM Phase 3
+        parentPartnerId: null,
         fraudNote: fraudResult.isFraud ? fraudResult.reason : null,
       },
     });
@@ -529,10 +530,16 @@ export class ReferralService {
     });
     const reserved = toNum(reservedResult._sum.amount);
 
-    const available = roundMoney(approved - reserved);
+    const net = roundMoney(approved - reserved);
 
     return {
-      available: Math.max(0, available),
+      // Withdrawable amount is clamped at 0...
+      available: Math.max(0, net),
+      // ...but `net` is the signed ledger: negative = partner was paid out for a
+      // commission later cancelled (refund/clawback). Surfaced so the debt is visible;
+      // future approved commissions net against it before becoming withdrawable again.
+      net,
+      owed: net < 0 ? roundMoney(-net) : 0,
       frozen: roundMoney(frozen),
       totalEarned: roundMoney(totalEarned),
       reserved: roundMoney(reserved),
@@ -620,6 +627,10 @@ export class ReferralService {
   async requestCashPayout(partnerId: string, amount: number, invoiceUrl?: string) {
     if (amount < MIN_CASH_PAYOUT) {
       throw new Error(`Minimalna kwota wypłaty gotówkowej: ${MIN_CASH_PAYOUT} PLN.`);
+    }
+    // If an invoice URL is provided it must come from our own upload endpoint.
+    if (invoiceUrl && !invoiceUrl.includes('/uploads/')) {
+      throw new Error('Nieprawidłowy link do faktury — wgraj plik przez formularz.');
     }
 
     return prisma.$transaction(
@@ -724,6 +735,24 @@ export class ReferralService {
   async processReferralHolds(): Promise<{ approved: number; cancelled: number }> {
     const holdDate = new Date();
     holdDate.setDate(holdDate.getDate() - HOLD_DAYS);
+
+    // Self-heal: any PENDING referral whose order is already PAID but markPaid was missed
+    // (callback race / transient error). Promote to PAID now so the hold clock starts and
+    // the referral isn't stuck PENDING forever.
+    const orphaned = await prisma.referral.findMany({
+      where: {
+        status: 'PENDING',
+        order: { paymentStatus: 'PAID', status: { notIn: ['CANCELLED', 'REFUNDED'] } },
+      },
+      select: { id: true },
+    });
+    if (orphaned.length > 0) {
+      await prisma.referral.updateMany({
+        where: { id: { in: orphaned.map((r) => r.id) } },
+        data: { status: 'PAID', paidAt: new Date() },
+      });
+      console.log(`[Referral Cron] Self-healed ${orphaned.length} PENDING referral(s) for already-paid orders`);
+    }
 
     const eligible = await prisma.referral.findMany({
       where: {
@@ -868,29 +897,42 @@ export class ReferralService {
 
   /**
    * Complete a cash payout (admin marks as paid after bank transfer).
+   * Guarded: only a PENDING CASH payout can be completed — prevents re-completing
+   * a REJECTED payout (which would re-reserve funds) or touching COUPON payouts.
    */
   async completePayout(payoutId: string, notes?: string) {
-    return prisma.referralPayout.update({
-      where: { id: payoutId },
+    const result = await prisma.referralPayout.updateMany({
+      where: { id: payoutId, status: 'PENDING', type: 'CASH' },
       data: {
         status: 'COMPLETED',
         processedAt: new Date(),
         notes: notes || null,
       },
     });
+    if (result.count === 0) {
+      throw new Error('Wypłatę można zatwierdzić tylko, gdy jest typu CASH i ma status PENDING.');
+    }
+    return prisma.referralPayout.findUnique({ where: { id: payoutId } });
   }
 
   /**
    * Reject a cash payout (admin rejects — frees reserved balance).
+   * Guarded: only a PENDING CASH payout can be rejected. A COUPON payout is already
+   * COMPLETED with a live coupon — rejecting it would free the reserve while the coupon
+   * stays usable (double-spend), so it is not reject-able.
    */
   async rejectPayout(payoutId: string, reason?: string) {
-    return prisma.referralPayout.update({
-      where: { id: payoutId },
+    const result = await prisma.referralPayout.updateMany({
+      where: { id: payoutId, status: 'PENDING', type: 'CASH' },
       data: {
         status: 'REJECTED',
         notes: reason || null,
       },
     });
+    if (result.count === 0) {
+      throw new Error('Odrzucić można tylko wypłatę typu CASH o statusie PENDING.');
+    }
+    return prisma.referralPayout.findUnique({ where: { id: payoutId } });
   }
 
   /**

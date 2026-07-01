@@ -1878,4 +1878,81 @@ export const referralApi = {
     api.post<any>('/referrals/payouts/cash', { amount, invoiceUrl }),
 };
 
+export interface SalesRepBalance {
+  available: number;
+  frozen: number;
+  totalEarned: number;
+  reserved: number;
+}
+
+export interface SalesRepCommissionItem {
+  id: string;
+  orderId: string;
+  salesRepId: string;
+  status: 'PENDING' | 'PAID' | 'APPROVED' | 'CANCELLED';
+  base: number;
+  discountPct: number;
+  commissionPct: number;
+  commissionAmount: number;
+  paidAt: string | null;
+  approvedAt: string | null;
+  createdAt: string;
+  order: {
+    orderNumber: string;
+    total: number;
+    status: string;
+    createdAt: string;
+    billingCompanyName: string | null;
+  };
+}
+
+export interface SalesRepCartItem {
+  id: string;
+  productId: string;
+  productName: string;
+  variantId: string;
+  variantName: string;
+  quantity: number;
+  price: number;
+  purchasePrice: number;
+  margin: number;
+  marginPct: number;
+  image: string | null;
+}
+
+export interface SalesRepCartData {
+  items: SalesRepCartItem[];
+  subtotal: number;
+  purchaseTotal: number;
+  marginTotal: number;
+  marginTotalPct: number;
+}
+
+export const salesRepApi = {
+  getCart: () =>
+    api.get<SalesRepCartData>('/sales-rep/cart'),
+
+  getBalance: () =>
+    api.get<{ success: boolean; balance: SalesRepBalance }>('/sales-rep/balance'),
+
+  getCommissions: (page = 1, limit = 20) =>
+    api.get<{
+      success: boolean;
+      commissions: SalesRepCommissionItem[];
+      total: number;
+      page: number;
+      limit: number;
+      totalPages: number;
+    }>('/sales-rep/commissions', { page, limit }),
+
+  requestPayout: (amount: number, invoiceUrl: string) =>
+    api.post<any>('/sales-rep/payouts', { amount, invoiceUrl }),
+
+  checkout: (data: any) =>
+    api.post<any>('/sales-rep/checkout', data),
+
+  getConfig: () =>
+    api.get<{ success: boolean; maxDiscountPct: number; baseCommissionPct: number; pool: number }>('/sales-rep/config'),
+};
+
 export default api;

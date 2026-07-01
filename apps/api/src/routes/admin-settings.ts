@@ -2,6 +2,7 @@ import { Router } from 'express';
 import { prisma } from '../db';
 import { invalidateCategoryCache } from '../lib/cache';
 import { authGuard, adminOnly } from '../middleware/auth.middleware';
+import { salesRepService } from '../services/sales-rep.service';
 
 const router = Router();
 
@@ -107,6 +108,83 @@ router.post('/carousels', async (req, res) => {
   } catch (error) {
     console.error('Error saving carousel settings:', error);
     res.status(500).json({ message: 'Error saving settings' });
+  }
+});
+
+/**
+ * GET /api/admin/settings/sales-rep-config
+ * Get sales rep settings config
+ */
+router.get('/sales-rep-config', async (req, res) => {
+  try {
+    const config = await salesRepService.getSalesRepConfig();
+    res.json({ success: true, config });
+  } catch (error) {
+    console.error('Error fetching sales rep settings:', error);
+    res.status(500).json({ message: 'Błąd pobierania konfiguracji handlowca' });
+  }
+});
+
+/**
+ * POST /api/admin/settings/sales-rep-config
+ * Save sales rep settings config with safety validation
+ */
+router.post('/sales-rep-config', async (req, res) => {
+  try {
+    const { baseCommissionPct, maxDiscountPct, minCompanyMarginPct, markupMultiplier, holdDays } = req.body;
+
+    const base = Number(baseCommissionPct);
+    const maxDiscount = Number(maxDiscountPct);
+    const minMargin = Number(minCompanyMarginPct);
+    const markup = Number(markupMultiplier);
+    const hold = Number(holdDays);
+
+    if (isNaN(base) || isNaN(maxDiscount) || isNaN(minMargin) || isNaN(markup) || isNaN(hold)) {
+      res.status(400).json({ message: 'Wszystkie parametry konfiguracji muszą być liczbami.' });
+      return;
+    }
+
+    // Per-parameter bounds (the pool check alone lets e.g. base=-5 through).
+    if (base < 0 || maxDiscount < 0 || minMargin < 0 || hold < 0) {
+      res.status(400).json({ message: 'Parametry prowizji/rabatu/marży/karencji nie mogą być ujemne.' });
+      return;
+    }
+    if (markup <= 1) {
+      res.status(400).json({ message: 'Mnożnik marży (markupMultiplier) musi być większy niż 1.' });
+      return;
+    }
+
+    const pool = base + maxDiscount;
+    const maxPool = (markup - 1) * 100 - minMargin;
+
+    if (pool > maxPool) {
+      res.status(400).json({ 
+        message: `Suma prowizji podstawowej (${base}%) i maksymalnego rabatu (${maxDiscount}%) wynosi ${pool}%, co przekracza limit bezpieczeństwa wynikający z marży firmy (${maxPool.toFixed(2)}%). Minimalny zysk firmy (${minMargin}%) nie zostałby zachowany.` 
+      });
+      return;
+    }
+
+    const configValue = {
+      baseCommissionPct: base,
+      maxDiscountPct: maxDiscount,
+      minCompanyMarginPct: minMargin,
+      markupMultiplier: markup,
+      holdDays: hold
+    };
+
+    await prisma.settings.upsert({
+      where: { key: 'sales_rep_config' },
+      update: { value: JSON.stringify(configValue) },
+      create: { key: 'sales_rep_config', value: JSON.stringify(configValue) }
+    });
+
+    // Clear cache
+    salesRepService.clearCache();
+
+    res.json({ success: true, message: 'Konfiguracja handlowca została zapisana.' });
+  } catch (error) {
+    console.error('Error saving sales rep settings:', error);
+    res.status(500).json({ message: 'Błąd zapisu konfiguracji handlowca' });
   }
 });
 

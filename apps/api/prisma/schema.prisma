@@ -58,6 +58,9 @@ model User {
   // Affiliate program
   lastLoginIp                String?            @map("last_login_ip")
   partnerProfile             PartnerProfile?
+  salesRepOrders             Order[]            @relation("SalesRepOrders")
+  salesRepCommissions        SalesRepCommission[]
+  salesRepPayouts            SalesRepPayout[]
 
   @@map("users")
 }
@@ -414,6 +417,10 @@ model Order {
   returnRequests           ReturnRequest[]
   deliveryDelayAlerts      DeliveryDelayAlert[]
   referral                 Referral?
+  salesRepId               String?              @map("sales_rep_id")
+  salesRep                 User?                @relation("SalesRepOrders", fields: [salesRepId], references: [id], onDelete: SetNull)
+  repDiscountPct           Decimal?             @db.Decimal(4, 2) @map("rep_discount_pct")
+  salesRepCommission       SalesRepCommission?
   billingAddress           Address?             @relation("BillingAddress", fields: [billingAddressId], references: [id])
   shippingAddress          Address?             @relation("ShippingAddress", fields: [shippingAddressId], references: [id])
   user                     User?                @relation(fields: [userId], references: [id])
@@ -811,6 +818,7 @@ enum UserRole {
   ADMIN
   WAREHOUSE
   B2B_PARTNER
+  HANDLOWIEC
 }
 
 enum B2bStatus {
@@ -1366,3 +1374,54 @@ enum PayoutStatus {
   COMPLETED
   REJECTED
 }
+
+model SalesRepCommission {
+  id               String                    @id @default(cuid())
+  orderId          String                    @unique @map("order_id")
+  salesRepId       String                    @map("sales_rep_id")
+  status           SalesRepCommissionStatus  @default(PENDING)
+  base             Decimal                   @db.Decimal(10, 2)
+  discountPct      Decimal                   @db.Decimal(4, 2)  @map("discount_pct")
+  commissionPct    Decimal                   @db.Decimal(4, 2)  @map("commission_pct")
+  commissionAmount Decimal                   @db.Decimal(10, 2) @map("commission_amount")
+  paidAt           DateTime?                 @map("paid_at")
+  approvedAt       DateTime?                 @map("approved_at")
+  note             String?
+  createdAt        DateTime                  @default(now()) @map("created_at")
+  updatedAt        DateTime                  @updatedAt @map("updated_at")
+  order            Order                     @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  salesRep         User                      @relation(fields: [salesRepId], references: [id], onDelete: Cascade)
+
+  @@index([salesRepId, status])
+  @@index([status, paidAt])
+  @@map("sales_rep_commissions")
+}
+
+model SalesRepPayout {
+  id          String              @id @default(cuid())
+  salesRepId  String              @map("sales_rep_id")
+  amount      Decimal             @db.Decimal(10, 2)
+  status      SalesRepPayoutStatus @default(PENDING)
+  invoiceUrl  String?             @map("invoice_url")
+  notes       String?
+  processedAt DateTime?           @map("processed_at")
+  createdAt   DateTime            @default(now()) @map("created_at")
+  salesRep    User                @relation(fields: [salesRepId], references: [id], onDelete: Cascade)
+
+  @@index([salesRepId, status])
+  @@map("sales_rep_payouts")
+}
+
+enum SalesRepCommissionStatus {
+  PENDING
+  PAID
+  APPROVED
+  CANCELLED
+}
+
+enum SalesRepPayoutStatus {
+  PENDING
+  COMPLETED
+  REJECTED
+}
+
