@@ -261,13 +261,13 @@ export default function PriceMonitoringPage() {
       setSearchLoading(true);
       const token = getAuthToken();
       
-      // Use standard product list endpoint with search query
+      // Use dedicated admin search endpoint (no Meilisearch filters)
       const params = new URLSearchParams({
         search: searchQuery,
-        limit: '15',
+        limit: '20',
       });
       
-      const res = await fetch(`${API_URL}/products?${params}`, {
+      const res = await fetch(`${API_URL}/admin/price-monitoring/search-products?${params}`, {
         headers: {
           ...(token && { Authorization: `Bearer ${token}` }),
         },

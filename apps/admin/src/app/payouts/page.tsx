@@ -152,7 +152,7 @@ export default function PayoutsListPage() {
                           <span className="text-gray-400 text-xs">—</span>
                         )}
                       </td>
-                      <td className="px-6 py-4 text-right font-bold text-gray-900 dark:text-white">{pay.amount.toFixed(2)} PLN</td>
+                      <td className="px-6 py-4 text-right font-bold text-gray-900 dark:text-white">{Number(pay.amount).toFixed(2)} PLN</td>
                       <td className="px-6 py-4">
                         <span className="text-xs font-semibold">
                           {pay.type === 'COUPON' ? 'Kupon rabatowy' : 'Przelew bankowy'}

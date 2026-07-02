@@ -86,6 +86,57 @@ router.get('/users', async (req: Request, res: Response) => {
 });
 
 /**
+ * GET /api/admin/price-monitoring/search-products
+ * Wyszukuje produkty po nazwie lub SKU (bezpośrednio z bazy, bez filtrów Meilisearch).
+ */
+router.get('/search-products', async (req: Request, res: Response) => {
+  try {
+    const search = (req.query.search as string || '').trim();
+    const limit = Math.min(parseInt(req.query.limit as string) || 20, 50);
+
+    if (!search) {
+      res.json({ products: [] });
+      return;
+    }
+
+    // Search by name or SKU (product-level or variant-level)
+    const products = await prisma.product.findMany({
+      where: {
+        OR: [
+          { name: { contains: search, mode: 'insensitive' } },
+          { sku: { contains: search, mode: 'insensitive' } },
+          { variants: { some: { sku: { contains: search, mode: 'insensitive' } } } },
+        ],
+      },
+      select: {
+        id: true,
+        name: true,
+        sku: true,
+        price: true,
+        status: true,
+        images: { take: 1, orderBy: { order: 'asc' }, select: { url: true } },
+      },
+      take: limit,
+      orderBy: { name: 'asc' },
+    });
+
+    res.json({
+      products: products.map(p => ({
+        id: p.id,
+        name: p.name,
+        sku: p.sku,
+        price: Number(p.price),
+        status: p.status,
+        image: p.images[0]?.url || null,
+      })),
+    });
+  } catch (error) {
+    console.error('Error searching products for monitoring:', error);
+    res.status(500).json({ message: 'Błąd wyszukiwania produktów.' });
+  }
+});
+
+/**
  * POST /api/admin/price-monitoring
  * Dodaje produkty do monitorowania.
  * Body: { productIds: string[] }
