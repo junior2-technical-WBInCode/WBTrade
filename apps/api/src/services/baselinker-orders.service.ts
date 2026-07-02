@@ -292,6 +292,25 @@ export class BaselinkerOrdersService {
       });
     }
 
+    // Add shipping cost as an explicit product line named "Dostawa" (not "Transport").
+    // Baselinker's own Fakturownia integration auto-adds a line item using its default
+    // translation ("Transport") whenever `delivery_price` is set without an explicit
+    // product for it — sending it explicitly here and zeroing delivery_price prevents that.
+    const shippingCost = Number(order.shipping || 0);
+    if (shippingCost > 0) {
+      products.push({
+        storage: 'db' as const,
+        storage_id: '0',
+        name: 'Paczka',
+        sku: 'SHIPPING',
+        price_brutto: shippingCost,
+        tax_rate: 23,
+        quantity: 1,
+        weight: 0,
+      });
+      console.log(`[BaselinkerOrders] Added shipping as "Dostawa" line: ${shippingCost} PLN`);
+    }
+
     // Add discount as a product with negative price (standard Baselinker approach)
     const orderDiscount = Number(order.discount || 0);
     if (orderDiscount > 0) {
@@ -324,7 +343,7 @@ export class BaselinkerOrdersService {
       email: order.guestEmail || order.user?.email || '',
       phone: order.shippingAddress?.phone || order.user?.phone || order.guestPhone || '',
       delivery_method: deliveryMethod,
-      delivery_price: Number(order.shipping),
+      delivery_price: 0, // Shipping is sent as an explicit "Dostawa" product line above instead
       products,
     };
 
