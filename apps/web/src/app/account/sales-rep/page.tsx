@@ -702,7 +702,7 @@ export default function SalesRepPage() {
                 <div className="flex items-center gap-2 text-sm">
                   <div className={`flex items-center gap-2 px-3.5 py-1.5 rounded-full font-semibold transition-colors ${checkoutStep === 'build' ? 'bg-orange-500 text-white' : 'bg-gray-100 dark:bg-secondary-800 text-gray-500 dark:text-gray-400'}`}>
                     <span className="w-5 h-5 rounded-full bg-white/20 flex items-center justify-center text-xs">1</span>
-                    Oferta i rabat
+                    Oferta
                   </div>
                   <div className="flex-1 h-px bg-gray-200 dark:bg-secondary-700" />
                   <div className={`flex items-center gap-2 px-3.5 py-1.5 rounded-full font-semibold transition-colors ${checkoutStep === 'review' ? 'bg-orange-500 text-white' : 'bg-gray-100 dark:bg-secondary-800 text-gray-500 dark:text-gray-400'}`}>
