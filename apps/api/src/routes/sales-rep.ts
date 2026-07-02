@@ -56,4 +56,40 @@ router.get('/config', (req, res, next) => {
   salesRepController.getConfig(req, res).catch(next);
 });
 
+/**
+ * Moduł: Szablony ofert (może zostać wyłączony przez admina — sales_rep_config.modules.offerTemplates)
+ */
+router.get('/templates', (req, res, next) => {
+  salesRepController.getTemplates(req, res).catch(next);
+});
+router.post('/templates', (req, res, next) => {
+  salesRepController.createTemplate(req, res).catch(next);
+});
+router.delete('/templates/:id', (req, res, next) => {
+  salesRepController.deleteTemplate(req, res).catch(next);
+});
+router.post('/templates/:id/load', (req, res, next) => {
+  salesRepController.loadTemplate(req, res).catch(next);
+});
+
+/**
+ * Moduł: Śledzenie ofert (może zostać wyłączony przez admina — sales_rep_config.modules.offerTracking)
+ */
+router.get('/offers', (req, res, next) => {
+  salesRepController.getOffers(req, res).catch(next);
+});
+router.post('/offers/:id/remind', (req, res, next) => {
+  salesRepController.remindOffer(req, res).catch(next);
+});
+
+/**
+ * Moduł: Cele i ranking (może zostać wyłączony przez admina — sales_rep_config.modules.leaderboard)
+ */
+router.get('/goal-progress', (req, res, next) => {
+  salesRepController.getGoalProgress(req, res).catch(next);
+});
+router.get('/leaderboard', (req, res, next) => {
+  salesRepController.getLeaderboard(req, res).catch(next);
+});
+
 export default router;

@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import { prisma } from '../db';
-import { salesRepService } from '../services/sales-rep.service';
+import { salesRepService, ModuleDisabledError } from '../services/sales-rep.service';
 import { OrdersService } from '../services/orders.service';
 import { CartService } from '../services/cart.service';
 import { addressesService } from '../services/addresses.service';
@@ -15,6 +15,17 @@ function toNum(val: any): number {
   if (val === null || val === undefined) return 0;
   return typeof val === 'number' ? val : Number(val);
 }
+
+/** Central error handler for module-gated endpoints: maps ModuleDisabledError to 403. */
+function handleModuleError(res: Response, error: any, fallbackMessage: string): void {
+  if (error instanceof ModuleDisabledError) {
+    res.status(403).json({ message: error.message });
+    return;
+  }
+  console.error('[SalesRepController] Error:', error);
+  res.status(error?.status || 500).json({ message: error.message || fallbackMessage });
+}
+
 
 // Validation schema for checkout
 const repCheckoutSchema = z.object({
@@ -263,6 +274,7 @@ export class SalesControllerRep {
 
       const total = Number(updatedOrder?.total ?? subtotal + shippingCost);
       const commissionAmount = Number(updatedOrder?.salesRepCommission?.commissionAmount ?? 0);
+      const discountAmount = Number(updatedOrder?.discount ?? 0);
 
       // Pozycje produktowe do maila ofertowego (klient widzi co zamawia)
       const emailItems = cart.items.map((item) => ({
@@ -273,6 +285,10 @@ export class SalesControllerRep {
         unitPrice: Number(item.variant.price),
         imageUrl: item.variant?.product?.images?.[0]?.url ?? null,
       }));
+
+      // Podsumowanie kwoty przed/po rabacie + dostawa — ten sam widok co handlowiec
+      // widzi w kroku 2 kreatora oferty (bez informacji o jego prowizji).
+      const priceBreakdown = { subtotal, discountAmount, shippingCost };
 
       // Send payment email to customer based on payment method
       const isOnlinePayment = data.paymentMethod === 'payu' || data.paymentMethod === 'imoje' || data.paymentMethod === 'blik' || data.paymentMethod === 'card';
@@ -285,7 +301,8 @@ export class SalesControllerRep {
           order.orderNumber,
           order.id,
           total,
-          emailItems
+          emailItems,
+          priceBreakdown
         ).catch(err => console.error('[SalesRepController] Error sending payment link email:', err));
       } else {
         // Send email with bank transfer details
@@ -294,7 +311,8 @@ export class SalesControllerRep {
           `${data.customerFirstName} ${data.customerLastName}`,
           order.orderNumber,
           total,
-          emailItems
+          emailItems,
+          priceBreakdown
         ).catch(err => console.error('[SalesRepController] Error sending bank transfer email:', err));
       }
 
@@ -505,10 +523,149 @@ export class SalesControllerRep {
         maxDiscountPct: cfg.maxDiscountPct,
         baseCommissionPct: cfg.baseCommissionPct,
         pool: cfg.baseCommissionPct + cfg.maxDiscountPct,
+        modules: cfg.modules,
       });
     } catch (error: any) {
       console.error('[SalesRepController] Error getting rep config:', error);
       res.status(500).json({ message: 'Błąd pobierania konfiguracji.' });
+    }
+  }
+
+  // ---------------------------------------------------------------------
+  // Moduł: Szablony ofert
+  // ---------------------------------------------------------------------
+
+  async getTemplates(req: Request, res: Response): Promise<void> {
+    try {
+      const salesRepId = req.user!.userId;
+      const templates = await salesRepService.listOfferTemplates(salesRepId);
+      res.json({ success: true, templates });
+    } catch (error: any) {
+      handleModuleError(res, error, 'Nie udało się pobrać szablonów ofert.');
+    }
+  }
+
+  async createTemplate(req: Request, res: Response): Promise<void> {
+    try {
+      const salesRepId = req.user!.userId;
+      const { name, discountPct } = req.body;
+
+      if (typeof name !== 'string' || typeof discountPct !== 'number') {
+        res.status(400).json({ message: 'Nazwa szablonu i rabat (%) są wymagane.' });
+        return;
+      }
+
+      // Snapshot the rep's current cart into the template (not client-supplied items,
+      // so the template always reflects what's actually verified/priced server-side).
+      const cart = await cartService.getOrCreateCart(salesRepId);
+      if (!cart.items.length) {
+        res.status(400).json({ message: 'Koszyk jest pusty — dodaj produkty przed zapisaniem szablonu.' });
+        return;
+      }
+      const items = cart.items.map((item) => ({
+        variantId: item.variant.id,
+        quantity: item.quantity,
+        productName: item.variant.product.name,
+        variantName: item.variant.name,
+      }));
+
+      const template = await salesRepService.createOfferTemplate(salesRepId, name, discountPct, items);
+      res.json({ success: true, template });
+    } catch (error: any) {
+      handleModuleError(res, error, 'Nie udało się zapisać szablonu oferty.');
+    }
+  }
+
+  async deleteTemplate(req: Request, res: Response): Promise<void> {
+    try {
+      const salesRepId = req.user!.userId;
+      const { id } = req.params;
+      await salesRepService.deleteOfferTemplate(salesRepId, id);
+      res.json({ success: true, message: 'Szablon został usunięty.' });
+    } catch (error: any) {
+      handleModuleError(res, error, 'Nie udało się usunąć szablonu.');
+    }
+  }
+
+  async loadTemplate(req: Request, res: Response): Promise<void> {
+    try {
+      const salesRepId = req.user!.userId;
+      const { id } = req.params;
+      const result = await salesRepService.loadOfferTemplateIntoCart(salesRepId, id);
+      res.json({ success: true, ...result });
+    } catch (error: any) {
+      handleModuleError(res, error, 'Nie udało się wczytać szablonu do koszyka.');
+    }
+  }
+
+  // ---------------------------------------------------------------------
+  // Moduł: Śledzenie ofert
+  // ---------------------------------------------------------------------
+
+  async getOffers(req: Request, res: Response): Promise<void> {
+    try {
+      const salesRepId = req.user!.userId;
+      const page = parseInt(req.query.page as string) || 1;
+      const limit = parseInt(req.query.limit as string) || 20;
+      const result = await salesRepService.listOffers(salesRepId, page, limit);
+      res.json({ success: true, ...result });
+    } catch (error: any) {
+      handleModuleError(res, error, 'Nie udało się pobrać listy ofert.');
+    }
+  }
+
+  async remindOffer(req: Request, res: Response): Promise<void> {
+    try {
+      const salesRepId = req.user!.userId;
+      const { id } = req.params;
+
+      const order = await salesRepService.canRemindOffer(salesRepId, id);
+
+      const total = Number(order.total);
+      const isOnlinePayment = ['payu', 'imoje', 'blik', 'card'].includes(order.paymentMethod);
+      const customerName = `${order.guestFirstName || ''} ${order.guestLastName || ''}`.trim() || 'Kliencie';
+      const customerEmail = order.guestEmail;
+
+      if (!customerEmail) {
+        res.status(400).json({ message: 'Zamówienie nie ma przypisanego adresu e-mail klienta.' });
+        return;
+      }
+
+      if (isOnlinePayment) {
+        await emailService.sendPaymentLinkEmail(customerEmail, customerName, order.orderNumber, order.id, total);
+      } else {
+        await emailService.sendBankTransferDetailsEmail(customerEmail, customerName, order.orderNumber, total);
+      }
+
+      await salesRepService.markOfferReminded(order.id);
+
+      res.json({ success: true, message: 'Przypomnienie zostało wysłane do klienta.' });
+    } catch (error: any) {
+      handleModuleError(res, error, 'Nie udało się wysłać przypomnienia.');
+    }
+  }
+
+  // ---------------------------------------------------------------------
+  // Moduł: Cele i ranking
+  // ---------------------------------------------------------------------
+
+  async getGoalProgress(req: Request, res: Response): Promise<void> {
+    try {
+      const salesRepId = req.user!.userId;
+      const progress = await salesRepService.getGoalProgress(salesRepId);
+      res.json({ success: true, ...progress });
+    } catch (error: any) {
+      handleModuleError(res, error, 'Nie udało się pobrać postępu realizacji celu.');
+    }
+  }
+
+  async getLeaderboard(req: Request, res: Response): Promise<void> {
+    try {
+      const salesRepId = req.user!.userId;
+      const leaderboard = await salesRepService.getLeaderboard(salesRepId);
+      res.json({ success: true, leaderboard });
+    } catch (error: any) {
+      handleModuleError(res, error, 'Nie udało się pobrać rankingu.');
     }
   }
 }

@@ -6,14 +6,14 @@ import Header from '../../../components/Header';
 import Footer from '../../../components/Footer';
 import AccountSidebar from '../../../components/AccountSidebar';
 import { useAuth } from '../../../contexts/AuthContext';
-import { salesRepApi, SalesRepBalance, SalesRepCommissionItem, SalesRepCartData } from '../../../lib/api';
+import { salesRepApi, SalesRepBalance, SalesRepCommissionItem, SalesRepCartData, SalesRepOfferTemplate, SalesRepOfferItem } from '../../../lib/api';
 
 export default function SalesRepPage() {
   const { user, isAuthenticated, isLoading } = useAuth();
   const router = useRouter();
 
   // Navigation / Tabs
-  const [activeTab, setActiveTab] = useState<'overview' | 'checkout' | 'commissions'>('overview');
+  const [activeTab, setActiveTab] = useState<'overview' | 'checkout' | 'commissions' | 'offers'>('overview');
 
   // Stats & Balance
   const [balance, setBalance] = useState<SalesRepBalance>({
@@ -33,8 +33,40 @@ export default function SalesRepPage() {
   // Merchant Cart & Offers Creator
   const [cartData, setCartData] = useState<SalesRepCartData | null>(null);
   const [repConfig, setRepConfig] = useState<{ maxDiscountPct: number; pool: number } | null>(null);
+  const [modulesConfig, setModulesConfig] = useState<{ offerTemplates: boolean; offerTracking: boolean; leaderboard: boolean }>({
+    offerTemplates: false,
+    offerTracking: false,
+    leaderboard: false,
+  });
   const [cartLoading, setCartLoading] = useState(true);
   const [discountPct, setDiscountPct] = useState(0);
+  // Rabat można podać jako % (suwak) albo jako kwotę PLN — system zawsze przycina
+  // efektywny rabat do maksimum wynikającego z limitu % ustawionego przez admina.
+  const [discountMode, setDiscountMode] = useState<'percent' | 'amount'>('percent');
+  const [discountAmountInput, setDiscountAmountInput] = useState(0);
+  // Kreator oferty jest dwuetapowy: najpierw handlowiec ustala rabat (widzi swoją
+  // prowizję), potem przechodzi do podsumowania oferty (bez prowizji) i danych klienta.
+  const [checkoutStep, setCheckoutStep] = useState<'build' | 'review'>('build');
+
+  // Moduł: Szablony ofert (opcjonalny — może być wyłączony przez administratora)
+  const [templates, setTemplates] = useState<SalesRepOfferTemplate[]>([]);
+  const [templatesLoading, setTemplatesLoading] = useState(false);
+  const [newTemplateName, setNewTemplateName] = useState('');
+  const [templateActionError, setTemplateActionError] = useState('');
+  const [templateActionSuccess, setTemplateActionSuccess] = useState('');
+  const [templateActionLoading, setTemplateActionLoading] = useState(false);
+
+  // Moduł: Śledzenie ofert (opcjonalny — może być wyłączony przez administratora)
+  const [offers, setOffers] = useState<SalesRepOfferItem[]>([]);
+  const [offersLoading, setOffersLoading] = useState(false);
+  const [offersPage, setOffersPage] = useState(1);
+  const [offersTotalPages, setOffersTotalPages] = useState(1);
+  const [remindingOfferId, setRemindingOfferId] = useState<string | null>(null);
+  const [offersError, setOffersError] = useState('');
+
+  // Moduł: Cele i ranking (opcjonalny — może być wyłączony przez administratora)
+  const [goalProgress, setGoalProgress] = useState<{ goal: number; currentMonthCommission: number; progressPct: number } | null>(null);
+  const [leaderboard, setLeaderboard] = useState<Array<{ name: string; total: number; rank: number; isCurrentUser: boolean }>>([]);
 
   // Form: Payout request
   const [payoutAmount, setPayoutAmount] = useState('');
@@ -126,9 +158,117 @@ export default function SalesRepPage() {
   const fetchConfig = async () => {
     try {
       const res = await salesRepApi.getConfig();
-      if (res.success) setRepConfig({ maxDiscountPct: res.maxDiscountPct, pool: res.pool });
+      if (res.success) {
+        setRepConfig({ maxDiscountPct: res.maxDiscountPct, pool: res.pool });
+        setModulesConfig(res.modules || { offerTemplates: false, offerTracking: false, leaderboard: false });
+      }
     } catch (err) {
       console.error('Error fetching config:', err);
+    }
+  };
+
+  // Moduł: Szablony ofert
+  const fetchTemplates = async () => {
+    try {
+      setTemplatesLoading(true);
+      const res = await salesRepApi.getTemplates();
+      if (res.success) setTemplates(res.templates);
+    } catch (err) {
+      console.error('Error fetching templates:', err);
+    } finally {
+      setTemplatesLoading(false);
+    }
+  };
+
+  const handleSaveTemplate = async () => {
+    setTemplateActionError('');
+    setTemplateActionSuccess('');
+    if (!newTemplateName.trim()) {
+      setTemplateActionError('Podaj nazwę szablonu.');
+      return;
+    }
+    try {
+      setTemplateActionLoading(true);
+      await salesRepApi.createTemplate(newTemplateName.trim(), effectiveDiscountPct);
+      setNewTemplateName('');
+      setTemplateActionSuccess('Szablon oferty został zapisany.');
+      fetchTemplates();
+    } catch (err: any) {
+      setTemplateActionError(err.message || 'Nie udało się zapisać szablonu.');
+    } finally {
+      setTemplateActionLoading(false);
+    }
+  };
+
+  const handleLoadTemplate = async (id: string) => {
+    setTemplateActionError('');
+    setTemplateActionSuccess('');
+    try {
+      setTemplateActionLoading(true);
+      const res = await salesRepApi.loadTemplate(id);
+      fetchCart();
+      if (res.skipped?.length) {
+        setTemplateActionError(`Pominięto ${res.skipped.length} pozycji (niedostępne): ${res.skipped.map((s) => s.name).join(', ')}`);
+      } else {
+        setTemplateActionSuccess(`Wczytano ${res.addedCount} pozycji szablonu do koszyka.`);
+      }
+    } catch (err: any) {
+      setTemplateActionError(err.message || 'Nie udało się wczytać szablonu.');
+    } finally {
+      setTemplateActionLoading(false);
+    }
+  };
+
+  const handleDeleteTemplate = async (id: string) => {
+    try {
+      await salesRepApi.deleteTemplate(id);
+      fetchTemplates();
+    } catch (err: any) {
+      setTemplateActionError(err.message || 'Nie udało się usunąć szablonu.');
+    }
+  };
+
+  // Moduł: Śledzenie ofert
+  const fetchOffers = async (page: number) => {
+    try {
+      setOffersLoading(true);
+      setOffersError('');
+      const res = await salesRepApi.getOffers(page, 10);
+      if (res.success) {
+        setOffers(res.orders);
+        setOffersTotalPages(res.totalPages);
+      }
+    } catch (err: any) {
+      setOffersError(err.message || 'Nie udało się pobrać listy ofert.');
+    } finally {
+      setOffersLoading(false);
+    }
+  };
+
+  const handleRemindOffer = async (id: string) => {
+    try {
+      setRemindingOfferId(id);
+      setOffersError('');
+      await salesRepApi.remindOffer(id);
+      fetchOffers(offersPage);
+    } catch (err: any) {
+      setOffersError(err.message || 'Nie udało się wysłać przypomnienia.');
+    } finally {
+      setRemindingOfferId(null);
+    }
+  };
+
+  // Moduł: Cele i ranking
+  const fetchGoalAndLeaderboard = async () => {
+    try {
+      const [goalRes, leaderboardRes] = await Promise.all([
+        salesRepApi.getGoalProgress(),
+        salesRepApi.getLeaderboard(),
+      ]);
+      if (goalRes.success) setGoalProgress({ goal: goalRes.goal, currentMonthCommission: goalRes.currentMonthCommission, progressPct: goalRes.progressPct });
+      if (leaderboardRes.success) setLeaderboard(leaderboardRes.leaderboard);
+    } catch (err) {
+      console.error('Error fetching goal/leaderboard:', err);
     }
   };
 
@@ -140,6 +280,25 @@ export default function SalesRepPage() {
       fetchConfig();
     }
   }, [isAuthenticated, user, commissionsPage]);
+
+  // Load module data once flags are known / relevant tab is active
+  useEffect(() => {
+    if (isAuthenticated && user?.role === 'HANDLOWIEC' && modulesConfig.offerTemplates && activeTab === 'checkout') {
+      fetchTemplates();
+    }
+  }, [isAuthenticated, user, modulesConfig.offerTemplates, activeTab]);
+
+  useEffect(() => {
+    if (isAuthenticated && user?.role === 'HANDLOWIEC' && modulesConfig.offerTracking && activeTab === 'offers') {
+      fetchOffers(offersPage);
+    }
+  }, [isAuthenticated, user, modulesConfig.offerTracking, activeTab, offersPage]);
+
+  useEffect(() => {
+    if (isAuthenticated && user?.role === 'HANDLOWIEC' && modulesConfig.leaderboard) {
+      fetchGoalAndLeaderboard();
+    }
+  }, [isAuthenticated, user, modulesConfig.leaderboard]);
 
   // Handle invoice file upload and payout request
   const handlePayoutSubmit = async (e: React.FormEvent) => {
@@ -223,7 +382,7 @@ export default function SalesRepPage() {
       setCheckoutLoading(true);
 
       const checkoutPayload = {
-        discountPct,
+        discountPct: effectiveDiscountPct,
         customerEmail,
         customerFirstName,
         customerLastName,
@@ -252,7 +411,10 @@ export default function SalesRepPage() {
       const res = await salesRepApi.checkout(checkoutPayload);
 
       setCheckoutSuccess(res);
-      
+      setCheckoutStep('build');
+      setDiscountPct(0);
+      setDiscountAmountInput(0);
+
       // Clear forms
       setCustomerEmail('');
       setCustomerFirstName('');
@@ -286,17 +448,25 @@ export default function SalesRepPage() {
     );
   }
 
-  // Pre-calculate live totals based on discountPct (pool + max from admin config)
+  // Pre-calculate live totals na bazie efektywnego rabatu (pool + max z konfiguracji admina)
   const commissionPoolPct = repConfig?.pool ?? 18;
   const maxDiscount = repConfig?.maxDiscountPct ?? 13;
-  const repCommissionPct = Math.max(0, commissionPoolPct - discountPct);
-  
+
   const baseTotal = cartData?.subtotal || 0;
   // Rabat i prowizja liczone od CENY ZAKUPU (purchaseTotal) — identycznie jak backend
   // (attributeCommission: discount = purchaseTotal * d%). Wcześniej liczone od ceny
   // detalicznej, przez co panel pokazywał inną kwotę niż zamówienie/mail klienta.
   const purchaseBase = cartData?.purchaseTotal || 0;
-  const discountVal = (purchaseBase * discountPct) / 100;
+  // Maksymalna KWOTA rabatu zawsze wynika z limitu % — niezależnie od trybu wpisywania.
+  const maxDiscountAmount = (purchaseBase * maxDiscount) / 100;
+  // Efektywny % rabatu używany do wszystkich wyliczeń i wysyłki do backendu — przycinany
+  // do maxDiscount bez względu na to, czy handlowiec wpisał % czy kwotę PLN.
+  const effectiveDiscountPct = discountMode === 'amount'
+    ? (purchaseBase > 0 ? Math.min(maxDiscount, Math.max(0, (discountAmountInput / purchaseBase) * 100)) : 0)
+    : Math.min(maxDiscount, discountPct);
+
+  const repCommissionPct = Math.max(0, commissionPoolPct - effectiveDiscountPct);
+  const discountVal = (purchaseBase * effectiveDiscountPct) / 100;
   const finalPrice = Math.max(0, baseTotal - discountVal);
   const repCommissionVal = (purchaseBase * repCommissionPct) / 100;
 
@@ -355,11 +525,63 @@ export default function SalesRepPage() {
               >
                 Historia prowizji
               </button>
+              {modulesConfig.offerTracking && (
+                <button
+                  onClick={() => setActiveTab('offers')}
+                  className={`py-3 px-4 text-sm font-semibold border-b-2 whitespace-nowrap transition-colors ${
+                    activeTab === 'offers'
+                      ? 'border-orange-500 text-orange-600 dark:text-orange-400'
+                      : 'border-transparent text-gray-500 hover:text-gray-700 dark:hover:text-gray-300'
+                  }`}
+                >
+                  Śledzenie ofert
+                </button>
+              )}
             </div>
 
             {/* TAB CONTENT: OVERVIEW */}
             {activeTab === 'overview' && (
               <div className="space-y-6">
+                {/* Moduł: Cele i ranking (opcjonalny) */}
+                {modulesConfig.leaderboard && goalProgress && (
+                  <div className="grid grid-cols-1 lg:grid-cols-12 gap-4">
+                    <div className="lg:col-span-7 bg-white dark:bg-secondary-800 rounded-2xl p-5 border border-gray-100 dark:border-secondary-700 shadow-sm">
+                      <div className="flex items-center justify-between mb-2">
+                        <h3 className="font-bold text-gray-900 dark:text-white text-sm">Cel miesięczny prowizji</h3>
+                        <span className="text-sm font-bold text-orange-600 dark:text-orange-400">
+                          {goalProgress.currentMonthCommission.toFixed(2)} / {goalProgress.goal.toFixed(2)} PLN
+                        </span>
+                      </div>
+                      <div className="w-full bg-gray-150 dark:bg-secondary-900 rounded-full h-3 overflow-hidden">
+                        <div
+                          className="h-full rounded-full bg-gradient-to-r from-orange-500 to-amber-500 transition-all duration-300"
+                          style={{ width: `${Math.max(0, Math.min(100, goalProgress.progressPct))}%` }}
+                        />
+                      </div>
+                      <p className="text-xs text-gray-400 mt-1.5">{goalProgress.progressPct.toFixed(0)}% zrealizowanego celu w tym miesiącu.</p>
+                    </div>
+
+                    <div className="lg:col-span-5 bg-white dark:bg-secondary-800 rounded-2xl p-5 border border-gray-100 dark:border-secondary-700 shadow-sm">
+                      <h3 className="font-bold text-gray-900 dark:text-white text-sm mb-3">Ranking handlowców (ten miesiąc)</h3>
+                      {leaderboard.length === 0 ? (
+                        <p className="text-xs text-gray-400">Brak prowizji w tym miesiącu.</p>
+                      ) : (
+                        <div className="space-y-1.5">
+                          {leaderboard.map((entry) => (
+                            <div
+                              key={entry.rank}
+                              className={`flex items-center justify-between text-sm px-2.5 py-1.5 rounded-lg ${entry.isCurrentUser ? 'bg-orange-50 dark:bg-orange-950/20 font-semibold text-orange-700 dark:text-orange-400' : 'text-gray-600 dark:text-gray-400'}`}
+                            >
+                              <span>#{entry.rank} {entry.name}{entry.isCurrentUser ? ' (Ty)' : ''}</span>
+                              <span>{entry.total.toFixed(2)} PLN</span>
+                            </div>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                )}
+
                 {/* Balance Metrics Grid */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
                   <div className="bg-gradient-to-br from-orange-500 to-amber-500 rounded-2xl p-5 text-white shadow-sm transition-all hover:scale-[1.02]">
@@ -468,7 +690,7 @@ export default function SalesRepPage() {
                       Klient otrzymał wiadomość e-mail z instrukcjami dotyczącymi płatności ({checkoutSuccess.paymentMethod === 'payu' ? 'link do płatności online' : 'dane do przelewu tradycyjnego'}).
                     </p>
                     <button
-                      onClick={() => setCheckoutSuccess(null)}
+                      onClick={() => { setCheckoutSuccess(null); setCheckoutStep('build'); }}
                       className="mt-2 bg-green-600 hover:bg-green-700 text-white font-semibold py-1.5 px-3 rounded-lg text-xs transition-colors"
                     >
                       Stwórz kolejne ofertowanie
@@ -476,24 +698,249 @@ export default function SalesRepPage() {
                   </div>
                 )}
 
-                {/* Offer creator builder */}
-                <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
-                  {/* Cart review & discount slider */}
-                  <div className="lg:col-span-7 space-y-6">
-                    {/* Cart Items List */}
-                    <div className="bg-white dark:bg-secondary-800 rounded-2xl p-6 border border-gray-100 dark:border-secondary-700 shadow-sm">
-                      <h2 className="text-lg font-bold text-gray-900 dark:text-white mb-4">Pozycje w koszyku handlowym</h2>
-                      
-                      {cartLoading ? (
-                        <div className="text-center py-6 text-gray-500">Ładowanie pozycji koszyka...</div>
-                      ) : !cartData || cartData.items.length === 0 ? (
-                        <div className="text-center py-6 text-gray-500">
-                          Twój koszyk jest obecnie pusty. Dodaj najpierw produkty w sklepie do koszyka.
+                {/* Step indicator */}
+                <div className="flex items-center gap-2 text-sm">
+                  <div className={`flex items-center gap-2 px-3.5 py-1.5 rounded-full font-semibold transition-colors ${checkoutStep === 'build' ? 'bg-orange-500 text-white' : 'bg-gray-100 dark:bg-secondary-800 text-gray-500 dark:text-gray-400'}`}>
+                    <span className="w-5 h-5 rounded-full bg-white/20 flex items-center justify-center text-xs">1</span>
+                    Oferta i rabat
+                  </div>
+                  <div className="flex-1 h-px bg-gray-200 dark:bg-secondary-700" />
+                  <div className={`flex items-center gap-2 px-3.5 py-1.5 rounded-full font-semibold transition-colors ${checkoutStep === 'review' ? 'bg-orange-500 text-white' : 'bg-gray-100 dark:bg-secondary-800 text-gray-500 dark:text-gray-400'}`}>
+                    <span className="w-5 h-5 rounded-full bg-white/20 flex items-center justify-center text-xs">2</span>
+                    Dane klienta i wysyłka
+                  </div>
+                </div>
+
+                {/* STEP 1: Offer creator builder (rep-only, discount + commission) */}
+                {checkoutStep === 'build' && (
+                  <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+                    {/* Cart review */}
+                    <div className="lg:col-span-7 space-y-6">
+                      {/* Cart Items List */}
+                      <div className="bg-white dark:bg-secondary-800 rounded-2xl p-6 border border-gray-100 dark:border-secondary-700 shadow-sm">
+                        <h2 className="text-lg font-bold text-gray-900 dark:text-white mb-4">Pozycje w koszyku handlowym</h2>
+
+                        {cartLoading ? (
+                          <div className="text-center py-6 text-gray-500">Ładowanie pozycji koszyka...</div>
+                        ) : !cartData || cartData.items.length === 0 ? (
+                          <div className="text-center py-6 text-gray-500">
+                            Twój koszyk jest obecnie pusty. Dodaj najpierw produkty w sklepie do koszyka.
+                          </div>
+                        ) : (
+                          <div className="space-y-4">
+                            <div className="divide-y divide-gray-100 dark:divide-secondary-700">
+                              {cartData.items.map((item) => (
+                                <div key={item.id} className="py-3 flex gap-3 items-start">
+                                  {item.image && (
+                                    <img src={item.image} alt={item.productName} className="w-12 h-12 rounded object-cover border border-gray-100 dark:border-secondary-700" />
+                                  )}
+                                  <div className="flex-1 min-w-0">
+                                    <h4 className="text-sm font-semibold text-gray-900 dark:text-white truncate">{item.productName}</h4>
+                                    <p className="text-xs text-gray-500 dark:text-gray-400">Wariant: {item.variantName}</p>
+                                    <p className="text-xs text-gray-400 dark:text-gray-500">Ilość: {item.quantity} szt.</p>
+                                  </div>
+                                  <div className="text-right whitespace-nowrap">
+                                    <p className="text-sm font-bold text-gray-900 dark:text-white">{(item.price * item.quantity).toFixed(2)} zł</p>
+
+                                  </div>
+                                </div>
+                              ))}
+                            </div>
+
+                            {/* Live profit calculations */}
+                            <div className="border-t border-gray-100 dark:border-secondary-700 pt-4 space-y-2 text-sm">
+                              <div className="flex justify-between text-gray-500">
+                                <span>Wartość bazowa:</span>
+                                <span className="font-semibold">{baseTotal.toFixed(2)} PLN</span>
+                              </div>
+                              <div className="flex justify-between text-orange-500">
+                                <span>Rabat dla klienta ({effectiveDiscountPct.toFixed(1)}%):</span>
+                                <span className="font-semibold">-{discountVal.toFixed(2)} PLN</span>
+                              </div>
+                              <div className="flex justify-between text-gray-900 dark:text-white font-bold text-lg pt-1 border-t border-dashed border-gray-100 dark:border-secondary-700">
+                                <span>Kwota do zapłaty:</span>
+                                <span>{finalPrice.toFixed(2)} PLN</span>
+                              </div>
+                            </div>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+
+                    {/* Discount editor (rep-only, shows commission) */}
+                    <div className="lg:col-span-5 space-y-6">
+                      {/* Moduł: Szablony ofert (opcjonalny) */}
+                      {modulesConfig.offerTemplates && (
+                        <div className="bg-white dark:bg-secondary-800 rounded-2xl p-6 border border-gray-100 dark:border-secondary-700 shadow-sm space-y-3">
+                          <h3 className="font-bold text-gray-900 dark:text-white">Szablony ofert</h3>
+
+                          {templateActionError && (
+                            <div className="bg-red-50 border border-red-200 rounded-lg p-2.5 text-xs text-red-600">{templateActionError}</div>
+                          )}
+                          {templateActionSuccess && (
+                            <div className="bg-green-50 border border-green-200 rounded-lg p-2.5 text-xs text-green-600">{templateActionSuccess}</div>
+                          )}
+
+                          <div className="flex gap-2">
+                            <input
+                              type="text"
+                              placeholder="Nazwa szablonu np. Zestaw startowy"
+                              value={newTemplateName}
+                              onChange={(e) => setNewTemplateName(e.target.value)}
+                              disabled={templateActionLoading}
+                              className="flex-1 rounded-lg border border-gray-300 dark:border-secondary-700 bg-white dark:bg-secondary-900 px-3 py-1.5 text-xs focus:border-orange-500 focus:outline-none dark:text-white"
+                            />
+                            <button
+                              type="button"
+                              onClick={handleSaveTemplate}
+                              disabled={templateActionLoading || !cartData || cartData.items.length === 0}
+                              className="bg-orange-500 hover:bg-orange-600 disabled:bg-gray-300 text-white font-semibold px-3 py-1.5 rounded-lg text-xs transition-colors whitespace-nowrap"
+                            >
+                              Zapisz koszyk
+                            </button>
+                          </div>
+
+                          {templatesLoading ? (
+                            <p className="text-xs text-gray-400">Ładowanie szablonów...</p>
+                          ) : templates.length === 0 ? (
+                            <p className="text-xs text-gray-400">Brak zapisanych szablonów.</p>
+                          ) : (
+                            <div className="space-y-1.5 max-h-48 overflow-y-auto">
+                              {templates.map((tpl) => (
+                                <div key={tpl.id} className="flex items-center justify-between gap-2 text-xs bg-gray-50 dark:bg-secondary-900/50 rounded-lg px-2.5 py-2">
+                                  <div className="min-w-0">
+                                    <p className="font-semibold text-gray-800 dark:text-gray-200 truncate">{tpl.name}</p>
+                                    <p className="text-gray-400">{tpl.items.length} poz. · rabat {Number(tpl.discountPct).toFixed(1)}%</p>
+                                  </div>
+                                  <div className="flex gap-1.5 shrink-0">
+                                    <button
+                                      type="button"
+                                      onClick={() => handleLoadTemplate(tpl.id)}
+                                      disabled={templateActionLoading}
+                                      className="text-orange-600 dark:text-orange-400 font-semibold hover:underline"
+                                    >
+                                      Wczytaj
+                                    </button>
+                                    <button
+                                      type="button"
+                                      onClick={() => handleDeleteTemplate(tpl.id)}
+                                      disabled={templateActionLoading}
+                                      className="text-red-500 hover:underline"
+                                    >
+                                      Usuń
+                                    </button>
+                                  </div>
+                                </div>
+                              ))}
+                            </div>
+                          )}
                         </div>
-                      ) : (
+                      )}
+
+                      <div className="bg-white dark:bg-secondary-800 rounded-2xl p-6 border border-gray-100 dark:border-secondary-700 shadow-sm space-y-4">
+                        <div className="flex justify-between items-center">
+                          <h3 className="font-bold text-gray-900 dark:text-white">Ustaw rabat dla klienta</h3>
+                          <span className="bg-orange-500 text-white font-bold text-sm px-2.5 py-1 rounded-lg">{effectiveDiscountPct.toFixed(1)}%</span>
+                        </div>
+
+                        {/* Discount mode toggle: % or PLN amount */}
+                        <div className="inline-flex rounded-lg border border-gray-200 dark:border-secondary-700 p-1 bg-gray-50 dark:bg-secondary-900">
+                          <button
+                            type="button"
+                            onClick={() => setDiscountMode('percent')}
+                            className={`px-3 py-1.5 rounded-md text-xs font-semibold transition-colors ${discountMode === 'percent' ? 'bg-orange-500 text-white' : 'text-gray-500 dark:text-gray-400'}`}
+                          >
+                            Rabat %
+                          </button>
+                          <button
+                            type="button"
+                            onClick={() => setDiscountMode('amount')}
+                            className={`px-3 py-1.5 rounded-md text-xs font-semibold transition-colors ${discountMode === 'amount' ? 'bg-orange-500 text-white' : 'text-gray-500 dark:text-gray-400'}`}
+                          >
+                            Rabat kwotowo (PLN)
+                          </button>
+                        </div>
+
+                        {discountMode === 'percent' ? (
+                          <input
+                            type="range"
+                            min="0"
+                            max={maxDiscount}
+                            value={discountPct}
+                            onChange={(e) => setDiscountPct(parseInt(e.target.value))}
+                            disabled={cartLoading || !cartData || cartData.items.length === 0}
+                            className="w-full accent-orange-500 h-2 bg-gray-200 dark:bg-secondary-700 rounded-lg cursor-pointer"
+                          />
+                        ) : (
+                          <div>
+                            <input
+                              type="number"
+                              min="0"
+                              max={maxDiscountAmount}
+                              step="0.01"
+                              value={discountAmountInput}
+                              onChange={(e) => {
+                                const v = parseFloat(e.target.value) || 0;
+                                setDiscountAmountInput(Math.min(Math.max(0, v), maxDiscountAmount));
+                              }}
+                              disabled={cartLoading || !cartData || cartData.items.length === 0}
+                              placeholder="np. 50"
+                              className="w-full rounded-lg border border-gray-300 dark:border-secondary-700 bg-white dark:bg-secondary-900 px-3.5 py-2 text-sm focus:border-orange-500 focus:outline-none dark:text-white"
+                            />
+                            <p className="text-xs text-gray-400 dark:text-gray-500 mt-1.5">
+                              Maksymalny rabat kwotowy: <strong>{maxDiscountAmount.toFixed(2)} PLN</strong> (system wylicza go z limitu {maxDiscount}% ustawionego przez administratora).
+                            </p>
+                          </div>
+                        )}
+
+                        {/* Summary visual tags */}
+                        <div className="grid grid-cols-2 gap-4 pt-2">
+                          <div className="bg-orange-50 dark:bg-orange-950/20 border border-orange-100 dark:border-orange-900/30 rounded-xl p-3.5 text-center">
+                            <p className="text-xs font-semibold text-gray-400 dark:text-gray-500">TWOJA PROWIZJA ({repCommissionPct.toFixed(1)}%)</p>
+                            <p className="text-xl font-extrabold text-orange-600 dark:text-orange-400 mt-1">{repCommissionVal.toFixed(2)} PLN</p>
+                          </div>
+                          <div className="bg-green-50 dark:bg-green-950/20 border border-green-100 dark:border-green-900/30 rounded-xl p-3.5 text-center">
+                            <p className="text-xs font-semibold text-gray-400 dark:text-gray-500">RABAT KLIENTA ({effectiveDiscountPct.toFixed(1)}%)</p>
+                            <p className="text-xl font-extrabold text-green-600 dark:text-green-400 mt-1">{discountVal.toFixed(2)} PLN</p>
+                          </div>
+                        </div>
+                        <p className="text-xs text-gray-400 dark:text-gray-500 italic text-center">
+                          * Prowizja i rabat są wyliczane wyłącznie z bazy wyłączającej produkty promocyjne i outletowe.
+                        </p>
+
+                        <button
+                          type="button"
+                          onClick={() => setCheckoutStep('review')}
+                          disabled={cartLoading || !cartData || cartData.items.length === 0}
+                          className="w-full bg-orange-500 hover:bg-orange-600 disabled:bg-gray-300 dark:disabled:bg-secondary-800 disabled:text-gray-500 text-white font-bold py-2.5 rounded-lg text-sm transition-colors"
+                        >
+                          Dalej: dane klienta →
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                )}
+
+                {/* STEP 2: Offer summary (no commission — client-safe) + customer data form */}
+                {checkoutStep === 'review' && (
+                  <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+                    {/* Client-facing offer summary — commission NEVER shown here */}
+                    <div className="lg:col-span-7 space-y-6">
+                      <div className="bg-white dark:bg-secondary-800 rounded-2xl p-6 border border-gray-100 dark:border-secondary-700 shadow-sm">
+                        <div className="flex items-center justify-between mb-4">
+                          <h2 className="text-lg font-bold text-gray-900 dark:text-white">Podsumowanie oferty dla klienta</h2>
+                          <button
+                            type="button"
+                            onClick={() => setCheckoutStep('build')}
+                            className="text-xs font-semibold text-orange-600 dark:text-orange-400 hover:underline"
+                          >
+                            ← Wróć do edycji rabatu
+                          </button>
+                        </div>
+
                         <div className="space-y-4">
                           <div className="divide-y divide-gray-100 dark:divide-secondary-700">
-                            {cartData.items.map((item) => (
+                            {(cartData?.items || []).map((item) => (
                               <div key={item.id} className="py-3 flex gap-3 items-start">
                                 {item.image && (
                                   <img src={item.image} alt={item.productName} className="w-12 h-12 rounded object-cover border border-gray-100 dark:border-secondary-700" />
@@ -505,77 +952,42 @@ export default function SalesRepPage() {
                                 </div>
                                 <div className="text-right whitespace-nowrap">
                                   <p className="text-sm font-bold text-gray-900 dark:text-white">{(item.price * item.quantity).toFixed(2)} zł</p>
-                                  
                                 </div>
                               </div>
                             ))}
                           </div>
-                          
-                          {/* Live profit calculations */}
+
+                          {/* Kwota transakcji przed i po rabacie — bez informacji o prowizji handlowca */}
                           <div className="border-t border-gray-100 dark:border-secondary-700 pt-4 space-y-2 text-sm">
                             <div className="flex justify-between text-gray-500">
-                              <span>Wartość bazowa:</span>
+                              <span>Kwota przed rabatem:</span>
                               <span className="font-semibold">{baseTotal.toFixed(2)} PLN</span>
                             </div>
                             <div className="flex justify-between text-orange-500">
-                              <span>Rabat dla klienta ({discountPct}%):</span>
+                              <span>Rabat ({effectiveDiscountPct.toFixed(1)}%):</span>
                               <span className="font-semibold">-{discountVal.toFixed(2)} PLN</span>
                             </div>
                             <div className="flex justify-between text-gray-900 dark:text-white font-bold text-lg pt-1 border-t border-dashed border-gray-100 dark:border-secondary-700">
-                              <span>Kwota do zapłaty:</span>
+                              <span>Kwota po rabacie:</span>
                               <span>{finalPrice.toFixed(2)} PLN</span>
                             </div>
                           </div>
                         </div>
-                      )}
+                      </div>
                     </div>
 
-                    {/* Live slider component */}
-                    <div className="bg-white dark:bg-secondary-800 rounded-2xl p-6 border border-gray-100 dark:border-secondary-700 shadow-sm space-y-4">
-                      <div className="flex justify-between items-center">
-                        <h3 className="font-bold text-gray-900 dark:text-white">Ustaw suwak rabatu dla klienta</h3>
-                        <span className="bg-orange-500 text-white font-bold text-sm px-2.5 py-1 rounded-lg">{discountPct}%</span>
-                      </div>
-                      
-                      <input
-                        type="range"
-                        min="0"
-                        max={maxDiscount}
-                        value={discountPct}
-                        onChange={(e) => setDiscountPct(parseInt(e.target.value))}
-                        disabled={cartLoading || !cartData || cartData.items.length === 0}
-                        className="w-full accent-orange-500 h-2 bg-gray-200 dark:bg-secondary-700 rounded-lg cursor-pointer"
-                      />
+                    {/* Customer details checkout form */}
+                    <div className="lg:col-span-5">
+                      <div className="bg-white dark:bg-secondary-800 rounded-2xl p-6 border border-gray-100 dark:border-secondary-700 shadow-sm">
+                        <h2 className="text-lg font-bold text-gray-900 dark:text-white mb-4">Dane klienta i wysyłka</h2>
 
-                      {/* Summary visual tags */}
-                      <div className="grid grid-cols-2 gap-4 pt-2">
-                        <div className="bg-orange-50 dark:bg-orange-950/20 border border-orange-100 dark:border-orange-900/30 rounded-xl p-3.5 text-center">
-                          <p className="text-xs font-semibold text-gray-400 dark:text-gray-500">TWOJA PROWIZJA ({repCommissionPct}%)</p>
-                          <p className="text-xl font-extrabold text-orange-600 dark:text-orange-400 mt-1">{repCommissionVal.toFixed(2)} PLN</p>
-                        </div>
-                        <div className="bg-green-50 dark:bg-green-950/20 border border-green-100 dark:border-green-900/30 rounded-xl p-3.5 text-center">
-                          <p className="text-xs font-semibold text-gray-400 dark:text-gray-500">RABAT KLIENTA ({discountPct}%)</p>
-                          <p className="text-xl font-extrabold text-green-600 dark:text-green-400 mt-1">{discountVal.toFixed(2)} PLN</p>
-                        </div>
-                      </div>
-                      <p className="text-xs text-gray-400 dark:text-gray-500 italic text-center">
-                        * Prowizja i rabat są wyliczane wyłącznie z bazy wyłączającej produkty promocyjne i outletowe.
-                      </p>
-                    </div>
-                  </div>
+                        {checkoutError && (
+                          <div className="mb-4 bg-red-50 border border-red-200 rounded-lg p-3 text-sm text-red-600">
+                            {checkoutError}
+                          </div>
+                        )}
 
-                  {/* Customer details checkout form */}
-                  <div className="lg:col-span-5">
-                    <div className="bg-white dark:bg-secondary-800 rounded-2xl p-6 border border-gray-100 dark:border-secondary-700 shadow-sm">
-                      <h2 className="text-lg font-bold text-gray-900 dark:text-white mb-4">Dane klienta i wysyłka</h2>
-                      
-                      {checkoutError && (
-                        <div className="mb-4 bg-red-50 border border-red-200 rounded-lg p-3 text-sm text-red-600">
-                          {checkoutError}
-                        </div>
-                      )}
-
-                      <form onSubmit={handleCheckoutSubmit} className="space-y-4">
+                        <form onSubmit={handleCheckoutSubmit} className="space-y-4">
                         <div>
                           <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1">E-mail odbiorcy</label>
                           <input
@@ -780,6 +1192,7 @@ export default function SalesRepPage() {
                     </div>
                   </div>
                 </div>
+                )}
               </div>
             )}
 
@@ -889,6 +1302,99 @@ export default function SalesRepPage() {
                         <button
                           disabled={commissionsPage * 10 >= commissionsCount}
                           onClick={() => setCommissionsPage(p => p + 1)}
+                          className="bg-gray-100 hover:bg-gray-200 dark:bg-secondary-700 dark:hover:bg-secondary-600 px-3 py-1.5 rounded text-xs font-semibold text-gray-700 dark:text-white disabled:opacity-50"
+                        >
+                          Następna
+                        </button>
+                      </div>
+                    )}
+                  </div>
+                )}
+              </div>
+            )}
+
+            {/* TAB CONTENT: OFFER TRACKING (moduł opcjonalny) */}
+            {activeTab === 'offers' && modulesConfig.offerTracking && (
+              <div className="bg-white dark:bg-secondary-800 rounded-2xl p-6 border border-gray-100 dark:border-secondary-700 shadow-sm">
+                <h2 className="text-lg font-bold text-gray-900 dark:text-white mb-4">Śledzenie wysłanych ofert</h2>
+
+                {offersError && (
+                  <div className="mb-4 bg-red-50 border border-red-200 rounded-lg p-3 text-sm text-red-600">{offersError}</div>
+                )}
+
+                {offersLoading ? (
+                  <div className="text-center py-6 text-gray-500">Pobieranie listy ofert...</div>
+                ) : offers.length === 0 ? (
+                  <div className="text-center py-6 text-gray-500">Nie wysłano jeszcze żadnych ofert.</div>
+                ) : (
+                  <div className="space-y-4">
+                    <div className="overflow-x-auto">
+                      <table className="w-full text-left text-sm text-gray-500 dark:text-gray-400">
+                        <thead className="text-xs uppercase bg-gray-50 dark:bg-secondary-900 text-gray-700 dark:text-gray-300">
+                          <tr>
+                            <th className="px-4 py-3">Zamówienie</th>
+                            <th className="px-4 py-3">Klient</th>
+                            <th className="px-4 py-3">Kwota</th>
+                            <th className="px-4 py-3">Status płatności</th>
+                            <th className="px-4 py-3">Data</th>
+                            <th className="px-4 py-3">Przypomnienia</th>
+                            <th className="px-4 py-3"></th>
+                          </tr>
+                        </thead>
+                        <tbody className="divide-y divide-gray-100 dark:divide-secondary-700">
+                          {offers.map((offer) => {
+                            const isPaid = offer.paymentStatus === 'PAID';
+                            const canRemind = !isPaid && offer.paymentStatus !== 'CANCELLED' && offer.paymentStatus !== 'REFUNDED';
+                            return (
+                              <tr key={offer.id} className="hover:bg-gray-50 dark:hover:bg-secondary-700/50">
+                                <td className="px-4 py-3 font-semibold text-gray-900 dark:text-white">#{offer.orderNumber}</td>
+                                <td className="px-4 py-3">
+                                  {offer.billingCompanyName || `${offer.guestFirstName || ''} ${offer.guestLastName || ''}`.trim() || 'Klient'}
+                                </td>
+                                <td className="px-4 py-3 font-semibold text-gray-900 dark:text-white">{Number(offer.total).toFixed(2)} PLN</td>
+                                <td className="px-4 py-3">
+                                  <span className={`inline-block px-2 py-0.5 rounded-full text-xs font-semibold ${
+                                    isPaid ? 'bg-green-100 text-green-800 dark:bg-green-950/20 dark:text-green-400' :
+                                    offer.paymentStatus === 'FAILED' || offer.paymentStatus === 'CANCELLED' ? 'bg-red-100 text-red-800 dark:bg-red-950/20 dark:text-red-400' :
+                                    'bg-yellow-100 text-yellow-800 dark:bg-yellow-950/20 dark:text-yellow-400'
+                                  }`}>
+                                    {isPaid ? 'Opłacona' : offer.paymentStatus === 'AWAITING_CONFIRMATION' ? 'Oczekuje potwierdzenia' : 'Oczekuje na płatność'}
+                                  </span>
+                                </td>
+                                <td className="px-4 py-3 text-xs text-gray-400">{new Date(offer.createdAt).toLocaleDateString('pl-PL')}</td>
+                                <td className="px-4 py-3 text-xs text-gray-400">{offer.payment_reminder_count || 0}</td>
+                                <td className="px-4 py-3">
+                                  {canRemind && (
+                                    <button
+                                      type="button"
+                                      onClick={() => handleRemindOffer(offer.id)}
+                                      disabled={remindingOfferId === offer.id}
+                                      className="text-orange-600 dark:text-orange-400 font-semibold text-xs hover:underline disabled:opacity-50"
+                                    >
+                                      {remindingOfferId === offer.id ? 'Wysyłanie...' : 'Wyślij przypomnienie'}
+                                    </button>
+                                  )}
+                                </td>
+                              </tr>
+                            );
+                          })}
+                        </tbody>
+                      </table>
+                    </div>
+
+                    {offersTotalPages > 1 && (
+                      <div className="flex justify-between items-center pt-4">
+                        <button
+                          disabled={offersPage === 1}
+                          onClick={() => setOffersPage((p) => p - 1)}
+                          className="bg-gray-100 hover:bg-gray-200 dark:bg-secondary-700 dark:hover:bg-secondary-600 px-3 py-1.5 rounded text-xs font-semibold text-gray-700 dark:text-white disabled:opacity-50"
+                        >
+                          Poprzednia
+                        </button>
+                        <span className="text-xs text-gray-500">Strona {offersPage} z {offersTotalPages}</span>
+                        <button
+                          disabled={offersPage >= offersTotalPages}
+                          onClick={() => setOffersPage((p) => p + 1)}
                           className="bg-gray-100 hover:bg-gray-200 dark:bg-secondary-700 dark:hover:bg-secondary-600 px-3 py-1.5 rounded text-xs font-semibold text-gray-700 dark:text-white disabled:opacity-50"
                         >
                           Następna

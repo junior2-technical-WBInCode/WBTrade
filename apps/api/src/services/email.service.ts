@@ -1382,13 +1382,48 @@ export class EmailService {
       </table>`;
   }
 
+  /** Podsumowanie kwoty przed/po rabacie + dostawa, spójne z tym co handlowiec widzi w kroku 2 kreatora oferty. */
+  private priceSummaryBox(opts: { subtotal: number; discountAmount: number; shippingCost: number; total: number }): string {
+    const { subtotal, discountAmount, shippingCost, total } = opts;
+    const discountRow = discountAmount > 0 ? `
+        <tr>
+          <td style="padding:6px 0; color:#ea580c; font-size:13.5px;">Rabat od handlowca</td>
+          <td style="padding:6px 0; text-align:right; color:#ea580c; font-weight:700; font-size:13.5px; white-space:nowrap;">-${discountAmount.toFixed(2)} zł</td>
+        </tr>` : '';
+    return `
+      <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="margin: 4px 0 20px; border:1px solid #e2e8f0; border-radius:12px; overflow:hidden; background:#f8fafc;">
+        <tr><td style="padding:16px 20px 4px;">
+          <table role="presentation" width="100%" cellspacing="0" cellpadding="0">
+            <tr>
+              <td style="padding:6px 0; color:#64748b; font-size:13.5px;">Wartość produktów</td>
+              <td style="padding:6px 0; text-align:right; color:#334155; font-weight:600; font-size:13.5px; white-space:nowrap;">${subtotal.toFixed(2)} zł</td>
+            </tr>
+            ${discountRow}
+            <tr>
+              <td style="padding:6px 0; color:#64748b; font-size:13.5px;">Dostawa</td>
+              <td style="padding:6px 0; text-align:right; color:#334155; font-weight:600; font-size:13.5px; white-space:nowrap;">${shippingCost > 0 ? `${shippingCost.toFixed(2)} zł` : 'Gratis'}</td>
+            </tr>
+          </table>
+        </td></tr>
+        <tr><td style="padding:12px 20px; border-top:1px solid #e2e8f0; background:#ffffff;">
+          <table role="presentation" width="100%" cellspacing="0" cellpadding="0">
+            <tr>
+              <td style="font-size:15px; font-weight:800; color:#1e293b;">Do zapłaty</td>
+              <td style="text-align:right; font-size:18px; font-weight:800; color:#ea580c; white-space:nowrap;">${total.toFixed(2)} zł</td>
+            </tr>
+          </table>
+        </td></tr>
+      </table>`;
+  }
+
   async sendPaymentLinkEmail(
     to: string,
     customerName: string,
     orderNumber: string,
     orderId: string,
     total: number,
-    items?: Array<{ name: string; quantity: number; unitPrice: number; imageUrl?: string | null }>
+    items?: Array<{ name: string; quantity: number; unitPrice: number; imageUrl?: string | null }>,
+    priceBreakdown?: { subtotal: number; discountAmount: number; shippingCost: number }
   ): Promise<EmailResult> {
     try {
       const resend = getResend();
@@ -1403,8 +1438,9 @@ export class EmailService {
           headerColor: 'linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%)',
           content: `
             ${greeting(customerName)}
-            ${paragraph(`Twoje zamówienie <strong>#${escapeHtml(orderNumber)}</strong> o wartości <strong>${total.toFixed(2)} PLN</strong> zostało przygotowane przez naszego handlowca.`)}
+            ${paragraph(`Twoje zamówienie <strong>#${escapeHtml(orderNumber)}</strong> zostało przygotowane przez naszego handlowca.`)}
             ${this.orderItemsTable(items)}
+            ${priceBreakdown ? this.priceSummaryBox({ ...priceBreakdown, total }) : ''}
             ${paragraph('Aby dokończyć zamówienie i opłacić je online, kliknij w poniższy przycisk:')}
             ${ctaButton('💳 Opłać zamówienie online', paymentUrl)}
             ${paragraph('Link do płatności wygaśnie za kilka dni. Po opłaceniu zamówienia natychmiast przystąpimy do jego realizacji.')}
@@ -1425,7 +1461,8 @@ export class EmailService {
     customerName: string,
     orderNumber: string,
     total: number,
-    items?: Array<{ name: string; quantity: number; unitPrice: number; imageUrl?: string | null }>
+    items?: Array<{ name: string; quantity: number; unitPrice: number; imageUrl?: string | null }>,
+    priceBreakdown?: { subtotal: number; discountAmount: number; shippingCost: number }
   ): Promise<EmailResult> {
     try {
       const resend = getResend();
@@ -1438,8 +1475,9 @@ export class EmailService {
           headerColor: 'linear-gradient(135deg, #0284c7 0%, #0369a1 100%)',
           content: `
             ${greeting(customerName)}
-            ${paragraph(`Twoje zamówienie <strong>#${escapeHtml(orderNumber)}</strong> o wartości <strong>${total.toFixed(2)} PLN</strong> zostało utworzone. Poniżej znajdują się dane do wykonania przelewu tradycyjnego:`)}
+            ${paragraph(`Twoje zamówienie <strong>#${escapeHtml(orderNumber)}</strong> zostało utworzone. Poniżej znajdują się dane do wykonania przelewu tradycyjnego:`)}
             ${this.orderItemsTable(items)}
+            ${priceBreakdown ? this.priceSummaryBox({ ...priceBreakdown, total }) : ''}
 
             <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="margin: 20px 0 24px 0;">
               <tr>

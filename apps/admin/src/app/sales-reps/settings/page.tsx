@@ -10,6 +10,10 @@ export default function SalesRepsSettingsPage() {
   const [markupMultiplier, setMarkupMultiplier] = useState(1.35);
   const [holdDays, setHoldDays] = useState(14);
   const [blockAffiliation, setBlockAffiliation] = useState(true);
+  const [offerTemplatesEnabled, setOfferTemplatesEnabled] = useState(true);
+  const [offerTrackingEnabled, setOfferTrackingEnabled] = useState(true);
+  const [leaderboardEnabled, setLeaderboardEnabled] = useState(true);
+  const [monthlyGoalAmount, setMonthlyGoalAmount] = useState(5000);
 
   const [loading, setLoading] = useState(true);
   const [saveLoading, setSaveLoading] = useState(false);
@@ -28,6 +32,10 @@ export default function SalesRepsSettingsPage() {
         setMarkupMultiplier(data.config.markupMultiplier);
         setHoldDays(data.config.holdDays);
         setBlockAffiliation(data.config.blockAffiliation ?? true);
+        setOfferTemplatesEnabled(data.config.modules?.offerTemplates ?? true);
+        setOfferTrackingEnabled(data.config.modules?.offerTracking ?? true);
+        setLeaderboardEnabled(data.config.modules?.leaderboard ?? true);
+        setMonthlyGoalAmount(data.config.monthlyGoalAmount ?? 5000);
       }
     } catch (err: any) {
       setError(err.message || 'Błąd wczytywania konfiguracji progów handlowych.');
@@ -63,6 +71,12 @@ export default function SalesRepsSettingsPage() {
         markupMultiplier,
         holdDays,
         blockAffiliation,
+        modules: {
+          offerTemplates: offerTemplatesEnabled,
+          offerTracking: offerTrackingEnabled,
+          leaderboard: leaderboardEnabled,
+        },
+        monthlyGoalAmount,
       });
       setSuccess('Konfiguracja progów handlowych została zapisana pomyślnie.');
     } catch (err: any) {
@@ -192,6 +206,66 @@ export default function SalesRepsSettingsPage() {
                       <span className="block text-xs text-gray-400 mt-1">Gdy włączona, zamówienia składane przez panel handlowca nie podlegają afiliacji — nawet jeśli kupujący ma w przeglądarce referencję afiliacyjną, nie zostanie ona naliczona.</span>
                     </span>
                   </label>
+                </div>
+
+                <div className="rounded-lg border border-gray-200 dark:border-secondary-700 p-4 space-y-3">
+                  <h3 className="text-sm font-bold text-gray-900 dark:text-white">Moduły panelu handlowca</h3>
+                  <p className="text-xs text-gray-400 -mt-2">Każdy moduł można w dowolnym momencie wyłączyć — zniknie z panelu handlowca bez wpływu na resztę funkcji.</p>
+
+                  <label className="flex items-start gap-3 cursor-pointer">
+                    <input
+                      type="checkbox"
+                      checked={offerTemplatesEnabled}
+                      onChange={(e) => setOfferTemplatesEnabled(e.target.checked)}
+                      className="mt-0.5 h-4 w-4 rounded border-gray-300 text-orange-500 focus:ring-orange-500 cursor-pointer"
+                    />
+                    <span>
+                      <span className="block text-sm font-semibold text-gray-700 dark:text-gray-300">Szablony ofert</span>
+                      <span className="block text-xs text-gray-400 mt-1">Zapisywanie i szybkie wczytywanie gotowych zestawów produktów z domyślnym rabatem.</span>
+                    </span>
+                  </label>
+
+                  <label className="flex items-start gap-3 cursor-pointer">
+                    <input
+                      type="checkbox"
+                      checked={offerTrackingEnabled}
+                      onChange={(e) => setOfferTrackingEnabled(e.target.checked)}
+                      className="mt-0.5 h-4 w-4 rounded border-gray-300 text-orange-500 focus:ring-orange-500 cursor-pointer"
+                    />
+                    <span>
+                      <span className="block text-sm font-semibold text-gray-700 dark:text-gray-300">Śledzenie ofert i przypomnienia</span>
+                      <span className="block text-xs text-gray-400 mt-1">Lista wysłanych ofert ze statusem płatności oraz możliwość ręcznego wysłania przypomnienia klientowi.</span>
+                    </span>
+                  </label>
+
+                  <label className="flex items-start gap-3 cursor-pointer">
+                    <input
+                      type="checkbox"
+                      checked={leaderboardEnabled}
+                      onChange={(e) => setLeaderboardEnabled(e.target.checked)}
+                      className="mt-0.5 h-4 w-4 rounded border-gray-300 text-orange-500 focus:ring-orange-500 cursor-pointer"
+                    />
+                    <span>
+                      <span className="block text-sm font-semibold text-gray-700 dark:text-gray-300">Cele i ranking</span>
+                      <span className="block text-xs text-gray-400 mt-1">Miesięczny cel prowizji z paskiem postępu oraz prosty ranking handlowców (bez ujawniania danych innych zamówień).</span>
+                    </span>
+                  </label>
+
+                  {leaderboardEnabled && (
+                    <div className="pt-2 border-t border-gray-100 dark:border-secondary-700">
+                      <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1">
+                        Miesięczny cel prowizji (PLN)
+                      </label>
+                      <input
+                        type="number"
+                        min="0"
+                        value={monthlyGoalAmount}
+                        onChange={(e) => setMonthlyGoalAmount(parseFloat(e.target.value) || 0)}
+                        className="w-full rounded-lg border border-gray-300 dark:border-secondary-700 bg-white dark:bg-secondary-900 px-3.5 py-2 text-sm focus:border-orange-500 focus:outline-none dark:text-white"
+                      />
+                      <p className="text-xs text-gray-400 mt-1">Wspólny cel miesięczny widoczny jako pasek postępu w panelu każdego handlowca.</p>
+                    </div>
+                  )}
                 </div>
 
                 <button
