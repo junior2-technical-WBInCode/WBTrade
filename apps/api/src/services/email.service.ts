@@ -1347,29 +1347,38 @@ export class EmailService {
     }
   }
 
-  /** Tabela zamówionych produktów do maila ofertowego (email-safe, inline style). */
-  private orderItemsTable(items?: Array<{ name: string; quantity: number; unitPrice: number }>): string {
+  /** Tabela zamówionych produktów do maila ofertowego (email-safe, inline style, z miniaturą). */
+  private orderItemsTable(items?: Array<{ name: string; quantity: number; unitPrice: number; imageUrl?: string | null }>): string {
     if (!items || items.length === 0) return '';
+    const absolutize = (u?: string | null): string =>
+      !u ? '' : (/^https?:\/\//i.test(u) ? u : `${SITE_URL}${u.startsWith('/') ? '' : '/'}${u}`);
+    let itemsTotal = 0;
     const rows = items.map((it) => {
       const lineTotal = it.unitPrice * it.quantity;
+      itemsTotal += lineTotal;
+      const img = absolutize(it.imageUrl);
+      const imageCell = img
+        ? `<img src="${escapeHtml(img)}" width="64" height="64" alt="" style="display:block; width:64px; height:64px; border-radius:8px; border:1px solid #e2e8f0; object-fit:cover; background:#f1f5f9;" />`
+        : `<div style="width:64px; height:64px; border-radius:8px; border:1px solid #e2e8f0; background:#f1f5f9; text-align:center; line-height:64px; font-size:26px;">📦</div>`;
       return `
         <tr>
-          <td style="padding:10px; border-bottom:1px solid #e2e8f0; font-size:14px; color:#1e293b;">${escapeHtml(it.name)}</td>
-          <td style="padding:10px; border-bottom:1px solid #e2e8f0; font-size:14px; color:#475569; text-align:center; white-space:nowrap;">${it.quantity} szt.</td>
-          <td style="padding:10px; border-bottom:1px solid #e2e8f0; font-size:14px; color:#475569; text-align:right; white-space:nowrap;">${it.unitPrice.toFixed(2)} zł</td>
-          <td style="padding:10px; border-bottom:1px solid #e2e8f0; font-size:14px; color:#1e293b; font-weight:600; text-align:right; white-space:nowrap;">${lineTotal.toFixed(2)} zł</td>
-        </tr>`;
+          <td width="76" style="padding:12px 0 12px 12px; vertical-align:top;">${imageCell}</td>
+          <td style="padding:12px; vertical-align:top;">
+            <p style="margin:0; font-size:14px; font-weight:600; color:#1e293b; line-height:1.35;">${escapeHtml(it.name)}</p>
+            <p style="margin:4px 0 0; font-size:13px; color:#64748b;">${it.quantity} szt. × ${it.unitPrice.toFixed(2)} zł</p>
+          </td>
+          <td style="padding:12px; vertical-align:top; text-align:right; white-space:nowrap; font-size:14px; font-weight:700; color:#1e293b;">${lineTotal.toFixed(2)} zł</td>
+        </tr>
+        <tr><td colspan="3" style="border-bottom:1px solid #eef2f7; font-size:0; line-height:0;">&nbsp;</td></tr>`;
     }).join('');
     return `
-      <p style="margin: 20px 0 8px; color:#1e293b; font-size:15px; font-weight:700;">📦 Zamówione produkty</p>
-      <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="border-collapse:collapse; margin-bottom:8px; border:1px solid #e2e8f0; border-radius:8px; overflow:hidden;">
-        <tr style="background:#f8fafc;">
-          <td style="padding:10px; font-size:12px; color:#64748b;">Produkt</td>
-          <td style="padding:10px; font-size:12px; color:#64748b; text-align:center;">Ilość</td>
-          <td style="padding:10px; font-size:12px; color:#64748b; text-align:right;">Cena</td>
-          <td style="padding:10px; font-size:12px; color:#64748b; text-align:right;">Wartość</td>
-        </tr>
+      <p style="margin: 24px 0 8px; color:#1e293b; font-size:15px; font-weight:700;">📦 Zamówione produkty</p>
+      <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="border-collapse:collapse; border:1px solid #e2e8f0; border-radius:12px; overflow:hidden; background:#ffffff;">
         ${rows}
+        <tr>
+          <td colspan="2" style="padding:12px 14px; background:#f8fafc; font-size:14px; font-weight:700; color:#1e293b;">Razem za produkty</td>
+          <td style="padding:12px 14px; background:#f8fafc; text-align:right; white-space:nowrap; font-size:15px; font-weight:800; color:#ea580c;">${itemsTotal.toFixed(2)} zł</td>
+        </tr>
       </table>`;
   }
 
@@ -1379,7 +1388,7 @@ export class EmailService {
     orderNumber: string,
     orderId: string,
     total: number,
-    items?: Array<{ name: string; quantity: number; unitPrice: number }>
+    items?: Array<{ name: string; quantity: number; unitPrice: number; imageUrl?: string | null }>
   ): Promise<EmailResult> {
     try {
       const resend = getResend();
@@ -1416,7 +1425,7 @@ export class EmailService {
     customerName: string,
     orderNumber: string,
     total: number,
-    items?: Array<{ name: string; quantity: number; unitPrice: number }>
+    items?: Array<{ name: string; quantity: number; unitPrice: number; imageUrl?: string | null }>
   ): Promise<EmailResult> {
     try {
       const resend = getResend();
