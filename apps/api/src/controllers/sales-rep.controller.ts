@@ -271,6 +271,7 @@ export class SalesControllerRep {
           : item.variant.product.name,
         quantity: item.quantity,
         unitPrice: Number(item.variant.price),
+        imageUrl: item.variant?.product?.images?.[0]?.url ?? null,
       }));
 
       // Send payment email to customer based on payment method
