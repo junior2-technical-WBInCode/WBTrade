@@ -321,6 +321,12 @@ export const adminSalesRepsApi = {
     markupMultiplier: number;
     holdDays: number;
     blockAffiliation: boolean;
+    modules: {
+      offerTemplates: boolean;
+      offerTracking: boolean;
+      leaderboard: boolean;
+    };
+    monthlyGoalAmount: number;
   }): Promise<any> =>
     fetchWithAuth('/api/admin/settings/sales-rep-config', {
       method: 'POST',

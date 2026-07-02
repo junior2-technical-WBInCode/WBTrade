@@ -1978,6 +1978,33 @@ export interface SalesRepCartData {
   marginTotalPct: number;
 }
 
+export interface SalesRepOfferTemplate {
+  id: string;
+  salesRepId: string;
+  name: string;
+  discountPct: number;
+  items: Array<{ variantId: string; quantity: number; productName: string; variantName?: string | null }>;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface SalesRepOfferItem {
+  id: string;
+  orderNumber: string;
+  total: number;
+  discount: number;
+  status: string;
+  paymentStatus: string;
+  paymentMethod: string;
+  createdAt: string;
+  guestFirstName: string | null;
+  guestLastName: string | null;
+  guestEmail: string | null;
+  billingCompanyName: string | null;
+  payment_reminder_count: number | null;
+  last_payment_reminder_at: string | null;
+}
+
 export const salesRepApi = {
   getCart: () =>
     api.get<SalesRepCartData>('/sales-rep/cart'),
@@ -2002,7 +2029,47 @@ export const salesRepApi = {
     api.post<any>('/sales-rep/checkout', data),
 
   getConfig: () =>
-    api.get<{ success: boolean; maxDiscountPct: number; baseCommissionPct: number; pool: number }>('/sales-rep/config'),
+    api.get<{
+      success: boolean;
+      maxDiscountPct: number;
+      baseCommissionPct: number;
+      pool: number;
+      modules: { offerTemplates: boolean; offerTracking: boolean; leaderboard: boolean };
+    }>('/sales-rep/config'),
+
+  // Moduł: Szablony ofert (może być wyłączony przez administratora)
+  getTemplates: () =>
+    api.get<{ success: boolean; templates: SalesRepOfferTemplate[] }>('/sales-rep/templates'),
+
+  createTemplate: (name: string, discountPct: number) =>
+    api.post<{ success: boolean; template: SalesRepOfferTemplate }>('/sales-rep/templates', { name, discountPct }),
+
+  deleteTemplate: (id: string) =>
+    api.delete<{ success: boolean }>(`/sales-rep/templates/${id}`),
+
+  loadTemplate: (id: string) =>
+    api.post<{ success: boolean; addedCount: number; skipped: Array<{ name: string; reason: string }> }>(`/sales-rep/templates/${id}/load`),
+
+  // Moduł: Śledzenie ofert (może być wyłączony przez administratora)
+  getOffers: (page = 1, limit = 20) =>
+    api.get<{
+      success: boolean;
+      orders: SalesRepOfferItem[];
+      total: number;
+      page: number;
+      limit: number;
+      totalPages: number;
+    }>('/sales-rep/offers', { page, limit }),
+
+  remindOffer: (id: string) =>
+    api.post<{ success: boolean; message: string }>(`/sales-rep/offers/${id}/remind`),
+
+  // Moduł: Cele i ranking (może być wyłączony przez administratora)
+  getGoalProgress: () =>
+    api.get<{ success: boolean; goal: number; currentMonthCommission: number; progressPct: number }>('/sales-rep/goal-progress'),
+
+  getLeaderboard: () =>
+    api.get<{ success: boolean; leaderboard: Array<{ name: string; total: number; rank: number; isCurrentUser: boolean }> }>('/sales-rep/leaderboard'),
 };
 
 export default api;

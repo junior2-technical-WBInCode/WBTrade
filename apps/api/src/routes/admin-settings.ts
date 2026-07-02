@@ -143,22 +143,23 @@ router.get('/sales-rep-config', async (req, res) => {
  */
 router.post('/sales-rep-config', async (req, res) => {
   try {
-    const { baseCommissionPct, maxDiscountPct, minCompanyMarginPct, markupMultiplier, holdDays, blockAffiliation } = req.body;
+    const { baseCommissionPct, maxDiscountPct, minCompanyMarginPct, markupMultiplier, holdDays, blockAffiliation, modules, monthlyGoalAmount } = req.body;
 
     const base = Number(baseCommissionPct);
     const maxDiscount = Number(maxDiscountPct);
     const minMargin = Number(minCompanyMarginPct);
     const markup = Number(markupMultiplier);
     const hold = Number(holdDays);
+    const goal = Number(monthlyGoalAmount ?? 5000);
 
-    if (isNaN(base) || isNaN(maxDiscount) || isNaN(minMargin) || isNaN(markup) || isNaN(hold)) {
+    if (isNaN(base) || isNaN(maxDiscount) || isNaN(minMargin) || isNaN(markup) || isNaN(hold) || isNaN(goal)) {
       res.status(400).json({ message: 'Wszystkie parametry konfiguracji muszą być liczbami.' });
       return;
     }
 
     // Per-parameter bounds (the pool check alone lets e.g. base=-5 through).
-    if (base < 0 || maxDiscount < 0 || minMargin < 0 || hold < 0) {
-      res.status(400).json({ message: 'Parametry prowizji/rabatu/marży/karencji nie mogą być ujemne.' });
+    if (base < 0 || maxDiscount < 0 || minMargin < 0 || hold < 0 || goal < 0) {
+      res.status(400).json({ message: 'Parametry prowizji/rabatu/marży/karencji/celu nie mogą być ujemne.' });
       return;
     }
     if (markup <= 1) {
@@ -182,7 +183,13 @@ router.post('/sales-rep-config', async (req, res) => {
       minCompanyMarginPct: minMargin,
       markupMultiplier: markup,
       holdDays: hold,
-      blockAffiliation: blockAffiliation !== undefined ? Boolean(blockAffiliation) : true
+      blockAffiliation: blockAffiliation !== undefined ? Boolean(blockAffiliation) : true,
+      modules: {
+        offerTemplates: modules?.offerTemplates !== undefined ? Boolean(modules.offerTemplates) : true,
+        offerTracking: modules?.offerTracking !== undefined ? Boolean(modules.offerTracking) : true,
+        leaderboard: modules?.leaderboard !== undefined ? Boolean(modules.leaderboard) : true,
+      },
+      monthlyGoalAmount: goal,
     };
 
     await prisma.settings.upsert({

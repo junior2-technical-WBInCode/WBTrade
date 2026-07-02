@@ -61,6 +61,7 @@ model User {
   salesRepOrders             Order[]            @relation("SalesRepOrders")
   salesRepCommissions        SalesRepCommission[]
   salesRepPayouts            SalesRepPayout[]
+  salesRepOfferTemplates     SalesRepOfferTemplate[]
 
   @@map("users")
 }
@@ -1438,6 +1439,21 @@ model SalesRepPayout {
 
   @@index([salesRepId, status])
   @@map("sales_rep_payouts")
+}
+
+// Moduł "Szablony ofert" (może być wyłączony przez administratora w sales_rep_config.modules.offerTemplates)
+model SalesRepOfferTemplate {
+  id          String   @id @default(cuid())
+  salesRepId  String   @map("sales_rep_id")
+  name        String
+  discountPct Decimal  @db.Decimal(4, 2) @map("discount_pct")
+  items       Json     // snapshot: [{ variantId, quantity, productName, variantName }]
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+  salesRep    User     @relation(fields: [salesRepId], references: [id], onDelete: Cascade)
+
+  @@index([salesRepId])
+  @@map("sales_rep_offer_templates")
 }
 
 enum SalesRepCommissionStatus {
