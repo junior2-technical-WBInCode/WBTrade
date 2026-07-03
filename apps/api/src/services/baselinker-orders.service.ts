@@ -301,7 +301,7 @@ export class BaselinkerOrdersService {
       products.push({
         storage: 'db' as const,
         storage_id: '0',
-        name: 'Paczka',
+        name: 'Przesyłka',
         sku: 'SHIPPING',
         price_brutto: shippingCost,
         tax_rate: 23,
