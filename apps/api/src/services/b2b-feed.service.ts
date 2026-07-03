@@ -48,6 +48,7 @@ interface FeedProduct {
   slug: string;
   description: string | null;
   price: any;
+  purchasePrice: any;
   barcode: string | null;
   tags: string[];
   baselinkerProductId: string | null;
@@ -92,6 +93,7 @@ async function fetchProducts(skip: number, batchSize: number): Promise<FeedProdu
       slug: true,
       description: true,
       price: true,
+      purchasePrice: true,
       barcode: true,
       tags: true,
       baselinkerProductId: true,
@@ -153,7 +155,8 @@ export async function streamB2bXmlFeed(
         storePrice,
         product.baselinkerProductId,
         product.sku,
-        b2bInfo
+        b2bInfo,
+        product.purchasePrice
       );
       if (b2bPrice <= 0) continue;
 
@@ -237,7 +240,8 @@ export async function streamB2bCsvFeed(
         storePrice,
         product.baselinkerProductId,
         product.sku,
-        b2bInfo
+        b2bInfo,
+        product.purchasePrice
       );
       if (b2bPrice <= 0) continue;
 

@@ -1,15 +1,5 @@
-import { feedPriceSyncService } from '../services/feed-price-sync.service';
+import { feedPriceSyncService, FEED_URLS } from '../services/feed-price-sync.service';
 import { prisma } from '../db';
-
-const FEED_URLS: Record<string, string> = {
-  'leker': 'https://b2b.leker.pl/xml/drop_pln_pl_light.xml',
-  'btp': 'https://ext.btp.link/Gateway/ExportData/ProductCatalogue?Format=Xml&u=7C93A576-737A-4E62-B0AD-C2CB40FAB893&uc=A694FB15-1C0E-4A1C-81B8-6423BB43547A',
-  'hp': 'https://www.hurtowniaprzemyslowa.pl/xml/baselinker.xml',
-  'dofirmy': 'https://cloud.appstore.mamezi.pl/feeds/shop4184b3ea00a6457ce3777d0ddab35ee5753c7c72/doFirmyPrivateApp01-pl_PL.xml',
-  'polzoo': 'https://polzoo.pl/edi/export-offer.php?client=support@wb-partners.pl&language=pol&token=d8149dd25ac49d1c07e1fa5&shop=1&type=full&format=xml&iof_3_0',
-  'hurtownia-kuchenna': 'https://kinghoff.online/offers/type/xml/key/d00cdfe53b534389/lang/pl',
-  'hurtownia-sportowa': 'http://b2bhurtowniasportowa.net/v2/xml/download/format/partner_b2b_full/key/66befd48d0b9e3800ca5d6dc03784db3/lang/pl',
-};
 
 async function main() {
   console.log('==================================================');

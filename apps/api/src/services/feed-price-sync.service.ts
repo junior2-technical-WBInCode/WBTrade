@@ -5,6 +5,21 @@ import { PriceChangeSource } from '@prisma/client';
 import { XMLParser } from 'fast-xml-parser';
 import { queueProductIndex } from '../lib/queue';
 
+/**
+ * Single source of truth for wholesaler feed URLs.
+ * Used both by the manual CLI script (src/scripts/sync-feed-prices.ts)
+ * and by the scheduled BullMQ job (workers/baselinker-sync.worker.ts).
+ */
+export const FEED_URLS: Record<string, string> = {
+  'leker': 'https://b2b.leker.pl/xml/drop_pln_pl_light.xml',
+  'btp': 'https://ext.btp.link/Gateway/ExportData/ProductCatalogue?Format=Xml&u=7C93A576-737A-4E62-B0AD-C2CB40FAB893&uc=A694FB15-1C0E-4A1C-81B8-6423BB43547A',
+  'hp': 'https://www.hurtowniaprzemyslowa.pl/xml/baselinker.xml',
+  'dofirmy': 'https://cloud.appstore.mamezi.pl/feeds/shop4184b3ea00a6457ce3777d0ddab35ee5753c7c72/doFirmyPrivateApp01-pl_PL.xml',
+  'polzoo': 'https://polzoo.pl/edi/export-offer.php?client=support@wb-partners.pl&language=pol&token=d8149dd25ac49d1c07e1fa5&shop=1&type=full&format=xml&iof_3_0',
+  'hurtownia-kuchenna': 'https://kinghoff.online/offers/type/xml/key/d00cdfe53b534389/lang/pl',
+  'hurtownia-sportowa': 'http://b2bhurtowniasportowa.net/v2/xml/download/format/partner_b2b_full/key/66befd48d0b9e3800ca5d6dc03784db3/lang/pl',
+};
+
 // Interface for matched item to update
 interface PriceUpdateItem {
   id: string; // product/variant ID
@@ -636,38 +651,72 @@ export class FeedPriceSyncService {
           );
         }
 
-        // 8. Update parent product prices to be the minimum of their active variants' prices
+        // 8. Update parent product prices to be the minimum of their active variants' prices.
+        // Batched (not one-by-one) so this step doesn't take hours on large wholesalers (e.g. HP ~34k products).
         let parentProductPriceUpdatesCount = 0;
-        for (const productId of changedProductIds) {
+        const changedProductIdsArr = Array.from(changedProductIds);
+        const READ_CHUNK_SIZE = 5000; // stay well under Postgres bind-variable limits
+
+        // 8a. Batch-fetch all variant prices for changed products, grouped by productId
+        const minPriceByProductId = new Map<string, number>();
+        for (let i = 0; i < changedProductIdsArr.length; i += READ_CHUNK_SIZE) {
+          const chunk = changedProductIdsArr.slice(i, i + READ_CHUNK_SIZE);
           const variants = await prisma.productVariant.findMany({
-            where: { productId },
-            select: { price: true }
+            where: { productId: { in: chunk } },
+            select: { productId: true, price: true },
           });
-          if (variants.length > 0) {
-            const minPrice = Math.min(...variants.map(v => Number(v.price)));
-            if (minPrice > 0) {
-              const parentProduct = await prisma.product.findUnique({
-                where: { id: productId },
-                select: { price: true }
-              });
-              if (parentProduct) {
-                const currentParentPrice = Number(parentProduct.price);
-                if (Math.abs(currentParentPrice - minPrice) > 0.005) {
-                  try {
-                    await priceHistoryService.updateProductPrice({
-                      productId,
-                      newPrice: minPrice,
-                      source: PriceChangeSource.IMPORT,
-                      reason: `Auto-aktualizacja ceny bazowej na podstawie najtańszego wariantu (${wholesalerKey})`,
-                    });
-                    parentProductPriceUpdatesCount++;
-                  } catch (err: any) {
-                    errors.push(`Parent product price update error ${productId}: ${err.message}`);
-                  }
-                }
-              }
+          for (const v of variants) {
+            if (!v.productId) continue;
+            const priceNum = Number(v.price);
+            const existing = minPriceByProductId.get(v.productId);
+            if (existing === undefined || (priceNum > 0 && priceNum < existing)) {
+              if (priceNum > 0) minPriceByProductId.set(v.productId, priceNum);
             }
           }
+        }
+
+        // 8b. Batch-fetch current parent product prices
+        const currentPriceByProductId = new Map<string, number>();
+        for (let i = 0; i < changedProductIdsArr.length; i += READ_CHUNK_SIZE) {
+          const chunk = changedProductIdsArr.slice(i, i + READ_CHUNK_SIZE);
+          const products = await prisma.product.findMany({
+            where: { id: { in: chunk } },
+            select: { id: true, price: true },
+          });
+          for (const p of products) {
+            currentPriceByProductId.set(p.id, Number(p.price));
+          }
+        }
+
+        // 8c. Only write for products whose base price actually needs to change (parallel batches of 30)
+        const productsNeedingUpdate = changedProductIdsArr.filter((productId) => {
+          const minPrice = minPriceByProductId.get(productId);
+          const currentParentPrice = currentPriceByProductId.get(productId);
+          return (
+            minPrice !== undefined &&
+            currentParentPrice !== undefined &&
+            Math.abs(currentParentPrice - minPrice) > 0.005
+          );
+        });
+
+        const WRITE_BATCH_SIZE = 30;
+        for (let i = 0; i < productsNeedingUpdate.length; i += WRITE_BATCH_SIZE) {
+          const batch = productsNeedingUpdate.slice(i, i + WRITE_BATCH_SIZE);
+          await Promise.all(
+            batch.map(async (productId) => {
+              try {
+                await priceHistoryService.updateProductPrice({
+                  productId,
+                  newPrice: minPriceByProductId.get(productId)!,
+                  source: PriceChangeSource.IMPORT,
+                  reason: `Auto-aktualizacja ceny bazowej na podstawie najtańszego wariantu (${wholesalerKey})`,
+                });
+                parentProductPriceUpdatesCount++;
+              } catch (err: any) {
+                errors.push(`Parent product price update error ${productId}: ${err.message}`);
+              }
+            })
+          );
         }
         if (parentProductPriceUpdatesCount > 0) {
           console.log(`Auto-updated base prices for ${parentProductPriceUpdatesCount} parent products.`);
@@ -709,6 +758,42 @@ export class FeedPriceSyncService {
       skipped,
       errors,
     };
+  }
+
+  /**
+   * Sync ALL wholesalers (leker, btp, hp, dofirmy, polzoo, hurtownia-kuchenna, hurtownia-sportowa)
+   * one after another. A failure on one wholesaler does not stop the others.
+   * This is the single entry point used by the scheduled cron job and by the
+   * manual "Sync cen" admin button — both must use the same code path so that
+   * the retail `price` field and the `purchasePrice` field never drift apart.
+   */
+  async syncAllWholesalers(options?: { limit?: number; dryRun?: boolean }): Promise<{
+    itemsProcessed: number;
+    itemsChanged: number;
+    perWholesaler: Record<string, { processed: number; matched: number; updated: number; skipped: number; errors: string[] }>;
+  }> {
+    const perWholesaler: Record<string, { processed: number; matched: number; updated: number; skipped: number; errors: string[] }> = {};
+    let itemsProcessed = 0;
+    let itemsChanged = 0;
+
+    for (const wholesalerKey of Object.keys(FEED_URLS)) {
+      try {
+        const result = await this.syncWholesaler({
+          wholesalerKey,
+          feedUrlOrPath: FEED_URLS[wholesalerKey],
+          limit: options?.limit || 0,
+          dryRun: options?.dryRun || false,
+        });
+        perWholesaler[wholesalerKey] = result;
+        itemsProcessed += result.processed;
+        itemsChanged += result.updated;
+      } catch (err: any) {
+        console.error(`[FeedPriceSyncService] Fatal error syncing ${wholesalerKey}:`, err.message);
+        perWholesaler[wholesalerKey] = { processed: 0, matched: 0, updated: 0, skipped: 0, errors: [err.message] };
+      }
+    }
+
+    return { itemsProcessed, itemsChanged, perWholesaler };
   }
 }
 

@@ -41,22 +41,29 @@ function getWholesalerKey(baselinkerProductId?: string | null, sku?: string | nu
   return key;
 }
 
-// Copy of client-side calculateClientB2bPrice from ProductDetailClient.tsx
+// Copy of client-side calculateClientB2bPrice - simplified (no reverse pricing)
 function calculateClientB2bPrice(
   storePrice: number,
   globalMultiplier: number,
   wholesalerRules?: any,
   baselinkerProductId?: string | null,
   sku?: string | null,
-  tags?: string[]
+  tags?: string[],
+  purchasePrice?: number | null
 ): number {
   console.log('[DEBUG client calculation]');
   console.log('  storePrice:', storePrice);
   console.log('  globalMultiplier:', globalMultiplier);
+  console.log('  purchasePrice:', purchasePrice);
   console.log('  baselinkerProductId:', baselinkerProductId);
   console.log('  sku:', sku);
-  console.log('  tags:', tags);
   
+  const purchasePriceNum = purchasePrice ? Number(purchasePrice) : 0;
+  if (purchasePriceNum <= 0) {
+    console.log('  No purchasePrice, returning storePrice as-is');
+    return storePrice;
+  }
+
   const whKey = getWholesalerKey(baselinkerProductId, sku, tags);
   console.log('  Resolved whKey:', whKey);
   
@@ -64,17 +71,12 @@ function calculateClientB2bPrice(
     const config = wholesalerRules[whKey];
     console.log('  Found config for whKey:', JSON.stringify(config));
     if (config && Array.isArray(config.rules) && config.rules.length > 0) {
-      const rawWholesale = storePrice / 1.35;
-      const b2bDivider = parseFloat(config.divider) || 1.0;
-      const b2bBasePrice = rawWholesale / b2bDivider;
-      console.log('  rawWholesale:', rawWholesale, 'b2bBasePrice:', b2bBasePrice);
-      
-      let b2bPrice = b2bBasePrice;
+      let b2bPrice = purchasePriceNum;
       const sortedRules = [...config.rules].sort((a, b) => a.priceFrom - b.priceFrom);
       for (const rule of sortedRules) {
         console.log(`  Checking rule: priceFrom=${rule.priceFrom}, priceTo=${rule.priceTo}, mult=${rule.multiplier}`);
-        if (b2bBasePrice >= rule.priceFrom && b2bBasePrice <= rule.priceTo) {
-          b2bPrice = b2bBasePrice * rule.multiplier + rule.addToPrice;
+        if (purchasePriceNum >= rule.priceFrom && purchasePriceNum <= rule.priceTo) {
+          b2bPrice = purchasePriceNum * rule.multiplier + rule.addToPrice;
           console.log(`  Matched rule! Calculated price before round: ${b2bPrice}`);
           break;
         }
@@ -83,9 +85,8 @@ function calculateClientB2bPrice(
     }
   }
 
-  console.log('  Fallback to globalMultiplier used!');
-  const basePrice = storePrice / 1.35;
-  const b2bPrice = basePrice * globalMultiplier;
+  console.log('  Fallback to globalMultiplier × purchasePrice');
+  const b2bPrice = purchasePriceNum * globalMultiplier;
   return Math.floor(b2bPrice) + 0.99;
 }
 

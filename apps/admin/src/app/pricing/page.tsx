@@ -18,7 +18,8 @@ type Warehouse = string;
 
 interface SyncStatus {
   source: string;
-  lastSync: { startedAt: string; completedAt: string | null; status: string; itemsProcessed: number; itemsChanged: number } | null;
+  perWholesaler: Record<string, string | null>;
+  oldestSync: string | null;
 }
 
 interface WarehouseInfo {
@@ -598,16 +599,18 @@ export default function PricingPage() {
           </div>
         )}
 
-        {syncStatus?.lastSync && (
+        {syncStatus?.perWholesaler && (
           <div className="bg-slate-900/50 rounded-lg p-4 space-y-2">
             <div className="flex items-center gap-1.5 text-xs text-slate-400">
               <Clock className="w-3 h-3" />
-              Ostatnia synchronizacja: {new Date(syncStatus.lastSync.startedAt).toLocaleDateString('pl-PL')} {new Date(syncStatus.lastSync.startedAt).toLocaleTimeString('pl-PL', { hour: '2-digit', minute: '2-digit' })}
+              Ostatnia synchronizacja cen (feed XML) per hurtownia:
             </div>
-            <div className="flex items-center gap-3 text-xs text-slate-500">
-              <span>Status: <span className={syncStatus.lastSync.status === 'SUCCESS' ? 'text-green-400' : 'text-red-400'}>{syncStatus.lastSync.status}</span></span>
-              <span>Przetworzono: {syncStatus.lastSync.itemsProcessed}</span>
-              <span>Zmieniono: {syncStatus.lastSync.itemsChanged}</span>
+            <div className="flex flex-wrap items-center gap-3 text-xs text-slate-500">
+              {Object.entries(syncStatus.perWholesaler).map(([key, ts]) => (
+                <span key={key}>
+                  {key}: {ts ? `${new Date(ts).toLocaleDateString('pl-PL')} ${new Date(ts).toLocaleTimeString('pl-PL', { hour: '2-digit', minute: '2-digit' })}` : <span className="text-red-400">nigdy</span>}
+                </span>
+              ))}
             </div>
           </div>
         )}

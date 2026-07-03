@@ -12,6 +12,7 @@ import { QUEUE_NAMES, queueConnection, getQueue } from '../lib/queue';
 import { orderStatusSyncService } from '../services/order-status-sync.service';
 import { deliveryTrackingService } from '../services/delivery-tracking.service';
 import { BaselinkerService } from '../services/baselinker.service';
+import { feedPriceSyncService } from '../services/feed-price-sync.service';
 
 interface OrderStatusSyncJobData {
   timestamp: number;
@@ -133,16 +134,24 @@ async function processStockSync(job: Job<StockSyncJobData>) {
 }
 
 /**
- * Process price synchronization from Baselinker API.
+ * Process price synchronization.
+ *
+ * IMPORTANT: Prices are NOT synced from the Baselinker API anymore (that price-group
+ * data is stale/out of sync with the wholesale `purchasePrice` we get from the XML
+ * feeds, and mixing the two corrupts retail prices - see incident 2026-07-02 where
+ * the old Baselinker sync overwrote a correctly computed DoFirmy price with a stale
+ * value, making the B2B price end up higher than the retail price for that item).
+ * This job now runs the same XML-feed-based sync used by the manual CLI script,
+ * covering all wholesalers (leker, btp, hp, dofirmy, polzoo, hurtownia-kuchenna,
+ * hurtownia-sportowa) so `price` and `purchasePrice` always come from the same source.
  */
 async function processPriceSync(job: Job) {
-  console.log(`[BaselinkerSyncWorker] Starting price sync from Baselinker API`);
+  console.log(`[BaselinkerSyncWorker] Starting price sync from wholesaler XML feeds`);
 
   try {
-    const baselinkerService = new BaselinkerService();
-    const result = await baselinkerService.runPriceSyncDirect();
+    const result = await feedPriceSyncService.syncAllWholesalers();
 
-    console.log(`[BaselinkerSyncWorker] Price sync finished: ${result.itemsProcessed} processed, ${result.itemsChanged} changed, syncLogId: ${result.syncLogId}`);
+    console.log(`[BaselinkerSyncWorker] Price sync finished: ${result.itemsProcessed} processed, ${result.itemsChanged} changed`);
 
     return result;
   } catch (error) {
@@ -216,23 +225,23 @@ export async function scheduleBaselinkerSync(): Promise<void> {
   
   console.log('✅ Baselinker stock sync scheduled (every 2 hours)');
 
-  // Add price sync job from Baselinker API - every 2 hours at :30
-  // DISABLED: We now sync prices directly from product XML feeds via sync-feed-prices script.
-  // await queue.add(
-  //   'sync-price',
-  //   {
-  //     timestamp: Date.now(),
-  //     type: 'price',
-  //   },
-  //   {
-  //     repeat: {
-  //       pattern: '30 */2 * * *', // Every 2 hours at :30
-  //     },
-  //     jobId: 'baselinker-price-sync',
-  //   }
-  // );
-  // 
-  // console.log('✅ Baselinker price sync scheduled (every 2 hours at :30)');
+  // Add price sync job - every 2 hours at :30 (offset from stock sync).
+  // Runs the XML-feed-based sync (see processPriceSync) covering all wholesalers.
+  await queue.add(
+    'sync-price',
+    {
+      timestamp: Date.now(),
+      type: 'price',
+    },
+    {
+      repeat: {
+        pattern: '30 */2 * * *', // Every 2 hours at :30
+      },
+      jobId: 'baselinker-price-sync',
+    }
+  );
+
+  console.log('✅ Price sync scheduled from wholesaler XML feeds (every 2 hours at :30)');
 }
 
 /**
