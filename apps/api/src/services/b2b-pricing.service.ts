@@ -5,10 +5,9 @@ import { wholesalerConfigService } from './wholesaler-config.service';
 /**
  * B2B Pricing Service
  * 
- * Calculates B2B prices by reversing the retail store price rules and applying the B2B wholesaler-specific rules.
+ * Calculates B2B prices directly from purchasePrice (wholesale price from feed).
+ * Formula: purchasePrice × B2B multiplier (per wholesaler) → roundTo99
  */
-
-const STORE_BASE_MULTIPLIER = 1.35;
 
 interface PriceRule {
   priceFrom: number;
@@ -16,15 +15,6 @@ interface PriceRule {
   multiplier: number;
   addToPrice: number;
 }
-
-interface RetailConfig {
-  divider: number;
-  rules: PriceRule[];
-}
-
-// In-memory cache for retail configs to avoid hitting DB constantly
-const retailConfigCache: Record<string, { data: RetailConfig; timestamp: number }> = {};
-const RETAIL_CACHE_TTL = 60_000; // 60 seconds
 
 /**
  * Round price to .99 (psychological pricing)
@@ -72,86 +62,11 @@ export async function resolveWholesalerKey(
 }
 
 /**
- * Get retail pricing configuration (rules and divider) for a wholesaler.
- */
-export async function getRetailConfig(whKey: string): Promise<RetailConfig> {
-  const cacheKey = whKey.toLowerCase();
-  const now = Date.now();
-  if (retailConfigCache[cacheKey] && now - retailConfigCache[cacheKey].timestamp < RETAIL_CACHE_TTL) {
-    return retailConfigCache[cacheKey].data;
-  }
-
-  // Load rules
-  let rules: PriceRule[] = [];
-  try {
-    const settingRules = await prisma.settings.findUnique({
-      where: { key: `price_rules_${cacheKey}` },
-    });
-    if (settingRules && settingRules.value) {
-      const parsed = typeof settingRules.value === 'string' ? JSON.parse(settingRules.value) : settingRules.value;
-      if (Array.isArray(parsed)) {
-        rules = parsed.map(r => ({
-          priceFrom: parseFloat(r.priceFrom) || 0,
-          priceTo: parseFloat(r.priceTo) || 999999,
-          multiplier: parseFloat(r.multiplier) || 1,
-          addToPrice: parseFloat(r.addToPrice) || 0,
-        })).sort((a, b) => a.priceFrom - b.priceFrom);
-      }
-    }
-  } catch (err) {
-    console.error(`[B2bPricingService] Error loading retail rules for ${whKey}:`, err);
-  }
-
-  // Load divider
-  let divider = 1;
-  try {
-    const settingDivider = await prisma.settings.findUnique({
-      where: { key: `price_divider_${cacheKey}` },
-    });
-    if (settingDivider && settingDivider.value) {
-      const val = parseFloat(settingDivider.value);
-      if (val && val > 0) {
-        divider = val;
-      }
-    }
-  } catch (err) {
-    console.error(`[B2bPricingService] Error loading retail divider for ${whKey}:`, err);
-  }
-
-  const data = { rules, divider };
-  retailConfigCache[cacheKey] = { data, timestamp: now };
-  return data;
-}
-
-/**
- * Reconstruct raw wholesale price from retail price using active rules.
- */
-export function reverseRetailPriceToWholesale(
-  retailPrice: number,
-  retailRules: PriceRule[],
-  retailDivider: number
-): number {
-  if (retailPrice <= 0) return 0;
-
-  if (retailRules && retailRules.length > 0) {
-    for (const rule of retailRules) {
-      if (rule.multiplier <= 0) continue;
-      
-      const basePrice = (retailPrice - rule.addToPrice) / rule.multiplier;
-      // Use 1.0 tolerance for boundary rounding errors
-      const tolerance = 1.0;
-      if (basePrice >= (rule.priceFrom - tolerance) && basePrice <= (rule.priceTo + tolerance)) {
-        return basePrice;
-      }
-    }
-  }
-
-  // Fallback: reverse using the standard STORE_BASE_MULTIPLIER (1.35)
-  return (retailPrice / STORE_BASE_MULTIPLIER);
-}
-
-/**
- * Calculate B2B price for product based on rules and global fallbacks
+ * Calculate B2B price for product directly from purchasePrice.
+ * Formula: purchasePrice × B2B multiplier (per wholesaler or global) → roundTo99
+ * 
+ * No reverse-engineering of retail price. If purchasePrice is missing,
+ * product cannot have B2B pricing (returns store price as-is).
  */
 export async function calculateB2bPriceForProduct(
   storePrice: number | Decimal,
@@ -164,46 +79,39 @@ export async function calculateB2bPriceForProduct(
   if (price <= 0) return 0;
 
   const purchasePriceNum = purchasePrice ? (typeof purchasePrice === 'number' ? purchasePrice : Number(purchasePrice)) : 0;
+  
+  // If no purchase price, we cannot calculate B2B price — return store price
+  if (purchasePriceNum <= 0) return price;
+
   const whKey = await resolveWholesalerKey(baselinkerProductId, sku);
   
+  // Try wholesaler-specific B2B rules
   if (whKey) {
     const rulesConfig = b2bInfo.wholesalerRules?.[whKey];
     if (rulesConfig && Array.isArray(rulesConfig.rules) && rulesConfig.rules.length > 0) {
-      // 1. Get or reverse wholesalePrice
-      let wholesalePrice = 0;
-      if (purchasePriceNum > 0) {
-        wholesalePrice = purchasePriceNum;
-      } else {
-        const retailConfig = await getRetailConfig(whKey);
-        wholesalePrice = reverseRetailPriceToWholesale(price, retailConfig.rules, retailConfig.divider);
-      }
-      
-      // 2. Apply customer's B2B divider
-      const b2bDivider = parseFloat(rulesConfig.divider) || 1;
-      const b2bBasePrice = wholesalePrice / b2bDivider;
-      
-      // 3. Find matching B2B rule
-      let b2bPrice = b2bBasePrice;
-      const sortedB2bRules = [...rulesConfig.rules].sort((a, b) => a.priceFrom - b.priceFrom);
+      // Find matching B2B rule for this purchase price range
+      let b2bPrice = purchasePriceNum;
+      const sortedB2bRules = [...rulesConfig.rules].sort((a: PriceRule, b: PriceRule) => a.priceFrom - b.priceFrom);
       for (const rule of sortedB2bRules) {
-        if (b2bBasePrice >= rule.priceFrom && b2bBasePrice <= rule.priceTo) {
-          b2bPrice = b2bBasePrice * rule.multiplier + rule.addToPrice;
+        if (purchasePriceNum >= rule.priceFrom && purchasePriceNum <= rule.priceTo) {
+          b2bPrice = purchasePriceNum * rule.multiplier + rule.addToPrice;
           break;
         }
       }
-      
-      return roundPriceTo99(b2bPrice);
+      // Safety net: B2B price must never exceed the retail price (misconfigured
+      // rules or a stale/desynced purchasePrice vs retail price must not make
+      // wholesale partners pay more than regular customers).
+      return Math.min(roundPriceTo99(b2bPrice), price);
     }
   }
 
-  // Fallback: standard global B2B multiplier calculation
-  const fallbackWholesale = purchasePriceNum > 0 ? purchasePriceNum : (price / STORE_BASE_MULTIPLIER);
-  const b2bPrice = fallbackWholesale * b2bInfo.multiplier;
-  return roundPriceTo99(b2bPrice);
+  // Fallback: global B2B multiplier × purchasePrice
+  const b2bPrice = purchasePriceNum * b2bInfo.multiplier;
+  return Math.min(roundPriceTo99(b2bPrice), price);
 }
 
 /**
- * Legacy support for direct calculation using a single multiplier (without wholesaler rules)
+ * Calculate B2B price using a single multiplier (without wholesaler rules)
  */
 export function calculateB2bPrice(
   storePrice: number | Decimal,
@@ -214,10 +122,12 @@ export function calculateB2bPrice(
   if (price <= 0 || b2bMultiplier <= 0) return 0;
 
   const purchasePriceNum = purchasePrice ? (typeof purchasePrice === 'number' ? purchasePrice : Number(purchasePrice)) : 0;
-  const basePrice = purchasePriceNum > 0 ? purchasePriceNum : (price / STORE_BASE_MULTIPLIER);
-  const b2bPrice = basePrice * b2bMultiplier;
-
-  return roundPriceTo99(b2bPrice);
+  
+  // If no purchase price, cannot calculate B2B — return store price
+  if (purchasePriceNum <= 0) return price;
+  
+  const b2bPrice = purchasePriceNum * b2bMultiplier;
+  return Math.min(roundPriceTo99(b2bPrice), price);
 }
 
 /**

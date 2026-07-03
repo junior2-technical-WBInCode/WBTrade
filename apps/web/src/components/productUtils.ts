@@ -168,40 +168,11 @@ interface PriceRule {
   addToPrice: number;
 }
 
-const WHOLESALER_RETAIL_RULES: Record<string, PriceRule[]> = {
-  hp: [
-    { priceFrom: 0, priceTo: 50, multiplier: 1.37, addToPrice: 0 },
-    { priceFrom: 50, priceTo: 300, multiplier: 1.36, addToPrice: 0 },
-    { priceFrom: 300, priceTo: 100100.01, multiplier: 1.35, addToPrice: 0 }
-  ],
-  btp: [
-    { priceFrom: 0, priceTo: 100000, multiplier: 1.35, addToPrice: 0 }
-  ],
-  leker: [
-    { priceFrom: 0, priceTo: 1000000, multiplier: 1.35, addToPrice: 0 }
-  ]
-};
-
-export function reverseRetailPriceToWholesale(retailPrice: number, whKey: string | null): number {
-  if (retailPrice <= 0) return 0;
-
-  const rules = whKey ? WHOLESALER_RETAIL_RULES[whKey.toLowerCase()] : null;
-  if (rules && rules.length > 0) {
-    for (const rule of rules) {
-      if (rule.multiplier <= 0) continue;
-      
-      const basePrice = (retailPrice - rule.addToPrice) / rule.multiplier;
-      const tolerance = 1.0;
-      if (basePrice >= (rule.priceFrom - tolerance) && basePrice <= (rule.priceTo + tolerance)) {
-        return basePrice;
-      }
-    }
-  }
-
-  // Fallback: reverse using the standard STORE_BASE_MULTIPLIER (1.35)
-  return retailPrice / 1.35;
-}
-
+/**
+ * Calculate B2B price directly from purchasePrice.
+ * Formula: purchasePrice × B2B multiplier (per wholesaler or global) → roundTo99
+ * No reverse-engineering of retail price.
+ */
 export function calculateClientB2bPrice(
   storePrice: number,
   globalMultiplier: number,
@@ -214,31 +185,32 @@ export function calculateClientB2bPrice(
   if (storePrice <= 0) return 0;
   
   const purchasePriceNum = purchasePrice ? Number(purchasePrice) : 0;
-  const whKey = getWholesalerKey(baselinkerProductId, sku, tags);
-  const rawWholesale = purchasePriceNum > 0 
-    ? purchasePriceNum 
-    : reverseRetailPriceToWholesale(storePrice, whKey);
   
+  // If no purchase price, cannot calculate B2B — return store price
+  if (purchasePriceNum <= 0) return storePrice;
+
+  const whKey = getWholesalerKey(baselinkerProductId, sku, tags);
+  
+  // Try wholesaler-specific B2B rules
   if (whKey && wholesalerRules && wholesalerRules[whKey]) {
     const config = wholesalerRules[whKey];
     if (config && Array.isArray(config.rules) && config.rules.length > 0) {
-      const b2bDivider = parseFloat(config.divider) || 1.0;
-      const b2bBasePrice = rawWholesale / b2bDivider;
-      
-      let b2bPrice = b2bBasePrice;
-      const sortedRules = [...config.rules].sort((a, b) => a.priceFrom - b.priceFrom);
+      let b2bPrice = purchasePriceNum;
+      const sortedRules = [...config.rules].sort((a: PriceRule, b: PriceRule) => a.priceFrom - b.priceFrom);
       for (const rule of sortedRules) {
-        if (b2bBasePrice >= rule.priceFrom && b2bBasePrice <= rule.priceTo) {
-          b2bPrice = b2bBasePrice * rule.multiplier + rule.addToPrice;
+        if (purchasePriceNum >= rule.priceFrom && purchasePriceNum <= rule.priceTo) {
+          b2bPrice = purchasePriceNum * rule.multiplier + rule.addToPrice;
           break;
         }
       }
-      return Math.floor(b2bPrice) + 0.99;
+      // Safety net: B2B price must never exceed the retail price shown to regular customers.
+      return Math.min(Math.floor(b2bPrice) + 0.99, storePrice);
     }
   }
 
-  const b2bPrice = rawWholesale * globalMultiplier;
-  return Math.floor(b2bPrice) + 0.99;
+  // Fallback: global B2B multiplier × purchasePrice
+  const b2bPrice = purchasePriceNum * globalMultiplier;
+  return Math.min(Math.floor(b2bPrice) + 0.99, storePrice);
 }
 
 const CITY_LOCATIVE_MAP: Record<string, string> = {

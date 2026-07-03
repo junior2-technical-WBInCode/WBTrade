@@ -9,7 +9,13 @@ router.use(authGuard, adminOnly);
 
 /**
  * POST /api/admin/sync/prices
- * Ręczne uruchomienie synchronizacji cen z Baselinker API
+ * Ręczne uruchomienie synchronizacji cen ze wszystkich feedów XML hurtowni
+ * (leker, btp, hp, dofirmy, polzoo, hurtownia-kuchenna, hurtownia-sportowa).
+ *
+ * UWAGA: Ten endpoint NIE synchronizuje już cen z Baselinker API (price_groups) -
+ * ten mechanizm był rozjechany z `purchasePrice` pochodzącym z feedów XML i jego
+ * uruchomienie nadpisywało poprawne ceny detaliczne nieaktualnymi danymi
+ * (zob. incydent z 2026-07-02 dla produktów DoFirmy).
  */
 router.post('/prices', async (req, res) => {
   try {
@@ -21,9 +27,8 @@ router.post('/prices', async (req, res) => {
     // Fallback: run sync directly in-process if BullMQ / Redis unavailable
     console.warn('[AdminSync] BullMQ unavailable, running price sync directly');
     try {
-      const { BaselinkerService } = await import('../services/baselinker.service');
-      const baselinkerService = new BaselinkerService();
-      const result = await baselinkerService.runPriceSyncDirect();
+      const { feedPriceSyncService } = await import('../services/feed-price-sync.service');
+      const result = await feedPriceSyncService.syncAllWholesalers();
       return res.json({ success: true, status: 'completed', result });
     } catch (syncErr) {
       const msg = syncErr instanceof Error ? syncErr.message : String(syncErr);
@@ -35,19 +40,29 @@ router.post('/prices', async (req, res) => {
 
 /**
  * GET /api/admin/sync/prices/status
- * Zwraca datę ostatniej synchronizacji cen z Baselinker
+ * Zwraca datę ostatniej synchronizacji cen dla każdej hurtowni (feed XML).
  */
 router.get('/prices/status', async (_req, res) => {
   try {
-    const lastSync = await prisma.baselinkerSyncLog.findFirst({
-      where: { type: 'PRICE' },
-      orderBy: { startedAt: 'desc' },
-      select: { startedAt: true, completedAt: true, status: true, itemsProcessed: true, itemsChanged: true },
+    const keys = ['leker', 'btp', 'hp', 'dofirmy', 'polzoo', 'hurtownia-kuchenna', 'hurtownia-sportowa'];
+    const settings = await prisma.settings.findMany({
+      where: { key: { in: keys.map((k) => `last_sync_${k}_xml`) } },
     });
 
+    const perWholesaler: Record<string, string | null> = {};
+    for (const k of keys) {
+      const s = settings.find((s) => s.key === `last_sync_${k}_xml`);
+      perWholesaler[k] = s?.value || null;
+    }
+
+    const timestamps = Object.values(perWholesaler).filter(Boolean) as string[];
+    const oldestSync = timestamps.length > 0 ? timestamps.sort()[0] : null;
+
     return res.json({
-      source: 'baselinker-api',
-      lastSync: lastSync || null,
+      source: 'wholesaler-xml-feeds',
+      perWholesaler,
+      // Oldest of the per-wholesaler timestamps - useful to flag "sync is overdue"
+      oldestSync,
     });
   } catch (err) {
     const msg = err instanceof Error ? err.message : String(err);
