@@ -8,11 +8,27 @@
  */
 
 import { Worker, Job } from 'bullmq';
+import { fork } from 'child_process';
+import * as fs from 'fs';
+import * as path from 'path';
 import { QUEUE_NAMES, queueConnection, getQueue } from '../lib/queue';
 import { orderStatusSyncService } from '../services/order-status-sync.service';
 import { deliveryTrackingService } from '../services/delivery-tracking.service';
 import { BaselinkerService } from '../services/baselinker.service';
-import { feedPriceSyncService } from '../services/feed-price-sync.service';
+import { feedPriceSyncService, FEED_URLS } from '../services/feed-price-sync.service';
+
+// The XML feed price sync downloads and fully parses several large XML files
+// (30-60 MB each) plus loads tens of thousands of DB rows into memory per
+// wholesaler. Doing this in-process repeatedly was causing the whole API to be
+// OOM-killed by Render (2026-07 incident: crash loop every ~5-7 minutes).
+// To fix this without rewriting the parsing logic, each wholesaler is now synced
+// in its own short-lived child process with a capped V8 heap. If a wholesaler's
+// feed is huge enough to OOM, only that disposable child process dies - the main
+// API process (and Redis/BullMQ connections) stay alive. This is slower (Node +
+// Prisma client boot per wholesaler) but much more resilient.
+const PRICE_SYNC_CHILD_SCRIPT = path.join(__dirname, '..', 'scripts', 'sync-feed-prices.js');
+const PRICE_SYNC_CHILD_MAX_OLD_SPACE_MB = 768; // keep well under Render's instance memory limit
+const PRICE_SYNC_CHILD_TIMEOUT_MS = 5 * 60 * 1000; // 5 minutes per wholesaler
 
 interface OrderStatusSyncJobData {
   timestamp: number;
@@ -148,16 +164,88 @@ async function processStockSync(job: Job<StockSyncJobData>) {
 async function processPriceSync(job: Job) {
   console.log(`[BaselinkerSyncWorker] Starting price sync from wholesaler XML feeds`);
 
-  try {
-    const result = await feedPriceSyncService.syncAllWholesalers();
+  const wholesalers = Object.keys(FEED_URLS);
+  const results: Record<string, { success: boolean; error?: string }> = {};
 
-    console.log(`[BaselinkerSyncWorker] Price sync finished: ${result.itemsProcessed} processed, ${result.itemsChanged} changed`);
+  // Only use the isolated child-process path when the compiled script exists
+  // (i.e. in production, `node dist/app.js`). In local dev (ts-node-dev running
+  // src directly) dist/ may not be built yet, so fall back to the old in-process
+  // behavior - dev machines aren't the ones hitting Render's memory limit.
+  const useChildProcess = fs.existsSync(PRICE_SYNC_CHILD_SCRIPT);
 
-    return result;
-  } catch (error) {
-    console.error('[BaselinkerSyncWorker] Price sync failed:', error);
-    throw error;
+  if (!useChildProcess) {
+    console.warn('[BaselinkerSyncWorker] Compiled sync-feed-prices.js not found, running price sync in-process (dev fallback)');
+    try {
+      const result = await feedPriceSyncService.syncAllWholesalers();
+      console.log(`[BaselinkerSyncWorker] Price sync finished: ${result.itemsProcessed} processed, ${result.itemsChanged} changed`);
+      return result;
+    } catch (error) {
+      console.error('[BaselinkerSyncWorker] Price sync failed:', error);
+      throw error;
+    }
   }
+
+  for (const key of wholesalers) {
+    console.log(`[BaselinkerSyncWorker] Spawning isolated process for wholesaler: ${key}`);
+    const result = await runWholesalerPriceSyncInChildProcess(key);
+    results[key] = result;
+    if (result.success) {
+      console.log(`[BaselinkerSyncWorker] Price sync for "${key}" completed successfully`);
+    } else {
+      console.error(`[BaselinkerSyncWorker] Price sync for "${key}" failed: ${result.error}`);
+    }
+  }
+
+  const failedWholesalers = Object.entries(results).filter(([, r]) => !r.success).map(([key]) => key);
+  console.log(`[BaselinkerSyncWorker] Price sync finished: ${wholesalers.length - failedWholesalers.length}/${wholesalers.length} wholesalers synced successfully`);
+  if (failedWholesalers.length > 0) {
+    console.warn(`[BaselinkerSyncWorker] Failed wholesalers: ${failedWholesalers.join(', ')}`);
+  }
+
+  return { wholesalers: results };
+}
+
+/**
+ * Runs the price sync for a single wholesaler in its own child process with a
+ * capped V8 heap, so a large XML feed can't OOM-kill the main API process.
+ * The child process reuses the exact same sync-feed-prices.ts CLI script/logic
+ * (compiled to dist/scripts/sync-feed-prices.js) - no parsing behavior changes.
+ */
+function runWholesalerPriceSyncInChildProcess(wholesalerKey: string): Promise<{ success: boolean; error?: string }> {
+  return new Promise((resolve) => {
+    const child = fork(PRICE_SYNC_CHILD_SCRIPT, ['--wholesaler', wholesalerKey], {
+      execArgv: [`--max-old-space-size=${PRICE_SYNC_CHILD_MAX_OLD_SPACE_MB}`],
+      env: process.env,
+      silent: false, // inherit stdout/stderr so logs still show up in Render's log stream
+    });
+
+    let settled = false;
+    const timeout = setTimeout(() => {
+      if (settled) return;
+      settled = true;
+      console.error(`[BaselinkerSyncWorker] Price sync child for "${wholesalerKey}" timed out after ${PRICE_SYNC_CHILD_TIMEOUT_MS / 1000}s, killing it`);
+      child.kill('SIGKILL');
+      resolve({ success: false, error: 'timeout' });
+    }, PRICE_SYNC_CHILD_TIMEOUT_MS);
+
+    child.on('exit', (code, signal) => {
+      if (settled) return;
+      settled = true;
+      clearTimeout(timeout);
+      if (code === 0) {
+        resolve({ success: true });
+      } else {
+        resolve({ success: false, error: `exit code ${code}${signal ? `, signal ${signal}` : ''}` });
+      }
+    });
+
+    child.on('error', (err) => {
+      if (settled) return;
+      settled = true;
+      clearTimeout(timeout);
+      resolve({ success: false, error: err.message });
+    });
+  });
 }
 
 /**
