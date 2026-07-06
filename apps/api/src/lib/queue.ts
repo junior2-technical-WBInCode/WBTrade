@@ -4,6 +4,7 @@
  */
 
 import { Queue, Worker, Job, QueueEvents } from 'bullmq';
+import IORedis from 'ioredis';
 
 // Queue names
 export const QUEUE_NAMES = {
@@ -20,38 +21,67 @@ export const QUEUE_NAMES = {
 
 export type QueueName = (typeof QUEUE_NAMES)[keyof typeof QUEUE_NAMES];
 
-// Redis connection for BullMQ
-// Parse REDIS_URL or fall back to individual env vars or localhost
-function getRedisConnection() {
+// Redis connection for BullMQ.
+//
+// IMPORTANT (2026-07 OOM incident fix): previously this returned a plain options
+// object, which BullMQ turns into a *brand new* ioredis connection every time it's
+// handed to `new Queue()` / `new Worker()` / `new QueueEvents()`. With 9 queues and
+// 7 workers (each worker also opens its own internal blocking connection), that
+// added up to 25-30+ separate TCP/TLS connections to Upstash Redis. Combined with
+// `enableOfflineQueue: false` (which makes blocking commands like BZPOPMIN throw
+// immediately instead of waiting during a reconnect), any transient Upstash
+// hiccup caused ALL workers to hit tight, back-off-free error loops simultaneously
+// ("Stream isn't writeable and enableOfflineQueue options is false") - this was
+// spinning the event loop and leaking memory independently of any specific sync
+// job, which is why isolating price/stock sync alone didn't stop the OOM crashes.
+//
+// Fix: share a single ioredis connection instance across all queues/queue-events
+// (BullMQ reuses an ioredis instance as-is instead of creating a new one), and
+// allow offline queueing so blocking commands wait/retry gracefully instead of
+// failing synchronously. Workers still open one extra internal "blocking" duplicate
+// connection each (required by BullMQ for BRPOPLPUSH/BZPOPMIN) - that's unavoidable,
+// but this cuts total connections roughly in half and removes the fail-fast loop.
+function createSharedQueueConnection(): IORedis {
   const redisUrl = process.env.REDIS_URL;
-  
+
+  const baseOptions = {
+    maxRetriesPerRequest: null as null, // Required by BullMQ
+    enableOfflineQueue: true, // Let commands (incl. blocking ones) wait during reconnects instead of throwing
+    retryStrategy(times: number) {
+      // Reconnect with capped exponential backoff instead of hammering Redis
+      return Math.min(times * 200, 5000);
+    },
+  };
+
   if (redisUrl) {
     try {
       const url = new URL(redisUrl);
-      return {
+      return new IORedis({
         host: url.hostname,
         port: parseInt(url.port) || 6379,
         password: url.password || undefined,
         tls: url.protocol === 'rediss:' ? {} : undefined, // Enable TLS for rediss://
-        maxRetriesPerRequest: null, // Required by BullMQ
-        enableOfflineQueue: false,  // Fail fast when Redis unavailable
-      };
+        ...baseOptions,
+      });
     } catch (error) {
       console.error('❌ Failed to parse REDIS_URL:', error);
     }
   }
-  
+
   // Fallback to individual env vars or localhost
-  return {
+  return new IORedis({
     host: process.env.REDIS_HOST || 'localhost',
     port: parseInt(process.env.REDIS_PORT || '6379'),
     password: process.env.REDIS_PASSWORD || undefined,
-    maxRetriesPerRequest: null, // Required by BullMQ
-    enableOfflineQueue: false,
-  };
+    ...baseOptions,
+  });
 }
 
-export const queueConnection = getRedisConnection();
+export const queueConnection = createSharedQueueConnection();
+
+queueConnection.on('error', (err) => {
+  console.error('❌ BullMQ shared Redis connection error:', err.message);
+});
 
 // Queue instances
 const queues: Map<string, Queue> = new Map();
