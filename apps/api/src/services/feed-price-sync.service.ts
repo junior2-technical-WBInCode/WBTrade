@@ -102,10 +102,19 @@ export class FeedPriceSyncService {
 
   /**
    * Fetches the XML feed content from URL or local file (for testing)
+   *
+   * IMPORTANT (2026-07 OOM incident): `response.text()` buffers the *entire*
+   * response body into memory with no size limit, using Buffer/ArrayBuffer
+   * allocations that live OUTSIDE the V8 heap - so `--max-old-space-size` on the
+   * child process does NOT protect against a runaway or unexpectedly huge feed
+   * here. All known feeds are 3-62 MB, so we stream the download with a hard
+   * cap well above that (150 MB) and abort early if a feed is oversized/hanging,
+   * instead of silently ballooning RSS until the container gets OOM-killed.
    */
   private async getFeedContent(urlOrPath: string): Promise<string> {
     if (urlOrPath.startsWith('http://') || urlOrPath.startsWith('https://')) {
       console.log(`Downloading feed from: ${urlOrPath}`);
+      const MAX_FEED_BYTES = 150 * 1024 * 1024; // 150 MB hard cap (largest known feed is ~62 MB)
       const controller = new AbortController();
       const timeout = setTimeout(() => controller.abort(), 5 * 60 * 1000); // 5 min timeout
       try {
@@ -113,7 +122,33 @@ export class FeedPriceSyncService {
         if (!response.ok) {
           throw new Error(`Failed to download feed. Status: ${response.status} ${response.statusText}`);
         }
-        return await response.text();
+
+        const contentLength = response.headers.get('content-length');
+        if (contentLength && parseInt(contentLength, 10) > MAX_FEED_BYTES) {
+          throw new Error(`Feed too large (Content-Length: ${(parseInt(contentLength, 10) / 1024 / 1024).toFixed(1)} MB, max ${MAX_FEED_BYTES / 1024 / 1024} MB): ${urlOrPath}`);
+        }
+
+        if (!response.body) {
+          // No streaming body available (shouldn't happen with fetch) - fall back, still capped by content-length check above
+          return await response.text();
+        }
+
+        const reader = response.body.getReader();
+        const chunks: Uint8Array[] = [];
+        let totalBytes = 0;
+        for (;;) {
+          const { done, value } = await reader.read();
+          if (done) break;
+          if (value) {
+            totalBytes += value.byteLength;
+            if (totalBytes > MAX_FEED_BYTES) {
+              await reader.cancel();
+              throw new Error(`Feed exceeded ${MAX_FEED_BYTES / 1024 / 1024} MB while streaming (aborted): ${urlOrPath}`);
+            }
+            chunks.push(value);
+          }
+        }
+        return Buffer.concat(chunks.map(c => Buffer.from(c))).toString('utf-8');
       } finally {
         clearTimeout(timeout);
       }
