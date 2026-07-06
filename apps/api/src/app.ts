@@ -1090,6 +1090,19 @@ app.listen(PORT, async () => {
   console.log(`🚀 Server is running on http://localhost:${PORT}`);
   console.log(`📦 Environment: ${process.env.NODE_ENV || 'development'}`);
 
+  // Memory diagnostics: repeated OOM crashes (2026-07) have survived 3 targeted
+  // fixes (price-sync isolation, stock-sync isolation, shared Redis connection)
+  // without stopping. Log real memory numbers every 30s + on every heavy step
+  // below so the NEXT crash's logs actually tell us what was using memory,
+  // instead of guessing again.
+  const logMemoryUsage = (label: string) => {
+    const m = process.memoryUsage();
+    const mb = (n: number) => Math.round(n / 1024 / 1024);
+    console.log(`[MemoryDiag] ${label}: rss=${mb(m.rss)}MB heapUsed=${mb(m.heapUsed)}MB heapTotal=${mb(m.heapTotal)}MB external=${mb(m.external)}MB arrayBuffers=${mb(m.arrayBuffers)}MB`);
+  };
+  logMemoryUsage('server listening');
+  setInterval(() => logMemoryUsage('periodic'), 30 * 1000);
+
   // Preload wholesaler config cache so transformProduct has data
   try {
     const { wholesalerConfigService } = await import('./services/wholesaler-config.service');
@@ -1134,9 +1147,12 @@ app.listen(PORT, async () => {
     console.warn('⚠️  Application will continue but Redis-dependent features disabled');
   }
   
+  logMemoryUsage('after Redis init');
+
   // Initialize Meilisearch
   await initializeMeilisearch();
-  
+  logMemoryUsage('after Meilisearch init');
+
   // Auto-reindex if Meilisearch index is empty (e.g. after Render redeploy)
   if (isMeilisearchAvailable()) {
     try {
@@ -1325,6 +1341,7 @@ app.listen(PORT, async () => {
     console.log('✅ Delivery delay detection scheduled (every 6 hours)');
 
     console.log('✅ All cron jobs started');
+    logMemoryUsage('after all cron jobs started');
   } catch (error) {
     console.error('⚠️  Failed to start cron jobs:', error);
     console.warn('⚠️  Application will continue but background sync may not run');
