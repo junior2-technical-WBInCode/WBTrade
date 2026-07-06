@@ -30,6 +30,16 @@ const PRICE_SYNC_CHILD_SCRIPT = path.join(__dirname, '..', 'scripts', 'sync-feed
 const PRICE_SYNC_CHILD_MAX_OLD_SPACE_MB = 768; // keep well under Render's instance memory limit
 const PRICE_SYNC_CHILD_TIMEOUT_MS = 5 * 60 * 1000; // 5 minutes per wholesaler
 
+// Same isolation applied to stock sync: it also bulk-loads products/variants/orders
+// and calls the Baselinker API for potentially thousands of stock entries per
+// inventory, and (like price sync) can be immediately redelivered as a "stalled"
+// BullMQ job the moment the worker restarts after a crash - regardless of its
+// cron schedule. Running it in a capped child process prevents that redelivery
+// from OOM-killing the main API process again.
+const STOCK_SYNC_CHILD_SCRIPT = path.join(__dirname, '..', 'scripts', 'sync-stock.js');
+const STOCK_SYNC_CHILD_MAX_OLD_SPACE_MB = 768;
+const STOCK_SYNC_CHILD_TIMEOUT_MS = 8 * 60 * 1000; // 8 minutes, stock sync covers all inventories at once
+
 interface OrderStatusSyncJobData {
   timestamp: number;
   hoursBack?: number;
@@ -133,20 +143,33 @@ async function processDeliveryTracking(job: Job) {
  */
 async function processStockSync(job: Job<StockSyncJobData>) {
   console.log(`[BaselinkerSyncWorker] Starting stock sync from Baselinker`);
-  
-  try {
-    const baselinkerService = new BaselinkerService();
-    
-    // Run stock sync directly (awaited) — ensures log is properly updated
-    const result = await baselinkerService.runStockSyncDirect();
-    
-    console.log(`[BaselinkerSyncWorker] Stock sync finished: ${result.itemsProcessed} processed, ${result.itemsChanged} changed, syncLogId: ${result.syncLogId}`);
-    
-    return result;
-  } catch (error) {
-    console.error('[BaselinkerSyncWorker] Stock sync failed:', error);
-    throw error;
+
+  const useChildProcess = fs.existsSync(STOCK_SYNC_CHILD_SCRIPT);
+
+  if (!useChildProcess) {
+    console.warn('[BaselinkerSyncWorker] Compiled sync-stock.js not found, running stock sync in-process (dev fallback)');
+    try {
+      const baselinkerService = new BaselinkerService();
+      const result = await baselinkerService.runStockSyncDirect();
+      console.log(`[BaselinkerSyncWorker] Stock sync finished: ${result.itemsProcessed} processed, ${result.itemsChanged} changed, syncLogId: ${result.syncLogId}`);
+      return result;
+    } catch (error) {
+      console.error('[BaselinkerSyncWorker] Stock sync failed:', error);
+      throw error;
+    }
   }
+
+  console.log('[BaselinkerSyncWorker] Spawning isolated process for stock sync');
+  const result = await runScriptInChildProcess(STOCK_SYNC_CHILD_SCRIPT, [], STOCK_SYNC_CHILD_MAX_OLD_SPACE_MB, STOCK_SYNC_CHILD_TIMEOUT_MS);
+
+  if (result.success) {
+    console.log('[BaselinkerSyncWorker] Stock sync completed successfully');
+  } else {
+    console.error(`[BaselinkerSyncWorker] Stock sync failed: ${result.error}`);
+    throw new Error(`Stock sync child process failed: ${result.error}`);
+  }
+
+  return result;
 }
 
 /**
@@ -187,7 +210,7 @@ async function processPriceSync(job: Job) {
 
   for (const key of wholesalers) {
     console.log(`[BaselinkerSyncWorker] Spawning isolated process for wholesaler: ${key}`);
-    const result = await runWholesalerPriceSyncInChildProcess(key);
+    const result = await runScriptInChildProcess(PRICE_SYNC_CHILD_SCRIPT, ['--wholesaler', key], PRICE_SYNC_CHILD_MAX_OLD_SPACE_MB, PRICE_SYNC_CHILD_TIMEOUT_MS);
     results[key] = result;
     if (result.success) {
       console.log(`[BaselinkerSyncWorker] Price sync for "${key}" completed successfully`);
@@ -206,15 +229,19 @@ async function processPriceSync(job: Job) {
 }
 
 /**
- * Runs the price sync for a single wholesaler in its own child process with a
- * capped V8 heap, so a large XML feed can't OOM-kill the main API process.
- * The child process reuses the exact same sync-feed-prices.ts CLI script/logic
- * (compiled to dist/scripts/sync-feed-prices.js) - no parsing behavior changes.
+ * Runs a compiled script in its own child process with a capped V8 heap, so a
+ * memory-heavy job (large XML feed parsing, bulk DB/API loads) can't OOM-kill
+ * the main API process. Used by both price sync (per-wholesaler) and stock sync.
  */
-function runWholesalerPriceSyncInChildProcess(wholesalerKey: string): Promise<{ success: boolean; error?: string }> {
+function runScriptInChildProcess(
+  scriptPath: string,
+  args: string[],
+  maxOldSpaceMb: number,
+  timeoutMs: number
+): Promise<{ success: boolean; error?: string }> {
   return new Promise((resolve) => {
-    const child = fork(PRICE_SYNC_CHILD_SCRIPT, ['--wholesaler', wholesalerKey], {
-      execArgv: [`--max-old-space-size=${PRICE_SYNC_CHILD_MAX_OLD_SPACE_MB}`],
+    const child = fork(scriptPath, args, {
+      execArgv: [`--max-old-space-size=${maxOldSpaceMb}`],
       env: process.env,
       silent: false, // inherit stdout/stderr so logs still show up in Render's log stream
     });
@@ -223,10 +250,10 @@ function runWholesalerPriceSyncInChildProcess(wholesalerKey: string): Promise<{ 
     const timeout = setTimeout(() => {
       if (settled) return;
       settled = true;
-      console.error(`[BaselinkerSyncWorker] Price sync child for "${wholesalerKey}" timed out after ${PRICE_SYNC_CHILD_TIMEOUT_MS / 1000}s, killing it`);
+      console.error(`[BaselinkerSyncWorker] Child process for "${scriptPath}" timed out after ${timeoutMs / 1000}s, killing it`);
       child.kill('SIGKILL');
       resolve({ success: false, error: 'timeout' });
-    }, PRICE_SYNC_CHILD_TIMEOUT_MS);
+    }, timeoutMs);
 
     child.on('exit', (code, signal) => {
       if (settled) return;
