@@ -66,6 +66,7 @@ import wholesalersRoutes from './routes/wholesalers';
 import b2bRoutes from './routes/b2b';
 import b2bLabelsRoutes from './routes/b2b-labels';
 import adminB2bRoutes from './routes/admin-b2b';
+import adminManualOrdersRoutes from './routes/admin-manual-orders';
 import adminInvoicesRoutes from './routes/admin-invoices';
 import manufacturersRoutes from './routes/manufacturers';
 import referralsRoutes from './routes/referrals';
@@ -1062,6 +1063,7 @@ app.use('/api/wholesalers', wholesalersRoutes); // Public wholesaler config
 app.use('/api/b2b', b2bRoutes); // B2B cooperation (apply, status)
 app.use('/api/b2b-labels', b2bLabelsRoutes); // B2B shipping label upload/download
 app.use('/api/admin/b2b', adminB2bRoutes); // Admin B2B management
+app.use('/api/admin/manual-orders', adminManualOrdersRoutes); // Admin manual B2B order creation
 app.use('/api/admin/invoices', adminInvoicesRoutes); // Admin invoices from Fakturownia
 app.use('/api/referrals', referralsRoutes); // Referral/Affiliate program
 app.use('/api/admin/partners', adminPartnersRoutes); // Admin partner/referral management

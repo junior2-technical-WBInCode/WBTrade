@@ -7,7 +7,7 @@ import {
   ShoppingCart, Search, Filter, Eye, ChevronLeft, ChevronRight, 
   Truck, FileText, Package, Calendar, RefreshCw, Download,
   MoreVertical, X, Ban, RotateCcw, AlertTriangle, Trash2, Archive,
-  MessageSquare, Printer
+  MessageSquare, Printer, Plus
 } from 'lucide-react';
 import Link from 'next/link';
 import ConfirmModal from '@/components/ConfirmModal';
@@ -428,6 +428,13 @@ export default function OrdersPage() {
           <p className="text-gray-400">Zarządzaj zamówieniami klientów • {total} zamówień</p>
         </div>
         <div className="flex items-center gap-3">
+          <Link
+            href="/orders/manual"
+            className="flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-500 rounded-lg text-white font-medium transition-colors"
+          >
+            <Plus className="w-4 h-4" />
+            Nowe zamówienie B2B
+          </Link>
           <button
             onClick={loadOrders}
             className="flex items-center gap-2 px-4 py-2 bg-slate-800 border border-slate-700 rounded-lg text-gray-300 hover:bg-slate-700 transition-colors"
