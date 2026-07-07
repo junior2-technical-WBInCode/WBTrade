@@ -27,6 +27,11 @@ interface Category {
   slug: string;
 }
 
+interface ShippingMethod {
+  id: string;
+  name: string;
+}
+
 interface Address {
   id: string;
   firstName: string;
@@ -69,16 +74,6 @@ interface CartLine {
 }
 
 // Static method options (identifiers match the Baselinker mapper).
-const SHIPPING_METHODS = [
-  { id: 'dpd', label: 'Kurier DPD' },
-  { id: 'inpost_kurier', label: 'Kurier InPost' },
-  { id: 'inpost_paczkomat', label: 'InPost Paczkomat' },
-  { id: 'dhl', label: 'Kurier DHL' },
-  { id: 'pocztex', label: 'Pocztex' },
-  { id: 'orlen_paczka', label: 'Orlen Paczka' },
-  { id: 'pickup', label: 'Odbiór osobisty' },
-];
-
 const PAYMENT_METHODS = [
   { id: 'transfer', label: 'Przelew bankowy' },
   { id: 'payu', label: 'PayU' },
@@ -99,6 +94,7 @@ export default function ManualOrderPage() {
   const [partners, setPartners] = useState<Partner[]>([]);
   const [workingCategory, setWorkingCategory] = useState<Category | null>(null);
   const [categories, setCategories] = useState<Category[]>([]);
+  const [shippingMethods, setShippingMethods] = useState<ShippingMethod[]>([]);
   const [showSettings, setShowSettings] = useState(false);
   const [savingCategory, setSavingCategory] = useState(false);
 
@@ -107,7 +103,7 @@ export default function ManualOrderPage() {
   const [addresses, setAddresses] = useState<Address[]>([]);
   const [shippingAddressId, setShippingAddressId] = useState('');
   const [billingAddressId, setBillingAddressId] = useState('');
-  const [shippingMethod, setShippingMethod] = useState(SHIPPING_METHODS[0].id);
+  const [shippingMethod, setShippingMethod] = useState('');
   const [shippingCost, setShippingCost] = useState('0');
   const [paymentMethod, setPaymentMethod] = useState(PAYMENT_METHODS[0].id);
   const [markAsPaid, setMarkAsPaid] = useState(false);
@@ -127,10 +123,12 @@ export default function ManualOrderPage() {
   useEffect(() => {
     if (!token) return;
     apiJson
-      .get<{ workingCategory: Category | null; partners: Partner[] }>('/admin/manual-orders/config', token)
+      .get<{ workingCategory: Category | null; partners: Partner[]; shippingMethods: ShippingMethod[] }>('/admin/manual-orders/config', token)
       .then((data) => {
         setPartners(data.partners);
         setWorkingCategory(data.workingCategory);
+        setShippingMethods(data.shippingMethods || []);
+        if (data.shippingMethods?.length) setShippingMethod(data.shippingMethods[0].id);
       })
       .catch((e) => setError(e.message));
     apiJson
@@ -241,6 +239,7 @@ export default function ManualOrderPage() {
     if (!token) return;
     if (!partnerId) return setError('Wybierz partnera B2B.');
     if (!shippingAddressId) return setError('Wybierz adres dostawy.');
+    if (!shippingMethod) return setError('Wybierz metodę dostawy.');
     if (cart.length === 0) return setError('Dodaj co najmniej jeden produkt.');
 
     setSubmitting(true);
@@ -406,8 +405,8 @@ export default function ManualOrderPage() {
               onChange={(e) => setShippingMethod(e.target.value)}
               className="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-white"
             >
-              {SHIPPING_METHODS.map((m) => (
-                <option key={m.id} value={m.id}>{m.label}</option>
+              {shippingMethods.map((m) => (
+                <option key={m.id} value={m.id}>{m.name}</option>
               ))}
             </select>
             <label className="block text-xs text-gray-400">Koszt dostawy (PLN)</label>
