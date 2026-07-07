@@ -97,6 +97,10 @@ interface CreateOrderData {
   // Such orders are excluded from affiliate attribution when the admin
   // protection toggle (sales_rep_config.blockAffiliation) is enabled.
   isSalesRepOrder?: boolean;
+  // When true, the automatic "unpaid" Baselinker sync is skipped at creation.
+  // Used when the caller intends to immediately mark the order as paid, so the
+  // order is synced only once (with paid status) instead of racing two syncs.
+  skipBaselinkerSync?: boolean;
 }
 
 interface GetAllOrdersParams {
@@ -411,19 +415,22 @@ export class OrdersService {
 
     // Sync order to Baselinker immediately with "Nieopłacone" status
     // This is done outside transaction to not block order creation, and after transaction commits to avoid race conditions.
-    setTimeout(() => {
-      baselinkerOrdersService.syncOrderToBaselinker(order.id, { skipPaymentCheck: true })
-        .then((syncResult) => {
-          if (syncResult.success) {
-            console.log(`[OrdersService] Order ${order.orderNumber} synced to Baselinker as unpaid (BL ID: ${syncResult.baselinkerOrderId})`);
-          } else {
-            console.error(`[OrdersService] Failed to sync order ${order.orderNumber} to Baselinker:`, syncResult.error);
-          }
-        })
-        .catch((err) => {
-          console.error(`[OrdersService] Baselinker sync error for order ${order.orderNumber}:`, err);
-        });
-    }, 100);
+    // Skipped when the caller will immediately mark the order as paid (single paid-sync instead).
+    if (!data.skipBaselinkerSync) {
+      setTimeout(() => {
+        baselinkerOrdersService.syncOrderToBaselinker(order.id, { skipPaymentCheck: true })
+          .then((syncResult) => {
+            if (syncResult.success) {
+              console.log(`[OrdersService] Order ${order.orderNumber} synced to Baselinker as unpaid (BL ID: ${syncResult.baselinkerOrderId})`);
+            } else {
+              console.error(`[OrdersService] Failed to sync order ${order.orderNumber} to Baselinker:`, syncResult.error);
+            }
+          })
+          .catch((err) => {
+            console.error(`[OrdersService] Baselinker sync error for order ${order.orderNumber}:`, err);
+          });
+      }, 100);
+    }
 
     return order;
   }
@@ -1190,6 +1197,33 @@ export class OrdersService {
    * Changes order status from OPEN/PENDING to CONFIRMED and payment status to PAID
    */
   async simulatePayment(id: string) {
+    return this.applyPaidStatus(
+      id,
+      '[DEV] Płatność zasymulowana - zamówienie opłacone',
+      'Zamówienie nie jest otwarte - nie można symulować płatności'
+    );
+  }
+
+  /**
+   * Mark an order as paid manually (admin action).
+   * Same effects as a real payment confirmation: sets status CONFIRMED + PAID,
+   * updates Baselinker status to "Nowe zamówienia", marks commissions paid,
+   * and updates popularity counters.
+   */
+  async markAsPaid(id: string) {
+    return this.applyPaidStatus(
+      id,
+      'Płatność oznaczona ręcznie przez administratora',
+      'Zamówienie nie jest otwarte - nie można oznaczyć jako opłacone'
+    );
+  }
+
+  /**
+   * Shared implementation used by simulatePayment (dev) and markAsPaid (admin).
+   * Transitions an OPEN/PENDING order to CONFIRMED + PAID and runs all the
+   * post-payment side effects (Baselinker status, commissions, popularity).
+   */
+  private async applyPaidStatus(id: string, historyNote: string, notOpenError: string) {
     const updatedOrder = await prisma.$transaction(async (tx) => {
       const order = await tx.order.findUnique({
         where: { id },
@@ -1198,9 +1232,9 @@ export class OrdersService {
 
       if (!order) return null;
 
-      // Allow simulation for both OPEN (new) and PENDING (legacy) statuses
+      // Allow transition for both OPEN (new) and PENDING (legacy) statuses
       if (order.status !== 'OPEN' && order.status !== 'PENDING') {
-        throw new Error('Zamówienie nie jest otwarte - nie można symulować płatności');
+        throw new Error(notOpenError);
       }
 
       // Update order status to CONFIRMED and payment status to PAID
@@ -1223,25 +1257,25 @@ export class OrdersService {
         data: {
           orderId: id,
           status: 'CONFIRMED',
-          note: '[DEV] Płatność zasymulowana - zamówienie opłacone',
+          note: historyNote,
         },
       });
 
-      console.log(`[DEV] Payment simulated for order ${order.orderNumber}`);
+      console.log(`[Orders] Payment confirmed for order ${order.orderNumber}`);
 
       return updated;
     });
 
-    // After successful payment simulation, sync to Baselinker
+    // After successful payment, sync to Baselinker
     if (updatedOrder) {
-      console.log(`[DEV] Triggering Baselinker status update for simulated payment, order ${id}`);
+      console.log(`[Orders] Triggering Baselinker status update for paid order ${id}`);
       
       // Mark referral as paid (beginhold)
       referralService.markPaid(id).catch((err) => {
-        console.error(`[DEV] Error marking referral as paid for order ${id}:`, err);
+        console.error(`[Orders] Error marking referral as paid for order ${id}:`, err);
       });
       salesRepService.markPaid(id).catch((err) => {
-        console.error(`[DEV] Error marking sales-rep commission as paid for order ${id}:`, err);
+        console.error(`[Orders] Error marking sales-rep commission as paid for order ${id}:`, err);
       });
 
       // Update product sales count for popularity tracking
@@ -1252,7 +1286,7 @@ export class OrdersService {
         });
         if (variant?.product?.id) {
           popularityService.incrementSalesCount(variant.product.id, item.quantity)
-            .catch((err) => console.error(`[DEV] Error updating sales count for product ${variant?.product?.id}:`, err));
+            .catch((err) => console.error(`[Orders] Error updating sales count for product ${variant?.product?.id}:`, err));
         }
       }
       
@@ -1260,10 +1294,10 @@ export class OrdersService {
       baselinkerOrdersService.markOrderAsPaid(id)
         .then((syncResult) => {
           if (syncResult.success) {
-            console.log(`[DEV] Order ${id} marked as paid in Baselinker`);
+            console.log(`[Orders] Order ${id} marked as paid in Baselinker`);
           } else {
             // If order wasn't synced yet, sync it now with paid status
-            console.warn(`[DEV] Could not update status, trying full sync: ${syncResult.error}`);
+            console.warn(`[Orders] Could not update status, trying full sync: ${syncResult.error}`);
             return baselinkerOrdersService.syncOrderToBaselinker(id, { 
               orderStatusId: 65342, // Nowe zamówienia (paid)
               skipPaymentCheck: true 
@@ -1272,11 +1306,11 @@ export class OrdersService {
         })
         .then((syncResult) => {
           if (syncResult && syncResult.success) {
-            console.log(`[DEV] Order ${id} synced to Baselinker (BL ID: ${syncResult.baselinkerOrderId})`);
+            console.log(`[Orders] Order ${id} synced to Baselinker (BL ID: ${syncResult.baselinkerOrderId})`);
           }
         })
         .catch((err) => {
-          console.error(`[DEV] Baselinker sync error for order ${id}:`, err);
+          console.error(`[Orders] Baselinker sync error for order ${id}:`, err);
         });
     }
 
