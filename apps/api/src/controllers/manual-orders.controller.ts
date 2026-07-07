@@ -32,6 +32,17 @@ const DEFAULT_WORKING_CATEGORY_SLUG = 'ukryte-b2b';
 const cuidRegex = /^c[a-z0-9]{20,}$/i;
 
 /**
+ * Delivery methods available in the shop (mirrors shipping-calculator.service ids).
+ * Kept here so the admin manual-order form uses the same set as the storefront.
+ */
+const SHOP_SHIPPING_METHODS = [
+  { id: 'inpost_paczkomat', name: 'InPost Paczkomat' },
+  { id: 'inpost_kurier', name: 'Kurier InPost' },
+  { id: 'b2b_wysylka_wlasna', name: 'Wysyłka własna (B2B)' },
+  { id: 'wysylka_gabaryt', name: 'Wysyłka gabaryt' },
+];
+
+/**
  * Resolve the configured working category (by stored id, or by fallback slug).
  * Returns null if none can be found.
  */
@@ -68,6 +79,7 @@ export async function getManualOrderConfig(_req: Request, res: Response): Promis
 
     res.json({
       workingCategory,
+      shippingMethods: SHOP_SHIPPING_METHODS,
       partners: partners.map((p) => ({
         id: p.id,
         email: p.email,
