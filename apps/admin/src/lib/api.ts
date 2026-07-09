@@ -242,8 +242,8 @@ export const dashboardApi = {
 // ============================================
 
 export const partnersApi = {
-  list: (status?: string, page = 1, limit = 20): Promise<any> =>
-    fetchWithAuth(`/api/admin/partners?page=${page}&limit=${limit}${status ? `&status=${status}` : ''}`),
+  list: (status?: string, page = 1, limit = 20, rank?: string): Promise<any> =>
+    fetchWithAuth(`/api/admin/partners?page=${page}&limit=${limit}${status ? `&status=${status}` : ''}${rank ? `&rank=${rank}` : ''}`),
   
   getDetail: (id: string): Promise<any> =>
     fetchWithAuth(`/api/admin/partners/${id}`),
@@ -252,6 +252,12 @@ export const partnersApi = {
     fetchWithAuth(`/api/admin/partners/${id}/status`, {
       method: 'PATCH',
       body: JSON.stringify({ status }),
+    }),
+
+  updateRank: (id: string, rank: string, note?: string): Promise<any> =>
+    fetchWithAuth(`/api/admin/partners/${id}/rank`, {
+      method: 'PATCH',
+      body: JSON.stringify({ rank, note }),
     }),
   
   listPayouts: (status?: string, page = 1, limit = 20): Promise<any> =>
@@ -283,6 +289,15 @@ export const partnersApi = {
     fetchWithAuth('/api/admin/settings/mlm-config', {
       method: 'POST',
       body: JSON.stringify(config),
+    }),
+
+  getRankConfig: (): Promise<any> =>
+    fetchWithAuth('/api/admin/settings/rank-config'),
+
+  saveRankConfig: (config: any): Promise<any> =>
+    fetchWithAuth('/api/admin/settings/rank-config', {
+      method: 'POST',
+      body: JSON.stringify({ config }),
     }),
 };
 

@@ -549,7 +549,7 @@ export class OrdersService {
    * Update order status
    */
   async updateStatus(id: string, status: OrderStatus, note?: string, createdBy?: string) {
-    const { order: updatedOrder, becamePaid } = await prisma.$transaction(async (tx) => {
+    const { order: updatedOrder, becamePaid, becameDelivered } = await prisma.$transaction(async (tx) => {
       // Get current order state before updating
       const currentOrder = await tx.order.findUnique({
         where: { id },
@@ -639,7 +639,11 @@ export class OrdersService {
         },
       });
 
-      return { order, becamePaid: shouldMarkAsPaid && currentOrder.paymentStatus !== 'PAID' };
+      return {
+        order,
+        becamePaid: shouldMarkAsPaid && currentOrder.paymentStatus !== 'PAID',
+        becameDelivered: status === 'DELIVERED' && currentOrder.status !== 'DELIVERED',
+      };
     });
 
     // After commit: if the order just became PAID (incl. manual/offline "Opłacone"),
@@ -650,6 +654,16 @@ export class OrdersService {
         console.error(`[OrdersService] Error marking referral paid for order ${updatedOrder.id}:`, err));
       salesRepService.markPaid(updatedOrder.id).catch((err) =>
         console.error(`[OrdersService] Error marking sales-rep commission paid for order ${updatedOrder.id}:`, err));
+    }
+
+    // Plan WB TRADE PARTNERS: hold 14 dni liczony OD DOSTAWY — przy przejściu na DELIVERED
+    // restartujemy zegar holdu prowizji (partner + handlowiec). Fallback dla zamówień bez
+    // potwierdzonej dostawy: zegar od opłacenia (markPaid powyżej).
+    if (becameDelivered) {
+      referralService.markDelivered(updatedOrder.id).catch((err) =>
+        console.error(`[OrdersService] Error restarting referral hold on delivery for order ${updatedOrder.id}:`, err));
+      salesRepService.markDelivered(updatedOrder.id).catch((err) =>
+        console.error(`[OrdersService] Error restarting sales-rep hold on delivery for order ${updatedOrder.id}:`, err));
     }
 
     return updatedOrder;

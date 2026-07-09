@@ -28,11 +28,13 @@ export interface MlmConfig {
   stopOnInactiveUpline: boolean;
 }
 
+// Defaults = plan "WB TRADE PARTNERS": 4 poziomy zespołowe 2/1,5/1/0,5% OD OBROTU (sale_base).
+// enabled=false — BRAMKA PRAWNA, nie włączać bez pisemnej opinii prawnej.
 const DEFAULT_MLM_CONFIG: MlmConfig = {
   enabled: false,
-  maxDepth: 5,
-  overrideBase: 'downline_commission',
-  overrideRatesPct: [10, 5, 3, 2, 1],
+  maxDepth: 4,
+  overrideBase: 'sale_base',
+  overrideRatesPct: [2, 1.5, 1, 0.5],
   stopOnInactiveUpline: true,
 };
 

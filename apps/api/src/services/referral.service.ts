@@ -13,14 +13,18 @@
  */
 
 import { prisma } from '../db';
-import { Prisma, ReferralStatus } from '@prisma/client';
+import { Prisma, ReferralStatus, PartnerRank } from '@prisma/client';
 import { roundMoney } from '../lib/currency';
 import { isFraud, loadPartnerForFraudCheck } from './referral-fraud.service';
 import { getMlmConfig } from './mlm-config.service';
+import { getRankConfig } from './partner-rank.service';
+import { leaderBonusService } from './leader-bonus.service';
+import { partnerVolumeService, currentPeriod, previousPeriod } from './partner-volume.service';
 import crypto from 'crypto';
 
 // ─── Config ───
-const DEFAULT_COMMISSION_RATE = parseFloat(process.env.AFFILIATE_DEFAULT_COMMISSION_RATE || '5.00');
+// 7% — stawka z planu "WB TRADE PARTNERS" (sprzedaż z własnego linku)
+const DEFAULT_COMMISSION_RATE = parseFloat(process.env.AFFILIATE_DEFAULT_COMMISSION_RATE || '7.00');
 const HOLD_DAYS = parseInt(process.env.AFFILIATE_HOLD_DAYS || '14', 10);
 const MIN_CASH_PAYOUT = parseFloat(process.env.AFFILIATE_MIN_CASH_PAYOUT || '100');
 const COUPON_PREFIX = process.env.AFFILIATE_COUPON_PREFIX || 'PARTNER';
@@ -457,6 +461,11 @@ export class ReferralService {
     const saleBase = commissionBase;               // needed for sale_base override mode
     let prev = totalCommission;                    // O_0 = C_S (seller's direct commission)
 
+    // Rank-based team commission range (PLAN_03/PR-6):
+    // a beneficiary at depth d earns the override only if their rank unlocks
+    // that level (AP: 1, Ambasador: 1-2, Lider: 1-3, Menedżer+: 1-4).
+    const rankCfg = await getRankConfig();
+
     // Load seller's parent to start the chain
     let ancestorId = winningPartner.parentPartnerId;
     let level = 1;
@@ -470,7 +479,7 @@ export class ReferralService {
 
       const ancestor = await tx.partnerProfile.findUnique({
         where: { id: ancestorId },
-        select: { id: true, status: true, parentPartnerId: true },
+        select: { id: true, status: true, parentPartnerId: true, rank: true },
       });
 
       if (!ancestor) break;
@@ -486,6 +495,18 @@ export class ReferralService {
           level++;
           continue;
         }
+      }
+
+      // Rank gate (PR-6): level too deep for this beneficiary's rank →
+      // skip THIS beneficiary but keep walking up (a higher upline may have
+      // a higher rank that unlocks deeper levels).
+      const maxLevelForRank = rankCfg.teamLevelByRank[ancestor.rank] ?? 1;
+      if (level > maxLevelForRank) {
+        console.log(`[MLM] L${level} locked for ${ancestor.id} (rank=${ancestor.rank}, max=${maxLevelForRank}) — skipping beneficiary.`);
+        visited.add(ancestorId);
+        ancestorId = ancestor.parentPartnerId;
+        level++;
+        continue;
       }
 
       // Rate for this level (0-indexed: level 1 → index 0)
@@ -525,6 +546,23 @@ export class ReferralService {
       level++;
     }
     // ── end MLM walk-up ──────────────────────────────────────────────────────
+
+    // ── Leader Bonus (PLAN_03/PR-7) ──────────────────────────────────────────
+    // Premia Liderów: no depth limit, ranks >= LIDER_ZESPOLU, 60/30/10 split.
+    try {
+      await leaderBonusService.attributeLeaderBonuses(tx, {
+        referralId: referral.id,
+        orderId: order.id,
+        saleBase,
+        sellerId: winningPartner.id,
+        sellerParentId: winningPartner.parentPartnerId,
+        status: referral.status,
+      });
+    } catch (err) {
+      // Leader bonus must never break order attribution
+      console.error(`[LeaderBonus] Attribution failed for order ${order.id}:`, err);
+    }
+    // ── end Leader Bonus ─────────────────────────────────────────────────────
   }
 
   // ==============================
@@ -534,6 +572,10 @@ export class ReferralService {
   /**
    * Mark referral as PAID when order payment is confirmed.
    * PENDING → PAID (sets paidAt for 14-day hold calculation)
+   *
+   * Note: per the WB TRADE PARTNERS plan the 14-day hold counts from DELIVERY.
+   * markDelivered() restarts the clock when the order is delivered; this method
+   * remains the fallback start (from payment) for orders without delivery tracking.
    */
   async markPaid(orderId: string): Promise<void> {
     try {
@@ -562,8 +604,40 @@ export class ReferralService {
           paidAt: new Date(),
         },
       });
+
+      // Mark leader bonuses as paid
+      await prisma.leaderBonus.updateMany({
+        where: { orderId, status: 'PENDING' },
+        data: { status: 'PAID', paidAt: new Date() },
+      });
     } catch (err) {
       console.error(`[Referral] Error marking referral as paid for order ${orderId}:`, err);
+    }
+  }
+
+  /**
+   * Restart the hold clock when the order is DELIVERED.
+   * Plan WB TRADE PARTNERS: "14 dni od dostawy" — the payout hold counts from delivery,
+   * not from payment. Promotes PENDING → PAID (e.g. COD collected on delivery) and
+   * resets paidAt on already-PAID records so the cron approves 14 days after delivery.
+   */
+  async markDelivered(orderId: string): Promise<void> {
+    const now = new Date();
+    try {
+      await prisma.referral.updateMany({
+        where: { orderId, status: { in: ['PENDING', 'PAID'] } },
+        data: { status: 'PAID', paidAt: now },
+      });
+      await prisma.referralOverride.updateMany({
+        where: { orderId, status: { in: ['PENDING', 'PAID'] } },
+        data: { status: 'PAID', paidAt: now },
+      });
+      await prisma.leaderBonus.updateMany({
+        where: { orderId, status: { in: ['PENDING', 'PAID'] } },
+        data: { status: 'PAID', paidAt: now },
+      });
+    } catch (err) {
+      console.error(`[Referral] Error restarting hold on delivery for order ${orderId}:`, err);
     }
   }
 
@@ -597,6 +671,12 @@ export class ReferralService {
           status: 'CANCELLED',
         },
       });
+
+      // Cancel leader bonuses
+      await prisma.leaderBonus.updateMany({
+        where: { orderId, status: { in: ['PENDING', 'PAID', 'APPROVED'] } },
+        data: { status: 'CANCELLED' },
+      });
     } catch (err) {
       console.error(`[Referral] Error cancelling referral for order ${orderId}:`, err);
     }
@@ -625,7 +705,14 @@ export class ReferralService {
     });
     const approvedOverride = toNum(approvedOverrideResult._sum.amount);
 
-    const approved = roundMoney(approvedDirect + approvedOverride);
+    // Approved leader bonuses
+    const approvedBonusResult = await prisma.leaderBonus.aggregate({
+      where: { beneficiaryId: partnerId, status: 'APPROVED' },
+      _sum: { amount: true },
+    });
+    const approvedBonus = toNum(approvedBonusResult._sum.amount);
+
+    const approved = roundMoney(approvedDirect + approvedOverride + approvedBonus);
 
     // Frozen direct commissions (PAID but not yet APPROVED — in 14-day hold)
     const frozenResult = await prisma.referral.aggregate({
@@ -641,7 +728,14 @@ export class ReferralService {
     });
     const frozenOverride = toNum(frozenOverrideResult._sum.amount);
 
-    const frozen = roundMoney(frozenDirect + frozenOverride);
+    // Frozen leader bonuses
+    const frozenBonusResult = await prisma.leaderBonus.aggregate({
+      where: { beneficiaryId: partnerId, status: 'PAID' },
+      _sum: { amount: true },
+    });
+    const frozenBonus = toNum(frozenBonusResult._sum.amount);
+
+    const frozen = roundMoney(frozenDirect + frozenOverride + frozenBonus);
 
     // Total earned direct (all non-cancelled)
     const totalResult = await prisma.referral.aggregate({
@@ -657,7 +751,14 @@ export class ReferralService {
     });
     const totalEarnedOverride = toNum(totalOverrideResult._sum.amount);
 
-    const totalEarned = roundMoney(totalEarnedDirect + totalEarnedOverride);
+    // Total earned leader bonuses
+    const totalBonusResult = await prisma.leaderBonus.aggregate({
+      where: { beneficiaryId: partnerId, status: { in: ['PAID', 'APPROVED'] } },
+      _sum: { amount: true },
+    });
+    const totalEarnedBonus = toNum(totalBonusResult._sum.amount);
+
+    const totalEarned = roundMoney(totalEarnedDirect + totalEarnedOverride + totalEarnedBonus);
 
     // Reserved by payouts (PENDING + COMPLETED)
     const reservedResult = await prisma.referralPayout.aggregate({
@@ -705,7 +806,13 @@ export class ReferralService {
         });
         const approvedOverride = toNum(approvedOverrideResult._sum.amount);
 
-        const approved = roundMoney(approvedDirect + approvedOverride);
+        const approvedBonusResult = await tx.leaderBonus.aggregate({
+          where: { beneficiaryId: partnerId, status: 'APPROVED' },
+          _sum: { amount: true },
+        });
+        const approvedBonus = toNum(approvedBonusResult._sum.amount);
+
+        const approved = roundMoney(approvedDirect + approvedOverride + approvedBonus);
 
         const reservedResult = await tx.referralPayout.aggregate({
           where: { partnerId, status: { in: ['PENDING', 'COMPLETED'] } },
@@ -793,7 +900,13 @@ export class ReferralService {
         });
         const approvedOverride = toNum(approvedOverrideResult._sum.amount);
 
-        const approved = roundMoney(approvedDirect + approvedOverride);
+        const approvedBonusResult = await tx.leaderBonus.aggregate({
+          where: { beneficiaryId: partnerId, status: 'APPROVED' },
+          _sum: { amount: true },
+        });
+        const approvedBonus = toNum(approvedBonusResult._sum.amount);
+
+        const approved = roundMoney(approvedDirect + approvedOverride + approvedBonus);
 
         const reservedResult = await tx.referralPayout.aggregate({
           where: { partnerId, status: { in: ['PENDING', 'COMPLETED'] } },
@@ -844,6 +957,25 @@ export class ReferralService {
         },
       },
       orderBy: { createdAt: 'desc' },
+    });
+  }
+
+  /**
+   * List leader bonuses earned by a partner (WBTP — Premia Liderów).
+   */
+  async listLeaderBonuses(partnerId: string) {
+    return prisma.leaderBonus.findMany({
+      where: { beneficiaryId: partnerId },
+      include: {
+        order: {
+          select: {
+            orderNumber: true,
+            total: true,
+          },
+        },
+      },
+      orderBy: { createdAt: 'desc' },
+      take: 100,
     });
   }
 
@@ -1037,6 +1169,22 @@ export class ReferralService {
       console.log(`[Referral Cron] Self-healed ${orphanedOverrides.length} PENDING referral override(s) for already-paid orders`);
     }
 
+    // Self-heal leader bonuses
+    const orphanedBonuses = await prisma.leaderBonus.findMany({
+      where: {
+        status: 'PENDING',
+        order: { paymentStatus: 'PAID', status: { notIn: ['CANCELLED', 'REFUNDED'] } },
+      },
+      select: { id: true },
+    });
+    if (orphanedBonuses.length > 0) {
+      await prisma.leaderBonus.updateMany({
+        where: { id: { in: orphanedBonuses.map((r) => r.id) } },
+        data: { status: 'PAID', paidAt: new Date() },
+      });
+      console.log(`[Referral Cron] Self-healed ${orphanedBonuses.length} PENDING leader bonus(es) for already-paid orders`);
+    }
+
     const eligible = await prisma.referral.findMany({
       where: {
         status: 'PAID',
@@ -1103,6 +1251,38 @@ export class ReferralService {
       }
     }
 
+    // Process eligible leader bonuses
+    const eligibleBonuses = await prisma.leaderBonus.findMany({
+      where: {
+        status: 'PAID',
+        paidAt: { lte: holdDate },
+      },
+      include: {
+        order: { select: { status: true } },
+      },
+    });
+
+    for (const bonus of eligibleBonuses) {
+      const cancelledStatuses = ['CANCELLED', 'REFUNDED'];
+
+      if (cancelledStatuses.includes(bonus.order.status)) {
+        await prisma.leaderBonus.update({
+          where: { id: bonus.id },
+          data: { status: 'CANCELLED' },
+        });
+        cancelled++;
+      } else {
+        await prisma.leaderBonus.update({
+          where: { id: bonus.id },
+          data: {
+            status: 'APPROVED',
+            approvedAt: new Date(),
+          },
+        });
+        approved++;
+      }
+    }
+
     console.log(`[Referral Cron] Processed holds: ${approved} approved, ${cancelled} cancelled`);
     return { approved, cancelled };
   }
@@ -1114,10 +1294,13 @@ export class ReferralService {
   /**
    * List all partners with optional status filter.
    */
-  async listPartners(status?: string, page = 1, limit = 20) {
+  async listPartners(status?: string, page = 1, limit = 20, rank?: string) {
     const where: Prisma.PartnerProfileWhereInput = {};
     if (status) {
       where.status = status as any;
+    }
+    if (rank) {
+      where.rank = rank as any;
     }
 
     const [partners, total] = await Promise.all([
@@ -1165,7 +1348,35 @@ export class ReferralService {
     if (!partner) return null;
 
     const balance = await this.computeBalance(partnerId);
-    return { ...partner, balance };
+
+    // WB TRADE PARTNERS (PLAN_03/PR-8): rank history, current + previous WL, leader bonuses
+    const period = currentPeriod();
+    const prevPeriod = previousPeriod();
+    const [rankEvents, lineVolumes, prevLineVolumes, leaderBonuses] = await Promise.all([
+      prisma.partnerRankEvent.findMany({
+        where: { partnerId },
+        orderBy: { createdAt: 'desc' },
+        take: 50,
+      }),
+      partnerVolumeService.getLineVolumes(partnerId, period),
+      partnerVolumeService.getLineVolumes(partnerId, prevPeriod),
+      prisma.leaderBonus.findMany({
+        where: { beneficiaryId: partnerId },
+        orderBy: { createdAt: 'desc' },
+        take: 50,
+        include: { order: { select: { orderNumber: true, total: true } } },
+      }),
+    ]);
+    const monthlyVolume = await partnerVolumeService.getMonthlyVolume(partnerId, period);
+
+    return {
+      ...partner,
+      balance,
+      rankEvents,
+      lineVolumes: { period, current: lineVolumes, previousPeriod: prevPeriod, previous: prevLineVolumes },
+      leaderBonuses,
+      monthlyVolume,
+    };
   }
 
   /**
@@ -1176,6 +1387,42 @@ export class ReferralService {
       where: { id: partnerId },
       data: { status },
     });
+  }
+
+  /**
+   * Manual rank correction (admin action) — PLAN_03/PR-8.
+   * Sets rank AND consolidates it (highestRank) — an admin override is authoritative.
+   * Emits a MANUAL PartnerRankEvent for the audit trail.
+   */
+  async updatePartnerRank(partnerId: string, rank: PartnerRank, adminNote?: string) {
+    const partner = await prisma.partnerProfile.findUnique({
+      where: { id: partnerId },
+      select: { rank: true },
+    });
+    if (!partner) throw new Error('Partner nie znaleziony.');
+
+    const [updated] = await prisma.$transaction([
+      prisma.partnerProfile.update({
+        where: { id: partnerId },
+        data: {
+          rank,
+          highestRank: rank,
+          rankConfirmations: 0,
+          rankAchievedAt: new Date(),
+        },
+      }),
+      prisma.partnerRankEvent.create({
+        data: {
+          partnerId,
+          period: currentPeriod(),
+          fromRank: partner.rank,
+          toRank: rank,
+          type: 'MANUAL',
+          details: adminNote ? { adminNote } : undefined,
+        },
+      }),
+    ]);
+    return updated;
   }
 
   /**

@@ -24,9 +24,10 @@ router.use(authGuard, adminOnly);
 router.get('/', async (req: Request, res: Response): Promise<void> => {
   try {
     const status = req.query.status as string | undefined;
+    const rank = req.query.rank as string | undefined;
     const page = parseInt(req.query.page as string) || 1;
     const limit = parseInt(req.query.limit as string) || 20;
-    const result = await referralService.listPartners(status, page, limit);
+    const result = await referralService.listPartners(status, page, limit, rank);
     res.json(result);
   } catch (error: any) {
     res.status(500).json({ message: error.message });
@@ -64,6 +65,36 @@ router.patch('/:id/status', async (req: Request, res: Response): Promise<void> =
   } catch (error: any) {
     if (error instanceof z.ZodError) {
       res.status(400).json({ message: 'Nieprawidłowy status.', errors: error.errors });
+      return;
+    }
+    res.status(400).json({ message: error.message });
+  }
+});
+
+/**
+ * PATCH /api/admin/partners/:id/rank - Manual rank correction (WBTP)
+ * Body: { rank: PartnerRank, note?: string }
+ */
+router.patch('/:id/rank', async (req: Request, res: Response): Promise<void> => {
+  try {
+    const schema = z.object({
+      rank: z.enum([
+        'AKTYWNY_PARTNER',
+        'AMBASADOR',
+        'LIDER_ZESPOLU',
+        'MENEDZER',
+        'DYREKTOR_REGIONALNY',
+        'DYREKTOR_KRAJOWY',
+        'DYREKTOR_GENERALNY',
+      ]),
+      note: z.string().max(500).optional(),
+    });
+    const { rank, note } = schema.parse(req.body);
+    const partner = await referralService.updatePartnerRank(req.params.id, rank, note);
+    res.json(partner);
+  } catch (error: any) {
+    if (error instanceof z.ZodError) {
+      res.status(400).json({ message: 'Nieprawidłowa ranga.', errors: error.errors });
       return;
     }
     res.status(400).json({ message: error.message });

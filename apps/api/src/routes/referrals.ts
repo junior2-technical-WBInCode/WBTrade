@@ -9,6 +9,7 @@ import { Router, Request, Response } from 'express';
 import { authGuard } from '../middleware/auth.middleware';
 import { partnerGuard } from '../middleware/partner.middleware';
 import { referralService } from '../services/referral.service';
+import { partnerRankService } from '../services/partner-rank.service';
 import { z } from 'zod';
 
 const router = Router();
@@ -201,6 +202,32 @@ router.get('/product-stats', authGuard, partnerGuard, async (req: Request, res: 
     const partner = (req as any).partnerProfile;
     const stats = await referralService.getProductStats(partner.id);
     res.json(stats);
+  } catch (error: any) {
+    res.status(500).json({ message: error.message });
+  }
+});
+
+/**
+ * GET /api/referrals/rank - WBTP rank overview (level, WL, progress toward next rank)
+ */
+router.get('/rank', authGuard, partnerGuard, async (req: Request, res: Response): Promise<void> => {
+  try {
+    const partner = (req as any).partnerProfile;
+    const overview = await partnerRankService.getRankOverview(partner.id);
+    res.json(overview);
+  } catch (error: any) {
+    res.status(500).json({ message: error.message });
+  }
+});
+
+/**
+ * GET /api/referrals/leader-bonuses - Leader bonuses (Premia Liderów) earned by the partner
+ */
+router.get('/leader-bonuses', authGuard, partnerGuard, async (req: Request, res: Response): Promise<void> => {
+  try {
+    const partner = (req as any).partnerProfile;
+    const bonuses = await referralService.listLeaderBonuses(partner.id);
+    res.json(bonuses);
   } catch (error: any) {
     res.status(500).json({ message: error.message });
   }

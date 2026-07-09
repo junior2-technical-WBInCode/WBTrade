@@ -1885,7 +1885,64 @@ export const referralApi = {
 
   getProductStats: () =>
     api.get<ReferralProductStat[]>('/referrals/product-stats'),
+
+  getRankOverview: () =>
+    api.get<PartnerRankOverview>('/referrals/rank'),
+
+  listLeaderBonuses: () =>
+    api.get<LeaderBonusData[]>('/referrals/leader-bonuses'),
 };
+
+// ─── WB TRADE PARTNERS: rangi / WL / Premia Liderów (PLAN_03) ───
+
+export interface RankPathRequirement {
+  key: string;
+  current: number;
+  required: number;
+  met: boolean;
+}
+
+export interface RankPathProgress {
+  items: RankPathRequirement[];
+  lineShareOk: boolean;
+  met: boolean;
+}
+
+export interface PartnerRankOverview {
+  rank: string;
+  highestRank: string;
+  rankConfirmations: number;
+  confirmationsToConsolidate: number;
+  rankAchievedAt: string | null;
+  isConsolidated: boolean;
+  teamLevelRange: number;
+  leaderBonusParams: { basePct: number; wlRequirement: number } | null;
+  wlAddonPct: number;
+  period: string;
+  volumes: { ownSales: number; level1Sales: number; level2Sales: number; structureSales: number };
+  lines: Array<{
+    linePartnerId: string;
+    volume: number;
+    linePartner: { referralCode: string; rank: string; user: { firstName: string | null; lastName: string | null } };
+  }>;
+  largestLineSharePct: number;
+  nextRank: string | null;
+  nextRankMaxLineSharePct: number | null;
+  nextRankPaths: RankPathProgress[];
+}
+
+export interface LeaderBonusData {
+  id: string;
+  orderId: string;
+  rank: string;
+  basePct: number;
+  wlAddonPct: number;
+  sharePct: number;
+  amount: number;
+  status: 'PENDING' | 'PAID' | 'APPROVED' | 'CANCELLED';
+  createdAt: string;
+  order?: { orderNumber: string; total: number };
+}
 
 export interface ReferralProductStat {
   productId: string;

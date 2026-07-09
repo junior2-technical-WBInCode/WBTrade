@@ -419,6 +419,7 @@ model Order {
   deliveryDelayAlerts      DeliveryDelayAlert[]
   referral                 Referral?
   referralOverrides        ReferralOverride[]
+  leaderBonuses            LeaderBonus[]
   salesRepId               String?              @map("sales_rep_id")
   salesRep                 User?                @relation("SalesRepOrders", fields: [salesRepId], references: [id], onDelete: SetNull)
   repDiscountPct           Decimal?             @db.Decimal(4, 2) @map("rep_discount_pct")
@@ -1255,6 +1256,11 @@ model PartnerProfile {
   bankAccountNumber  String?          @map("bank_account_number")
   companyName        String?          @map("company_name")
   nip                String?
+  // WB TRADE PARTNERS — poziomy awansu (PLAN_03)
+  rank               PartnerRank      @default(AKTYWNY_PARTNER)
+  rankConfirmations  Int              @default(0) @map("rank_confirmations")   // 0..2; 2 = poziom utrwalony
+  rankAchievedAt     DateTime?        @map("rank_achieved_at")
+  highestRank        PartnerRank      @default(AKTYWNY_PARTNER) @map("highest_rank") // poziom utrwalony (nie spada)
   createdAt          DateTime         @default(now()) @map("created_at")
   updatedAt          DateTime         @updatedAt @map("updated_at")
 
@@ -1268,8 +1274,14 @@ model PartnerProfile {
   subReferrals       Referral[]       @relation("ParentReferrals")
   payouts            ReferralPayout[]
   overrideEarnings   ReferralOverride[] @relation("OverrideBeneficiary")
+  monthlyVolumes     PartnerMonthlyVolume[]
+  lineVolumes        PartnerLineVolume[]  @relation("LineOwner")
+  asLineRoot         PartnerLineVolume[]  @relation("LineRoot")
+  rankEvents         PartnerRankEvent[]
+  leaderBonuses      LeaderBonus[]        @relation("LeaderBonusBeneficiary")
 
   @@index([status])
+  @@index([rank])
   @@map("partner_profiles")
 }
 
@@ -1314,6 +1326,7 @@ model Referral {
   order             Order           @relation(fields: [orderId], references: [id], onDelete: Cascade)
   items             ReferralItem[]
   overrides         ReferralOverride[]
+  leaderBonuses     LeaderBonus[]
 
   @@index([partnerId, status])
   @@index([status, paidAt])
@@ -1384,6 +1397,100 @@ enum PartnerStatus {
   APPROVED
   REJECTED
   SUSPENDED
+}
+
+// WB TRADE PARTNERS — 7 poziomow awansu (PLAN_03)
+enum PartnerRank {
+  AKTYWNY_PARTNER
+  AMBASADOR
+  LIDER_ZESPOLU
+  MENEDZER
+  DYREKTOR_REGIONALNY
+  DYREKTOR_KRAJOWY
+  DYREKTOR_GENERALNY
+}
+
+// Miesieczne agregaty obrotu kwalifikowanego partnera (bez kosztow dostawy)
+model PartnerMonthlyVolume {
+  id             String   @id @default(cuid())
+  partnerId      String   @map("partner_id")
+  period         String                                                    // "2026-07"
+  ownSales       Decimal  @default(0) @map("own_sales") @db.Decimal(12, 2)       // sprzedaz wlasna z linku
+  level1Sales    Decimal  @default(0) @map("level1_sales") @db.Decimal(12, 2)    // obrot 1. poziomu
+  level2Sales    Decimal  @default(0) @map("level2_sales") @db.Decimal(12, 2)    // obrot 2. poziomu
+  structureSales Decimal  @default(0) @map("structure_sales") @db.Decimal(12, 2) // cala struktura
+  createdAt      DateTime @default(now()) @map("created_at")
+  updatedAt      DateTime @updatedAt @map("updated_at")
+
+  partner        PartnerProfile @relation(fields: [partnerId], references: [id], onDelete: Cascade)
+
+  @@unique([partnerId, period])
+  @@index([period])
+  @@map("partner_monthly_volumes")
+}
+
+// Wolumen Linii (WL) — miesieczny obrot jednej linii partnerskiej
+// linia = bezposrednio zaproszony partner (korzen) + cala jego struktura
+model PartnerLineVolume {
+  id            String   @id @default(cuid())
+  partnerId     String   @map("partner_id")       // wlasciciel linii (upline)
+  linePartnerId String   @map("line_partner_id")  // korzen linii (bezposrednio zaproszony)
+  period        String                             // "2026-07"
+  volume        Decimal  @default(0) @db.Decimal(12, 2)
+  createdAt     DateTime @default(now()) @map("created_at")
+  updatedAt     DateTime @updatedAt @map("updated_at")
+
+  partner       PartnerProfile @relation("LineOwner", fields: [partnerId], references: [id], onDelete: Cascade)
+  linePartner   PartnerProfile @relation("LineRoot", fields: [linePartnerId], references: [id], onDelete: Cascade)
+
+  @@unique([partnerId, linePartnerId, period])
+  @@index([partnerId, period])
+  @@map("partner_line_volumes")
+}
+
+// Historia awansow/potwierdzen poziomu (audyt silnika rang)
+model PartnerRankEvent {
+  id        String      @id @default(cuid())
+  partnerId String      @map("partner_id")
+  period    String                          // okres, za ktory oceniono ("2026-07")
+  fromRank  PartnerRank @map("from_rank")
+  toRank    PartnerRank @map("to_rank")
+  type      String                          // PROMOTION | CONFIRMATION | CONSOLIDATION | RESET | MANUAL
+  details   Json?                           // spelniona sciezka, liczby, udzial najwiekszej linii
+  createdAt DateTime    @default(now()) @map("created_at")
+
+  partner   PartnerProfile @relation(fields: [partnerId], references: [id], onDelete: Cascade)
+
+  @@index([partnerId, period])
+  @@map("partner_rank_events")
+}
+
+// Premia Liderow — nalicza sie od obrotu kwalifikowanego zamowienia dla uplinow
+// z ranga >= LIDER_ZESPOLU; cykl zycia wspolny z Referral (PENDING->PAID->APPROVED)
+model LeaderBonus {
+  id            String         @id @default(cuid())
+  orderId       String         @map("order_id")
+  referralId    String         @map("referral_id")
+  beneficiaryId String         @map("beneficiary_id")
+  rank          PartnerRank                                            // ranga, z tytulu ktorej naliczono
+  basePct       Decimal        @map("base_pct") @db.Decimal(5, 3)      // np. 0.250
+  wlAddonPct    Decimal        @default(0) @map("wl_addon_pct") @db.Decimal(5, 3) // czesc dodatku +0.25
+  sharePct      Decimal        @default(100) @map("share_pct") @db.Decimal(5, 2)  // 60/30/10 przy kilku liderach
+  amount        Decimal        @db.Decimal(10, 2)
+  status        ReferralStatus @default(PENDING)
+  paidAt        DateTime?      @map("paid_at")
+  approvedAt    DateTime?      @map("approved_at")
+  createdAt     DateTime       @default(now()) @map("created_at")
+  updatedAt     DateTime       @updatedAt @map("updated_at")
+
+  order         Order          @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  referral      Referral       @relation(fields: [referralId], references: [id], onDelete: Cascade)
+  beneficiary   PartnerProfile @relation("LeaderBonusBeneficiary", fields: [beneficiaryId], references: [id], onDelete: Cascade)
+
+  @@index([beneficiaryId, status])
+  @@index([orderId])
+  @@index([referralId])
+  @@map("leader_bonuses")
 }
 
 enum ReferralStatus {
