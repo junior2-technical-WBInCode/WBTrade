@@ -17,6 +17,7 @@ import { Prisma, ReferralStatus } from '@prisma/client';
 import { roundMoney } from '../lib/currency';
 import { isFraud, loadPartnerForFraudCheck } from './referral-fraud.service';
 import { getMlmConfig } from './mlm-config.service';
+import { getRankConfig } from './partner-rank.service';
 import crypto from 'crypto';
 
 // ─── Config ───
@@ -458,6 +459,11 @@ export class ReferralService {
     const saleBase = commissionBase;               // needed for sale_base override mode
     let prev = totalCommission;                    // O_0 = C_S (seller's direct commission)
 
+    // Rank-based team commission range (PLAN_03/PR-6):
+    // a beneficiary at depth d earns the override only if their rank unlocks
+    // that level (AP: 1, Ambasador: 1-2, Lider: 1-3, Menedżer+: 1-4).
+    const rankCfg = await getRankConfig();
+
     // Load seller's parent to start the chain
     let ancestorId = winningPartner.parentPartnerId;
     let level = 1;
@@ -471,7 +477,7 @@ export class ReferralService {
 
       const ancestor = await tx.partnerProfile.findUnique({
         where: { id: ancestorId },
-        select: { id: true, status: true, parentPartnerId: true },
+        select: { id: true, status: true, parentPartnerId: true, rank: true },
       });
 
       if (!ancestor) break;
@@ -487,6 +493,18 @@ export class ReferralService {
           level++;
           continue;
         }
+      }
+
+      // Rank gate (PR-6): level too deep for this beneficiary's rank →
+      // skip THIS beneficiary but keep walking up (a higher upline may have
+      // a higher rank that unlocks deeper levels).
+      const maxLevelForRank = rankCfg.teamLevelByRank[ancestor.rank] ?? 1;
+      if (level > maxLevelForRank) {
+        console.log(`[MLM] L${level} locked for ${ancestor.id} (rank=${ancestor.rank}, max=${maxLevelForRank}) — skipping beneficiary.`);
+        visited.add(ancestorId);
+        ancestorId = ancestor.parentPartnerId;
+        level++;
+        continue;
       }
 
       // Rate for this level (0-indexed: level 1 → index 0)
