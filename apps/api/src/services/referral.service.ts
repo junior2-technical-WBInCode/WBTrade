@@ -18,6 +18,7 @@ import { roundMoney } from '../lib/currency';
 import { isFraud, loadPartnerForFraudCheck } from './referral-fraud.service';
 import { getMlmConfig } from './mlm-config.service';
 import { getRankConfig } from './partner-rank.service';
+import { leaderBonusService } from './leader-bonus.service';
 import crypto from 'crypto';
 
 // ─── Config ───
@@ -544,6 +545,23 @@ export class ReferralService {
       level++;
     }
     // ── end MLM walk-up ──────────────────────────────────────────────────────
+
+    // ── Leader Bonus (PLAN_03/PR-7) ──────────────────────────────────────────
+    // Premia Liderów: no depth limit, ranks >= LIDER_ZESPOLU, 60/30/10 split.
+    try {
+      await leaderBonusService.attributeLeaderBonuses(tx, {
+        referralId: referral.id,
+        orderId: order.id,
+        saleBase,
+        sellerId: winningPartner.id,
+        sellerParentId: winningPartner.parentPartnerId,
+        status: referral.status,
+      });
+    } catch (err) {
+      // Leader bonus must never break order attribution
+      console.error(`[LeaderBonus] Attribution failed for order ${order.id}:`, err);
+    }
+    // ── end Leader Bonus ─────────────────────────────────────────────────────
   }
 
   // ==============================
@@ -585,6 +603,12 @@ export class ReferralService {
           paidAt: new Date(),
         },
       });
+
+      // Mark leader bonuses as paid
+      await prisma.leaderBonus.updateMany({
+        where: { orderId, status: 'PENDING' },
+        data: { status: 'PAID', paidAt: new Date() },
+      });
     } catch (err) {
       console.error(`[Referral] Error marking referral as paid for order ${orderId}:`, err);
     }
@@ -604,6 +628,10 @@ export class ReferralService {
         data: { status: 'PAID', paidAt: now },
       });
       await prisma.referralOverride.updateMany({
+        where: { orderId, status: { in: ['PENDING', 'PAID'] } },
+        data: { status: 'PAID', paidAt: now },
+      });
+      await prisma.leaderBonus.updateMany({
         where: { orderId, status: { in: ['PENDING', 'PAID'] } },
         data: { status: 'PAID', paidAt: now },
       });
@@ -642,6 +670,12 @@ export class ReferralService {
           status: 'CANCELLED',
         },
       });
+
+      // Cancel leader bonuses
+      await prisma.leaderBonus.updateMany({
+        where: { orderId, status: { in: ['PENDING', 'PAID', 'APPROVED'] } },
+        data: { status: 'CANCELLED' },
+      });
     } catch (err) {
       console.error(`[Referral] Error cancelling referral for order ${orderId}:`, err);
     }
@@ -670,7 +704,14 @@ export class ReferralService {
     });
     const approvedOverride = toNum(approvedOverrideResult._sum.amount);
 
-    const approved = roundMoney(approvedDirect + approvedOverride);
+    // Approved leader bonuses
+    const approvedBonusResult = await prisma.leaderBonus.aggregate({
+      where: { beneficiaryId: partnerId, status: 'APPROVED' },
+      _sum: { amount: true },
+    });
+    const approvedBonus = toNum(approvedBonusResult._sum.amount);
+
+    const approved = roundMoney(approvedDirect + approvedOverride + approvedBonus);
 
     // Frozen direct commissions (PAID but not yet APPROVED — in 14-day hold)
     const frozenResult = await prisma.referral.aggregate({
@@ -686,7 +727,14 @@ export class ReferralService {
     });
     const frozenOverride = toNum(frozenOverrideResult._sum.amount);
 
-    const frozen = roundMoney(frozenDirect + frozenOverride);
+    // Frozen leader bonuses
+    const frozenBonusResult = await prisma.leaderBonus.aggregate({
+      where: { beneficiaryId: partnerId, status: 'PAID' },
+      _sum: { amount: true },
+    });
+    const frozenBonus = toNum(frozenBonusResult._sum.amount);
+
+    const frozen = roundMoney(frozenDirect + frozenOverride + frozenBonus);
 
     // Total earned direct (all non-cancelled)
     const totalResult = await prisma.referral.aggregate({
@@ -702,7 +750,14 @@ export class ReferralService {
     });
     const totalEarnedOverride = toNum(totalOverrideResult._sum.amount);
 
-    const totalEarned = roundMoney(totalEarnedDirect + totalEarnedOverride);
+    // Total earned leader bonuses
+    const totalBonusResult = await prisma.leaderBonus.aggregate({
+      where: { beneficiaryId: partnerId, status: { in: ['PAID', 'APPROVED'] } },
+      _sum: { amount: true },
+    });
+    const totalEarnedBonus = toNum(totalBonusResult._sum.amount);
+
+    const totalEarned = roundMoney(totalEarnedDirect + totalEarnedOverride + totalEarnedBonus);
 
     // Reserved by payouts (PENDING + COMPLETED)
     const reservedResult = await prisma.referralPayout.aggregate({
@@ -750,7 +805,13 @@ export class ReferralService {
         });
         const approvedOverride = toNum(approvedOverrideResult._sum.amount);
 
-        const approved = roundMoney(approvedDirect + approvedOverride);
+        const approvedBonusResult = await tx.leaderBonus.aggregate({
+          where: { beneficiaryId: partnerId, status: 'APPROVED' },
+          _sum: { amount: true },
+        });
+        const approvedBonus = toNum(approvedBonusResult._sum.amount);
+
+        const approved = roundMoney(approvedDirect + approvedOverride + approvedBonus);
 
         const reservedResult = await tx.referralPayout.aggregate({
           where: { partnerId, status: { in: ['PENDING', 'COMPLETED'] } },
@@ -838,7 +899,13 @@ export class ReferralService {
         });
         const approvedOverride = toNum(approvedOverrideResult._sum.amount);
 
-        const approved = roundMoney(approvedDirect + approvedOverride);
+        const approvedBonusResult = await tx.leaderBonus.aggregate({
+          where: { beneficiaryId: partnerId, status: 'APPROVED' },
+          _sum: { amount: true },
+        });
+        const approvedBonus = toNum(approvedBonusResult._sum.amount);
+
+        const approved = roundMoney(approvedDirect + approvedOverride + approvedBonus);
 
         const reservedResult = await tx.referralPayout.aggregate({
           where: { partnerId, status: { in: ['PENDING', 'COMPLETED'] } },
@@ -1082,6 +1149,22 @@ export class ReferralService {
       console.log(`[Referral Cron] Self-healed ${orphanedOverrides.length} PENDING referral override(s) for already-paid orders`);
     }
 
+    // Self-heal leader bonuses
+    const orphanedBonuses = await prisma.leaderBonus.findMany({
+      where: {
+        status: 'PENDING',
+        order: { paymentStatus: 'PAID', status: { notIn: ['CANCELLED', 'REFUNDED'] } },
+      },
+      select: { id: true },
+    });
+    if (orphanedBonuses.length > 0) {
+      await prisma.leaderBonus.updateMany({
+        where: { id: { in: orphanedBonuses.map((r) => r.id) } },
+        data: { status: 'PAID', paidAt: new Date() },
+      });
+      console.log(`[Referral Cron] Self-healed ${orphanedBonuses.length} PENDING leader bonus(es) for already-paid orders`);
+    }
+
     const eligible = await prisma.referral.findMany({
       where: {
         status: 'PAID',
@@ -1139,6 +1222,38 @@ export class ReferralService {
       } else {
         await prisma.referralOverride.update({
           where: { id: override.id },
+          data: {
+            status: 'APPROVED',
+            approvedAt: new Date(),
+          },
+        });
+        approved++;
+      }
+    }
+
+    // Process eligible leader bonuses
+    const eligibleBonuses = await prisma.leaderBonus.findMany({
+      where: {
+        status: 'PAID',
+        paidAt: { lte: holdDate },
+      },
+      include: {
+        order: { select: { status: true } },
+      },
+    });
+
+    for (const bonus of eligibleBonuses) {
+      const cancelledStatuses = ['CANCELLED', 'REFUNDED'];
+
+      if (cancelledStatuses.includes(bonus.order.status)) {
+        await prisma.leaderBonus.update({
+          where: { id: bonus.id },
+          data: { status: 'CANCELLED' },
+        });
+        cancelled++;
+      } else {
+        await prisma.leaderBonus.update({
+          where: { id: bonus.id },
           data: {
             status: 'APPROVED',
             approvedAt: new Date(),
