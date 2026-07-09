@@ -7,6 +7,8 @@
 
 import { referralService } from '../services/referral.service';
 import { salesRepService } from '../services/sales-rep.service';
+import { partnerVolumeService, currentPeriod } from '../services/partner-volume.service';
+import { getMlmConfig } from '../services/mlm-config.service';
 
 let lastCheckDate = '';
 
@@ -29,6 +31,19 @@ async function checkAffiliateTasks() {
 
       console.log('[SalesRepCron] Starting daily commission holds processing...');
       await salesRepService.processCommissionHolds();
+
+      // WB TRADE PARTNERS (PLAN_03): recompute qualified turnover + WL.
+      // Behind the MLM legal gate — zero cost while enabled=false.
+      const mlmCfg = await getMlmConfig();
+      if (mlmCfg.enabled) {
+        console.log('[PartnerVolumeCron] Recomputing monthly volumes + WL...');
+        await partnerVolumeService.recomputeMonthlyVolumes(currentPeriod(now));
+        // On the 1st of the month also finalize the previous (just closed) period
+        if (now.getDate() === 1) {
+          const prev = new Date(now.getFullYear(), now.getMonth() - 1, 15);
+          await partnerVolumeService.recomputeMonthlyVolumes(currentPeriod(prev));
+        }
+      }
     } catch (error) {
       console.error('[AffiliateCron/SalesRepCron] Error processing holds:', error);
     }
