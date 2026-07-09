@@ -20,7 +20,8 @@ import { getMlmConfig } from './mlm-config.service';
 import crypto from 'crypto';
 
 // ─── Config ───
-const DEFAULT_COMMISSION_RATE = parseFloat(process.env.AFFILIATE_DEFAULT_COMMISSION_RATE || '5.00');
+// 7% — stawka z planu "WB TRADE PARTNERS" (sprzedaż z własnego linku)
+const DEFAULT_COMMISSION_RATE = parseFloat(process.env.AFFILIATE_DEFAULT_COMMISSION_RATE || '7.00');
 const HOLD_DAYS = parseInt(process.env.AFFILIATE_HOLD_DAYS || '14', 10);
 const MIN_CASH_PAYOUT = parseFloat(process.env.AFFILIATE_MIN_CASH_PAYOUT || '100');
 const COUPON_PREFIX = process.env.AFFILIATE_COUPON_PREFIX || 'PARTNER';
@@ -534,6 +535,10 @@ export class ReferralService {
   /**
    * Mark referral as PAID when order payment is confirmed.
    * PENDING → PAID (sets paidAt for 14-day hold calculation)
+   *
+   * Note: per the WB TRADE PARTNERS plan the 14-day hold counts from DELIVERY.
+   * markDelivered() restarts the clock when the order is delivered; this method
+   * remains the fallback start (from payment) for orders without delivery tracking.
    */
   async markPaid(orderId: string): Promise<void> {
     try {
@@ -564,6 +569,28 @@ export class ReferralService {
       });
     } catch (err) {
       console.error(`[Referral] Error marking referral as paid for order ${orderId}:`, err);
+    }
+  }
+
+  /**
+   * Restart the hold clock when the order is DELIVERED.
+   * Plan WB TRADE PARTNERS: "14 dni od dostawy" — the payout hold counts from delivery,
+   * not from payment. Promotes PENDING → PAID (e.g. COD collected on delivery) and
+   * resets paidAt on already-PAID records so the cron approves 14 days after delivery.
+   */
+  async markDelivered(orderId: string): Promise<void> {
+    const now = new Date();
+    try {
+      await prisma.referral.updateMany({
+        where: { orderId, status: { in: ['PENDING', 'PAID'] } },
+        data: { status: 'PAID', paidAt: now },
+      });
+      await prisma.referralOverride.updateMany({
+        where: { orderId, status: { in: ['PENDING', 'PAID'] } },
+        data: { status: 'PAID', paidAt: now },
+      });
+    } catch (err) {
+      console.error(`[Referral] Error restarting hold on delivery for order ${orderId}:`, err);
     }
   }
 

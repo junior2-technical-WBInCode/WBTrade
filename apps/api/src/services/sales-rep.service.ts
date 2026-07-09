@@ -331,6 +331,25 @@ export class SalesRepService {
   }
 
   /**
+   * Restart the hold clock when the order is DELIVERED (hold counts from delivery,
+   * consistent with the WB TRADE PARTNERS plan). Promotes PENDING → PAID and resets
+   * paidAt on already-PAID commissions.
+   */
+  async markDelivered(orderId: string): Promise<void> {
+    try {
+      const result = await prisma.salesRepCommission.updateMany({
+        where: { orderId, status: { in: ['PENDING', 'PAID'] } },
+        data: { status: 'PAID', paidAt: new Date() },
+      });
+      if (result.count > 0) {
+        console.log(`[SalesRepService] Hold clock restarted on delivery for order ${orderId}`);
+      }
+    } catch (err) {
+      console.error(`[SalesRepService] Error restarting hold on delivery for order ${orderId}:`, err);
+    }
+  }
+
+  /**
    * Cancel commission when order is cancelled/refunded
    */
   async cancelForOrder(orderId: string): Promise<void> {

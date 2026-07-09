@@ -73,6 +73,13 @@ describe('SalesRepService', () => {
         minCompanyMarginPct: 10,
         markupMultiplier: 1.35,
         holdDays: 14,
+        blockAffiliation: true,
+        modules: {
+          offerTemplates: true,
+          offerTracking: true,
+          leaderboard: true,
+        },
+        monthlyGoalAmount: 5000,
       });
     });
 
@@ -97,6 +104,13 @@ describe('SalesRepService', () => {
         minCompanyMarginPct: 12,
         markupMultiplier: 1.4,
         holdDays: 7,
+        blockAffiliation: true,
+        modules: {
+          offerTemplates: true,
+          offerTracking: true,
+          leaderboard: true,
+        },
+        monthlyGoalAmount: 5000,
       });
     });
   });
