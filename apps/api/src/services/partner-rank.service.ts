@@ -19,6 +19,7 @@
 
 import { PartnerRank, Prisma } from '@prisma/client';
 import { prisma } from '../db';
+import { roundMoney } from '../lib/currency';
 import { partnerVolumeService, WL_THRESHOLDS } from './partner-volume.service';
 
 // ─── Rank ordering ────────────────────────────────────────────────────────────
@@ -354,6 +355,96 @@ export class PartnerRankService {
       `${stats.consolidations} consolidations, ${stats.resets} resets`
     );
     return stats;
+  }
+
+  /**
+   * Partner-facing rank overview (PLAN_03/PR-9):
+   * current rank, consolidation state, monthly volumes, line WLs and
+   * progress toward EVERY path of the next rank.
+   */
+  async getRankOverview(partnerId: string) {
+    const cfg = await getRankConfig();
+    const partner = await prisma.partnerProfile.findUnique({
+      where: { id: partnerId },
+      select: { id: true, rank: true, highestRank: true, rankConfirmations: true, rankAchievedAt: true },
+    });
+    if (!partner) throw new Error('Partner nie znaleziony.');
+
+    const period = new Date().toISOString().slice(0, 7);
+    const [volumeRow, lineRows] = await Promise.all([
+      prisma.partnerMonthlyVolume.findUnique({ where: { partnerId_period: { partnerId, period } } }),
+      prisma.partnerLineVolume.findMany({
+        where: { partnerId, period },
+        orderBy: { volume: 'desc' },
+        include: {
+          linePartner: {
+            select: { referralCode: true, rank: true, user: { select: { firstName: true, lastName: true } } },
+          },
+        },
+      }),
+    ]);
+
+    const vol = {
+      ownSales: Number(volumeRow?.ownSales ?? 0),
+      level1Sales: Number(volumeRow?.level1Sales ?? 0),
+      level2Sales: Number(volumeRow?.level2Sales ?? 0),
+      structureSales: Number(volumeRow?.structureSales ?? 0),
+    };
+    const lines = lineRows.map((l) => ({
+      linePartnerId: l.linePartnerId,
+      volume: Number(l.volume),
+      linePartner: l.linePartner,
+    }));
+
+    const target = nextRank(partner.rank);
+    const req = target ? cfg.ranks[target] : undefined;
+
+    const largestLine = lines.length > 0 ? Math.max(...lines.map((l) => l.volume)) : 0;
+    const largestLineSharePct = vol.structureSales > 0 ? (largestLine / vol.structureSales) * 100 : 0;
+
+    const pathProgress = (path: RankPath) => {
+      const items: Array<{ key: string; current: number; required: number; met: boolean }> = [];
+      if (path.ownSales !== undefined) {
+        items.push({ key: 'ownSales', current: vol.ownSales, required: path.ownSales, met: vol.ownSales >= path.ownSales });
+      }
+      if (path.level1Sales !== undefined) {
+        items.push({ key: 'level1Sales', current: vol.level1Sales, required: path.level1Sales, met: vol.level1Sales >= path.level1Sales });
+      }
+      if (path.level12Sales !== undefined) {
+        const cur = vol.level1Sales + vol.level2Sales;
+        items.push({ key: 'level12Sales', current: cur, required: path.level12Sales, met: cur >= path.level12Sales });
+      }
+      if (path.structureSales !== undefined) {
+        items.push({ key: 'structureSales', current: vol.structureSales, required: path.structureSales, met: vol.structureSales >= path.structureSales });
+      }
+      if (path.minLines) {
+        const cur = lines.filter((l) => l.volume >= path.minLines!.wl).length;
+        items.push({ key: `minLines:WL${path.minLines.wl / 1000}k`, current: cur, required: path.minLines.count, met: cur >= path.minLines.count });
+      }
+      // minRankInLines wymaga skanu poddrzew — pomijamy w podglądzie (weryfikuje silnik awansów)
+      const usesStructure = path.level1Sales !== undefined || path.level12Sales !== undefined || path.structureSales !== undefined;
+      const lineShareOk = !usesStructure || vol.structureSales === 0 || !req || largestLineSharePct <= req.maxLineSharePct;
+      return { items, lineShareOk, met: items.every((i) => i.met) && lineShareOk };
+    };
+
+    return {
+      rank: partner.rank,
+      highestRank: partner.highestRank,
+      rankConfirmations: partner.rankConfirmations,
+      confirmationsToConsolidate: cfg.confirmationsToConsolidate,
+      rankAchievedAt: partner.rankAchievedAt,
+      isConsolidated: partner.rank === partner.highestRank,
+      teamLevelRange: cfg.teamLevelByRank[partner.rank] ?? 1,
+      leaderBonusParams: cfg.leaderBonus.byRank[partner.rank] ?? null,
+      wlAddonPct: cfg.leaderBonus.wlAddonPct,
+      period,
+      volumes: vol,
+      lines,
+      largestLineSharePct: roundMoney(largestLineSharePct),
+      nextRank: target,
+      nextRankMaxLineSharePct: req?.maxLineSharePct ?? null,
+      nextRankPaths: req ? req.paths.map(pathProgress) : [],
+    };
   }
 
   // ─── Requirement checks ─────────────────────────────────────────────────────

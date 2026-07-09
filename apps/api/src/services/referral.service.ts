@@ -961,6 +961,25 @@ export class ReferralService {
   }
 
   /**
+   * List leader bonuses earned by a partner (WBTP — Premia Liderów).
+   */
+  async listLeaderBonuses(partnerId: string) {
+    return prisma.leaderBonus.findMany({
+      where: { beneficiaryId: partnerId },
+      include: {
+        order: {
+          select: {
+            orderNumber: true,
+            total: true,
+          },
+        },
+      },
+      orderBy: { createdAt: 'desc' },
+      take: 100,
+    });
+  }
+
+  /**
    * Get downline partners recursively up to 5 levels deep.
    */
   async getDownline(partnerId: string) {

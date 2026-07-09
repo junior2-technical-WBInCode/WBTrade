@@ -7,7 +7,24 @@ import Header from '../../../components/Header';
 import Footer from '../../../components/Footer';
 import AccountSidebar from '../../../components/AccountSidebar';
 import { useAuth } from '../../../contexts/AuthContext';
-import { referralApi, PartnerProfileData, ReferralLinkData, ApiClientError, ReferralOverrideData, DownlinePartnerNode, ReferralProductStat } from '../../../lib/api';
+import { referralApi, PartnerProfileData, ReferralLinkData, ApiClientError, ReferralOverrideData, DownlinePartnerNode, ReferralProductStat, PartnerRankOverview, LeaderBonusData } from '../../../lib/api';
+
+const RANK_LABELS: Record<string, string> = {
+  AKTYWNY_PARTNER: 'Aktywny Partner',
+  AMBASADOR: 'Ambasador',
+  LIDER_ZESPOLU: 'Lider Zespołu',
+  MENEDZER: 'Menedżer',
+  DYREKTOR_REGIONALNY: 'Dyrektor Regionalny',
+  DYREKTOR_KRAJOWY: 'Dyrektor Krajowy',
+  DYREKTOR_GENERALNY: 'Dyrektor Generalny',
+};
+
+const REQUIREMENT_LABELS: Record<string, string> = {
+  ownSales: 'Sprzedaż własna',
+  level1Sales: 'Obrót 1. poziomu',
+  level12Sales: 'Obrót 1.-2. poziomu',
+  structureSales: 'Obrót struktury',
+};
 
 function formatDate(dateStr: string | null | undefined): string {
   if (!dateStr) return '—';
@@ -67,6 +84,8 @@ export default function PartnershipPage() {
   const [overrides, setOverrides] = useState<ReferralOverrideData[]>([]);
   const [downline, setDownline] = useState<DownlinePartnerNode[]>([]);
   const [productStats, setProductStats] = useState<ReferralProductStat[]>([]);
+  const [rankOverview, setRankOverview] = useState<PartnerRankOverview | null>(null);
+  const [leaderBonuses, setLeaderBonuses] = useState<LeaderBonusData[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
@@ -106,6 +125,19 @@ export default function PartnershipPage() {
         setOverrides(overridesData);
         setDownline(downlineData);
         setProductStats(productStatsData);
+
+        // WBTP: rank + leader bonuses — fail-soft (page works even if unavailable)
+        try {
+          const [rankData, bonusData] = await Promise.all([
+            referralApi.getRankOverview(),
+            referralApi.listLeaderBonuses(),
+          ]);
+          setRankOverview(rankData);
+          setLeaderBonuses(bonusData);
+        } catch {
+          setRankOverview(null);
+          setLeaderBonuses([]);
+        }
       }
     } catch (err: any) {
       if (err instanceof ApiClientError && err.statusCode === 404) {
@@ -371,6 +403,132 @@ export default function PartnershipPage() {
                     </div>
                   </div>
 
+                  {/* WBTP: Rank card + progress toward next rank */}
+                  {rankOverview && (
+                    <div className="bg-white dark:bg-secondary-800 border border-gray-100 dark:border-secondary-700 rounded-2xl p-6 shadow-sm">
+                      <div className="flex flex-wrap items-start justify-between gap-4 mb-4">
+                        <div>
+                          <h3 className="text-lg font-semibold text-gray-950 dark:text-white">Twój poziom awansu</h3>
+                          <div className="mt-1 flex items-center gap-2 flex-wrap">
+                            <span className="bg-orange-100 text-orange-700 dark:bg-orange-950/30 dark:text-orange-400 text-sm px-3 py-1 rounded-full font-bold">
+                              {RANK_LABELS[rankOverview.rank] ?? rankOverview.rank}
+                            </span>
+                            {rankOverview.isConsolidated ? (
+                              <span className="text-xs text-green-600 dark:text-green-400 font-medium">poziom utrwalony</span>
+                            ) : (
+                              <span className="text-xs text-yellow-600 dark:text-yellow-400 font-medium">
+                                potwierdzenia: {rankOverview.rankConfirmations}/{rankOverview.confirmationsToConsolidate}
+                              </span>
+                            )}
+                          </div>
+                        </div>
+                        <div className="text-right text-xs text-gray-500 dark:text-gray-400 space-y-1">
+                          <div>Prowizja zespołowa: <span className="font-semibold text-gray-900 dark:text-white">1.-{rankOverview.teamLevelRange}. poziom</span></div>
+                          {rankOverview.leaderBonusParams && (
+                            <div>Premia Liderów: <span className="font-semibold text-gray-900 dark:text-white">{rankOverview.leaderBonusParams.basePct}%–{(rankOverview.leaderBonusParams.basePct + rankOverview.wlAddonPct).toFixed(2)}%</span></div>
+                          )}
+                          <div>Okres: <span className="font-mono">{rankOverview.period}</span></div>
+                        </div>
+                      </div>
+
+                      {/* Monthly volumes */}
+                      <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-4">
+                        {[
+                          { label: 'Sprzedaż własna', value: rankOverview.volumes.ownSales },
+                          { label: '1. poziom', value: rankOverview.volumes.level1Sales },
+                          { label: '2. poziom', value: rankOverview.volumes.level2Sales },
+                          { label: 'Cała struktura', value: rankOverview.volumes.structureSales },
+                        ].map((v) => (
+                          <div key={v.label} className="bg-gray-50 dark:bg-secondary-900/50 rounded-xl p-3">
+                            <div className="text-[11px] uppercase font-semibold text-gray-400">{v.label}</div>
+                            <div className="text-sm font-bold text-gray-900 dark:text-white mt-0.5">{v.value.toLocaleString('pl-PL', { minimumFractionDigits: 2 })} zł</div>
+                          </div>
+                        ))}
+                      </div>
+
+                      {/* Progress toward next rank */}
+                      {rankOverview.nextRank && rankOverview.nextRankPaths.length > 0 && (
+                        <div>
+                          <h4 className="text-sm font-semibold text-gray-900 dark:text-white mb-2">
+                            Droga do: {RANK_LABELS[rankOverview.nextRank] ?? rankOverview.nextRank}
+                            <span className="text-xs text-gray-400 font-normal ml-2">(wystarczy spełnić jedną ścieżkę)</span>
+                          </h4>
+                          <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+                            {rankOverview.nextRankPaths.map((path, i) => (
+                              <div key={i} className={`rounded-xl p-4 border ${path.met ? 'border-green-300 bg-green-50 dark:bg-green-950/20 dark:border-green-900/40' : 'border-gray-100 dark:border-secondary-700 bg-gray-50 dark:bg-secondary-900/50'}`}>
+                                <div className="text-xs font-semibold text-gray-500 dark:text-gray-400 mb-2">
+                                  {['Ścieżka 1: Sprzedaż własna', 'Ścieżka 2: Model mieszany', 'Ścieżka 3: Struktura'][i] ?? `Ścieżka ${i + 1}`}
+                                  {path.met && <span className="text-green-600 ml-1">✓ spełniona</span>}
+                                </div>
+                                <div className="space-y-2">
+                                  {path.items.map((item) => {
+                                    const pct = Math.min(100, item.required > 0 ? (item.current / item.required) * 100 : 100);
+                                    const label = REQUIREMENT_LABELS[item.key] ?? (item.key.startsWith('minLines') ? `Linie ${item.key.split(':')[1]}` : item.key);
+                                    const isLines = item.key.startsWith('minLines');
+                                    return (
+                                      <div key={item.key}>
+                                        <div className="flex justify-between text-[11px] text-gray-500 dark:text-gray-400">
+                                          <span>{label}</span>
+                                          <span className={item.met ? 'text-green-600 font-semibold' : ''}>
+                                            {isLines
+                                              ? `${item.current}/${item.required}`
+                                              : `${item.current.toLocaleString('pl-PL')} / ${item.required.toLocaleString('pl-PL')} zł`}
+                                          </span>
+                                        </div>
+                                        <div className="h-1.5 bg-gray-200 dark:bg-secondary-700 rounded-full mt-1 overflow-hidden">
+                                          <div className={`h-full rounded-full ${item.met ? 'bg-green-500' : 'bg-orange-400'}`} style={{ width: `${pct}%` }} />
+                                        </div>
+                                      </div>
+                                    );
+                                  })}
+                                  {!path.lineShareOk && rankOverview.nextRankMaxLineSharePct !== null && (
+                                    <div className="text-[11px] text-red-500">
+                                      Największa linia stanowi {rankOverview.largestLineSharePct.toFixed(0)}% obrotu — limit {rankOverview.nextRankMaxLineSharePct}%.
+                                    </div>
+                                  )}
+                                </div>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+
+                      {/* Line volumes (WL) */}
+                      {rankOverview.lines.length > 0 && (
+                        <div className="mt-4">
+                          <h4 className="text-sm font-semibold text-gray-900 dark:text-white mb-2">Twoje linie (Wolumen Linii)</h4>
+                          <div className="overflow-x-auto">
+                            <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                              <thead className="text-xs uppercase bg-gray-50 dark:bg-secondary-900 text-gray-400">
+                                <tr>
+                                  <th className="px-3 py-2">Linia</th>
+                                  <th className="px-3 py-2">Poziom partnera</th>
+                                  <th className="px-3 py-2 text-right">WL w tym miesiącu</th>
+                                </tr>
+                              </thead>
+                              <tbody className="divide-y divide-gray-100 dark:divide-secondary-700/50">
+                                {rankOverview.lines.map((line) => (
+                                  <tr key={line.linePartnerId}>
+                                    <td className="px-3 py-2.5">
+                                      <span className="font-medium text-gray-900 dark:text-white">
+                                        {line.linePartner.user.firstName} {line.linePartner.user.lastName}
+                                      </span>
+                                      <span className="text-xs text-gray-400 font-mono ml-2">{line.linePartner.referralCode}</span>
+                                    </td>
+                                    <td className="px-3 py-2.5 text-xs">{RANK_LABELS[line.linePartner.rank] ?? line.linePartner.rank}</td>
+                                    <td className="px-3 py-2.5 text-right font-semibold text-gray-900 dark:text-white">
+                                      {line.volume.toLocaleString('pl-PL', { minimumFractionDigits: 2 })} zł
+                                    </td>
+                                  </tr>
+                                ))}
+                              </tbody>
+                            </table>
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  )}
+
                   {/* Ref Link Generator */}
                   <div className="bg-gray-50 dark:bg-secondary-900/50 rounded-2xl p-6 border border-gray-100 dark:border-secondary-700/50">
                     <h3 className="font-semibold text-gray-950 dark:text-white mb-1">Generator Linków</h3>
@@ -626,6 +784,40 @@ export default function PartnershipPage() {
                       </div>
                     )}
                   </div>
+
+                  {/* WBTP: Premia Liderów */}
+                  {leaderBonuses.length > 0 && (
+                    <div>
+                      <h3 className="text-lg font-semibold text-gray-950 dark:text-white mb-4">Premia Liderów</h3>
+                      <div className="overflow-x-auto">
+                        <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                          <thead className="text-xs uppercase bg-gray-50 dark:bg-secondary-900 text-gray-400">
+                            <tr>
+                              <th className="px-4 py-3">Zamówienie</th>
+                              <th className="px-4 py-3 text-center">Ranga / udział</th>
+                              <th className="px-4 py-3 text-right">Kwota</th>
+                              <th className="px-4 py-3 text-center">Status</th>
+                              <th className="px-4 py-3 text-right">Data</th>
+                            </tr>
+                          </thead>
+                          <tbody className="divide-y divide-gray-100 dark:divide-secondary-700/50">
+                            {leaderBonuses.map((b) => (
+                              <tr key={b.id} className="hover:bg-gray-50/50 dark:hover:bg-secondary-800/30">
+                                <td className="px-4 py-3.5 font-medium text-gray-900 dark:text-white">{b.order?.orderNumber ?? '—'}</td>
+                                <td className="px-4 py-3.5 text-center text-xs">
+                                  {RANK_LABELS[b.rank] ?? b.rank} · {Number(b.sharePct)}%
+                                  {Number(b.wlAddonPct) > 0 && <span className="text-green-600 font-semibold"> +WL</span>}
+                                </td>
+                                <td className="px-4 py-3.5 text-right font-medium text-orange-500">{Number(b.amount).toFixed(2)} PLN</td>
+                                <td className="px-4 py-3.5 text-center">{statusBadge(b.status)}</td>
+                                <td className="px-4 py-3.5 text-right text-xs">{formatDate(b.createdAt)}</td>
+                              </tr>
+                            ))}
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  )}
 
                   {/* MLM Downline (Twoja struktura) */}
                   <div className="bg-gray-50 dark:bg-secondary-900/50 rounded-2xl p-6 border border-gray-100 dark:border-secondary-700/50">
