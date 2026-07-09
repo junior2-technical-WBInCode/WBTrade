@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import { partnersApi } from '@/lib/api';
+import { RANK_LABELS } from '@/lib/ranks';
 import Link from 'next/link';
 
 function formatDate(dateStr: string | null | undefined): string {
@@ -60,6 +61,17 @@ export default function PartnerDetailPage() {
       fetchPartnerDetail();
     } catch (err: any) {
       alert(err.message || 'Nie udało się zaktualizować statusu.');
+    }
+  };
+
+  const handleUpdateRank = async (newRank: string) => {
+    if (!newRank || newRank === partner?.rank) return;
+    if (!confirm(`Zmienić poziom awansu partnera na „${RANK_LABELS[newRank] ?? newRank}”? Poziom zostanie utrwalony (korekta administracyjna).`)) return;
+    try {
+      await partnersApi.updateRank(id, newRank, 'Korekta administracyjna');
+      fetchPartnerDetail();
+    } catch (err: any) {
+      alert(err.message || 'Nie udało się zaktualizować poziomu.');
     }
   };
 
@@ -169,6 +181,39 @@ export default function PartnerDetailPage() {
           </div>
 
           <div className="bg-white dark:bg-secondary-800 border border-gray-100 dark:border-secondary-700 p-6 rounded-2xl space-y-4">
+            <h3 className="font-semibold text-gray-900 dark:text-white border-b pb-2">Poziom awansu (WBTP)</h3>
+            <div className="grid grid-cols-2 text-sm">
+              <span className="text-gray-400">Aktualny poziom:</span>
+              <span className="font-semibold text-orange-500">{RANK_LABELS[partner.rank] ?? partner.rank ?? '—'}</span>
+            </div>
+            <div className="grid grid-cols-2 text-sm">
+              <span className="text-gray-400">Poziom utrwalony:</span>
+              <span className="font-semibold">{RANK_LABELS[partner.highestRank] ?? partner.highestRank ?? '—'}</span>
+            </div>
+            <div className="grid grid-cols-2 text-sm">
+              <span className="text-gray-400">Potwierdzenia:</span>
+              <span>{partner.rankConfirmations ?? 0}/2{partner.rank !== partner.highestRank ? ' (poziom niepotwierdzony)' : ''}</span>
+            </div>
+            <div className="grid grid-cols-2 text-sm">
+              <span className="text-gray-400">Data awansu:</span>
+              <span>{formatDate(partner.rankAchievedAt)}</span>
+            </div>
+            <div className="grid grid-cols-2 text-sm items-center">
+              <span className="text-gray-400">Korekta poziomu:</span>
+              <select
+                defaultValue=""
+                onChange={(e) => { handleUpdateRank(e.target.value); e.target.value = ''; }}
+                className="px-2 py-1.5 rounded-lg text-xs bg-gray-50 dark:bg-secondary-900 border border-gray-200 dark:border-secondary-700 cursor-pointer"
+              >
+                <option value="" disabled>Wybierz poziom…</option>
+                {Object.entries(RANK_LABELS).map(([value, label]) => (
+                  <option key={value} value={value}>{label}</option>
+                ))}
+              </select>
+            </div>
+          </div>
+
+          <div className="bg-white dark:bg-secondary-800 border border-gray-100 dark:border-secondary-700 p-6 rounded-2xl space-y-4">
             <h3 className="font-semibold text-gray-900 dark:text-white border-b pb-2">Dane do Rozliczeń</h3>
             <div className="grid grid-cols-2 text-sm">
               <span className="text-gray-400">Konto bankowe:</span>
@@ -182,6 +227,122 @@ export default function PartnerDetailPage() {
               <span className="text-gray-400">NIP firmy:</span>
               <span className="font-semibold">{partner.nip || 'Brak'}</span>
             </div>
+          </div>
+        </div>
+
+        {/* WBTP: monthly volume + line volumes (WL) */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="bg-white dark:bg-secondary-800 border border-gray-100 dark:border-secondary-700 rounded-2xl p-6">
+            <h3 className="font-semibold text-gray-900 dark:text-white border-b pb-4 mb-4">
+              Obrót kwalifikowany — {partner.lineVolumes?.period ?? 'bieżący miesiąc'}
+            </h3>
+            {partner.monthlyVolume ? (
+              <div className="space-y-3 text-sm">
+                <div className="grid grid-cols-2"><span className="text-gray-400">Sprzedaż własna:</span><span className="font-semibold">{Number(partner.monthlyVolume.ownSales).toFixed(2)} PLN</span></div>
+                <div className="grid grid-cols-2"><span className="text-gray-400">1. poziom:</span><span className="font-semibold">{Number(partner.monthlyVolume.level1Sales).toFixed(2)} PLN</span></div>
+                <div className="grid grid-cols-2"><span className="text-gray-400">2. poziom:</span><span className="font-semibold">{Number(partner.monthlyVolume.level2Sales).toFixed(2)} PLN</span></div>
+                <div className="grid grid-cols-2"><span className="text-gray-400">Cała struktura:</span><span className="font-semibold text-orange-500">{Number(partner.monthlyVolume.structureSales).toFixed(2)} PLN</span></div>
+              </div>
+            ) : (
+              <p className="text-sm text-gray-400">Brak danych za bieżący okres.</p>
+            )}
+          </div>
+
+          <div className="bg-white dark:bg-secondary-800 border border-gray-100 dark:border-secondary-700 rounded-2xl p-6">
+            <h3 className="font-semibold text-gray-900 dark:text-white border-b pb-4 mb-4">Wolumen Linii (WL)</h3>
+            {!partner.lineVolumes?.current?.length ? (
+              <p className="text-sm text-gray-400">Brak linii z obrotem w bieżącym okresie.</p>
+            ) : (
+              <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                <thead className="text-xs uppercase bg-gray-50 dark:bg-secondary-900 text-gray-400">
+                  <tr>
+                    <th className="px-3 py-2">Linia (korzeń)</th>
+                    <th className="px-3 py-2">Poziom</th>
+                    <th className="px-3 py-2 text-right">WL (obrót)</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-gray-100 dark:divide-secondary-700/50">
+                  {partner.lineVolumes.current.map((lv: any) => (
+                    <tr key={lv.id}>
+                      <td className="px-3 py-2.5">
+                        <div className="font-medium text-gray-900 dark:text-white">
+                          {lv.linePartner?.user?.firstName} {lv.linePartner?.user?.lastName}
+                        </div>
+                        <div className="text-xs text-gray-400 font-mono">{lv.linePartner?.referralCode}</div>
+                      </td>
+                      <td className="px-3 py-2.5 text-xs">{RANK_LABELS[lv.linePartner?.rank] ?? '—'}</td>
+                      <td className="px-3 py-2.5 text-right font-semibold">{Number(lv.volume).toFixed(2)} PLN</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            )}
+          </div>
+        </div>
+
+        {/* WBTP: leader bonuses + rank events */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="bg-white dark:bg-secondary-800 border border-gray-100 dark:border-secondary-700 rounded-2xl p-6">
+            <h3 className="font-semibold text-gray-900 dark:text-white border-b pb-4 mb-4">Premia Liderów</h3>
+            {!partner.leaderBonuses?.length ? (
+              <p className="text-sm text-gray-400">Brak naliczonych premii.</p>
+            ) : (
+              <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                <thead className="text-xs uppercase bg-gray-50 dark:bg-secondary-900 text-gray-400">
+                  <tr>
+                    <th className="px-3 py-2">Zamówienie</th>
+                    <th className="px-3 py-2">Ranga / udział</th>
+                    <th className="px-3 py-2 text-right">Kwota</th>
+                    <th className="px-3 py-2 text-center">Status</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-gray-100 dark:divide-secondary-700/50">
+                  {partner.leaderBonuses.map((b: any) => (
+                    <tr key={b.id}>
+                      <td className="px-3 py-2.5 font-mono text-xs">{b.order?.orderNumber ?? b.orderId}</td>
+                      <td className="px-3 py-2.5 text-xs">
+                        {RANK_LABELS[b.rank] ?? b.rank} · {Number(b.sharePct)}%
+                        {Number(b.wlAddonPct) > 0 && <span className="text-green-600"> +WL</span>}
+                      </td>
+                      <td className="px-3 py-2.5 text-right font-semibold">{Number(b.amount).toFixed(2)} PLN</td>
+                      <td className="px-3 py-2.5 text-center">{statusBadge(b.status)}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            )}
+          </div>
+
+          <div className="bg-white dark:bg-secondary-800 border border-gray-100 dark:border-secondary-700 rounded-2xl p-6">
+            <h3 className="font-semibold text-gray-900 dark:text-white border-b pb-4 mb-4">Historia awansów</h3>
+            {!partner.rankEvents?.length ? (
+              <p className="text-sm text-gray-400">Brak zdarzeń awansu.</p>
+            ) : (
+              <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                <thead className="text-xs uppercase bg-gray-50 dark:bg-secondary-900 text-gray-400">
+                  <tr>
+                    <th className="px-3 py-2">Okres</th>
+                    <th className="px-3 py-2">Zmiana</th>
+                    <th className="px-3 py-2">Typ</th>
+                    <th className="px-3 py-2 text-right">Data</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-gray-100 dark:divide-secondary-700/50">
+                  {partner.rankEvents.map((ev: any) => (
+                    <tr key={ev.id}>
+                      <td className="px-3 py-2.5 font-mono text-xs">{ev.period}</td>
+                      <td className="px-3 py-2.5 text-xs">
+                        {RANK_LABELS[ev.fromRank] ?? ev.fromRank} → <span className="font-semibold">{RANK_LABELS[ev.toRank] ?? ev.toRank}</span>
+                      </td>
+                      <td className="px-3 py-2.5 text-xs">
+                        {{ PROMOTION: 'Awans', CONFIRMATION: 'Potwierdzenie', CONSOLIDATION: 'Utrwalenie', RESET: 'Powrót', MANUAL: 'Korekta admin' }[ev.type as string] ?? ev.type}
+                      </td>
+                      <td className="px-3 py-2.5 text-right text-xs">{formatDate(ev.createdAt)}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            )}
           </div>
         </div>
 

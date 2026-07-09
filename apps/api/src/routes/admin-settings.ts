@@ -12,7 +12,7 @@ import {
   DEFAULT_MLM_CONFIG,
   type MlmConfig,
 } from '../services/mlm-config.service';
-import { getRankConfig } from '../services/partner-rank.service';
+import { getRankConfig, saveRankConfig } from '../services/partner-rank.service';
 import { roundMoney } from '../lib/currency';
 
 // Reference base commission rate (% of sale) for the payout-ceiling preview/validation.
@@ -298,6 +298,68 @@ router.post('/mlm-config', async (req, res) => {
   } catch (error) {
     console.error('Error saving MLM config:', error);
     res.status(500).json({ message: 'Błąd zapisu konfiguracji MLM' });
+  }
+});
+
+/**
+ * GET /api/admin/settings/rank-config
+ * Konfiguracja rang WBTP (progi awansów, limity linii, Premia Liderów).
+ */
+router.get('/rank-config', async (req, res) => {
+  try {
+    const config = await getRankConfig();
+    const leaderBonusMaxPctOfSale = await computeLeaderBonusMaxPct();
+    res.json({ success: true, config, leaderBonusMaxPctOfSale });
+  } catch (error) {
+    console.error('Error fetching rank config:', error);
+    res.status(500).json({ message: 'Błąd pobierania konfiguracji rang' });
+  }
+});
+
+/**
+ * POST /api/admin/settings/rank-config
+ * Zapis konfiguracji rang WBTP (pełny obiekt RankConfig).
+ */
+router.post('/rank-config', async (req, res) => {
+  try {
+    const cfg = req.body?.config;
+    if (!cfg || typeof cfg !== 'object' || !cfg.ranks || !cfg.teamLevelByRank || !cfg.leaderBonus) {
+      res.status(400).json({ message: 'Nieprawidłowa konfiguracja rang (wymagane: ranks, teamLevelByRank, leaderBonus).' });
+      return;
+    }
+
+    // Sanity checks
+    const errors: string[] = [];
+    for (const [rank, level] of Object.entries(cfg.teamLevelByRank)) {
+      const n = Number(level);
+      if (!Number.isInteger(n) || n < 1 || n > 4) {
+        errors.push(`teamLevelByRank.${rank}: poziom musi być liczbą 1-4.`);
+      }
+    }
+    for (const [rank, params] of Object.entries(cfg.leaderBonus.byRank ?? {})) {
+      const p = params as any;
+      if (typeof p?.basePct !== 'number' || p.basePct < 0 || p.basePct > 5) {
+        errors.push(`leaderBonus.byRank.${rank}.basePct: musi być liczbą 0-5.`);
+      }
+      if (typeof p?.wlRequirement !== 'number' || p.wlRequirement < 0) {
+        errors.push(`leaderBonus.byRank.${rank}.wlRequirement: musi być liczbą >= 0.`);
+      }
+    }
+    const conf = Number(cfg.confirmationsToConsolidate);
+    if (!Number.isInteger(conf) || conf < 1 || conf > 12) {
+      errors.push('confirmationsToConsolidate: musi być liczbą 1-12.');
+    }
+    if (errors.length > 0) {
+      res.status(400).json({ message: errors.join(' '), errors });
+      return;
+    }
+
+    await saveRankConfig(cfg);
+    const leaderBonusMaxPctOfSale = await computeLeaderBonusMaxPct();
+    res.json({ success: true, message: 'Konfiguracja rang zapisana.', config: cfg, leaderBonusMaxPctOfSale });
+  } catch (error) {
+    console.error('Error saving rank config:', error);
+    res.status(500).json({ message: 'Błąd zapisu konfiguracji rang' });
   }
 });
 

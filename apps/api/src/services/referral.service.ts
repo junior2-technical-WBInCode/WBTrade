@@ -13,12 +13,13 @@
  */
 
 import { prisma } from '../db';
-import { Prisma, ReferralStatus } from '@prisma/client';
+import { Prisma, ReferralStatus, PartnerRank } from '@prisma/client';
 import { roundMoney } from '../lib/currency';
 import { isFraud, loadPartnerForFraudCheck } from './referral-fraud.service';
 import { getMlmConfig } from './mlm-config.service';
 import { getRankConfig } from './partner-rank.service';
 import { leaderBonusService } from './leader-bonus.service';
+import { partnerVolumeService, currentPeriod, previousPeriod } from './partner-volume.service';
 import crypto from 'crypto';
 
 // ─── Config ───
@@ -1274,10 +1275,13 @@ export class ReferralService {
   /**
    * List all partners with optional status filter.
    */
-  async listPartners(status?: string, page = 1, limit = 20) {
+  async listPartners(status?: string, page = 1, limit = 20, rank?: string) {
     const where: Prisma.PartnerProfileWhereInput = {};
     if (status) {
       where.status = status as any;
+    }
+    if (rank) {
+      where.rank = rank as any;
     }
 
     const [partners, total] = await Promise.all([
@@ -1325,7 +1329,35 @@ export class ReferralService {
     if (!partner) return null;
 
     const balance = await this.computeBalance(partnerId);
-    return { ...partner, balance };
+
+    // WB TRADE PARTNERS (PLAN_03/PR-8): rank history, current + previous WL, leader bonuses
+    const period = currentPeriod();
+    const prevPeriod = previousPeriod();
+    const [rankEvents, lineVolumes, prevLineVolumes, leaderBonuses] = await Promise.all([
+      prisma.partnerRankEvent.findMany({
+        where: { partnerId },
+        orderBy: { createdAt: 'desc' },
+        take: 50,
+      }),
+      partnerVolumeService.getLineVolumes(partnerId, period),
+      partnerVolumeService.getLineVolumes(partnerId, prevPeriod),
+      prisma.leaderBonus.findMany({
+        where: { beneficiaryId: partnerId },
+        orderBy: { createdAt: 'desc' },
+        take: 50,
+        include: { order: { select: { orderNumber: true, total: true } } },
+      }),
+    ]);
+    const monthlyVolume = await partnerVolumeService.getMonthlyVolume(partnerId, period);
+
+    return {
+      ...partner,
+      balance,
+      rankEvents,
+      lineVolumes: { period, current: lineVolumes, previousPeriod: prevPeriod, previous: prevLineVolumes },
+      leaderBonuses,
+      monthlyVolume,
+    };
   }
 
   /**
@@ -1336,6 +1368,42 @@ export class ReferralService {
       where: { id: partnerId },
       data: { status },
     });
+  }
+
+  /**
+   * Manual rank correction (admin action) — PLAN_03/PR-8.
+   * Sets rank AND consolidates it (highestRank) — an admin override is authoritative.
+   * Emits a MANUAL PartnerRankEvent for the audit trail.
+   */
+  async updatePartnerRank(partnerId: string, rank: PartnerRank, adminNote?: string) {
+    const partner = await prisma.partnerProfile.findUnique({
+      where: { id: partnerId },
+      select: { rank: true },
+    });
+    if (!partner) throw new Error('Partner nie znaleziony.');
+
+    const [updated] = await prisma.$transaction([
+      prisma.partnerProfile.update({
+        where: { id: partnerId },
+        data: {
+          rank,
+          highestRank: rank,
+          rankConfirmations: 0,
+          rankAchievedAt: new Date(),
+        },
+      }),
+      prisma.partnerRankEvent.create({
+        data: {
+          partnerId,
+          period: currentPeriod(),
+          fromRank: partner.rank,
+          toRank: rank,
+          type: 'MANUAL',
+          details: adminNote ? { adminNote } : undefined,
+        },
+      }),
+    ]);
+    return updated;
   }
 
   /**

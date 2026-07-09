@@ -3,11 +3,13 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { partnersApi } from '@/lib/api';
+import { RANK_LABELS } from '@/lib/ranks';
 
 export default function PartnersListPage() {
   const [partners, setPartners] = useState<any[]>([]);
   const [pagination, setPagination] = useState({ total: 0, page: 1, limit: 20, totalPages: 1 });
   const [statusFilter, setStatusFilter] = useState<string>('');
+  const [rankFilter, setRankFilter] = useState<string>('');
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
 
@@ -15,7 +17,7 @@ export default function PartnersListPage() {
     try {
       setLoading(true);
       setError('');
-      const data = await partnersApi.list(statusFilter || undefined, page);
+      const data = await partnersApi.list(statusFilter || undefined, page, 20, rankFilter || undefined);
       setPartners(data.partners);
       setPagination(data.pagination);
     } catch (err: any) {
@@ -27,7 +29,7 @@ export default function PartnersListPage() {
 
   useEffect(() => {
     fetchPartners(1);
-  }, [statusFilter]);
+  }, [statusFilter, rankFilter]);
 
   const handleUpdateStatus = async (id: string, newStatus: 'APPROVED' | 'REJECTED' | 'SUSPENDED') => {
     if (!confirm(`Czy na pewno chcesz zmienić status partnera na ${newStatus}?`)) return;
@@ -88,6 +90,17 @@ export default function PartnersListPage() {
               </button>
             ))}
           </div>
+          <span className="text-sm font-medium text-gray-700 dark:text-gray-300 ml-2">Poziom:</span>
+          <select
+            value={rankFilter}
+            onChange={(e) => setRankFilter(e.target.value)}
+            className="px-3 py-1.5 rounded-lg text-xs font-medium bg-gray-50 dark:bg-secondary-900 text-gray-600 dark:text-gray-400 border border-gray-200 dark:border-secondary-700 cursor-pointer"
+          >
+            <option value="">Wszystkie</option>
+            {Object.entries(RANK_LABELS).map(([value, label]) => (
+              <option key={value} value={value}>{label}</option>
+            ))}
+          </select>
         </div>
 
         {/* List Table */}
@@ -108,6 +121,7 @@ export default function PartnersListPage() {
                     <th className="px-6 py-3">Użytkownik</th>
                     <th className="px-6 py-3">Kod partnerski</th>
                     <th className="px-6 py-3 text-center font-semibold">Prowizja %</th>
+                    <th className="px-6 py-3">Poziom awansu</th>
                     <th className="px-6 py-3">Firma / NIP</th>
                     <th className="px-6 py-3">Status</th>
                     <th className="px-6 py-3 text-right">Data rejestracji</th>
@@ -125,6 +139,16 @@ export default function PartnersListPage() {
                       </td>
                       <td className="px-6 py-4 font-mono text-orange-500 text-xs font-semibold">{p.referralCode}</td>
                       <td className="px-6 py-4 text-center font-bold text-gray-800 dark:text-gray-300">{p.commissionRate}%</td>
+                      <td className="px-6 py-4">
+                        <div className="text-xs font-semibold text-gray-800 dark:text-gray-300">
+                          {RANK_LABELS[p.rank] ?? p.rank ?? '—'}
+                        </div>
+                        {p.rank && p.rank !== p.highestRank && (
+                          <div className="text-[10px] text-yellow-600 dark:text-yellow-400">
+                            niepotwierdzony ({p.rankConfirmations ?? 0}/2)
+                          </div>
+                        )}
+                      </td>
                       <td className="px-6 py-4">
                         {p.companyName ? (
                           <>
