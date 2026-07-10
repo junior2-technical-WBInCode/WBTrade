@@ -109,6 +109,7 @@ export default function PartnershipPage() {
   const [showTermsModal, setShowTermsModal] = useState(false);
   const [hasScrolledTerms, setHasScrolledTerms] = useState(false);
   const [acceptedTerms, setAcceptedTerms] = useState(false);
+  const [termsContainerWidth, setTermsContainerWidth] = useState(600);
   const termsScrollRef = useRef<HTMLDivElement | null>(null);
 
   const handleTermsScroll = () => {
@@ -117,6 +118,31 @@ export default function PartnershipPage() {
     const reachedBottom = el.scrollTop + el.clientHeight >= el.scrollHeight - 24;
     if (reachedBottom) setHasScrolledTerms(true);
   };
+
+  // Measure the width from the scroll container itself (fixed by the modal's CSS, not by its
+  // PDF-page children) so the rendered page size doesn't feed back into its own measurement —
+  // that self-referential loop previously made pages render too small and overlap on resize/zoom.
+  useEffect(() => {
+    if (!showTermsModal) return;
+    const el = termsScrollRef.current;
+    if (!el) return;
+    const PADDING_X = 48; // px-6 on both sides of the scroll container
+    let frame: number | null = null;
+    const measure = () => {
+      const width = Math.max(280, el.clientWidth - PADDING_X);
+      setTermsContainerWidth((prev) => (Math.abs(prev - width) > 4 ? width : prev));
+    };
+    measure();
+    const observer = new ResizeObserver(() => {
+      if (frame !== null) cancelAnimationFrame(frame);
+      frame = requestAnimationFrame(measure);
+    });
+    observer.observe(el);
+    return () => {
+      observer.disconnect();
+      if (frame !== null) cancelAnimationFrame(frame);
+    };
+  }, [showTermsModal]);
 
   const [newLinkUrl, setNewLinkUrl] = useState('');
   const [newLinkLabel, setNewLinkLabel] = useState('');
@@ -414,7 +440,7 @@ export default function PartnershipPage() {
               {/* MODAL: Warunki Współpracy — Program Partnerski */}
               {showTermsModal && (
                 <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4">
-                  <div className="bg-white dark:bg-secondary-800 rounded-2xl shadow-xl w-full max-w-2xl max-h-[85vh] flex flex-col">
+                  <div className="bg-white dark:bg-secondary-800 rounded-2xl shadow-xl w-full max-w-4xl max-h-[90vh] flex flex-col">
                     <div className="flex items-center justify-between px-6 py-4 border-b border-gray-100 dark:border-secondary-700">
                       <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Warunki Współpracy — Program Partnerski</h3>
                       <button
@@ -431,7 +457,7 @@ export default function PartnershipPage() {
                       onScroll={handleTermsScroll}
                       className="overflow-y-auto px-6 py-4 flex-1 bg-gray-50 dark:bg-secondary-900/40"
                     >
-                      <PartnerTermsPdfViewer fileUrl={PARTNER_TERMS_PDF_URL} />
+                      <PartnerTermsPdfViewer fileUrl={PARTNER_TERMS_PDF_URL} containerWidth={termsContainerWidth} />
                     </div>
                     <div className="px-6 py-4 border-t border-gray-100 dark:border-secondary-700 flex flex-wrap items-center justify-between gap-3">
                       <a
