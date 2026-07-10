@@ -67,14 +67,23 @@ TABLE_HEADER_BG = colors.HexColor("#1a2233")
 TABLE_ALT_BG = colors.HexColor("#f5f6f8")
 
 
+cell_style = ParagraphStyle("cell", parent=body, fontName=FONT_NAME, fontSize=9, leading=11, spaceAfter=0)
+cell_header_style = ParagraphStyle("cellHeader", parent=cell_style, fontName=FONT_NAME_BOLD, textColor=colors.white)
+
+
 def table(data, col_widths=None):
-    t = Table(data, colWidths=col_widths, hAlign="LEFT")
+    # ReportLab does NOT auto-wrap plain strings inside Table cells — long text simply
+    # overflows into the neighbouring column instead of wrapping, which is what produced
+    # the overlapping/garbled text in the "Warunki awansu" tables. Wrapping every cell in
+    # a Paragraph makes it reflow within its own column width (growing the row instead).
+    wrapped_rows = []
+    for row_idx, row in enumerate(data):
+        style = cell_header_style if row_idx == 0 else cell_style
+        wrapped_rows.append([Paragraph(cell, style) if isinstance(cell, str) else cell for cell in row])
+
+    t = Table(wrapped_rows, colWidths=col_widths, hAlign="LEFT")
     style = [
         ("BACKGROUND", (0, 0), (-1, 0), TABLE_HEADER_BG),
-        ("TEXTCOLOR", (0, 0), (-1, 0), colors.white),
-        ("FONTNAME", (0, 0), (-1, -1), FONT_NAME),
-        ("FONTNAME", (0, 0), (-1, 0), FONT_NAME_BOLD),
-        ("FONTSIZE", (0, 0), (-1, -1), 9),
         ("GRID", (0, 0), (-1, -1), 0.5, colors.HexColor("#d9dce1")),
         ("VALIGN", (0, 0), (-1, -1), "MIDDLE"),
         ("LEFTPADDING", (0, 0), (-1, -1), 6),
