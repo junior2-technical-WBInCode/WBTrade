@@ -2,13 +2,20 @@
 
 import { useState, useEffect, useCallback, useRef } from 'react';
 import Link from 'next/link';
+import dynamic from 'next/dynamic';
 import { useRouter } from 'next/navigation';
 import Header from '../../../components/Header';
 import Footer from '../../../components/Footer';
 import AccountSidebar from '../../../components/AccountSidebar';
 import { useAuth } from '../../../contexts/AuthContext';
 import { referralApi, PartnerProfileData, ReferralLinkData, ApiClientError, ReferralOverrideData, DownlinePartnerNode, ReferralProductStat, PartnerRankOverview, LeaderBonusData } from '../../../lib/api';
-import PartnerTermsPdfViewer from './PartnerTermsPdfViewer';
+
+// pdfjs-dist touches browser-only globals (DOMMatrix, canvas, etc.) at module load time,
+// which breaks Next.js server-side prerendering/build. Load it client-side only.
+const PartnerTermsPdfViewer = dynamic(() => import('./PartnerTermsPdfViewer'), {
+  ssr: false,
+  loading: () => <p className="text-sm text-gray-400 text-center py-10">Wczytywanie dokumentu...</p>,
+});
 
 const PARTNER_TERMS_PDF_URL = '/documents/warunki-wspolpracy-programu-partnerskiego.pdf';
 
