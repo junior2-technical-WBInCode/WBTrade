@@ -5,10 +5,13 @@ Run with: python scripts/generate_partner_terms_pdf.py
 Output: apps/web/public/documents/warunki-wspolpracy-programu-partnerskiego.pdf
 """
 import os
+import sys
 
 from reportlab.lib.pagesizes import A4
 from reportlab.lib.units import mm
 from reportlab.lib import colors
+from reportlab.pdfbase import pdfmetrics
+from reportlab.pdfbase.ttfonts import TTFont
 from reportlab.platypus import (
     SimpleDocTemplate, Paragraph, Spacer, Table, TableStyle, PageBreak,
 )
@@ -20,14 +23,45 @@ OUT_PATH = os.path.join(
     "warunki-wspolpracy-programu-partnerskiego.pdf",
 )
 
+# ReportLab's built-in base14 fonts (Helvetica/Times) only support WinAnsi
+# encoding and render Polish letters (ł, ć, ś, ź, ż, ń, ę, ą, ó) as black
+# boxes. Register a real Unicode TTF font instead so diacritics show up
+# correctly. Prefer bundled project fonts (portable across OS/CI); fall back
+# to system fonts (Windows: Arial, Linux/Mac: DejaVu Sans) if none are bundled.
+FONT_CANDIDATES = [
+    (
+        os.path.join(os.path.dirname(__file__), "fonts", "DejaVuSans.ttf"),
+        os.path.join(os.path.dirname(__file__), "fonts", "DejaVuSans-Bold.ttf"),
+    ),
+    (r"C:\Windows\Fonts\arial.ttf", r"C:\Windows\Fonts\arialbd.ttf"),
+    ("/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf", "/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf"),
+    ("/System/Library/Fonts/Supplemental/Arial.ttf", "/System/Library/Fonts/Supplemental/Arial Bold.ttf"),
+]
+
+FONT_NAME = "PLFont"
+FONT_NAME_BOLD = "PLFont-Bold"
+
+for regular_path, bold_path in FONT_CANDIDATES:
+    if os.path.isfile(regular_path) and os.path.isfile(bold_path):
+        pdfmetrics.registerFont(TTFont(FONT_NAME, regular_path))
+        pdfmetrics.registerFont(TTFont(FONT_NAME_BOLD, bold_path))
+        pdfmetrics.registerFontFamily(FONT_NAME, normal=FONT_NAME, bold=FONT_NAME_BOLD, italic=FONT_NAME, boldItalic=FONT_NAME_BOLD)
+        break
+else:
+    sys.exit(
+        "Nie znaleziono czcionki Unicode (Arial/DejaVu Sans) obslugującej polskie znaki. "
+        "Umieść DejaVuSans.ttf i DejaVuSans-Bold.ttf w scripts/fonts/ lub uruchom skrypt tam, "
+        "gdzie dostepny jest system font Arial/DejaVu Sans."
+    )
+
 styles = getSampleStyleSheet()
-h1 = ParagraphStyle("h1", parent=styles["Heading1"], textColor=colors.HexColor("#1a2233"))
-h2 = ParagraphStyle("h2", parent=styles["Heading2"], textColor=colors.HexColor("#1a2233"), spaceBefore=14)
-h3 = ParagraphStyle("h3", parent=styles["Heading3"], textColor=colors.HexColor("#e07b1d"), spaceBefore=10)
-body = ParagraphStyle("body", parent=styles["BodyText"], spaceAfter=6, leading=14)
-small = ParagraphStyle("small", parent=styles["BodyText"], fontSize=8.5, textColor=colors.grey)
-title_style = ParagraphStyle("title", parent=styles["Title"], alignment=TA_CENTER)
-subtitle_style = ParagraphStyle("subtitle", parent=styles["Heading2"], alignment=TA_CENTER, textColor=colors.HexColor("#e07b1d"))
+h1 = ParagraphStyle("h1", parent=styles["Heading1"], fontName=FONT_NAME_BOLD, textColor=colors.HexColor("#1a2233"))
+h2 = ParagraphStyle("h2", parent=styles["Heading2"], fontName=FONT_NAME_BOLD, textColor=colors.HexColor("#1a2233"), spaceBefore=14)
+h3 = ParagraphStyle("h3", parent=styles["Heading3"], fontName=FONT_NAME_BOLD, textColor=colors.HexColor("#e07b1d"), spaceBefore=10)
+body = ParagraphStyle("body", parent=styles["BodyText"], fontName=FONT_NAME, spaceAfter=6, leading=14)
+small = ParagraphStyle("small", parent=styles["BodyText"], fontName=FONT_NAME, fontSize=8.5, textColor=colors.grey)
+title_style = ParagraphStyle("title", parent=styles["Title"], fontName=FONT_NAME_BOLD, alignment=TA_CENTER)
+subtitle_style = ParagraphStyle("subtitle", parent=styles["Heading2"], fontName=FONT_NAME_BOLD, alignment=TA_CENTER, textColor=colors.HexColor("#e07b1d"))
 
 TABLE_HEADER_BG = colors.HexColor("#1a2233")
 TABLE_ALT_BG = colors.HexColor("#f5f6f8")
@@ -38,7 +72,8 @@ def table(data, col_widths=None):
     style = [
         ("BACKGROUND", (0, 0), (-1, 0), TABLE_HEADER_BG),
         ("TEXTCOLOR", (0, 0), (-1, 0), colors.white),
-        ("FONTNAME", (0, 0), (-1, 0), "Helvetica-Bold"),
+        ("FONTNAME", (0, 0), (-1, -1), FONT_NAME),
+        ("FONTNAME", (0, 0), (-1, 0), FONT_NAME_BOLD),
         ("FONTSIZE", (0, 0), (-1, -1), 9),
         ("GRID", (0, 0), (-1, -1), 0.5, colors.HexColor("#d9dce1")),
         ("VALIGN", (0, 0), (-1, -1), "MIDDLE"),
