@@ -8,7 +8,7 @@ import {
   AlertCircle, X, CheckSquare, Square, Clock, Inbox,
 } from 'lucide-react';
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api';
+const API_URL = process.env.NEXT_PUBLIC_API_URL || (process.env.NODE_ENV === 'production' ? 'https://wbtradeprod.onrender.com/api' : 'http://localhost:5000/api');
 
 function getAuthToken(): string | null {
   if (typeof window === 'undefined') return null;

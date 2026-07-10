@@ -6,7 +6,7 @@ import { ArrowLeft, Printer, Package, Truck } from 'lucide-react';
 import Link from 'next/link';
 import { getAuthToken } from '@/lib/api';
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api';
+const API_URL = process.env.NEXT_PUBLIC_API_URL || (process.env.NODE_ENV === 'production' ? 'https://wbtradeprod.onrender.com/api' : 'http://localhost:5000/api');
 
 interface PackageShipping {
   packageId: string;

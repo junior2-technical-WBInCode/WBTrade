@@ -7,7 +7,7 @@ import Link from 'next/link';
 import { useAuth } from '../../../../contexts/AuthContext';
 import { useModal } from '@/components/ModalProvider';
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api';
+const API_URL = process.env.NEXT_PUBLIC_API_URL || (process.env.NODE_ENV === 'production' ? 'https://wbtradeprod.onrender.com/api' : 'http://localhost:5000/api');
 
 interface Category {
   id: string;

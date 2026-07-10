@@ -10,7 +10,7 @@ import {
 import { getAuthToken } from '@/lib/api';
 import { useModal } from '@/components/ModalProvider';
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api';
+const API_URL = process.env.NEXT_PUBLIC_API_URL || (process.env.NODE_ENV === 'production' ? 'https://wbtradeprod.onrender.com/api' : 'http://localhost:5000/api');
 
 const statusLabels: Record<string, { label: string; color: string }> = {
   DRAFT: { label: 'Szkic', color: 'bg-gray-500/20 text-gray-400 border-gray-500/30' },

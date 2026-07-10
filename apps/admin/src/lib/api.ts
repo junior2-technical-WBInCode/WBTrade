@@ -1,4 +1,9 @@
-const API_URL = (process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api').replace(/\/$/, '');
+// Falls back to the production API when the env var isn't set (e.g. forgotten on a deploy),
+// instead of silently pointing the admin panel at localhost.
+const API_URL = (
+  process.env.NEXT_PUBLIC_API_URL ||
+  (process.env.NODE_ENV === 'production' ? 'https://wbtradeprod.onrender.com/api' : 'http://localhost:5000/api')
+).replace(/\/$/, '');
 
 function buildApiUrl(endpoint: string): string {
   // Allow absolute URLs (rare, but keeps helper flexible)
