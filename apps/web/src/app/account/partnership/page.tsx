@@ -8,7 +8,7 @@ import Footer from '../../../components/Footer';
 import AccountSidebar from '../../../components/AccountSidebar';
 import { useAuth } from '../../../contexts/AuthContext';
 import { referralApi, PartnerProfileData, ReferralLinkData, ApiClientError, ReferralOverrideData, DownlinePartnerNode, ReferralProductStat, PartnerRankOverview, LeaderBonusData } from '../../../lib/api';
-import PartnerTermsContent from './PartnerTermsContent';
+import PartnerTermsPdfViewer from './PartnerTermsPdfViewer';
 
 const PARTNER_TERMS_PDF_URL = '/documents/warunki-wspolpracy-programu-partnerskiego.pdf';
 
@@ -422,9 +422,9 @@ export default function PartnershipPage() {
                     <div
                       ref={termsScrollRef}
                       onScroll={handleTermsScroll}
-                      className="overflow-y-auto px-6 py-4 flex-1"
+                      className="overflow-y-auto px-6 py-4 flex-1 bg-gray-50 dark:bg-secondary-900/40"
                     >
-                      <PartnerTermsContent />
+                      <PartnerTermsPdfViewer fileUrl={PARTNER_TERMS_PDF_URL} />
                     </div>
                     <div className="px-6 py-4 border-t border-gray-100 dark:border-secondary-700 flex flex-wrap items-center justify-between gap-3">
                       <a
