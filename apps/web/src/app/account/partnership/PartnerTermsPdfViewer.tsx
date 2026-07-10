@@ -1,7 +1,7 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
 import { Document, Page, pdfjs } from 'react-pdf';
+import { useState } from 'react';
 import 'react-pdf/dist/Page/AnnotationLayer.css';
 import 'react-pdf/dist/Page/TextLayer.css';
 
@@ -11,6 +11,11 @@ pdfjs.GlobalWorkerOptions.workerSrc = '/pdf.worker.min.mjs';
 
 interface PartnerTermsPdfViewerProps {
   fileUrl: string;
+  /** Page render width in CSS pixels, computed by the parent from a stable
+   *  (non-content-sized) container. Passing it in avoids a self-referential
+   *  resize loop that previously made pages render too small and, on
+   *  window/zoom changes, overlap with a stale render of the previous size. */
+  containerWidth: number;
 }
 
 /**
@@ -19,24 +24,13 @@ interface PartnerTermsPdfViewerProps {
  * parent provides. The parent tracks scroll position on that container to
  * gate the "I have read it" checkbox.
  */
-export default function PartnerTermsPdfViewer({ fileUrl }: PartnerTermsPdfViewerProps) {
+export default function PartnerTermsPdfViewer({ fileUrl, containerWidth }: PartnerTermsPdfViewerProps) {
   const [numPages, setNumPages] = useState<number | null>(null);
   const [loadError, setLoadError] = useState<string | null>(null);
-  const [pageWidth, setPageWidth] = useState(600);
-  const containerRef = useRef<HTMLDivElement | null>(null);
-
-  useEffect(() => {
-    const el = containerRef.current;
-    if (!el) return;
-    const updateWidth = () => setPageWidth(Math.max(240, el.clientWidth));
-    updateWidth();
-    const observer = new ResizeObserver(updateWidth);
-    observer.observe(el);
-    return () => observer.disconnect();
-  }, []);
+  const pageWidth = Math.max(280, Math.round(containerWidth));
 
   return (
-    <div ref={containerRef}>
+    <div>
       <Document
         file={fileUrl}
         onLoadSuccess={({ numPages: n }) => setNumPages(n)}
@@ -50,7 +44,15 @@ export default function PartnerTermsPdfViewer({ fileUrl }: PartnerTermsPdfViewer
               key={i}
               className="mb-3 shadow-sm border border-gray-100 dark:border-secondary-700 rounded-lg overflow-hidden"
             >
-              <Page pageNumber={i + 1} width={pageWidth} renderAnnotationLayer={false} />
+              {/* Text/annotation layers disabled: this is a read-only compliance viewer, and
+                  re-enabling them caused duplicated/overlapping text whenever the page re-rendered
+                  at a new width (window resize / browser zoom). */}
+              <Page
+                pageNumber={i + 1}
+                width={pageWidth}
+                renderTextLayer={false}
+                renderAnnotationLayer={false}
+              />
             </div>
           ))}
       </Document>
