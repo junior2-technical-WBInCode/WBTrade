@@ -1862,7 +1862,7 @@ export const referralApi = {
   getProfile: () =>
     api.get<PartnerProfileData>('/referrals/profile'),
 
-  register: (dto: { bankAccountNumber?: string; companyName?: string; nip?: string; invitedBy?: string }) =>
+  register: (dto: { bankAccountNumber?: string; companyName?: string; nip?: string; invitedBy?: string; acceptedTerms: boolean }) =>
     api.post<PartnerProfileData>('/referrals/register', dto),
 
   createLink: (dto: { productUrl?: string; name?: string }) =>

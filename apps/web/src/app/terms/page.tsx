@@ -547,7 +547,64 @@ export default function TermsPage() {
                 </ol>
 
                 <h2 className="text-2xl font-bold text-secondary-900 dark:text-white mt-10 mb-4">
-                  § 14. Postanowienia końcowe
+                  § 14. Program Partnerski (WB Trade Partners)
+                </h2>
+                <ol className="list-decimal pl-6 text-secondary-600 dark:text-secondary-400 mb-6 space-y-3">
+                  <li>
+                    Sprzedawca prowadzi dobrowolny program partnerski „WB
+                    Trade Partners”, umożliwiający osobom fizycznym osiąganie
+                    wynagrodzenia z tytułu sprzedaży własnej realizowanej za
+                    pomocą linku partnerskiego, budowy zespołu (struktury) oraz
+                    rozwoju liderów w strukturze.
+                  </li>
+                  <li>
+                    Szczegółowe zasady programu, w tym: wysokość prowizji i
+                    premii, poziomy kariery, warunki awansu, zasady wolumenu
+                    linii (WL), zasady blokady i wypłaty środków oraz zasady
+                    reklamacji, określa odrębny dokument „Warunki Współpracy —
+                    Program Partnerski WB Trade” (dalej: „Warunki
+                    Współpracy”).
+                  </li>
+                  <li>
+                    Warunki Współpracy są udostępnione nieodpłatnie w formie
+                    pliku PDF do pobrania:{' '}
+                    <a
+                      href="/documents/warunki-wspolpracy-programu-partnerskiego.pdf"
+                      download
+                      className="text-primary-600 dark:text-primary-400 underline"
+                    >
+                      Warunki Współpracy — Program Partnerski WB Trade (PDF)
+                    </a>
+                    . Pobranie pliku jest możliwe i całkowicie dobrowolne — nie
+                    jest ono warunkiem zapoznania się z treścią dokumentu, do
+                    którego dostęp zapewnia również panel konta.
+                  </li>
+                  <li>
+                    Przystąpienie do programu partnerskiego wymaga
+                    zarejestrowania profilu partnerskiego w panelu konta
+                    (Konto → Program partnerski). Przed rejestracją Partner
+                    jest zobowiązany do otwarcia i zapoznania się z pełną
+                    treścią Warunków Współpracy (przewinięcia dokumentu do
+                    samego końca) oraz do potwierdzenia tego faktu poprzez
+                    zaznaczenie odpowiedniego pola w formularzu rejestracji.
+                    Zaznaczenie pola potwierdzenia jest możliwe wyłącznie po
+                    zapoznaniu się z całą treścią dokumentu.
+                  </li>
+                  <li>
+                    Bez potwierdzenia zapoznania się z Warunkami Współpracy
+                    rejestracja profilu partnerskiego nie jest możliwa.
+                  </li>
+                  <li>
+                    Program partnerski jest odrębny od sprzedaży detalicznej i
+                    hurtowej (B2B) prowadzonej w Sklepie. W przypadku
+                    rozbieżności między niniejszym Regulaminem a Warunkami
+                    Współpracy, w zakresie zasad programu partnerskiego
+                    rozstrzygające są postanowienia Warunków Współpracy.
+                  </li>
+                </ol>
+
+                <h2 className="text-2xl font-bold text-secondary-900 dark:text-white mt-10 mb-4">
+                  § 15. Postanowienia końcowe
                 </h2>
                 <ol className="list-decimal pl-6 text-secondary-600 dark:text-secondary-400 mb-6 space-y-3">
                   <li>
