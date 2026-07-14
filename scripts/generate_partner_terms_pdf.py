@@ -216,7 +216,7 @@ story.append(PageBreak())
 story.append(section(7, "WL \u2014 Wolumen Linii"))
 story.append(p("Wolumen Linii (WL) okre\u015bla miesi\u0119czny obr\u00f3t kwalifikacyjny wygenerowany przez dan\u0105 lini\u0119. "
                "Spe\u0142nienie warunku WL aktywuje dodatek do Premii Lider\u00f3w w wysoko\u015bci +0,25% dla kwalifikuj\u0105cych "
-               "si\u0119 Partner\u00f3w. Obr\u00f3t jest liczony wy\u0142\u0105cznie zgodnie z zasadami okre\u015blonymi w sekcji 13. "
+               "si\u0119 Partner\u00f3w. Obr\u00f3t jest liczony wy\u0142\u0105cznie zgodnie z zasadami okre\u015blonymi w sekcji 12. "
                "Poni\u017cej zestawienie obowi\u0105zuj\u0105cych progów WL."))
 story.append(table([
     ["Skr\u00f3t", "Znaczenie"],
@@ -282,7 +282,7 @@ story.append(section(10, "Warunki awansu"))
 story.append(p("Awans na wy\u017cszy poziom nast\u0119puje po spe\u0142nieniu jednej z trzech \u015bcie\u017cek awansowych w danym "
                "miesi\u0105cu rozliczeniowym. Partner mo\u017ce realizowa\u0107 \u015bcie\u017ck\u0119 odpowiadaj\u0105c\u0105 jego modelowi "
                "dzia\u0142alno\u015bci: opart\u0105 na sprzeda\u017cy w\u0142asnej, modelu \u0142\u0105czonym lub rozwoju struktury. Wszystkie "
-               "warunki dotycz\u0105 obrotu kwalifikacyjnego zgodnie z zasadami okre\u015blonymi w sekcji 13. Dodatkowe "
+               "warunki dotycz\u0105 obrotu kwalifikacyjnego zgodnie z zasadami okre\u015blonymi w sekcji 12. Dodatkowe "
                "ograniczenia udzia\u0142u jednej linii okre\u015bla sekcja 11."))
 
 advance_steps = [
