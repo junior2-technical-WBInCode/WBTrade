@@ -88,6 +88,12 @@ interface ProductFilters {
   sessionSeed?: number; // Seed for consistent random sorting
   discounted?: boolean; // Filtr tylko przecenionych produktów (compareAtPrice > price)
   brand?: string; // Filtr producenta (nazwa brandu z specifications.brand)
+  /**
+   * Internal flag (NEVER exposed via query params): when true, skips public
+   * visibility filters on the direct-SKU search path. Set by the controller
+   * only for authenticated ADMIN users so the admin panel can find hidden products.
+   */
+  includeHidden?: boolean;
 }
 
 interface ProductsListResult {
@@ -159,8 +165,8 @@ function resolveWarehouseLocation(baselinkerProductId: string | null, sku: strin
   const skuUp = (sku || '').toUpperCase();
   
   for (const w of cached) {
-    if (w.prefix && blId.startsWith(w.prefix.toLowerCase())) return w.location;
-    if (w.skuPrefix && skuUp.startsWith(w.skuPrefix.toUpperCase())) return w.location;
+    if (w.prefix && blId.startsWith(w.prefix.toLowerCase())) return w.hideLocation ? null : w.location;
+    if (w.skuPrefix && skuUp.startsWith(w.skuPrefix.toUpperCase())) return w.hideLocation ? null : w.location;
   }
   return null;
 }
@@ -223,15 +229,26 @@ function filterOldZeroStockProducts(products: any[], days: number = 14): any[] {
 }
 
 /**
- * Filter products: if product has "Paczkomaty i Kurier" tag, it MUST also have "produkt w paczce" tag
- * Products without proper package info should not be displayed
+ * Central visibility gate applied to every public product list.
+ * Filters out:
+ *  - products in hidden (isActive=false) categories
+ *  - products with hidden/error tags (HIDDEN_TAGS)
+ *  - products with "Paczkomaty i Kurier" tag but no "produkt w paczce" tag
  */
 function filterProductsWithPackageInfo(products: any[]): any[] {
   const PACZKOMAT_TAGS = ['Paczkomaty i Kurier', 'paczkomaty i kurier'];
   const PACKAGE_LIMIT_PATTERN = /produkt\s*w\s*paczce|produkty?\s*w\s*paczce/i;
 
   return products.filter(product => {
+    // Never show products from hidden categories (e.g. "ukryte-b2b")
+    if (product.category && product.category.isActive === false) return false;
+
     const tags = product.tags || [];
+
+    // Never show products with hidden/error tags
+    if (tags.some((tag: string) => HIDDEN_TAGS.some(ht => tag.toLowerCase() === ht.toLowerCase()))) {
+      return false;
+    }
 
     // Check if product has paczkomat tag
     const hasPaczkomatTag = tags.some((tag: string) =>
@@ -380,6 +397,15 @@ export class ProductsService {
     // If search is provided, use Meilisearch for better results
     // But also check if the search looks like a SKU (numeric or alphanumeric code)
     if (search && search.trim()) {
+      const includeHidden = filters.includeHidden === true;
+      // Public visibility conditions for direct-SKU matches (same as main listing).
+      // Admin (includeHidden) skips them so the admin panel can find hidden products by SKU.
+      const skuVisibilityAND: Prisma.ProductWhereInput[] = includeHidden ? [] : [
+        { tags: { hasSome: DELIVERY_TAGS } },
+        { category: { baselinkerCategoryId: { not: null }, isActive: true } },
+        PACKAGE_FILTER_WHERE,
+      ];
+
       // Check if search contains commas, which indicates multiple SKUs
       if (search.includes(',')) {
         const skus = search.split(',').map(s => s.trim()).filter(Boolean);
@@ -392,6 +418,7 @@ export class ProductsService {
               ],
               status: 'ACTIVE',
               price: { gt: 0 },
+              AND: skuVisibilityAND,
             },
             include: {
               images: {
@@ -408,8 +435,8 @@ export class ProductsService {
           
           if (skuMatches.length > 0) {
             const transformed = transformProducts(skuMatches);
-            // Filter products: "Paczkomaty i Kurier" requires "produkt w paczce" tag
-            let filteredProducts = filterProductsWithPackageInfo(transformed);
+            // Central visibility gate + package tag rule (skipped for admin)
+            let filteredProducts = includeHidden ? transformed : filterProductsWithPackageInfo(transformed);
             filteredProducts = sortOutOfStockToEnd(filteredProducts);
             
             return {
@@ -429,6 +456,7 @@ export class ProductsService {
           sku: { contains: search.trim(), mode: 'insensitive' },
           status: 'ACTIVE',
           price: { gt: 0 },
+          AND: skuVisibilityAND,
         },
         take: 10,
         include: {
@@ -447,8 +475,10 @@ export class ProductsService {
           ...meilisearchResults.products.filter(p => !skuIds.includes(p.id)),
         ];
         
-        // Filter products: "Paczkomaty i Kurier" requires "produkt w paczce" tag
-        combinedProducts = filterProductsWithPackageInfo(combinedProducts);
+        // Central visibility gate + package tag rule (skipped for admin)
+        if (!includeHidden) {
+          combinedProducts = filterProductsWithPackageInfo(combinedProducts);
+        }
         combinedProducts = combinedProducts.slice(0, limit);
         
         return {
@@ -484,9 +514,13 @@ export class ProductsService {
       ],
     };
     
-    // Only filter by status if explicitly provided
+    // Only filter by status if explicitly provided; public requests default to
+    // ACTIVE so archived/draft (hidden) products never leak into the listing.
+    // Admin (includeHidden) without explicit status sees all statuses.
     if (status) {
       where.status = status as Prisma.EnumProductStatusFilter;
+    } else if (!filters.includeHidden) {
+      where.status = 'ACTIVE';
     }
 
     // If category is specified, get all subcategory IDs and filter by them
@@ -746,12 +780,18 @@ export class ProductsService {
       // hasBaselinkerCategory jest indeksowany w Meilisearch jako filterable
       meiliFilters.push('hasBaselinkerCategory = true');
       
+      // Kategoria musi być aktywna (ukryte kategorie np. "ukryte-b2b" niewidoczne)
+      meiliFilters.push('categoryIsActive = true');
+      
       // Produkty muszą być na stanie (identyczny filtr jak w search.service.ts getSuggestions)
       meiliFilters.push('inStock = true');
       
-      // Only filter by status if explicitly provided
+      // Only filter by status if explicitly provided; public requests default
+      // to ACTIVE so archived/draft products never leak into search results
       if (status) {
         meiliFilters.push(`status = "${status}"`);
+      } else if (!filters.includeHidden) {
+        meiliFilters.push('status = "ACTIVE"');
       }
       
       if (category) {
@@ -1085,8 +1125,9 @@ export class ProductsService {
 
   /**
    * Get a single product by ID
+   * @param opts.includeHidden - admin only: return hidden/draft products too
    */
-  async getById(id: string) {
+  async getById(id: string, opts: { includeHidden?: boolean } = {}) {
     const product = await prisma.product.findUnique({
       where: { id },
       include: {
@@ -1105,18 +1146,26 @@ export class ProductsService {
 
     if (!product) return null;
 
-    // Hide products with forbidden tags
-    const tags = product.tags || [];
-    if (HIDDEN_TAGS.some(ht => tags.some((t: string) => t.toLowerCase() === ht.toLowerCase()))) {
-      return null;
-    }
+    if (!opts.includeHidden) {
+      // Only ACTIVE products are publicly visible
+      if (product.status !== 'ACTIVE') return null;
 
+      // Hide products from hidden categories (e.g. "ukryte-b2b")
+      if (product.category && product.category.isActive === false) return null;
+
+      // Hide products with forbidden tags
+      const tags = product.tags || [];
+      if (HIDDEN_TAGS.some(ht => tags.some((t: string) => t.toLowerCase() === ht.toLowerCase()))) {
+        return null;
+      }
+    }
 
     return transformProduct(product);
   }
 
   /**
    * Get multiple products by IDs in a single query (batch fetch)
+   * Public endpoint — applies the same visibility rules as single-product fetch.
    */
   async getByIds(ids: string[]) {
     if (!ids || ids.length === 0) return [];
@@ -1125,7 +1174,12 @@ export class ProductsService {
     const uniqueIds = [...new Set(ids)].slice(0, 100);
     
     const products = await prisma.product.findMany({
-      where: { id: { in: uniqueIds } },
+      where: {
+        id: { in: uniqueIds },
+        status: 'ACTIVE',
+        OR: [{ category: { isActive: true } }, { categoryId: null }],
+        NOT: { tags: { hasSome: HIDDEN_TAGS } },
+      },
       include: {
         images: {
           orderBy: { order: 'asc' },
@@ -1145,8 +1199,9 @@ export class ProductsService {
 
   /**
    * Get a single product by slug
+   * @param opts.includeHidden - admin only: return hidden/draft products too
    */
-  async getBySlug(slug: string) {
+  async getBySlug(slug: string, opts: { includeHidden?: boolean } = {}) {
     const product = await prisma.product.findUnique({
       where: { slug },
       include: {
@@ -1164,6 +1219,16 @@ export class ProductsService {
     });
     
     if (!product) return null;
+
+    if (opts.includeHidden) {
+      return transformProduct(product);
+    }
+
+    // Only ACTIVE products are publicly visible
+    if (product.status !== 'ACTIVE') return null;
+
+    // Hide products from hidden categories (e.g. "ukryte-b2b")
+    if (product.category && product.category.isActive === false) return null;
 
     // Hide products with forbidden tags
     const tags = product.tags || [];
@@ -1959,7 +2024,7 @@ export class ProductsService {
 
     // If we already have enough manual products, return them
     if (manualProducts.length >= limit) {
-      return manualProducts.slice(0, limit);
+      return filterProductsWithPackageInfo(manualProducts).slice(0, limit);
     }
 
     // Get automatic bestsellers to fill remaining slots
@@ -2108,7 +2173,7 @@ export class ProductsService {
 
     // If we already have enough manual products, return them
     if (manualProducts.length >= limit) {
-      return manualProducts.slice(0, limit);
+      return filterProductsWithPackageInfo(manualProducts).slice(0, limit);
     }
 
     // Get diverse automatic products from various categories
@@ -2132,6 +2197,7 @@ export class ProductsService {
           price: { gt: 10 }, // Skip very cheap items
           categoryId: category.id,
           id: { notIn: [...manualProductIds, ...excludedProductIds] },
+          category: { isActive: true },
           // Exclude boring product names
           NOT: {
             OR: boringKeywords.map(keyword => ({
@@ -2233,7 +2299,7 @@ export class ProductsService {
     }
 
     if (manualProducts.length >= limit) {
-      return manualProducts.slice(0, limit);
+      return filterProductsWithPackageInfo(manualProducts).slice(0, limit);
     }
 
     // Fill remaining slots with bestsellers from toys category
@@ -2302,7 +2368,7 @@ export class ProductsService {
 
     // If we already have enough manual products, return them
     if (manualProducts.length >= limit) {
-      return manualProducts.slice(0, limit);
+      return filterProductsWithPackageInfo(manualProducts).slice(0, limit);
     }
 
     // Get automatic seasonal products to fill remaining slots
@@ -2338,6 +2404,7 @@ export class ProductsService {
         price: { gt: 0 },
         tags: { hasSome: tags },
         id: { notIn: [...manualProductIds, ...excludedProductIds] },
+        OR: [{ category: { isActive: true } }, { categoryId: null }],
       },
       orderBy: { createdAt: 'desc' },
       take: remainingSlots,
@@ -2359,9 +2426,9 @@ export class ProductsService {
           status: 'ACTIVE',
           price: { gt: 0 },
           id: { notIn: [...manualProductIds, ...excludedProductIds, ...automaticProducts.map(p => p.id)] },
-          ...(fallbackCategories.length > 0 && {
-            category: { slug: { in: fallbackCategories } },
-          }),
+          ...(fallbackCategories.length > 0
+            ? { category: { slug: { in: fallbackCategories }, isActive: true } }
+            : { OR: [{ category: { isActive: true } }, { categoryId: null }] }),
         },
         orderBy: [
           { compareAtPrice: 'desc' }, // Products on sale first
@@ -2439,7 +2506,7 @@ export class ProductsService {
 
     // If we already have enough manual products, return them
     if (manualProducts.length >= limit) {
-      return manualProducts.slice(0, limit);
+      return filterProductsWithPackageInfo(manualProducts).slice(0, limit);
     }
 
     // Get automatic new products to fill remaining slots
@@ -2456,6 +2523,7 @@ export class ProductsService {
         price: { gt: 0 },
         createdAt: { gte: dateThreshold },
         id: { notIn: [...manualProductIds, ...excludedProductIds] },
+        OR: [{ category: { isActive: true } }, { categoryId: null }],
       },
       orderBy: { createdAt: 'desc' },
       take: remainingSlots,
@@ -2500,6 +2568,9 @@ export class ProductsService {
     });
 
     if (!product) return null;
+
+    // Apply public visibility rules (hidden category / hidden tags / package rule)
+    if (filterProductsWithPackageInfo([product]).length === 0) return null;
 
     return {
       ...transformProduct(product),
