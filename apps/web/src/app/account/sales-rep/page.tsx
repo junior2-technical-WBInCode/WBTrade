@@ -493,6 +493,29 @@ export default function SalesRepPage() {
               </div>
             </div>
 
+            {/* Informacja: Zasady współpracy B2B dla Handlowców */}
+            <div className="mb-6 bg-orange-50 dark:bg-orange-950/20 rounded-2xl p-5 border border-orange-100 dark:border-orange-900/40 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+              <div className="flex items-start gap-3">
+                <svg className="w-6 h-6 text-orange-500 flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z" />
+                </svg>
+                <div>
+                  <h3 className="font-bold text-gray-900 dark:text-white text-sm">Zasady współpracy B2B dla Handlowców</h3>
+                  <p className="text-xs text-gray-600 dark:text-gray-400 mt-0.5">
+                    Zapoznaj się z warunkami współpracy obowiązującymi w programie Handlowca.
+                  </p>
+                </div>
+              </div>
+              <a
+                href="/documents/warunki-wspolpracy-b2b-handlowiec.pdf"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="shrink-0 inline-flex items-center justify-center bg-orange-500 hover:bg-orange-600 text-white font-semibold text-sm py-2 px-4 rounded-lg transition-colors whitespace-nowrap"
+              >
+                Otwórz PDF
+              </a>
+            </div>
+
             {/* Navigation Tabs */}
             <div className="flex border-b border-gray-200 dark:border-secondary-700 mb-6 overflow-x-auto">
               <button
