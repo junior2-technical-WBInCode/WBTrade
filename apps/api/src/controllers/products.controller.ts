@@ -138,13 +138,16 @@ export async function getProducts(req: Request, res: Response): Promise<void> {
 
     const filters = validation.data;
 
+    // Admins can see hidden products (draft/hidden-category) e.g. when searching by SKU
+    const includeHidden = req.user?.role === 'ADMIN';
+
     // Track search query for analytics (works for all users, not just authenticated)
     if (filters.search && filters.search.trim().length >= 2) {
       const { trackSearch } = require('../services/search-analytics.service');
       trackSearch(filters.search);
     }
 
-    const result = await productsService.getAll(filters);
+    const result = await productsService.getAll({ ...filters, includeHidden });
 
     // Apply B2B pricing if authenticated user is a B2B partner
     if (req.user?.userId) {
@@ -169,7 +172,8 @@ export async function getProducts(req: Request, res: Response): Promise<void> {
 export async function getProductById(req: Request, res: Response): Promise<void> {
   try {
     const { id } = req.params;
-    let product = await productsService.getById(id);
+    const includeHidden = req.user?.role === 'ADMIN';
+    let product = await productsService.getById(id, { includeHidden });
 
     if (!product) {
       res.status(404).json({ message: 'Produkt nie zostal znaleziony' });
@@ -204,7 +208,8 @@ export async function getProductById(req: Request, res: Response): Promise<void>
 export async function getProductBySlug(req: Request, res: Response): Promise<void> {
   try {
     const { slug } = req.params;
-    let product = await productsService.getBySlug(slug);
+    const includeHidden = req.user?.role === 'ADMIN';
+    let product = await productsService.getBySlug(slug, { includeHidden });
 
     if (!product) {
       res.status(404).json({ message: 'Produkt nie zostal znaleziony' });

@@ -87,12 +87,15 @@ export default function EditProductPage() {
   useEffect(() => {
     loadProduct();
     loadCategories();
-  }, [productId]);
+  }, [productId, token]);
 
   async function loadProduct() {
     try {
       setLoading(true);
-      const response = await fetch(`${API_URL}/products/${productId}`);
+      // Send admin token so the API returns hidden products too (includeHidden)
+      const response = await fetch(`${API_URL}/products/${productId}`, {
+        headers: token ? { Authorization: `Bearer ${token}` } : undefined,
+      });
       if (!response.ok) throw new Error('Product not found');
       
       const product: Product = await response.json();

@@ -40,7 +40,7 @@ router.post('/', async (req: Request, res: Response) => {
   try {
     const {
       key, name, baselinkerInventoryId, prefix, skuPrefix,
-      location, warehouseDisplayName, aliases, color,
+      location, hideLocation, warehouseDisplayName, aliases, color,
       isActive, skipInSync, hasPriceRules, sortOrder,
     } = req.body;
 
@@ -84,6 +84,7 @@ router.post('/', async (req: Request, res: Response) => {
         prefix: prefix || '',
         skuPrefix: skuPrefix || null,
         location: location || null,
+        hideLocation: hideLocation === true,
         warehouseDisplayName: warehouseDisplayName || null,
         aliases: aliases || [],
         color: color || '#6b7280',
@@ -129,7 +130,7 @@ router.put('/:id', async (req: Request, res: Response) => {
     const { id } = req.params;
     const {
       key, name, baselinkerInventoryId, prefix, skuPrefix,
-      location, warehouseDisplayName, aliases, color,
+      location, hideLocation, warehouseDisplayName, aliases, color,
       isActive, skipInSync, hasPriceRules, sortOrder,
     } = req.body;
 
@@ -167,6 +168,7 @@ router.put('/:id', async (req: Request, res: Response) => {
         ...(prefix !== undefined && { prefix }),
         ...(skuPrefix !== undefined && { skuPrefix: skuPrefix || null }),
         ...(location !== undefined && { location: location || null }),
+        ...(hideLocation !== undefined && { hideLocation: hideLocation === true }),
         ...(warehouseDisplayName !== undefined && { warehouseDisplayName: warehouseDisplayName || null }),
         ...(aliases !== undefined && { aliases }),
         ...(color !== undefined && { color }),

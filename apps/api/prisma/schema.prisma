@@ -1196,6 +1196,7 @@ model Wholesaler {
   prefix                String   @default("")
   skuPrefix             String?  @map("sku_prefix")
   location              String?
+  hideLocation          Boolean  @default(false) @map("hide_location")
   warehouseDisplayName  String?  @map("warehouse_display_name")
   aliases               String[] @default([])
   color                 String   @default("#6b7280")
