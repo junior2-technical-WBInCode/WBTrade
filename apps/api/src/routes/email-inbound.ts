@@ -67,10 +67,11 @@ function extractReplyContent(text: string): string {
   return content.trim();
 }
 
-// Verify webhook signature from Resend (optional but recommended)
+// Verify webhook signature from Resend (required — fails closed if not configured)
 function verifyResendSignature(payload: string, signature: string | undefined, secret: string): boolean {
-  if (!secret || !signature) return true; // Skip verification if not configured
+  if (!secret || !signature) return false; // Reject if secret or signature missing
   const expected = crypto.createHmac('sha256', secret).update(payload).digest('hex');
+  if (expected.length !== signature.length) return false;
   return crypto.timingSafeEqual(Buffer.from(signature), Buffer.from(expected));
 }
 
@@ -78,16 +79,18 @@ function verifyResendSignature(payload: string, signature: string | undefined, s
 router.post('/', async (req: Request, res: Response) => {
   try {
     const webhookSecret = process.env.RESEND_WEBHOOK_SECRET || '';
-    
-    // Verify signature if configured
-    if (webhookSecret) {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const rawBody = (req as any).rawBody;
-      const signature = req.headers['resend-signature'] as string || req.headers['svix-signature'] as string;
-      if (rawBody && !verifyResendSignature(rawBody, signature, webhookSecret)) {
-        console.error('[EmailInbound] Invalid webhook signature');
-        return res.status(401).json({ error: 'Invalid signature' });
-      }
+
+    if (!webhookSecret) {
+      console.error('[EmailInbound] RESEND_WEBHOOK_SECRET not configured — rejecting webhook');
+      return res.status(401).json({ error: 'Webhook not configured' });
+    }
+
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const rawBody = (req as any).rawBody;
+    const signature = req.headers['resend-signature'] as string || req.headers['svix-signature'] as string;
+    if (!rawBody || !verifyResendSignature(rawBody, signature, webhookSecret)) {
+      console.error('[EmailInbound] Invalid webhook signature');
+      return res.status(401).json({ error: 'Invalid signature' });
     }
 
     // Resend inbound payload structure

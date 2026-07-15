@@ -5,7 +5,7 @@ import { Bell, ShoppingCart, AlertTriangle, UserPlus, MessageSquare, Star, Arrow
 import { getAuthToken } from '@/lib/api';
 import Link from 'next/link';
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api';
+const API_URL = process.env.NEXT_PUBLIC_API_URL || (process.env.NODE_ENV === 'production' ? 'https://wbtradeprod.onrender.com/api' : 'http://localhost:5000/api');
 const STORAGE_KEY = 'wbtrade_read_notifications';
 const SEEN_AT_KEY = 'wbtrade_notifications_seen_at';
 const SOUND_KEY = 'wbtrade_notification_sound';

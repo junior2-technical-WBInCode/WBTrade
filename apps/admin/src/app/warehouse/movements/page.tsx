@@ -7,7 +7,7 @@ import {
 } from 'lucide-react';
 import { getAuthToken } from '@/lib/api';
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api';
+const API_URL = process.env.NEXT_PUBLIC_API_URL || (process.env.NODE_ENV === 'production' ? 'https://wbtradeprod.onrender.com/api' : 'http://localhost:5000/api');
 
 const MOVEMENT_TYPES = [
   { value: 'RECEIVE', label: 'Przyjęcie', icon: ArrowDown, color: 'text-green-400', bg: 'bg-green-500/20' },
