@@ -15,6 +15,11 @@ services:
     envVars:
       - key: NODE_ENV
         value: production
+
+      # AUDYT V-05: zadania tła przeniesione do serwisu wbtrade-worker.
+      # Ustaw na "false" (lub usuń), aby tymczasowo wrócić do trybu in-process.
+      - key: DISABLE_IN_PROCESS_WORKERS
+        value: "true"
       
       - key: APP_PORT
         value: 5000
@@ -111,6 +116,51 @@ services:
         
       - key: SMTP_FROM
         value: "WB Trade <noreply@wbtrade.pl>"
+
+  # Worker — zadania tła (audyt V-05: izolacja od procesu API)
+  # Baselinker sync, payment reminders, newsletter, loyalty/affiliate crony,
+  # delivery-delay detection. Ten sam obraz Dockera co API, inny entrypoint.
+  - type: worker
+    name: wbtrade-worker
+    runtime: docker
+    dockerfilePath: ./Dockerfile
+    dockerCommand: node dist/worker.js
+    plan: starter
+    region: frankfurt
+    branch: main
+    autoDeploy: true
+    envVars:
+      - key: NODE_ENV
+        value: production
+
+      - key: DATABASE_URL
+        # Ten sam URL bazy Neon co w API
+        sync: false
+
+      - key: REDIS_URL
+        # Ten sam Redis Upstash co w API (wspólne kolejki BullMQ)
+        sync: false
+
+      - key: MEILI_HOST
+        sync: false
+
+      - key: MEILI_MASTER_KEY
+        sync: false
+
+      - key: BASELINKER_ENCRYPTION_KEY
+        # Ten sam klucz co w API (odszyfrowanie tokenu Baselinker)
+        sync: false
+
+      - key: RESEND_API_KEY
+        # Wysyłka e-maili z workerów (przypomnienia, newsletter)
+        sync: false
+
+      - key: FROM_EMAIL
+        value: "WB Trade <noreply@wb-trade.pl>"
+
+      - key: FRONTEND_URL
+        # Linki w e-mailach
+        sync: false
 
   # Meilisearch
   - type: web

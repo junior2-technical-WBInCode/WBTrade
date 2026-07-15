@@ -337,7 +337,8 @@ export async function getPaymentMethods(req: Request, res: Response): Promise<vo
 export async function createCheckout(req: Request, res: Response): Promise<void> {
   try {
     console.log('🛒 createCheckout started');
-    console.log('📋 Request body:', JSON.stringify(req.body, null, 2));
+    // SECURITY: do not log the full request body — it contains PII (addresses, emails, phone numbers)
+    console.log('📋 Request fields:', Object.keys(req.body || {}).join(', '));
     
     const userId = req.user?.userId;
     const sessionId = req.headers['x-session-id'] as string | undefined;
@@ -1186,10 +1187,13 @@ export async function payuWebhook(req: Request, res: Response): Promise<void> {
     // Fall back to JSON.stringify for backwards compatibility
     const payload = (req as any).rawBody || JSON.stringify(req.body);
 
+    // SECURITY: log only identifiers/status — full body contains buyer PII
     console.log('PayU webhook received:', {
-      signature,
+      hasSignature: !!signature,
       hasRawBody: !!(req as any).rawBody,
-      body: req.body,
+      orderId: req.body?.order?.orderId,
+      extOrderId: req.body?.order?.extOrderId,
+      status: req.body?.order?.status,
     });
 
     const result = await paymentService.processWebhook('payu', payload, signature);
@@ -1214,10 +1218,13 @@ export async function imojeWebhook(req: Request, res: Response): Promise<void> {
     // Use raw body if available (for correct signature verification)
     const payload = (req as any).rawBody || JSON.stringify(req.body);
 
+    // SECURITY: log only identifiers/status — full body contains buyer PII
     console.log('imoje webhook received:', {
-      signature: signature ? signature.substring(0, 32) + '...' : 'none',
+      hasSignature: !!signature,
       hasRawBody: !!(req as any).rawBody,
-      body: req.body,
+      transactionId: req.body?.transaction?.id,
+      orderId: req.body?.transaction?.orderId,
+      status: req.body?.transaction?.status,
     });
 
     const result = await paymentService.processWebhook('imoje', payload, signature);

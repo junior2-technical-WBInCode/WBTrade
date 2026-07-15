@@ -190,7 +190,12 @@ export class ImojeProvider implements IPaymentProvider {
       };
     }
 
-    console.log('[imoje] Creating transaction:', JSON.stringify(transactionPayload));
+    // SECURITY: do not log the full payload — it contains buyer PII (email, name, billing address)
+    console.log('[imoje] Creating transaction:', {
+      orderId: transactionPayload.orderId,
+      amount: transactionPayload.amount,
+      currency: transactionPayload.currency,
+    });
 
     const response = await this.request<{
       transaction: {
@@ -207,7 +212,11 @@ export class ImojeProvider implements IPaymentProvider {
       };
     }>('POST', '/v1/merchant/payments', transactionPayload);
 
-    console.log('[imoje] Transaction created:', JSON.stringify(response));
+    console.log('[imoje] Transaction created:', {
+      transactionId: response.transaction?.id,
+      status: response.transaction?.status,
+      hasActionUrl: !!response.action?.url,
+    });
 
     // imoje returns an action URL where user should be redirected
     const paymentUrl = response.action?.url || `${this.paywallUrl}/payment/${response.transaction.id}`;
