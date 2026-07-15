@@ -89,10 +89,78 @@ const PORT = process.env.PORT || process.env.APP_PORT || 5000;
 // Trust proxy for rate limiting behind reverse proxy (e.g. nginx)
 app.set('trust proxy', 1);
 
+// =====================================================================
+// SECURITY MIDDLEWARE — must be registered BEFORE any routes so that
+// every endpoint is covered by helmet/CORS/rate-limit (audyt V-03)
+// =====================================================================
+
+// Security headers with Helmet
+app.use(helmet({
+  contentSecurityPolicy: {
+    directives: {
+      defaultSrc: ["'self'"],
+      styleSrc: ["'self'", "'unsafe-inline'"],
+      scriptSrc: ["'self'"],
+      imgSrc: ["'self'", 'data:', 'https:', 'http://localhost:5000'],
+    },
+  },
+  crossOriginEmbedderPolicy: false, // Allow embedding for API
+  crossOriginResourcePolicy: { policy: 'cross-origin' }, // Allow images to be loaded from other origins
+  hsts: {
+    maxAge: 31536000, // 1 year
+    includeSubDomains: true,
+    preload: true,
+  },
+}));
+
+// CORS configuration
+// Note: Production domains should be configured via FRONTEND_URL environment variable
+const allowedOrigins = [
+  'http://localhost:3000',
+  'http://localhost:3001',
+  'http://localhost:3002',
+];
+
+// Parse FRONTEND_URL if it's a comma-separated string
+if (process.env.FRONTEND_URL) {
+  const frontendUrls = process.env.FRONTEND_URL.split(',').map(url => url.trim());
+  allowedOrigins.push(...frontendUrls);
+}
+
+const corsOptions = {
+  origin: allowedOrigins,
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'X-User-Id', 'X-Session-Id', 'X-CSRF-Token', 'X-Platform', 'X-Cart-Id'],
+};
+
+app.use(cors(corsOptions));
+
+// Custom JSON parser that preserves raw body for webhook signature verification
+app.use(express.json({ 
+  limit: '10mb',
+  verify: (req: any, res, buf) => {
+    // Store raw body for webhook signature verification
+    // Only for webhook endpoints
+    if (req.url?.includes('/webhooks/')) {
+      req.rawBody = buf.toString('utf-8');
+    }
+  }
+}));
+app.use(express.urlencoded({ extended: true, limit: '10mb' }));
+
+// Apply general rate limiting to all routes
+app.use(generalRateLimiter);
+
 // InPost Paczkomat map — custom Leaflet widget using public InPost API (no token needed)
 app.get('/api/inpost-widget', (_req, res) => {
   res.setHeader('Content-Type', 'text/html; charset=utf-8');
   res.setHeader('Cache-Control', 'public, max-age=86400');
+  // Route-specific CSP override: the widget page uses inline styles/scripts and Leaflet from unpkg
+  res.setHeader(
+    'Content-Security-Policy',
+    "default-src 'self'; style-src 'self' 'unsafe-inline' https://unpkg.com; script-src 'unsafe-inline' https://unpkg.com; img-src 'self' data: https:; connect-src 'self' https://nominatim.openstreetmap.org"
+  );
   res.send(`<!DOCTYPE html>
 <html lang="pl">
 <head>
@@ -311,66 +379,7 @@ app.get('/api/inpost-points', async (req, res) => {
   }
 });
 
-// Security headers with Helmet
-app.use(helmet({
-  contentSecurityPolicy: {
-    directives: {
-      defaultSrc: ["'self'"],
-      styleSrc: ["'self'", "'unsafe-inline'"],
-      scriptSrc: ["'self'"],
-      imgSrc: ["'self'", 'data:', 'https:', 'http://localhost:5000'],
-    },
-  },
-  crossOriginEmbedderPolicy: false, // Allow embedding for API
-  crossOriginResourcePolicy: { policy: 'cross-origin' }, // Allow images to be loaded from other origins
-  hsts: {
-    maxAge: 31536000, // 1 year
-    includeSubDomains: true,
-    preload: true,
-  },
-}));
-
-// CORS configuration
-// Note: Production domains should be configured via FRONTEND_URL environment variable
-const allowedOrigins = [
-  'http://localhost:3000',
-  'http://localhost:3001',
-  'http://localhost:3002',
-];
-
-// Parse FRONTEND_URL if it's a comma-separated string
-if (process.env.FRONTEND_URL) {
-  const frontendUrls = process.env.FRONTEND_URL.split(',').map(url => url.trim());
-  allowedOrigins.push(...frontendUrls);
-}
-
-const corsOptions = {
-  origin: allowedOrigins,
-  credentials: true,
-  methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization', 'X-User-Id', 'X-Session-Id', 'X-CSRF-Token', 'X-Platform', 'X-Cart-Id'],
-};
-
-// Middleware
-app.use(cors(corsOptions));
-
-// Custom JSON parser that preserves raw body for webhook signature verification
-app.use(express.json({ 
-  limit: '10mb',
-  verify: (req: any, res, buf) => {
-    // Store raw body for webhook signature verification
-    // Only for webhook endpoints
-    if (req.url?.includes('/webhooks/')) {
-      req.rawBody = buf.toString('utf-8');
-    }
-  }
-}));
-app.use(express.urlencoded({ extended: true, limit: '10mb' }));
-
-// Apply general rate limiting to all routes
-app.use(generalRateLimiter);
-
-// Health check endpoint (skip rate limiter)
+// Health check endpoint
 const BUILD_VERSION = '2026-04-13-v10';
 app.get('/health', (req, res) => {
   res.status(200).json({ status: 'ok', version: BUILD_VERSION, timestamp: new Date().toISOString() });
@@ -378,107 +387,6 @@ app.get('/health', (req, res) => {
 
 app.get('/api/health', (req, res) => {
   res.status(200).json({ status: 'ok', version: BUILD_VERSION, timestamp: new Date().toISOString() });
-});
-
-// Diagnostic endpoint to verify compiled code
-app.get('/api/debug-prefix', async (req, res) => {
-  try {
-    const { baselinkerService } = require('./services/baselinker.service');
-    const { PrismaClient } = require('@prisma/client');
-    const prisma = new PrismaClient();
-
-    const { wholesalerConfigService } = await import('./services/wholesaler-config.service');
-    const allConfig = await wholesalerConfigService.getAll();
-
-    // 1. Test prefix mapping
-    const prefixes: Record<string, string> = {};
-    for (const wh of allConfig) {
-      prefixes[wh.name] = wh.prefix;
-    }
-
-    // 2. Count DB products by prefix
-    const dbCounts: Record<string, number> = {};
-    const prefixList = [...new Set([...allConfig.map(w => w.prefix).filter(Boolean), 'outlet-'])];
-    for (const pfx of prefixList) {
-      dbCounts[pfx] = await prisma.product.count({ where: { baselinkerProductId: { startsWith: pfx } } });
-    }
-    const totalWithBlId = await prisma.product.count({ where: { baselinkerProductId: { not: null } } });
-
-    // 3. Test matching: simulate what syncProducts does for Forcetop
-    const existingProducts = await prisma.product.findMany({
-      where: { baselinkerProductId: { not: null } },
-      select: { baselinkerProductId: true },
-    });
-    const existingMap = new Map(existingProducts.map((p: any) => [p.baselinkerProductId, true]));
-
-    // Sample BL product IDs from Forcetop (known IDs)
-    const sampleBlIds = ['212547476', '212547477', '212547478', '212547479', '212547481'];
-    const matchTest: Record<string, any> = {};
-    for (const blId of sampleBlIds) {
-      const withPrefix = `btp-${blId}`;
-      const withoutPrefix = blId;
-      matchTest[blId] = {
-        'btp-id': withPrefix,
-        'found_with_prefix': existingMap.has(withPrefix),
-        'found_without_prefix': existingMap.has(withoutPrefix),
-      };
-    }
-
-    // 4. Check stored config
-    const config = await prisma.baselinkerConfig.findFirst({ select: { inventoryId: true } });
-
-    // 5. Check existingMap size and sample keys
-    const mapKeys = Array.from(existingMap.keys()).slice(0, 10);
-
-    await prisma.$disconnect();
-
-    res.json({
-      version: BUILD_VERSION,
-      prefixes,
-      dbCounts,
-      totalWithBlId,
-      existingMapSize: existingMap.size,
-      sampleMapKeys: mapKeys,
-      matchTest,
-      storedInventoryId: config?.inventoryId || 'NOT SET',
-    });
-  } catch (err) {
-    res.json({ version: BUILD_VERSION, error: String(err) });
-  }
-});
-
-// Check compiled JS file content
-app.get('/api/debug-compiled', (req, res) => {
-  try {
-    const fs = require('fs');
-    const path = require('path');
-    const jsFile = path.join(__dirname, 'services', 'baselinker.service.js');
-    const content = fs.readFileSync(jsFile, 'utf8');
-    
-    // Search for key patterns
-    const hasInvId = content.includes('[invId:');
-    const hasForcetop = content.includes("'forcetop'");
-    const hasBtpPrefix = content.includes("'btp-'");
-    const hasDebugSamples = content.includes('debugSamples');
-    const hasPrefixMatch = content.includes('prefixMatchCount');
-    
-    // Find the getInventoryPrefix function
-    const prefixFnMatch = content.match(/getInventoryPrefix[\s\S]{0,500}/);
-    
-    // Find the "Synchronizacja produktów" message
-    const syncMsgMatch = content.match(/Synchronizacja produkt[\s\S]{0,200}/);
-    
-    res.json({
-      version: BUILD_VERSION,
-      fileExists: true,
-      fileSize: content.length,
-      checks: { hasInvId, hasForcetop, hasBtpPrefix, hasDebugSamples, hasPrefixMatch },
-      getInventoryPrefixSnippet: prefixFnMatch ? prefixFnMatch[0].substring(0, 300) : 'NOT FOUND',
-      syncMessageSnippet: syncMsgMatch ? syncMsgMatch[0].substring(0, 200) : 'NOT FOUND',
-    });
-  } catch (err) {
-    res.json({ version: BUILD_VERSION, error: String(err) });
-  }
 });
 
 // Detailed health checks

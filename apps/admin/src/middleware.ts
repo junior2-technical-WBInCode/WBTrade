@@ -5,9 +5,12 @@ import type { NextRequest } from 'next/server';
 // KONFIGURACJA ZABEZPIECZEŃ PANELU ADMINA
 // ========================================
 
-// Tajny klucz dostępu - zmień na własny (min. 32 znaki)
-// W produkcji ustaw przez zmienną środowiskową ADMIN_ACCESS_SECRET
-const ADMIN_ACCESS_SECRET = process.env.ADMIN_ACCESS_SECRET || 'your-super-secret-admin-key-2024';
+// Tajny klucz dostępu — MUSI być ustawiony przez zmienną środowiskową ADMIN_ACCESS_SECRET (min. 32 znaki).
+// SECURITY: brak fallbacku w kodzie — bez ustawionego sekretu dostęp przez token jest niemożliwy.
+const ADMIN_ACCESS_SECRET = process.env.ADMIN_ACCESS_SECRET;
+if (!ADMIN_ACCESS_SECRET && process.env.NODE_ENV === 'production') {
+  console.error('[ADMIN SECURITY] ADMIN_ACCESS_SECRET is not set — admin access gate is locked.');
+}
 
 // Nazwa ciasteczka przechowującego dostęp
 const ACCESS_COOKIE_NAME = 'admin_access_granted';
@@ -57,7 +60,8 @@ export function middleware(request: NextRequest) {
   const hasValidCookie = request.cookies.get(ACCESS_COOKIE_NAME)?.value === 'true';
 
   // Jeśli podano prawidłowy token w URL - ustaw ciasteczko i przekieruj
-  if (accessToken === ADMIN_ACCESS_SECRET) {
+  // SECURITY: wymagany sekret z env — bez niego bramka pozostaje zamknięta
+  if (ADMIN_ACCESS_SECRET && accessToken === ADMIN_ACCESS_SECRET) {
     console.log(`[ADMIN SECURITY] Access granted for IP: ${clientIP}`);
     
     // Usuń token z URL (dla bezpieczeństwa)
