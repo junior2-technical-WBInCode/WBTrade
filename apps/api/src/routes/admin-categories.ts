@@ -2,6 +2,7 @@ import { Router } from 'express';
 import { prisma } from '../db';
 import { authGuard, adminOnly } from '../middleware/auth.middleware';
 import { invalidateCategoryCache } from '../lib/cache';
+import { getProductsIndex, isMeilisearchAvailable } from '../lib/meilisearch';
 
 const router = Router();
 
@@ -87,6 +88,31 @@ router.patch('/:id/visibility', async (req, res) => {
       await invalidateCategoryCache();
     } catch {
       // cache clear failure is non-fatal
+    }
+
+    // Update Meilisearch documents so search reflects the new visibility
+    // immediately (categoryIsActive is a filterable attribute baked into
+    // each product document — without this, the index stays stale until
+    // the next full reindex).
+    try {
+      if (isMeilisearchAvailable()) {
+        const products = await prisma.product.findMany({
+          where: { categoryId: { in: idsToUpdate } },
+          select: { id: true },
+        });
+        if (products.length > 0) {
+          const index = getProductsIndex();
+          // Partial document update — merges with existing fields
+          await index.updateDocuments(
+            products.map((p) => ({ id: p.id, categoryIsActive: isActive }))
+          );
+          console.log(`[AdminCategories] Queued Meilisearch visibility update for ${products.length} products (categoryIsActive=${isActive})`);
+        }
+      }
+    } catch (err) {
+      // Search index update failure is non-fatal — DB re-checks in search
+      // endpoints still enforce visibility
+      console.error('[AdminCategories] Meilisearch visibility update failed:', err);
     }
 
     res.json({ updated: idsToUpdate.length, ids: idsToUpdate, isActive });

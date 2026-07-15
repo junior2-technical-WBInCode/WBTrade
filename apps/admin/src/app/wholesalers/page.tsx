@@ -24,6 +24,7 @@ interface Wholesaler {
   prefix: string;
   skuPrefix: string | null;
   location: string | null;
+  hideLocation: boolean;
   warehouseDisplayName: string | null;
   aliases: string[];
   color: string;
@@ -42,6 +43,7 @@ interface WholesalerForm {
   prefix: string;
   skuPrefix: string;
   location: string;
+  hideLocation: boolean;
   warehouseDisplayName: string;
   aliases: string;
   color: string;
@@ -58,6 +60,7 @@ const EMPTY_FORM: WholesalerForm = {
   prefix: '',
   skuPrefix: '',
   location: '',
+  hideLocation: false,
   warehouseDisplayName: '',
   aliases: '',
   color: '#6b7280',
@@ -142,6 +145,7 @@ export default function WholesalersPage() {
       prefix: w.prefix,
       skuPrefix: w.skuPrefix || '',
       location: w.location || '',
+      hideLocation: w.hideLocation === true,
       warehouseDisplayName: w.warehouseDisplayName || '',
       aliases: w.aliases.join(', '),
       color: w.color,
@@ -175,6 +179,7 @@ export default function WholesalersPage() {
         prefix: form.prefix,
         skuPrefix: form.skuPrefix || null,
         location: form.location || null,
+        hideLocation: form.hideLocation,
         warehouseDisplayName: form.warehouseDisplayName || null,
         aliases: form.aliases ? form.aliases.split(',').map(a => a.trim()).filter(Boolean) : [],
         color: form.color,
@@ -385,7 +390,14 @@ export default function WholesalersPage() {
                     )}
                   </td>
                   <td className="px-4 py-3 text-gray-700">
-                    {w.location || <span className="text-gray-400">—</span>}
+                    <div className="flex items-center gap-1.5">
+                      {w.location || <span className="text-gray-400">—</span>}
+                      {w.hideLocation && w.location && (
+                        <span className="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-medium bg-amber-100 text-amber-800" title="Lokalizacja ukryta na stronie sklepu">
+                          ukryta
+                        </span>
+                      )}
+                    </div>
                   </td>
                   <td className="px-4 py-3">
                     <div className="flex items-center gap-2">
@@ -706,6 +718,16 @@ export default function WholesalersPage() {
                   />
                   <span className="text-sm text-gray-700">Pomijaj w sync</span>
                   <span className="text-xs text-gray-400">(stock/price sync)</span>
+                </label>
+                <label className="flex items-center gap-2 cursor-pointer">
+                  <input
+                    type="checkbox"
+                    checked={form.hideLocation}
+                    onChange={e => setForm(p => ({ ...p, hideLocation: e.target.checked }))}
+                    className="w-4 h-4 text-amber-600 rounded border-gray-300"
+                  />
+                  <span className="text-sm text-gray-700">Ukryj lokalizację na stronie</span>
+                  <span className="text-xs text-gray-400">(filtr magazynów i karty produktów)</span>
                 </label>
               </div>
             </div>

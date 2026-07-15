@@ -18,6 +18,7 @@ interface WholesalerConfig {
   prefix: string;
   skuPrefix: string | null;
   location: string | null;
+  hideLocation: boolean;
   warehouseDisplayName: string | null;
   aliases: string[];
   color: string;
@@ -228,6 +229,8 @@ class WholesalerConfigService {
 
   /**
    * Get public config for frontends (safe fields only).
+   * Wholesalers with hideLocation=true expose location=null so the storefront
+   * never renders their warehouse location (filter list, product cards).
    */
   async getPublicConfig(): Promise<Array<{
     key: string;
@@ -245,8 +248,8 @@ class WholesalerConfigService {
       name: w.name,
       prefix: w.prefix,
       skuPrefix: w.skuPrefix,
-      location: w.location,
-      warehouseDisplayName: w.warehouseDisplayName,
+      location: w.hideLocation ? null : w.location,
+      warehouseDisplayName: w.hideLocation ? null : w.warehouseDisplayName,
       color: w.color,
       aliases: w.aliases,
     }));

@@ -27,10 +27,6 @@ router.get('/stats', async (_req: Request, res: Response) => {
         }),
       ]);
 
-    const totalStock = await prisma.inventory
-      .aggregate({ _sum: { quantity: true }, _sum2: { reserved: true } } as any)
-      .catch(() => null);
-
     const stockAgg = await prisma.inventory.aggregate({
       _sum: { quantity: true, reserved: true },
     });

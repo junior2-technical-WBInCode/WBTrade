@@ -70,7 +70,7 @@ export default function ProductsPage() {
   useEffect(() => {
     loadProducts();
     loadCategories();
-  }, [page, search, statusFilter, categoryFilter, sortBy, sortDir]);
+  }, [page, search, statusFilter, categoryFilter, sortBy, sortDir, token]);
 
   async function loadProducts() {
     try {
@@ -95,7 +95,10 @@ export default function ProductsPage() {
         sort,
       });
       
-      const response = await fetch(`${API_URL}/products?${params}`);
+      // Send admin token so the API returns hidden products too (includeHidden)
+      const response = await fetch(`${API_URL}/products?${params}`, {
+        headers: token ? { Authorization: `Bearer ${token}` } : undefined,
+      });
       const data = await response.json();
       
       setProducts(data.products || []);
