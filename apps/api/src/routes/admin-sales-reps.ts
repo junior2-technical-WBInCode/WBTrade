@@ -65,7 +65,7 @@ router.post('/promote', async (req, res) => {
       return;
     }
     await prisma.user.update({ where: { id: user.id }, data: { role: 'HANDLOWIEC' } });
-    // Role lives in the JWT (~8h) — the user must re-login to gain panel access.
+    // Role lives in the JWT (≤60 min) — the user must re-login to gain panel access.
     res.json({ success: true, message: `Nadano rolę HANDLOWIEC dla ${email}. Konto musi się przelogować.` });
   } catch (error: any) {
     console.error('[AdminSalesReps] Error promoting user:', error);

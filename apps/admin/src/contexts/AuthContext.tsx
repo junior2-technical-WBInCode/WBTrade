@@ -45,7 +45,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     if (!token) return;
 
-    // Refresh token every 7 hours (token expires in 8h)
+    // Refresh token every 10 minutes (ADMIN access tokens expire after 15 min — audyt V-07)
     const refreshInterval = setInterval(async () => {
       try {
         const stored = localStorage.getItem('admin_auth_tokens');
@@ -77,7 +77,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       } catch (error) {
         console.error('Token auto-refresh error:', error);
       }
-    }, 7 * 60 * 60 * 1000); // 7 hours
+    }, 10 * 60 * 1000); // 10 minutes
 
     return () => clearInterval(refreshInterval);
   }, [token]);

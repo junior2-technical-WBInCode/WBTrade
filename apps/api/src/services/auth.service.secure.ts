@@ -63,7 +63,10 @@ function getEnvOrThrow(key: string): string {
 
 const ACCESS_TOKEN_SECRET = getEnvOrThrow('JWT_ACCESS_SECRET');
 const REFRESH_TOKEN_SECRET = getEnvOrThrow('JWT_REFRESH_SECRET');
-const ACCESS_TOKEN_EXPIRY = '8h';
+// SECURITY (audyt V-07): short-lived access tokens — the refresh token rotation
+// (with blacklist) keeps sessions alive, so a stolen access token has a narrow window.
+const ACCESS_TOKEN_EXPIRY_SECONDS = 60 * 60; // 60 minutes
+const ADMIN_ACCESS_TOKEN_EXPIRY_SECONDS = 15 * 60; // 15 minutes for privileged roles
 const REFRESH_TOKEN_EXPIRY_SECONDS = 7 * 24 * 60 * 60; // 7 days
 const SALT_ROUNDS = 12;
 
@@ -880,8 +883,13 @@ export class SecureAuthService {
     userAgent?: string,
     rememberMe?: boolean
   ): Promise<AuthTokens> {
+    // Privileged roles get a shorter access token (audyt V-07)
+    const accessTokenExpiry = payload.role === 'ADMIN'
+      ? ADMIN_ACCESS_TOKEN_EXPIRY_SECONDS
+      : ACCESS_TOKEN_EXPIRY_SECONDS;
+
     const accessToken = jwt.sign(payload, ACCESS_TOKEN_SECRET, {
-      expiresIn: ACCESS_TOKEN_EXPIRY,
+      expiresIn: accessTokenExpiry,
     });
 
     const refreshTokenExpiry = rememberMe ? 30 * 24 * 60 * 60 : REFRESH_TOKEN_EXPIRY_SECONDS;
@@ -900,7 +908,7 @@ export class SecureAuthService {
     return {
       accessToken,
       refreshToken,
-      expiresIn: 15 * 60, // 15 minutes in seconds
+      expiresIn: accessTokenExpiry,
     };
   }
 
