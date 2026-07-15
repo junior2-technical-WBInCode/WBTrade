@@ -277,7 +277,12 @@ export class PayUProvider implements IPaymentProvider {
       ],
     };
 
-    console.log('Creating PayU order:', orderRequest);
+    // SECURITY: do not log the full order request — it contains buyer PII (email, phone, name)
+    console.log('Creating PayU order:', {
+      extOrderId: orderRequest.extOrderId,
+      totalAmount: orderRequest.totalAmount,
+      currencyCode: orderRequest.currencyCode,
+    });
 
     const response = await this.request<{
       redirectUri: string;
@@ -285,7 +290,11 @@ export class PayUProvider implements IPaymentProvider {
       status: { statusCode: string };
     }>('POST', '/api/v2_1/orders', orderRequest);
 
-    console.log('PayU order response:', response);
+    console.log('PayU order response:', {
+      orderId: response.orderId,
+      statusCode: response.status?.statusCode,
+      hasRedirectUri: !!response.redirectUri,
+    });
 
     return {
       id: response.orderId,
@@ -420,13 +429,21 @@ export class PayUProvider implements IPaymentProvider {
     
     const expectedSignature = this.generateSignature(payload);
     
-    console.log('[PayU] Signature validation:', {
-      received: receivedSignature,
-      expected: expectedSignature,
-      match: receivedSignature === expectedSignature,
-    });
+    // SECURITY: constant-time comparison + do not log signature values
+    let match = false;
+    try {
+      match = receivedSignature.length === expectedSignature.length
+        && crypto.timingSafeEqual(
+          Buffer.from(receivedSignature, 'hex'),
+          Buffer.from(expectedSignature, 'hex'),
+        );
+    } catch {
+      match = false;
+    }
     
-    return receivedSignature === expectedSignature;
+    console.log('[PayU] Signature validation:', { match });
+    
+    return match;
   }
 
   /**
