@@ -40,6 +40,20 @@ const HIDDEN_TAGS = ['błąd zdjęcia', 'błąd zdjęcia ', 'nie wrzucać-zabron
 // b2b.leker.pl usunięte - produkty Leker ponownie widoczne, tag "błąd zdjęcia" filtruje wadliwe
 const BLOCKED_IMAGE_DOMAINS: string[] = [];
 
+// Kategorie ukryte na stronie (nazwa lowercase) - MUSI BYĆ IDENTYCZNE jak w categories.service.ts
+// np. "ukryte-b2b" to robocza kategoria dla produktów widocznych tylko przez ręczne zamówienia B2B
+const HIDDEN_CATEGORY_NAMES = [
+  'do zrobienia',
+  'kategoria tymczasowa',
+  '*kategoria tymczasowa',
+  'hurtownia sportowa',
+  '- hurtownia sportowa',
+  '-hurtownia sportowa',
+  'import z pmsport',
+  'w przygotowaniu',
+  'ukryte-b2b',
+];
+
 // Filtr SQL dla warunku "produkt w paczce" oraz ukrywania produktów z błędami
 // Jeśli produkt ma "Paczkomaty i Kurier" to MUSI mieć też "produkt w paczce"
 // Produkty z tagiem "błąd zdjęcia" są ukrywane
@@ -49,6 +63,8 @@ const PACKAGE_FILTER_WHERE: Prisma.ProductWhereInput = {
     { NOT: { tags: { hasSome: HIDDEN_TAGS } } },
     // Nie pokazuj produktów z nieaktywnych kategorii (np. "do zrobienia")
     { OR: [{ category: { isActive: true } }, { categoryId: null }] },
+    // Nie pokazuj produktów z ukrytych/roboczych kategorii (np. "ukryte-b2b")
+    { OR: [{ category: { name: { notIn: HIDDEN_CATEGORY_NAMES, mode: 'insensitive' } } }, { categoryId: null }] },
     // Nie pokazuj produktów ze zdjęciami z blokowanych domen
     ...BLOCKED_IMAGE_DOMAINS.map(domain => ({
       NOT: {
@@ -94,6 +110,7 @@ interface ProductFilters {
    * only for authenticated ADMIN users so the admin panel can find hidden products.
    */
   includeHidden?: boolean;
+  isB2bPartner?: boolean; // Zalogowany, zatwierdzony partner B2B - widzi też produkty z kategorii roboczych (np. ukryte-b2b)
 }
 
 interface ProductsListResult {
@@ -235,13 +252,18 @@ function filterOldZeroStockProducts(products: any[], days: number = 14): any[] {
  *  - products with hidden/error tags (HIDDEN_TAGS)
  *  - products with "Paczkomaty i Kurier" tag but no "produkt w paczce" tag
  */
-function filterProductsWithPackageInfo(products: any[]): any[] {
+function filterProductsWithPackageInfo(products: any[], opts?: { isB2bPartner?: boolean }): any[] {
   const PACZKOMAT_TAGS = ['Paczkomaty i Kurier', 'paczkomaty i kurier'];
   const PACKAGE_LIMIT_PATTERN = /produkt\s*w\s*paczce|produkty?\s*w\s*paczce/i;
 
   return products.filter(product => {
     // Never show products from hidden categories (e.g. "ukryte-b2b")
-    if (product.category && product.category.isActive === false) return false;
+    // Wyjątek: zatwierdzeni partnerzy B2B widzą roboczą kategorię "ukryte-b2b"
+    if (product.category && product.category.isActive === false) {
+      const isHiddenB2b = typeof product.category.name === 'string'
+        && product.category.name.toLowerCase() === 'ukryte-b2b';
+      if (!(opts?.isB2bPartner && isHiddenB2b)) return false;
+    }
 
     const tags = product.tags || [];
 
@@ -400,9 +422,18 @@ export class ProductsService {
       const includeHidden = filters.includeHidden === true;
       // Public visibility conditions for direct-SKU matches (same as main listing).
       // Admin (includeHidden) skips them so the admin panel can find hidden products by SKU.
+      // B2B partners additionally see the hidden working category "ukryte-b2b".
+      const categoryVisibility: Prisma.ProductWhereInput = filters.isB2bPartner
+        ? {
+            OR: [
+              { category: { baselinkerCategoryId: { not: null }, isActive: true } },
+              { category: { name: { equals: 'ukryte-b2b', mode: 'insensitive' } } },
+            ],
+          }
+        : { category: { baselinkerCategoryId: { not: null }, isActive: true } };
       const skuVisibilityAND: Prisma.ProductWhereInput[] = includeHidden ? [] : [
         { tags: { hasSome: DELIVERY_TAGS } },
-        { category: { baselinkerCategoryId: { not: null }, isActive: true } },
+        categoryVisibility,
         PACKAGE_FILTER_WHERE,
       ];
 
@@ -436,7 +467,7 @@ export class ProductsService {
           if (skuMatches.length > 0) {
             const transformed = transformProducts(skuMatches);
             // Central visibility gate + package tag rule (skipped for admin)
-            let filteredProducts = includeHidden ? transformed : filterProductsWithPackageInfo(transformed);
+            let filteredProducts = includeHidden ? transformed : filterProductsWithPackageInfo(transformed, { isB2bPartner: filters.isB2bPartner });
             filteredProducts = sortOutOfStockToEnd(filteredProducts);
             
             return {
@@ -477,7 +508,7 @@ export class ProductsService {
         
         // Central visibility gate + package tag rule (skipped for admin)
         if (!includeHidden) {
-          combinedProducts = filterProductsWithPackageInfo(combinedProducts);
+          combinedProducts = filterProductsWithPackageInfo(combinedProducts, { isB2bPartner: filters.isB2bPartner });
         }
         combinedProducts = combinedProducts.slice(0, limit);
         
@@ -503,12 +534,20 @@ export class ProductsService {
         // Tag dostawy - nie pokazuj produktów z tylko tagiem hurtowni
         { tags: { hasSome: DELIVERY_TAGS } },
         // Kategoria z Baselinker - musi być przypisana i aktywna
-        { 
-          category: { 
-            baselinkerCategoryId: { not: null },
-            isActive: true,
-          } 
-        },
+        // Wyjątek: partnerzy B2B widzą też roboczą kategorię "ukryte-b2b"
+        filters.isB2bPartner
+          ? {
+              OR: [
+                { category: { baselinkerCategoryId: { not: null }, isActive: true } },
+                { category: { name: { equals: 'ukryte-b2b', mode: 'insensitive' as const } } },
+              ],
+            }
+          : {
+              category: {
+                baselinkerCategoryId: { not: null },
+                isActive: true,
+              },
+            },
         // Jeśli ma "Paczkomaty i Kurier", musi mieć też "produkt w paczce"
         PACKAGE_FILTER_WHERE,
       ],
@@ -720,7 +759,7 @@ export class ProductsService {
     }
     
     // Filter products: "Paczkomaty i Kurier" requires "produkt w paczce" tag
-    transformedProducts = filterProductsWithPackageInfo(transformedProducts);
+    transformedProducts = filterProductsWithPackageInfo(transformedProducts, { isB2bPartner: filters.isB2bPartner });
     
     // Sort out-of-stock products to the end (preserves original order within each group)
     transformedProducts = sortOutOfStockToEnd(transformedProducts);
@@ -779,10 +818,15 @@ export class ProductsService {
       // Produkty MUSZĄ mieć przypisaną kategorię z Baselinker
       // hasBaselinkerCategory jest indeksowany w Meilisearch jako filterable
       meiliFilters.push('hasBaselinkerCategory = true');
-      
-      // Kategoria musi być aktywna (ukryte kategorie np. "ukryte-b2b" niewidoczne)
-      meiliFilters.push('categoryIsActive = true');
-      
+
+      // Kategoria musi być aktywna (ukryte kategorie np. "ukryte-b2b" niewidoczne).
+      // Wyjątek: zalogowani, zatwierdzeni partnerzy B2B widzą też roboczą kategorię ukryte-b2b.
+      if (filters.isB2bPartner) {
+        meiliFilters.push('(categoryIsActive = true OR categoryName = "ukryte-b2b")');
+      } else {
+        meiliFilters.push('categoryIsActive = true');
+      }
+
       // Produkty muszą być na stanie (identyczny filtr jak w search.service.ts getSuggestions)
       meiliFilters.push('inStock = true');
       
@@ -973,7 +1017,7 @@ export class ProductsService {
       }
       
       // Filter products: "Paczkomaty i Kurier" requires "produkt w paczce" tag
-      transformedProducts = filterProductsWithPackageInfo(transformedProducts);
+      transformedProducts = filterProductsWithPackageInfo(transformedProducts, { isB2bPartner: filters.isB2bPartner });
       
       // Sort out-of-stock products to the end (preserves original order within each group)
       transformedProducts = sortOutOfStockToEnd(transformedProducts);
@@ -1109,7 +1153,7 @@ export class ProductsService {
     }
     
     // Filter products: "Paczkomaty i Kurier" requires "produkt w paczce" tag
-    transformedProducts = filterProductsWithPackageInfo(transformedProducts);
+    transformedProducts = filterProductsWithPackageInfo(transformedProducts, { isB2bPartner: filters.isB2bPartner });
     
     // Sort out-of-stock products to the end (preserves original order within each group)
     transformedProducts = sortOutOfStockToEnd(transformedProducts);

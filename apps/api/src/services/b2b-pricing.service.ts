@@ -98,16 +98,13 @@ export async function calculateB2bPriceForProduct(
           break;
         }
       }
-      // Safety net: B2B price must never exceed the retail price (misconfigured
-      // rules or a stale/desynced purchasePrice vs retail price must not make
-      // wholesale partners pay more than regular customers).
-      return Math.min(roundPriceTo99(b2bPrice), price);
+      return roundPriceTo99(b2bPrice);
     }
   }
 
   // Fallback: global B2B multiplier × purchasePrice
   const b2bPrice = purchasePriceNum * b2bInfo.multiplier;
-  return Math.min(roundPriceTo99(b2bPrice), price);
+  return roundPriceTo99(b2bPrice);
 }
 
 /**
@@ -127,7 +124,7 @@ export function calculateB2bPrice(
   if (purchasePriceNum <= 0) return price;
   
   const b2bPrice = purchasePriceNum * b2bMultiplier;
-  return Math.min(roundPriceTo99(b2bPrice), price);
+  return roundPriceTo99(b2bPrice);
 }
 
 /**

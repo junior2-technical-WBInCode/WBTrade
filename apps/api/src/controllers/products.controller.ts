@@ -147,16 +147,20 @@ export async function getProducts(req: Request, res: Response): Promise<void> {
       trackSearch(filters.search);
     }
 
-    const result = await productsService.getAll({ ...filters, includeHidden });
+    // Resolve B2B status up-front so hidden/working categories (e.g. ukryte-b2b)
+    // can be included in results for approved B2B partners only
+    let b2bInfo: Awaited<ReturnType<typeof getB2bUserInfo>> = null;
+    if (req.user?.userId) {
+      b2bInfo = await getB2bUserInfo(req.user.userId);
+    }
+
+    const result = await productsService.getAll({ ...filters, includeHidden, isB2bPartner: !!b2bInfo });
 
     // Apply B2B pricing if authenticated user is a B2B partner
-    if (req.user?.userId) {
-      const b2bInfo = await getB2bUserInfo(req.user.userId);
-      if (b2bInfo) {
-        result.products = await Promise.all(
-          result.products.map((p: any) => applyB2bPricing(p, b2bInfo))
-        );
-      }
+    if (b2bInfo) {
+      result.products = await Promise.all(
+        result.products.map((p: any) => applyB2bPricing(p, b2bInfo))
+      );
     }
 
     res.status(200).json(result);
