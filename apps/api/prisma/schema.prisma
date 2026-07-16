@@ -1257,7 +1257,6 @@ model PartnerProfile {
   bankAccountNumber  String?          @map("bank_account_number")
   companyName        String?          @map("company_name")
   nip                String?
-  termsAcceptedAt    DateTime?        @map("terms_accepted_at") // potwierdzenie Warunków Współpracy programu partnerskiego
   // WB TRADE PARTNERS — poziomy awansu (PLAN_03)
   rank               PartnerRank      @default(AKTYWNY_PARTNER)
   rankConfirmations  Int              @default(0) @map("rank_confirmations")   // 0..2; 2 = poziom utrwalony

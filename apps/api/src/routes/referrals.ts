@@ -42,8 +42,7 @@ router.post('/click', async (req: Request, res: Response): Promise<void> => {
 
 /**
  * POST /api/referrals/register - Register as a partner
- * Body: { bankAccountNumber?, companyName?, nip?, invitedBy?, acceptedTerms }
- * acceptedTerms must be `true` — partner confirms having read the Warunki Współpracy document.
+ * Body: { bankAccountNumber?, companyName?, nip?, invitedBy? }
  */
 router.post('/register', authGuard, async (req: Request, res: Response): Promise<void> => {
   try {
@@ -52,9 +51,6 @@ router.post('/register', authGuard, async (req: Request, res: Response): Promise
       companyName: z.string().optional(),
       nip: z.string().optional(),
       invitedBy: z.string().optional(),
-      acceptedTerms: z.literal(true, {
-        errorMap: () => ({ message: 'Musisz potwierdzić zapoznanie się z Warunkami Współpracy programu partnerskiego.' }),
-      }),
     });
     const data = schema.parse(req.body);
     const profile = await referralService.register(req.user!.userId, data);

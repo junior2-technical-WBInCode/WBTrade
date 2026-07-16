@@ -1,23 +1,13 @@
 'use client';
 
-import { useState, useEffect, useCallback, useRef } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import Link from 'next/link';
-import dynamic from 'next/dynamic';
 import { useRouter } from 'next/navigation';
 import Header from '../../../components/Header';
 import Footer from '../../../components/Footer';
 import AccountSidebar from '../../../components/AccountSidebar';
 import { useAuth } from '../../../contexts/AuthContext';
 import { referralApi, PartnerProfileData, ReferralLinkData, ApiClientError, ReferralOverrideData, DownlinePartnerNode, ReferralProductStat, PartnerRankOverview, LeaderBonusData } from '../../../lib/api';
-
-// pdfjs-dist touches browser-only globals (DOMMatrix, canvas, etc.) at module load time,
-// which breaks Next.js server-side prerendering/build. Load it client-side only.
-const PartnerTermsPdfViewer = dynamic(() => import('./PartnerTermsPdfViewer'), {
-  ssr: false,
-  loading: () => <p className="text-sm text-gray-400 text-center py-10">Wczytywanie dokumentu...</p>,
-});
-
-const PARTNER_TERMS_PDF_URL = '/documents/warunki-wspolpracy-programu-partnerskiego.pdf';
 
 const RANK_LABELS: Record<string, string> = {
   AKTYWNY_PARTNER: 'Aktywny Partner',
@@ -106,43 +96,6 @@ export default function PartnershipPage() {
   const [regNip, setRegNip] = useState('');
   const [regInvitedBy, setRegInvitedBy] = useState('');
   const [submittingReg, setSubmittingReg] = useState(false);
-  const [showTermsModal, setShowTermsModal] = useState(false);
-  const [hasScrolledTerms, setHasScrolledTerms] = useState(false);
-  const [acceptedTerms, setAcceptedTerms] = useState(false);
-  const [termsContainerWidth, setTermsContainerWidth] = useState(600);
-  const termsScrollRef = useRef<HTMLDivElement | null>(null);
-
-  const handleTermsScroll = () => {
-    const el = termsScrollRef.current;
-    if (!el) return;
-    const reachedBottom = el.scrollTop + el.clientHeight >= el.scrollHeight - 24;
-    if (reachedBottom) setHasScrolledTerms(true);
-  };
-
-  // Measure the width from the scroll container itself (fixed by the modal's CSS, not by its
-  // PDF-page children) so the rendered page size doesn't feed back into its own measurement —
-  // that self-referential loop previously made pages render too small and overlap on resize/zoom.
-  useEffect(() => {
-    if (!showTermsModal) return;
-    const el = termsScrollRef.current;
-    if (!el) return;
-    const PADDING_X = 48; // px-6 on both sides of the scroll container
-    let frame: number | null = null;
-    const measure = () => {
-      const width = Math.max(280, el.clientWidth - PADDING_X);
-      setTermsContainerWidth((prev) => (Math.abs(prev - width) > 4 ? width : prev));
-    };
-    measure();
-    const observer = new ResizeObserver(() => {
-      if (frame !== null) cancelAnimationFrame(frame);
-      frame = requestAnimationFrame(measure);
-    });
-    observer.observe(el);
-    return () => {
-      observer.disconnect();
-      if (frame !== null) cancelAnimationFrame(frame);
-    };
-  }, [showTermsModal]);
 
   const [newLinkUrl, setNewLinkUrl] = useState('');
   const [newLinkLabel, setNewLinkLabel] = useState('');
@@ -209,10 +162,6 @@ export default function PartnershipPage() {
 
   const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!acceptedTerms) {
-      setError('Musisz potwierdzić zapoznanie się z Warunkami Współpracy programu partnerskiego.');
-      return;
-    }
     setSubmittingReg(true);
     setError('');
     setSuccess('');
@@ -222,7 +171,6 @@ export default function PartnershipPage() {
         companyName: regCompanyName || undefined,
         nip: regNip || undefined,
         invitedBy: regInvitedBy || undefined,
-        acceptedTerms: true,
       });
       setSuccess('Profil partnerski został zarejestrowany. Poczekaj na zatwierdzenie przez administratora.');
       setProfile(newProfile);
@@ -388,106 +336,14 @@ export default function PartnershipPage() {
                       />
                     </div>
 
-                    <div className="rounded-xl border border-gray-200 dark:border-secondary-700 p-4 bg-gray-50 dark:bg-secondary-900/40">
-                      <p className="text-sm text-gray-700 dark:text-gray-300 mb-3">
-                        Przed dołączeniem do programu musisz zapoznać się z pełną treścią <strong>Warunków Współpracy Programu Partnerskiego</strong>.
-                        Otwórz dokument i przescrolluj go do samego końca — dopiero wtedy będzie można zaznaczyć poniższe potwierdzenie.
-                      </p>
-                      <div className="flex flex-wrap items-center gap-3 mb-3">
-                        <button
-                          type="button"
-                          onClick={() => setShowTermsModal(true)}
-                          className="px-4 py-2 rounded-lg bg-secondary-800 dark:bg-secondary-700 hover:bg-secondary-900 dark:hover:bg-secondary-600 text-white text-sm font-medium transition-colors"
-                        >
-                          {hasScrolledTerms ? '✓ Otwórz ponownie Warunki Współpracy' : 'Otwórz Warunki Współpracy'}
-                        </button>
-                        <a
-                          href={PARTNER_TERMS_PDF_URL}
-                          download
-                          className="text-sm text-orange-600 dark:text-orange-400 hover:underline"
-                        >
-                          Pobierz plik PDF (opcjonalnie)
-                        </a>
-                      </div>
-                      <label className={`flex items-start gap-3 cursor-pointer ${!hasScrolledTerms ? 'opacity-50 cursor-not-allowed' : ''}`}>
-                        <input
-                          type="checkbox"
-                          checked={acceptedTerms}
-                          disabled={!hasScrolledTerms}
-                          onChange={(e) => setAcceptedTerms(e.target.checked)}
-                          className="mt-0.5 w-4 h-4 rounded border-gray-300 text-orange-500 focus:ring-orange-500 disabled:cursor-not-allowed"
-                        />
-                        <span className="text-sm text-gray-700 dark:text-gray-300">
-                          Potwierdzam, że zapoznałem się z pełną treścią Warunków Współpracy Programu Partnerskiego i akceptuję ich postanowienia.
-                        </span>
-                      </label>
-                      {!hasScrolledTerms && (
-                        <p className="text-xs text-gray-400 mt-2">Otwórz dokument i przewiń go do końca, aby odblokować potwierdzenie.</p>
-                      )}
-                    </div>
-
                     <button
                       type="submit"
-                      disabled={submittingReg || !acceptedTerms}
+                      disabled={submittingReg}
                       className="px-6 py-3.5 bg-orange-500 hover:bg-orange-600 disabled:bg-orange-300 text-white rounded-xl font-medium transition-colors shadow-sm focus:outline-none"
                     >
                       {submittingReg ? 'Rejestrowanie...' : 'Zarejestruj się jako partner'}
                     </button>
                   </form>
-                </div>
-              )}
-
-              {/* MODAL: Warunki Współpracy — Program Partnerski */}
-              {showTermsModal && (
-                <div
-                  className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4"
-                  onClick={() => setShowTermsModal(false)}
-                >
-                  <div
-                    className="bg-white dark:bg-secondary-800 rounded-2xl shadow-xl w-full max-w-4xl max-h-[90vh] flex flex-col"
-                    onClick={(e) => e.stopPropagation()}
-                  >
-                    <div className="flex items-center justify-between px-6 py-4 border-b border-gray-100 dark:border-secondary-700">
-                      <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Warunki Współpracy — Program Partnerski</h3>
-                      <button
-                        type="button"
-                        onClick={() => setShowTermsModal(false)}
-                        className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 text-xl leading-none"
-                        aria-label="Zamknij"
-                      >
-                        ×
-                      </button>
-                    </div>
-                    <div
-                      ref={termsScrollRef}
-                      onScroll={handleTermsScroll}
-                      className="overflow-y-auto px-6 py-4 flex-1 bg-gray-50 dark:bg-secondary-900/40"
-                    >
-                      <PartnerTermsPdfViewer fileUrl={PARTNER_TERMS_PDF_URL} containerWidth={termsContainerWidth} />
-                    </div>
-                    <div className="px-6 py-4 border-t border-gray-100 dark:border-secondary-700 flex flex-wrap items-center justify-between gap-3">
-                      <a
-                        href={PARTNER_TERMS_PDF_URL}
-                        download
-                        className="text-sm text-orange-600 dark:text-orange-400 hover:underline"
-                      >
-                        Pobierz plik PDF (opcjonalnie)
-                      </a>
-                      <div className="flex items-center gap-3">
-                        {!hasScrolledTerms && (
-                          <span className="text-xs text-gray-400">Przewiń dokument do końca, aby kontynuować</span>
-                        )}
-                        <button
-                          type="button"
-                          onClick={() => setShowTermsModal(false)}
-                          disabled={!hasScrolledTerms}
-                          className="px-4 py-2 rounded-lg bg-orange-500 hover:bg-orange-600 disabled:bg-orange-300 text-white text-sm font-medium transition-colors"
-                        >
-                          Zamknij
-                        </button>
-                      </div>
-                    </div>
-                  </div>
                 </div>
               )}
 
