@@ -261,6 +261,7 @@ router.get('/alerts', async (req: Request, res: Response) => {
                 price: true,
                 baselinkerProductId: true,
                 purchasePrice: true,
+                tags: true,
                 images: {
                   select: { url: true },
                   orderBy: { order: 'asc' },
@@ -288,14 +289,16 @@ router.get('/alerts', async (req: Request, res: Response) => {
               product.baselinkerProductId,
               product.sku,
               b2bInfo,
-              product.purchasePrice
+              product.purchasePrice,
+              product.tags
             ) as any;
             alert.newPrice = await calculateB2bPriceForProduct(
               Number(alert.newPrice),
               product.baselinkerProductId,
               product.sku,
               b2bInfo,
-              product.purchasePrice
+              product.purchasePrice,
+              product.tags
             ) as any;
           }
         }

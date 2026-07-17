@@ -215,6 +215,7 @@ export async function getWorkingCategoryProducts(req: Request, res: Response): P
         sku: true,
         baselinkerProductId: true,
         purchasePrice: true,
+        tags: true,
         images: { select: { url: true }, orderBy: { order: 'asc' }, take: 1 },
         variants: {
           select: {
@@ -270,7 +271,8 @@ export async function getWorkingCategoryProducts(req: Request, res: Response): P
             product.baselinkerProductId,
             variant.sku,
             b2bInfo,
-            variant.purchasePrice ?? product.purchasePrice
+            variant.purchasePrice ?? product.purchasePrice,
+            product.tags
           );
         }
 

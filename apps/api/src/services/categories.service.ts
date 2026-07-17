@@ -42,7 +42,10 @@ const HIDDEN_CATEGORY_NAMES = [
   '- hurtownia sportowa',
   '-hurtownia sportowa',
   'import z pmsport',
-  'w przygotowaniu'
+  'w przygotowaniu',
+  // Robocza kategoria B2B (manual-orders.controller.ts) - produkty nie są jeszcze
+  // publicznie w sprzedaży, widoczne tylko dla partnerów B2B przez zamówienia ręczne.
+  'ukryte-b2b',
 ];
 
 // Bazowy filtr dla widocznych produktów - MUSI BYĆ IDENTYCZNY jak w products.service.ts

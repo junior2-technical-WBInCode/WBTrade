@@ -1,6 +1,11 @@
+require('dotenv').config();
 const Redis = require('ioredis');
 
-const redisUrl = process.env.REDIS_URL || 'rediss://default:AUDdAAIncDJkMWY0MjA5ODFkYzY0OWRkYmI0YTQzYzYzNjdjNmU3ZHAyMTY2MDU@healthy-griffon-16605.upstash.io:6379';
+const redisUrl = process.env.REDIS_URL;
+if (!redisUrl) {
+  console.error('❌ REDIS_URL environment variable is not set!');
+  process.exit(1);
+}
 
 const redis = new Redis(redisUrl);
 

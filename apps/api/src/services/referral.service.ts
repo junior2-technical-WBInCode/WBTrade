@@ -55,7 +55,6 @@ interface RegisterDto {
   companyName?: string;
   nip?: string;
   invitedBy?: string; // MLM Phase 3
-  acceptedTerms: boolean; // potwierdzenie zapoznania się z Warunkami Współpracy
 }
 
 interface ReferralInput {
@@ -88,10 +87,6 @@ export class ReferralService {
     });
     if (existing) {
       throw new Error('Masz już profil partnerski.');
-    }
-
-    if (!dto.acceptedTerms) {
-      throw new Error('Musisz potwierdzić zapoznanie się z Warunkami Współpracy programu partnerskiego.');
     }
 
     // Generate unique referral code
@@ -134,7 +129,6 @@ export class ReferralService {
         companyName: dto.companyName || null,
         nip: dto.nip || null,
         parentPartnerId,
-        termsAcceptedAt: new Date(),
       },
     });
 

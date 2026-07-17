@@ -95,6 +95,9 @@ export class SearchService {
     filters.push(`tags IN [${deliveryTagsFilter}]`);
     filters.push('hasBaselinkerCategory = true');
     filters.push('categoryIsActive = true');
+    // Robocza kategoria B2B (ukryte-b2b) - widoczna tylko przez wyszukiwarkę produktów
+    // dla zalogowanych partnerów B2B (products.service.ts), nie przez ten (anonimowy/chatbot) endpoint.
+    filters.push('categoryName != "ukryte-b2b"');
     if (minPrice !== undefined) {
       filters.push(`price >= ${minPrice}`);
     }
@@ -229,8 +232,8 @@ export class SearchService {
         price: { gt: 0 },
         // Musi mieć tag dostawy
         tags: { hasSome: DELIVERY_TAGS },
-        // Musi mieć kategorię z Baselinker i aktywną
-        category: { baselinkerCategoryId: { not: null }, isActive: true },
+        // Musi mieć kategorię z Baselinker i aktywną (poza roboczą kategorią B2B)
+        category: { baselinkerCategoryId: { not: null }, isActive: true, name: { notIn: ['ukryte-b2b'], mode: 'insensitive' } },
         // Musi być na stanie (dostępne)
         variants: await this.getStockCondition(),
         // Nie pokazuj produktów z tagami błędów + warunek paczkomatu
@@ -465,8 +468,8 @@ export class SearchService {
         })),
         // Musi mieć tag dostawy
         tags: { hasSome: DELIVERY_TAGS },
-        // Musi mieć kategorię z Baselinker i aktywną
-        category: { baselinkerCategoryId: { not: null }, isActive: true },
+        // Musi mieć kategorię z Baselinker i aktywną (poza roboczą kategorią B2B)
+        category: { baselinkerCategoryId: { not: null }, isActive: true, name: { notIn: ['ukryte-b2b'], mode: 'insensitive' } },
         // Musi być na stanie (dostępne)
         variants: await this.getStockCondition(),
         // Nie pokazuj produktów z tagami błędów

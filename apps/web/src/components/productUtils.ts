@@ -203,14 +203,13 @@ export function calculateClientB2bPrice(
           break;
         }
       }
-      // Safety net: B2B price must never exceed the retail price shown to regular customers.
-      return Math.min(Math.floor(b2bPrice) + 0.99, storePrice);
+      return Math.floor(b2bPrice) + 0.99;
     }
   }
 
   // Fallback: global B2B multiplier × purchasePrice
   const b2bPrice = purchasePriceNum * globalMultiplier;
-  return Math.min(Math.floor(b2bPrice) + 0.99, storePrice);
+  return Math.floor(b2bPrice) + 0.99;
 }
 
 const CITY_LOCATIVE_MAP: Record<string, string> = {
