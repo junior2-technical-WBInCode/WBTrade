@@ -5,6 +5,7 @@ import {
   getProductBySlug,
   createProduct,
   updateProduct,
+  previewManualPrices,
   deleteProduct,
   getFilters,
   getBestsellers,
@@ -84,6 +85,9 @@ router.get('/:productId/reviews/can-review', optionalAuth, reviewsController.can
 
 // Route to create a new product (admin only)
 router.post('/', authGuard, adminOnly, createProduct);
+
+// Preview prices calculated from a manually entered wholesale price
+router.post('/pricing-preview', authGuard, adminOnly, previewManualPrices);
 
 // Route to update an existing product (admin only)
 router.put('/:id', authGuard, adminOnly, updateProduct);
