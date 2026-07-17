@@ -232,7 +232,7 @@ export class OrdersService {
       data.items.map(async (item) => {
         const variant = await prisma.productVariant.findUnique({
           where: { id: item.variantId },
-          include: { product: { select: { name: true, baselinkerProductId: true, purchasePrice: true } } },
+          include: { product: { select: { name: true, baselinkerProductId: true, purchasePrice: true, tags: true } } },
         });
         let realPrice = variant ? Number(variant.price) : item.unitPrice;
         // Apply B2B pricing for B2B partners
@@ -242,7 +242,8 @@ export class OrdersService {
             variant.product.baselinkerProductId,
             variant.sku,
             b2bInfo,
-            variant.purchasePrice ?? variant.product.purchasePrice
+            variant.purchasePrice ?? variant.product.purchasePrice,
+            variant.product.tags
           );
         }
         if (variant && !b2bInfo && Math.abs(realPrice - item.unitPrice) > 0.01) {

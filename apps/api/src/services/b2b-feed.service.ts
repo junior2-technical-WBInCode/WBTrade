@@ -156,7 +156,8 @@ export async function streamB2bXmlFeed(
         product.baselinkerProductId,
         product.sku,
         b2bInfo,
-        product.purchasePrice
+        product.purchasePrice,
+        product.tags
       );
       if (b2bPrice <= 0) continue;
 
@@ -241,7 +242,8 @@ export async function streamB2bCsvFeed(
         product.baselinkerProductId,
         product.sku,
         b2bInfo,
-        product.purchasePrice
+        product.purchasePrice,
+        product.tags
       );
       if (b2bPrice <= 0) continue;
 

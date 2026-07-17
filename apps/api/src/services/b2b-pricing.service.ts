@@ -29,7 +29,8 @@ function roundPriceTo99(price: number): number {
  */
 export async function resolveWholesalerKey(
   baselinkerProductId?: string | null,
-  sku?: string | null
+  sku?: string | null,
+  tags?: string[]
 ): Promise<string | null> {
   const wholesalers = await wholesalerConfigService.getAll();
   
@@ -58,6 +59,17 @@ export async function resolveWholesalerKey(
     }
   }
 
+  if (tags) {
+    for (const tag of tags) {
+      const tagKey = tag.replace(/^hurtownia[:\-_]\s*/i, '').trim().toLowerCase();
+      const match = wholesalers.find(w => {
+        const identifiers = [w.key, w.name, ...(w.aliases || [])];
+        return identifiers.some(identifier => identifier.toLowerCase() === tagKey);
+      });
+      if (match) return match.key;
+    }
+  }
+
   return null;
 }
 
@@ -73,7 +85,8 @@ export async function calculateB2bPriceForProduct(
   baselinkerProductId: string | null,
   sku: string | null,
   b2bInfo: { multiplier: number; wholesalerRules: any },
-  purchasePrice?: number | Decimal | null
+  purchasePrice?: number | Decimal | null,
+  tags?: string[]
 ): Promise<number> {
   const price = typeof storePrice === 'number' ? storePrice : Number(storePrice);
   if (price <= 0) return 0;
@@ -83,7 +96,7 @@ export async function calculateB2bPriceForProduct(
   // If no purchase price, we cannot calculate B2B price — return store price
   if (purchasePriceNum <= 0) return price;
 
-  const whKey = await resolveWholesalerKey(baselinkerProductId, sku);
+  const whKey = await resolveWholesalerKey(baselinkerProductId, sku, tags);
   
   // Try wholesaler-specific B2B rules
   if (whKey) {
@@ -164,7 +177,8 @@ export async function applyB2bPricing(
     product.baselinkerProductId,
     product.sku,
     b2bInfo,
-    product.purchasePrice
+    product.purchasePrice,
+    product.tags
   );
 
   let transformedVariants: any[] | null = null;
@@ -176,7 +190,8 @@ export async function applyB2bPricing(
           product.baselinkerProductId || variant.baselinkerProductId,
           variant.sku || product.sku,
           b2bInfo,
-          variant.purchasePrice || product.purchasePrice
+          variant.purchasePrice || product.purchasePrice,
+          product.tags
         );
         return {
           ...variant,

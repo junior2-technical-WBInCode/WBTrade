@@ -351,13 +351,37 @@ export async function updateProduct(req: Request, res: Response): Promise<void> 
       ...(categoryId !== undefined && {
         category: categoryId ? { connect: { id: categoryId } } : { disconnect: true }
       }),
+      ...(variants && {
+        variants: {
+          update: variants
+            .filter((variant) => variant.id)
+            .map((variant) => ({
+              where: { id: variant.id },
+              data: {
+                name: variant.name,
+                sku: variant.sku,
+                compareAtPrice: variant.compareAtPrice,
+                attributes: variant.attributes || {},
+              },
+            })),
+          create: variants
+            .filter((variant) => !variant.id)
+            .map((variant) => ({
+              name: variant.name,
+              sku: variant.sku,
+              price: variant.price,
+              compareAtPrice: variant.compareAtPrice,
+              attributes: variant.attributes || {},
+            })),
+        },
+      }),
     };
     
     // Get user info from request (if auth middleware adds it)
     const userId = (req as any).user?.id;
     
     // Update with Omnibus-compliant price tracking (source: API)
-    const product = await productsService.update(id, prismaData, {
+    let product = await productsService.update(id, prismaData, {
       source: PriceChangeSource.API,
       changedBy: userId,
       reason: 'API product update',
@@ -368,8 +392,32 @@ export async function updateProduct(req: Request, res: Response): Promise<void> 
       return;
     }
 
-    // Update inventory for variants if stock value is provided
-    if (stock !== undefined && product.variants && product.variants.length > 0) {
+    if (variants) {
+      for (const variant of variants) {
+        const savedVariant = variant.id
+          ? product.variants.find((item: any) => item.id === variant.id)
+          : product.variants.find((item: any) => item.sku === variant.sku);
+
+        if (!savedVariant) continue;
+
+        if (variant.id) {
+          await productsService.updateVariantPrice(
+            savedVariant.id,
+            variant.price,
+            PriceChangeSource.API,
+            userId,
+            'API product variant update'
+          );
+        }
+
+        if (variant.stock !== undefined) {
+          await productsService.updateVariantsStock([savedVariant.id], variant.stock);
+        }
+      }
+
+      product = await productsService.getById(id, { includeHidden: true });
+    } else if (stock !== undefined && product.variants && product.variants.length > 0) {
+      // Legacy callers can still apply one stock value to all variants.
       await productsService.updateVariantsStock(product.variants.map((v: any) => v.id), stock);
     }
 

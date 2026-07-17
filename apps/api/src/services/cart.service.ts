@@ -649,7 +649,8 @@ export class CartService {
             item.variant.product.baselinkerProductId,
             item.variant.sku,
             b2bInfo,
-            item.variant.purchasePrice || item.variant.product.purchasePrice
+            item.variant.purchasePrice || item.variant.product.purchasePrice,
+            item.variant.product.tags
           );
         }
         const tags = item.variant.product.tags || [];
