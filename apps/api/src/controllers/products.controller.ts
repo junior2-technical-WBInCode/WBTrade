@@ -4,6 +4,7 @@ import { ProductsService } from '../services/products.service';
 import { PriceChangeSource } from '@prisma/client';
 import { popularityService } from '../services/popularity.service';
 import { getB2bUserInfo, applyB2bPricing } from '../services/b2b-pricing.service';
+import { calculateManualPricePreview, calculateManualRetailPrice } from '../services/manual-pricing.service';
 
 const productsService = new ProductsService();
 
@@ -77,6 +78,7 @@ const productVariantSchema = z.object({
   sku: z.string().min(1).max(100),
   name: z.string().min(1).max(200).transform(sanitizeText),
   price: z.number().positive().max(9999999),
+  purchasePrice: z.number().positive().max(9999999).optional(),
   compareAtPrice: z.number().positive().max(9999999).optional().nullable(),
   stock: z.number().int().min(0).optional(),
   attributes: z.record(z.string().max(200)).optional(),
@@ -101,6 +103,7 @@ const createProductSchema = z.object({
   description: z.string().max(10000).optional().transform((val) => val ? sanitizeText(val) : undefined),
   shortDescription: z.string().max(500).optional().transform((val) => val ? sanitizeText(val) : undefined),
   price: z.number().positive('Price must be positive').max(9999999),
+  purchasePrice: z.number().positive().max(9999999).optional(),
   compareAtPrice: z.number().positive().max(9999999).nullable().optional(),
   sku: z.string().min(1).max(100).optional(),
   barcode: z.string().max(50).optional(),
@@ -120,6 +123,15 @@ const createProductSchema = z.object({
  * Update product validation schema (all fields optional)
  */
 const updateProductSchema = createProductSchema.partial();
+
+const manualPricePreviewSchema = z.object({
+  productId: z.string().min(1),
+  items: z.array(z.object({
+    key: z.string().min(1).max(200),
+    sku: z.string().max(100).optional().nullable(),
+    purchasePrice: z.number().positive().max(9999999),
+  })).min(1).max(100),
+});
 
 /**
  * Get all products with optional filters and pagination
@@ -340,36 +352,77 @@ export async function updateProduct(req: Request, res: Response): Promise<void> 
       });
       return;
     }
-    
+
+    const currentProduct = await productsService.getById(id, { includeHidden: true });
+    if (!currentProduct) {
+      res.status(404).json({ message: 'Produkt nie zostal znaleziony' });
+      return;
+    }
+
     // Extract fields that need special handling
-    const { images, variants, categoryId, stock, lowStockThreshold, weight, shortDescription, ...productData } = validation.data;
+    const { images, variants, categoryId, stock, lowStockThreshold, weight, shortDescription, purchasePrice, ...productData } = validation.data;
+    const pricedVariants = variants
+      ? await Promise.all(variants.map(async (variant) => {
+          if (variant.purchasePrice === undefined) return variant;
+
+          const calculated = await calculateManualRetailPrice({
+            purchasePrice: variant.purchasePrice,
+            baselinkerProductId: currentProduct.baselinkerProductId,
+            sku: variant.sku,
+            tags: currentProduct.tags,
+          });
+          return { ...variant, price: calculated.retailPrice };
+        }))
+      : undefined;
+    let effectiveProductPrice = productData.price;
+    let effectiveProductPurchasePrice = purchasePrice;
+
+    if (pricedVariants && pricedVariants.length > 0) {
+      const cheapestVariant = pricedVariants.reduce((cheapest, variant) =>
+        variant.price < cheapest.price ? variant : cheapest
+      );
+      effectiveProductPrice = cheapestVariant.price;
+      effectiveProductPurchasePrice = cheapestVariant.purchasePrice;
+    } else if (purchasePrice !== undefined) {
+      const calculated = await calculateManualRetailPrice({
+        purchasePrice,
+        baselinkerProductId: currentProduct.baselinkerProductId,
+        sku: validation.data.sku || currentProduct.sku,
+        tags: currentProduct.tags,
+      });
+      effectiveProductPrice = calculated.retailPrice;
+    }
     
     // Build Prisma-compatible data structure for update
     const prismaData: any = {
       ...productData,
+      ...(effectiveProductPrice !== undefined && { price: effectiveProductPrice }),
+      ...(effectiveProductPurchasePrice !== undefined && { purchasePrice: effectiveProductPurchasePrice }),
       // Connect/disconnect category
       ...(categoryId !== undefined && {
         category: categoryId ? { connect: { id: categoryId } } : { disconnect: true }
       }),
-      ...(variants && {
+      ...(pricedVariants && {
         variants: {
-          update: variants
+          update: pricedVariants
             .filter((variant) => variant.id)
             .map((variant) => ({
               where: { id: variant.id },
               data: {
                 name: variant.name,
                 sku: variant.sku,
+                purchasePrice: variant.purchasePrice,
                 compareAtPrice: variant.compareAtPrice,
                 attributes: variant.attributes || {},
               },
             })),
-          create: variants
+          create: pricedVariants
             .filter((variant) => !variant.id)
             .map((variant) => ({
               name: variant.name,
               sku: variant.sku,
               price: variant.price,
+              purchasePrice: variant.purchasePrice,
               compareAtPrice: variant.compareAtPrice,
               attributes: variant.attributes || {},
             })),
@@ -378,7 +431,7 @@ export async function updateProduct(req: Request, res: Response): Promise<void> 
     };
     
     // Get user info from request (if auth middleware adds it)
-    const userId = (req as any).user?.id;
+    const userId = req.user?.userId;
     
     // Update with Omnibus-compliant price tracking (source: API)
     let product = await productsService.update(id, prismaData, {
@@ -392,8 +445,8 @@ export async function updateProduct(req: Request, res: Response): Promise<void> 
       return;
     }
 
-    if (variants) {
-      for (const variant of variants) {
+    if (pricedVariants) {
+      for (const variant of pricedVariants) {
         const savedVariant = variant.id
           ? product.variants.find((item: any) => item.id === variant.id)
           : product.variants.find((item: any) => item.sku === variant.sku);
@@ -425,6 +478,43 @@ export async function updateProduct(req: Request, res: Response): Promise<void> 
   } catch (error) {
     console.error('Error updating product:', error);
     res.status(500).json({ message: 'Error updating product' });
+  }
+}
+
+/**
+ * Preview retail and B2B prices derived from manual wholesale prices.
+ */
+export async function previewManualPrices(req: Request, res: Response): Promise<void> {
+  try {
+    const validation = manualPricePreviewSchema.safeParse(req.body);
+    if (!validation.success) {
+      res.status(400).json({
+        message: 'Validation error',
+        errors: validation.error.flatten().fieldErrors,
+      });
+      return;
+    }
+
+    const product = await productsService.getById(validation.data.productId, { includeHidden: true });
+    if (!product) {
+      res.status(404).json({ message: 'Produkt nie zostal znaleziony' });
+      return;
+    }
+
+    const items = await Promise.all(validation.data.items.map(async (item) => ({
+      key: item.key,
+      ...(await calculateManualPricePreview({
+        purchasePrice: item.purchasePrice,
+        baselinkerProductId: product.baselinkerProductId,
+        sku: item.sku || product.sku,
+        tags: product.tags,
+      })),
+    })));
+
+    res.status(200).json({ items });
+  } catch (error) {
+    console.error('Error previewing manual prices:', error);
+    res.status(500).json({ message: 'Error previewing manual prices' });
   }
 }
 

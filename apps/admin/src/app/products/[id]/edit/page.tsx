@@ -18,9 +18,10 @@ interface Variant {
   id?: string;
   name: string;
   sku: string;
-  price: number;
+  price: number | string;
+  purchasePrice?: number | string | null;
   compareAtPrice?: number | null;
-  stock: number;
+  stock: number | string;
   attributes: Record<string, string>;
 }
 
@@ -39,6 +40,7 @@ interface Product {
   description: string;
   shortDescription: string;
   price: number;
+  purchasePrice: number | null;
   compareAtPrice: number | null;
   categoryId: string;
   status: string;
@@ -49,6 +51,75 @@ interface Product {
   images: ProductImage[];
   variants: Variant[];
   category?: { name: string };
+}
+
+interface PartnerPricePreview {
+  partnerId: string;
+  label: string;
+  price: number;
+}
+
+interface PricePreview {
+  key: string;
+  purchasePrice: number;
+  wholesalerKey: string | null;
+  retailPrice: number;
+  defaultB2bPrice: number;
+  partnerPrices: PartnerPricePreview[];
+  partnerB2bMinPrice: number | null;
+  partnerB2bMaxPrice: number | null;
+}
+
+function formatPrice(value: number): string {
+  return Number.isFinite(value) ? `${value.toFixed(2).replace('.', ',')} zł` : '-';
+}
+
+function PriceCalculationPreview({ preview, loading }: { preview?: PricePreview; loading: boolean }) {
+  if (!preview) {
+    return loading ? <p className="text-xs text-slate-400">Przeliczanie cen...</p> : null;
+  }
+
+  const partnerRange = preview.partnerB2bMinPrice !== null && preview.partnerB2bMaxPrice !== null
+    ? preview.partnerB2bMinPrice === preview.partnerB2bMaxPrice
+      ? formatPrice(preview.partnerB2bMinPrice)
+      : `${formatPrice(preview.partnerB2bMinPrice)} - ${formatPrice(preview.partnerB2bMaxPrice)}`
+    : null;
+
+  return (
+    <div className="mt-3 border-t border-slate-700 pt-3 text-xs">
+      <div className="flex flex-wrap gap-x-6 gap-y-2">
+        <span className="text-slate-400">
+          Detal: <strong className="text-white">{formatPrice(preview.retailPrice)}</strong>
+        </span>
+        <span className="text-slate-400">
+          B2B domyślna: <strong className="text-emerald-400">{formatPrice(preview.defaultB2bPrice)}</strong>
+        </span>
+        {partnerRange && (
+          <span className="text-slate-400">
+            B2B partnerzy: <strong className="text-sky-400">{partnerRange}</strong>
+          </span>
+        )}
+        {preview.wholesalerKey && (
+          <span className="text-slate-500">Hurtownia: {preview.wholesalerKey.toUpperCase()}</span>
+        )}
+      </div>
+      {preview.partnerPrices.length > 0 && (
+        <details className="mt-2 text-slate-400">
+          <summary className="cursor-pointer select-none hover:text-slate-300">
+            Ceny partnerów B2B ({preview.partnerPrices.length})
+          </summary>
+          <div className="mt-2 grid gap-1 sm:grid-cols-2">
+            {preview.partnerPrices.map((partner) => (
+              <div key={partner.partnerId} className="flex justify-between gap-3 pr-4">
+                <span className="truncate" title={partner.label}>{partner.label}</span>
+                <span className="shrink-0 font-medium text-sky-400">{formatPrice(partner.price)}</span>
+              </div>
+            ))}
+          </div>
+        </details>
+      )}
+    </div>
+  );
 }
 
 export default function EditProductPage() {
@@ -69,6 +140,7 @@ export default function EditProductPage() {
   const [description, setDescription] = useState('');
   const [shortDescription, setShortDescription] = useState('');
   const [price, setPrice] = useState('');
+  const [purchasePrice, setPurchasePrice] = useState('');
   const [compareAtPrice, setCompareAtPrice] = useState('');
   const [categoryId, setCategoryId] = useState('');
   const [status, setStatus] = useState('DRAFT');
@@ -83,6 +155,22 @@ export default function EditProductPage() {
   
   // Variants
   const [variants, setVariants] = useState<Variant[]>([]);
+  const [pricePreviews, setPricePreviews] = useState<Record<string, PricePreview>>({});
+  const [previewLoading, setPreviewLoading] = useState(false);
+  const [previewError, setPreviewError] = useState('');
+
+  const pricePreviewRequest = JSON.stringify(
+    variants.length > 0
+      ? variants.flatMap((variant, index) => {
+          const value = Number(variant.purchasePrice);
+          return value > 0
+            ? [{ key: variant.id || `new-${index}`, sku: variant.sku, purchasePrice: value }]
+            : [];
+        })
+      : Number(purchasePrice) > 0
+        ? [{ key: 'product', sku, purchasePrice: Number(purchasePrice) }]
+        : []
+  );
 
   useEffect(() => {
     loadProduct();
@@ -106,6 +194,7 @@ export default function EditProductPage() {
       setDescription(product.description || '');
       setShortDescription(product.shortDescription || '');
       setPrice(product.price.toString());
+      setPurchasePrice(product.purchasePrice?.toString() || '');
       setCompareAtPrice(product.compareAtPrice?.toString() || '');
       setCategoryId(product.categoryId || '');
       setStatus(product.status);
@@ -114,7 +203,10 @@ export default function EditProductPage() {
       setWeight(product.weight?.toString() || '');
       setSpecifications(product.specifications || {});
       setImages(product.images || []);
-      setVariants(product.variants || []);
+      setVariants((product.variants || []).map(variant => ({
+        ...variant,
+        purchasePrice: variant.purchasePrice ?? product.purchasePrice ?? '',
+      })));
     } catch (error) {
       console.error('Failed to load product:', error);
       await alert('Nie znaleziono produktu');
@@ -135,6 +227,66 @@ export default function EditProductPage() {
     }
   }
 
+  useEffect(() => {
+    if (!token || loading) return;
+
+    const items = JSON.parse(pricePreviewRequest) as Array<{
+      key: string;
+      sku: string;
+      purchasePrice: number;
+    }>;
+    if (items.length === 0) {
+      setPricePreviews({});
+      setPreviewError('');
+      setPreviewLoading(false);
+      return;
+    }
+
+    const controller = new AbortController();
+    const timeout = window.setTimeout(async () => {
+      setPreviewLoading(true);
+      setPreviewError('');
+      try {
+        const response = await fetch(`${API_URL}/products/pricing-preview`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({ productId, items }),
+          signal: controller.signal,
+        });
+        if (!response.ok) throw new Error('Nie udało się przeliczyć cen');
+
+        const data = await response.json() as { items: PricePreview[] };
+        const nextPreviews = Object.fromEntries(data.items.map(item => [item.key, item]));
+        setPricePreviews(nextPreviews);
+
+        if (variants.length > 0) {
+          setVariants(current => current.map((variant, index) => {
+            const preview = nextPreviews[variant.id || `new-${index}`];
+            return preview ? { ...variant, price: preview.retailPrice } : variant;
+          }));
+          const retailPrices = data.items.map(item => item.retailPrice);
+          if (retailPrices.length > 0) setPrice(Math.min(...retailPrices).toString());
+        } else if (nextPreviews.product) {
+          setPrice(nextPreviews.product.retailPrice.toString());
+        }
+      } catch (error) {
+        if (!controller.signal.aborted) {
+          setPreviewError(error instanceof Error ? error.message : 'Nie udało się przeliczyć cen');
+        }
+      } finally {
+        if (!controller.signal.aborted) setPreviewLoading(false);
+      }
+    }, 350);
+
+    return () => {
+      window.clearTimeout(timeout);
+      controller.abort();
+    };
+  }, [loading, pricePreviewRequest, productId, token, variants.length]);
+
   const addImage = () => {
     if (imageUrl) {
       setImages([...images, { url: imageUrl, alt: name, order: images.length }]);
@@ -151,14 +303,15 @@ export default function EditProductPage() {
       name: '',
       sku: `${sku}-V${variants.length + 1}`,
       price: parseFloat(price) || 0,
+      purchasePrice: '',
       stock: 0,
       attributes: {}
     }]);
   };
 
-  const updateVariant = (index: number, field: string, value: string | number) => {
+  const updateVariant = <Key extends keyof Variant>(index: number, field: Key, value: Variant[Key]) => {
     const updated = [...variants];
-    (updated[index] as any)[field] = value;
+    updated[index] = { ...updated[index], [field]: value };
     setVariants(updated);
   };
 
@@ -190,16 +343,30 @@ export default function EditProductPage() {
       await alert('Brak autoryzacji. Zaloguj się ponownie.');
       return;
     }
+
+    const missingWholesalePrice = variants.length > 0
+      ? variants.some(variant => Number(variant.purchasePrice) <= 0)
+      : Number(purchasePrice) <= 0;
+    if (missingWholesalePrice) {
+      await alert(
+        variants.length > 0
+          ? 'Wpisz dodatnią cenę hurtową dla każdego wariantu.'
+          : 'Wpisz dodatnią cenę hurtową produktu.'
+      );
+      return;
+    }
     
     setSaving(true);
     try {
+      const parsedPurchasePrice = Number(purchasePrice);
       const productData = {
         name,
         slug,
         sku,
         description,
         shortDescription,
-        price: parseFloat(price),
+        price: pricePreviews.product?.retailPrice ?? parseFloat(price),
+        purchasePrice: variants.length === 0 && parsedPurchasePrice > 0 ? parsedPurchasePrice : undefined,
         compareAtPrice: compareAtPrice ? parseFloat(compareAtPrice) : null,
         categoryId,
         status,
@@ -208,9 +375,10 @@ export default function EditProductPage() {
         weight: weight ? parseFloat(weight) : null,
         specifications,
         images: images.map((img, i) => ({ ...img, order: i })),
-        variants: variants.map(v => ({
+        variants: variants.map((v, index) => ({
           ...v,
-          price: typeof v.price === 'string' ? parseFloat(v.price) : v.price,
+          price: pricePreviews[v.id || `new-${index}`]?.retailPrice ?? Number(v.price),
+          purchasePrice: Number(v.purchasePrice) > 0 ? Number(v.purchasePrice) : undefined,
           stock: typeof v.stock === 'string' ? parseInt(v.stock) : v.stock,
           compareAtPrice: v.compareAtPrice ? (typeof v.compareAtPrice === 'string' ? parseFloat(v.compareAtPrice) : v.compareAtPrice) : null,
         })),
@@ -434,44 +602,72 @@ export default function EditProductPage() {
               <div className="space-y-3">
                 {variants.map((variant, i) => (
                   <div key={i} className="p-3 bg-slate-900 rounded-lg border border-slate-700">
-                    <div className="grid grid-cols-4 gap-3">
-                      <input
-                        type="text"
-                        value={variant.name}
-                        onChange={(e) => updateVariant(i, 'name', e.target.value)}
-                        placeholder="Nazwa"
-                        className="px-3 py-1.5 bg-slate-800 border border-slate-700 rounded text-white text-sm focus:outline-none focus:ring-2 focus:ring-orange-500"
-                      />
-                      <input
-                        type="text"
-                        value={variant.sku}
-                        onChange={(e) => updateVariant(i, 'sku', e.target.value)}
-                        placeholder="SKU"
-                        className="px-3 py-1.5 bg-slate-800 border border-slate-700 rounded text-white text-sm font-mono focus:outline-none focus:ring-2 focus:ring-orange-500"
-                      />
-                      <input
-                        type="number"
-                        value={variant.price}
-                        onChange={(e) => updateVariant(i, 'price', parseFloat(e.target.value) || 0)}
-                        placeholder="Cena"
-                        className="px-3 py-1.5 bg-slate-800 border border-slate-700 rounded text-white text-sm focus:outline-none focus:ring-2 focus:ring-orange-500"
-                      />
-                      <div className="flex gap-2">
+                    <div className="grid grid-cols-1 gap-3 md:grid-cols-[1fr_1.3fr_0.8fr_0.8fr_0.8fr_auto]">
+                      <label>
+                        <span className="mb-1 block text-xs text-slate-500">Nazwa</span>
+                        <input
+                          type="text"
+                          value={variant.name}
+                          onChange={(e) => updateVariant(i, 'name', e.target.value)}
+                          placeholder="Nazwa"
+                          className="w-full px-3 py-1.5 bg-slate-800 border border-slate-700 rounded text-white text-sm focus:outline-none focus:ring-2 focus:ring-orange-500"
+                        />
+                      </label>
+                      <label>
+                        <span className="mb-1 block text-xs text-slate-500">SKU</span>
+                        <input
+                          type="text"
+                          value={variant.sku}
+                          onChange={(e) => updateVariant(i, 'sku', e.target.value)}
+                          placeholder="SKU"
+                          className="w-full px-3 py-1.5 bg-slate-800 border border-slate-700 rounded text-white text-sm font-mono focus:outline-none focus:ring-2 focus:ring-orange-500"
+                        />
+                      </label>
+                      <label>
+                        <span className="mb-1 block text-xs text-slate-500">Cena hurtowa</span>
+                        <input
+                          type="number"
+                          min="0.01"
+                          step="0.01"
+                          value={variant.purchasePrice ?? ''}
+                          onChange={(e) => updateVariant(i, 'purchasePrice', e.target.value)}
+                          placeholder="0,00"
+                          className="w-full px-3 py-1.5 bg-slate-800 border border-orange-500/60 rounded text-white text-sm focus:outline-none focus:ring-2 focus:ring-orange-500"
+                        />
+                      </label>
+                      <label>
+                        <span className="mb-1 block text-xs text-slate-500">Cena detaliczna</span>
+                        <input
+                          type="text"
+                          value={formatPrice(Number(variant.price))}
+                          readOnly
+                          className="w-full px-3 py-1.5 bg-slate-950 border border-slate-700 rounded text-slate-300 text-sm"
+                        />
+                      </label>
+                      <label>
+                        <span className="mb-1 block text-xs text-slate-500">Stan</span>
                         <input
                           type="number"
                           value={variant.stock}
-                          onChange={(e) => updateVariant(i, 'stock', parseInt(e.target.value) || 0)}
+                          onChange={(e) => updateVariant(i, 'stock', e.target.value)}
                           placeholder="Stan"
-                          className="flex-1 px-3 py-1.5 bg-slate-800 border border-slate-700 rounded text-white text-sm focus:outline-none focus:ring-2 focus:ring-orange-500"
+                          className="w-full px-3 py-1.5 bg-slate-800 border border-slate-700 rounded text-white text-sm focus:outline-none focus:ring-2 focus:ring-orange-500"
                         />
+                      </label>
+                      <div className="flex items-end">
                         <button
                           onClick={() => removeVariant(i)}
-                          className="p-1.5 hover:bg-slate-700 rounded"
+                          className="p-2 hover:bg-slate-700 rounded"
+                          title="Usuń wariant"
                         >
                           <Trash2 className="w-4 h-4 text-red-400" />
                         </button>
                       </div>
                     </div>
+                    <PriceCalculationPreview
+                      preview={pricePreviews[variant.id || `new-${i}`]}
+                      loading={previewLoading}
+                    />
                   </div>
                 ))}
               </div>
@@ -559,18 +755,36 @@ export default function EditProductPage() {
             <h2 className="text-lg font-medium text-white mb-4">Ceny</h2>
             
             <div className="space-y-4">
+              {variants.length === 0 && (
+                <div>
+                  <label className="block text-sm text-gray-400 mb-1">Cena hurtowa (PLN)</label>
+                  <input
+                    type="number"
+                    min="0.01"
+                    step="0.01"
+                    value={purchasePrice}
+                    onChange={(e) => setPurchasePrice(e.target.value)}
+                    className="w-full px-4 py-2 bg-slate-900 border border-orange-500/60 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-orange-500"
+                  />
+                </div>
+              )}
               <div>
-                <label className="block text-sm text-gray-400 mb-1">Cena (PLN)</label>
+                <label className="block text-sm text-gray-400 mb-1">
+                  {variants.length > 0 ? 'Cena detaliczna (najtańszy wariant)' : 'Cena detaliczna (PLN)'}
+                </label>
                 <input
-                  type="number"
-                  step="0.01"
-                  value={price}
-                  onChange={(e) => setPrice(e.target.value)}
-                  className="w-full px-4 py-2 bg-slate-900 border border-slate-700 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-orange-500"
+                  type="text"
+                  value={formatPrice(Number(price))}
+                  readOnly
+                  className="w-full px-4 py-2 bg-slate-950 border border-slate-700 rounded-lg text-slate-300"
                 />
               </div>
+              {variants.length === 0 && (
+                <PriceCalculationPreview preview={pricePreviews.product} loading={previewLoading} />
+              )}
+              {previewError && <p className="text-xs text-red-400">{previewError}</p>}
               <div>
-                <label className="block text-sm text-gray-400 mb-1">Cena przed promocja</label>
+                <label className="block text-sm text-gray-400 mb-1">Cena przed promocją (detal)</label>
                 <input
                   type="number"
                   step="0.01"
