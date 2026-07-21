@@ -1464,7 +1464,7 @@ export default function ChatBotWidget() {
       {/* Floating Bubble */}
       {!isOpen && (
         <div
-          className={`fixed bottom-6 right-0 z-50 transition-all duration-700 ease-in-out ${
+          className={`fixed bottom-6 right-0 z-50 transition-all duration-700 ease-in-out print:hidden ${
             bubbleHidden
               ? 'translate-x-[calc(100%-20px)] rotate-90'
               : 'translate-x-[-24px] rotate-0'
@@ -1500,7 +1500,7 @@ export default function ChatBotWidget() {
       {/* Chat Window */}
       {isOpen && (
         <div
-          className="fixed bottom-6 right-6 z-50 w-[380px] max-w-[calc(100vw-2rem)] h-[600px] max-h-[calc(100vh-3rem)] bg-white dark:bg-gray-900 rounded-2xl shadow-2xl border border-gray-200 dark:border-gray-700 flex flex-col overflow-hidden animate-slide-up"
+          className="fixed bottom-6 right-6 z-50 w-[380px] max-w-[calc(100vw-2rem)] h-[600px] max-h-[calc(100vh-3rem)] bg-white dark:bg-gray-900 rounded-2xl shadow-2xl border border-gray-200 dark:border-gray-700 flex flex-col overflow-hidden animate-slide-up print:hidden"
           style={{ zIndex: 9999 }}
         >
           {/* Header */}

@@ -504,17 +504,43 @@ export default function CollectiveInvoicePage({ params }: { params: Promise<{ nu
           .max-w-4xl {
             max-width: 100% !important;
           }
+
+          /* Plain, formal document look - no colors, no rounded corners, no shadows */
+          * {
+            color: #111 !important;
+            border-radius: 0 !important;
+            box-shadow: none !important;
+          }
+          .bg-gray-800, .bg-orange-500, .bg-orange-600, .bg-green-50\\/50, .bg-gray-50, .bg-gray-50\\/50, .bg-gray-100 {
+            background: #fff !important;
+          }
+          .border-orange-500, .border-gray-300, .border-gray-200, .border-green-200 {
+            border-color: #111 !important;
+          }
+          .bg-gray-800 {
+            border: 1px solid #111 !important;
+          }
+          .bg-green-50\\/50 {
+            border: 1px solid #111 !important;
+          }
+
           table {
             width: 100% !important;
             table-layout: fixed;
-            border-collapse: collapse;
+            border-collapse: collapse !important;
             font-size: 8.5px;
             page-break-inside: auto;
+            border: 1px solid #111 !important;
           }
           th, td {
             padding: 4px 6px !important;
             word-break: break-word;
             overflow-wrap: break-word;
+            border: 1px solid #111 !important;
+          }
+          thead th {
+            font-weight: 700 !important;
+            border-bottom: 2px solid #111 !important;
           }
           tr {
             page-break-inside: avoid;
@@ -528,9 +554,11 @@ export default function CollectiveInvoicePage({ params }: { params: Promise<{ nu
           }
           .w-80 {
             page-break-inside: avoid;
+            border: 1px solid #111 !important;
+            padding: 8px !important;
           }
-          .bg-gray-50 {
-            page-break-inside: avoid;
+          .border-l-4 {
+            border-left: 3px solid #111 !important;
           }
         }
       `}} />
