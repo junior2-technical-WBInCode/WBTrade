@@ -710,6 +710,21 @@ export const ordersApi = {
 
   getCollectiveInvoice: (number: string) =>
     api.get<Order[]>(`/orders/collective-invoice/${encodeURIComponent(number)}`),
+
+  downloadCollectiveInvoicePdf: async (number: string): Promise<Blob> => {
+    const token = getAuthToken();
+    const response = await fetch(
+      `${API_BASE_URL}/orders/collective-invoice/${encodeURIComponent(number)}/pdf`,
+      {
+        headers: token ? { Authorization: `Bearer ${token}` } : undefined,
+      }
+    );
+    if (!response.ok) {
+      const data = await response.json().catch(() => ({}));
+      throw new ApiClientError(data.message || 'Nie udało się pobrać PDF faktury zbiorczej', response.status);
+    }
+    return response.blob();
+  },
 };
 
 // ============================================

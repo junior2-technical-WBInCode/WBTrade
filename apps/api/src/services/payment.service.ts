@@ -357,7 +357,15 @@ export class PaymentService {
     const order = await prisma.order.findFirst({
       where: { id: result.orderId },
       include: {
-        user: { select: { email: true, firstName: true, lastName: true } },
+        user: {
+          select: {
+            email: true,
+            firstName: true,
+            lastName: true,
+            role: true,
+            b2bStatus: true,
+          },
+        },
         shippingAddress: true,
         billingAddress: true,
         items: {
@@ -558,12 +566,15 @@ export class PaymentService {
           .catch((err) => {
             console.error(`[PaymentService] Baselinker sync error for order ${order.id}:`, err);
           });
-        // NOTE: Fakturownia receipts are created automatically by Baselinker's
-        // built-in Fakturownia integration (confirmed: oid=BL order ID, from_api=true).
-        // Do NOT call createFakturowniaReceipt here — it would create duplicates.
-        // Invoices (faktury) are NOT auto-created — want_invoice is always false in Baselinker.
-        // Instead, send a notification to admin so they can create the invoice manually.
-        if (order.wantInvoice) {
+        const isApprovedB2bCollectiveOrder =
+          order.user?.role === 'B2B_PARTNER' &&
+          order.user?.b2bStatus === 'APPROVED' &&
+          order.addToCollectiveInvoice;
+
+        // Ordinary invoice requests are forwarded to Baselinker and notified to
+        // administrators for manual creation in Fakturownia. Approved B2B orders
+        // marked as collective are invoiced only by the explicit collective action.
+        if (order.wantInvoice && !isApprovedB2bCollectiveOrder) {
           const invoiceCustomerName = order.billingAddress
             ? `${order.billingAddress.firstName} ${order.billingAddress.lastName}`
             : customerName;

@@ -100,7 +100,15 @@ export class BaselinkerOrdersService {
           shippingAddress: true,
           billingAddress: true,
           user: {
-            select: { id: true, email: true, firstName: true, lastName: true, phone: true },
+            select: {
+              id: true,
+              email: true,
+              firstName: true,
+              lastName: true,
+              phone: true,
+              role: true,
+              b2bStatus: true,
+            },
           },
         },
       });
@@ -367,11 +375,17 @@ export class BaselinkerOrdersService {
       blOrder.invoice_city = invoiceAddress?.city || '';
       blOrder.invoice_postcode = invoiceAddress?.postalCode || '';
       blOrder.invoice_country_code = invoiceAddress?.country || 'PL';
-      // IMPORTANT: Always send want_invoice=false to Baselinker so Fakturownia
-      // does NOT auto-create invoices. Invoices are created manually.
-      // The wantInvoice flag is still saved in our DB for reference.
-      blOrder.want_invoice = false;
     }
+
+    const isApprovedB2bCollectiveOrder =
+      order.user?.role === 'B2B_PARTNER' &&
+      order.user?.b2bStatus === 'APPROVED' &&
+      order.addToCollectiveInvoice;
+
+    // Ordinary invoice requests are forwarded to Baselinker for manual handling.
+    // B2B collective orders bypass the individual-invoice queue and are invoiced
+    // only through the explicit collective-invoice action in our application.
+    blOrder.want_invoice = Boolean(order.wantInvoice) && !isApprovedB2bCollectiveOrder;
 
     return blOrder;
   }

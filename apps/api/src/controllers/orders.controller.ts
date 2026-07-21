@@ -7,6 +7,7 @@ import { deliveryTrackingService } from '../services/delivery-tracking.service';
 import { emailService } from '../services/email.service';
 import { prisma } from '../db';
 import { baselinkerOrdersService } from '../services/baselinker-orders.service';
+import { createCollectiveInvoice, fetchInvoicePdf } from '../services/fakturownia.service';
 
 const ordersService = new OrdersService();
 
@@ -905,7 +906,9 @@ export async function permanentDeleteOrders(req: Request, res: Response): Promis
 }
 
 /**
- * Generate a collective invoice for multiple orders
+ * Generate a collective (zbiorcza) VAT invoice for multiple orders by creating a
+ * real invoice via the Fakturownia API. Fakturownia assigns the official invoice
+ * number and handles KSeF submission - we only persist a reference to it.
  * @route POST /api/orders/collective-invoice
  */
 export async function generateCollectiveInvoice(req: Request, res: Response): Promise<void> {
@@ -916,74 +919,127 @@ export async function generateCollectiveInvoice(req: Request, res: Response): Pr
       return;
     }
 
+    const user = await prisma.user.findUnique({
+      where: { id: userId },
+      select: { role: true, b2bStatus: true },
+    });
+
+    if (!user || user.role !== 'B2B_PARTNER' || user.b2bStatus !== 'APPROVED') {
+      res.status(403).json({ message: 'Faktury zbiorcze są dostępne wyłącznie dla zatwierdzonych partnerów B2B.' });
+      return;
+    }
+
     const { orderIds } = req.body;
     if (!orderIds || !Array.isArray(orderIds) || orderIds.length === 0) {
       res.status(400).json({ message: 'Lista identyfikatorów zamówień jest wymagana' });
       return;
     }
 
-    const now = new Date();
-    const year = now.getFullYear();
-    const month = String(now.getMonth() + 1).padStart(2, '0');
-    const prefix = `FVZ/${year}/${month}/`;
-
-    const result = await prisma.$transaction(async (tx) => {
-      // Find orders
-      const orders = await tx.order.findMany({
-        where: {
-          id: { in: orderIds },
-          userId,
-          deletedAt: null,
-        },
-      });
-
-      if (orders.length !== orderIds.length) {
-        throw new Error('Niektóre zamówienia nie zostały znalezione lub nie należą do Twojego konta.');
-      }
-
-      // Validate orders
-      for (const order of orders) {
-        if (!order.wantInvoice) {
-          throw new Error(`Zamówienie ${order.orderNumber} nie ma zaznaczonej opcji faktury.`);
-        }
-        if (order.paymentStatus !== 'PAID') {
-          throw new Error(`Zamówienie ${order.orderNumber} nie jest opłacone.`);
-        }
-        if (order.collectiveInvoiceNumber) {
-          throw new Error(`Zamówienie ${order.orderNumber} zostało już dodane do faktury zbiorczej ${order.collectiveInvoiceNumber}.`);
-        }
-      }
-
-      // Count existing collective invoice groups in this prefix to get next index
-      const groups = await tx.order.groupBy({
-        by: ['collectiveInvoiceNumber'],
-        where: {
-          collectiveInvoiceNumber: { startsWith: prefix },
-        },
-      });
-
-      const nextIndex = String(groups.length + 1).padStart(4, '0');
-      const collectiveInvoiceNumber = `${prefix}${nextIndex}`;
-      const collectiveInvoiceDate = now;
-
-      // Update orders
-      await tx.order.updateMany({
-        where: {
-          id: { in: orderIds },
-        },
-        data: {
-          collectiveInvoiceNumber,
-          collectiveInvoiceDate,
-        },
-      });
-
-      return { collectiveInvoiceNumber };
+    // Validate orders belong to the user and are eligible, before calling Fakturownia
+    const orders = await prisma.order.findMany({
+      where: {
+        id: { in: orderIds },
+        userId,
+        deletedAt: null,
+      },
     });
 
-    res.status(200).json({ success: true, collectiveInvoiceNumber: result.collectiveInvoiceNumber });
+    if (orders.length !== orderIds.length) {
+      res.status(400).json({ message: 'Niektóre zamówienia nie zostały znalezione lub nie należą do Twojego konta.' });
+      return;
+    }
+
+    for (const order of orders) {
+      if (!order.addToCollectiveInvoice) {
+        res.status(400).json({ message: `Zamówienie ${order.orderNumber} nie zostało oznaczone do faktury zbiorczej.` });
+        return;
+      }
+      if (!order.wantInvoice) {
+        res.status(400).json({ message: `Zamówienie ${order.orderNumber} nie ma zaznaczonej opcji faktury.` });
+        return;
+      }
+      if (order.paymentStatus !== 'PAID') {
+        res.status(400).json({ message: `Zamówienie ${order.orderNumber} nie jest opłacone.` });
+        return;
+      }
+      if (order.collectiveInvoiceNumber) {
+        res.status(400).json({ message: `Zamówienie ${order.orderNumber} zostało już dodane do faktury zbiorczej ${order.collectiveInvoiceNumber}.` });
+        return;
+      }
+    }
+
+    // Create the real invoice in Fakturownia
+    const invoiceResult = await createCollectiveInvoice(orderIds);
+    if (!invoiceResult.success || !invoiceResult.fakturowniaId || !invoiceResult.invoiceNumber) {
+      res.status(502).json({ message: invoiceResult.error || 'Błąd podczas tworzenia faktury w Fakturowni' });
+      return;
+    }
+
+    // Persist the reference to the created invoice on all involved orders
+    await prisma.order.updateMany({
+      where: { id: { in: orderIds } },
+      data: {
+        collectiveInvoiceNumber: invoiceResult.invoiceNumber,
+        collectiveInvoiceDate: new Date(),
+        collectiveInvoiceFakturowniaId: invoiceResult.fakturowniaId,
+      },
+    });
+
+    res.status(200).json({ success: true, collectiveInvoiceNumber: invoiceResult.invoiceNumber });
   } catch (error: any) {
     console.error('[CollectiveInvoice] Error generating:', error);
     res.status(400).json({ message: error.message || 'Błąd podczas generowania faktury zbiorczej' });
+  }
+}
+
+/**
+ * Download the PDF of a previously generated collective invoice from Fakturownia.
+ * Proxies the request server-side so the Fakturownia API token never reaches the client.
+ * @route GET /api/orders/collective-invoice/:number/pdf
+ */
+export async function getCollectiveInvoicePdf(req: Request, res: Response): Promise<void> {
+  try {
+    const userId = req.user?.userId;
+    const isAdmin = req.user?.role === 'ADMIN';
+    if (!userId) {
+      res.status(401).json({ message: 'Wymagane uwierzytelnienie' });
+      return;
+    }
+
+    const { number } = req.params;
+    if (!number) {
+      res.status(400).json({ message: 'Numer faktury zbiorczej jest wymagany' });
+      return;
+    }
+
+    const decodedNumber = decodeURIComponent(number);
+
+    const order = await prisma.order.findFirst({
+      where: {
+        collectiveInvoiceNumber: decodedNumber,
+        ...(isAdmin ? {} : { userId }),
+        deletedAt: null,
+      },
+      select: { collectiveInvoiceFakturowniaId: true },
+    });
+
+    if (!order || !order.collectiveInvoiceFakturowniaId) {
+      res.status(404).json({ message: 'Nie znaleziono pliku PDF dla tej faktury zbiorczej.' });
+      return;
+    }
+
+    const pdfResult = await fetchInvoicePdf(order.collectiveInvoiceFakturowniaId);
+    if (!pdfResult.success || !pdfResult.buffer) {
+      res.status(502).json({ message: pdfResult.error || 'Błąd podczas pobierania PDF z Fakturowni' });
+      return;
+    }
+
+    res.setHeader('Content-Type', 'application/pdf');
+    res.setHeader('Content-Disposition', `attachment; filename="${decodedNumber.replace(/\//g, '-')}.pdf"`);
+    res.send(pdfResult.buffer);
+  } catch (error: any) {
+    console.error('[CollectiveInvoice] Error downloading PDF:', error);
+    res.status(500).json({ message: 'Błąd podczas pobierania PDF faktury zbiorczej' });
   }
 }
 
