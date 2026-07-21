@@ -188,6 +188,25 @@ export default function CollectiveInvoicePage({ params }: { params: Promise<{ nu
 
   const invoicePositions = Array.from(invoicePositionsMap.values());
 
+  // Group "Obsługa zamówień" positions by price - orders with a different shipping
+  // cost become separate invoice positions, same rule as for products.
+  const shippingPositionsMap = new Map<string, { unitPrice: number; quantity: number; total: number }>();
+
+  orders.forEach((order) => {
+    const shippingPrice = Number(order.shipping);
+    if (shippingPrice <= 0) return;
+    const key = shippingPrice.toFixed(2);
+    const existing = shippingPositionsMap.get(key);
+    if (existing) {
+      existing.quantity += 1;
+      existing.total += shippingPrice;
+    } else {
+      shippingPositionsMap.set(key, { unitPrice: shippingPrice, quantity: 1, total: shippingPrice });
+    }
+  });
+
+  const shippingPositions = Array.from(shippingPositionsMap.values());
+
   // Calculate combined totals
   const subtotal = orders.reduce((sum, o) => sum + Number(o.subtotal), 0);
   const shipping = orders.reduce((sum, o) => sum + Number(o.shipping), 0);
@@ -352,26 +371,28 @@ export default function CollectiveInvoicePage({ params }: { params: Promise<{ nu
                     );
                   })}
 
-                  {/* Combined Shipping row if shipping > 0 */}
-                  {shipping > 0 && (
-                    <tr className="border-b border-gray-200 bg-gray-50/50">
-                      <td className="py-3 px-4">{invoicePositions.length + 1}</td>
-                      <td className="py-3 px-4">
-                        <p className="font-medium">Dostawa zamówień (łączna)</p>
-                        <p className="text-xs text-gray-500">
-                          Usługa kurierska/paczkomatowa dla zamówień:{' '}
-                          {orders.map((o) => o.orderNumber).join(', ')}
-                        </p>
-                      </td>
-                      <td className="py-3 px-4 text-center">1</td>
-                      <td className="py-3 px-4 text-center">szt.</td>
-                      <td className="py-3 px-4 text-right">{formatPrice(shipping / 1.23)}</td>
-                      <td className="py-3 px-4 text-right">{formatPrice(shipping / 1.23)}</td>
-                      <td className="py-3 px-4 text-center">23%</td>
-                      <td className="py-3 px-4 text-right">{formatPrice(shipping - shipping / 1.23)}</td>
-                      <td className="py-3 px-4 text-right font-medium">{formatPrice(shipping)}</td>
-                    </tr>
-                  )}
+                  {/* Order handling positions, split by price - one row per distinct shipping cost */}
+                  {shippingPositions.map((position, index) => {
+                    const netPrice = position.unitPrice / 1.23;
+                    const netValue = position.total / 1.23;
+                    const vatValue = position.total - netValue;
+
+                    return (
+                      <tr key={`shipping-${position.unitPrice}-${index}`} className="border-b border-gray-200 bg-gray-50/50">
+                        <td className="py-3 px-4">{invoicePositions.length + index + 1}</td>
+                        <td className="py-3 px-4">
+                          <p className="font-medium">Obsługa zamówień</p>
+                        </td>
+                        <td className="py-3 px-4 text-center">{position.quantity}</td>
+                        <td className="py-3 px-4 text-center">szt.</td>
+                        <td className="py-3 px-4 text-right">{formatPrice(netPrice)}</td>
+                        <td className="py-3 px-4 text-right">{formatPrice(netValue)}</td>
+                        <td className="py-3 px-4 text-center">23%</td>
+                        <td className="py-3 px-4 text-right">{formatPrice(vatValue)}</td>
+                        <td className="py-3 px-4 text-right font-medium">{formatPrice(position.total)}</td>
+                      </tr>
+                    );
+                  })}
                 </tbody>
               </table>
             </div>
