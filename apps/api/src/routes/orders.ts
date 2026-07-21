@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { createOrder, getOrder, updateOrder, deleteOrder, getAllOrders, getUserOrders, refundOrder, restoreOrder, simulatePayment, checkRefundEligibility, requestRefund, getOrderTracking, syncOrderDelivery, updateTrackingNumber, getPendingCancellations, approveCancellation, rejectCancellation, requestCancellation, softDeleteOrder, restoreFromArchive, getArchivedOrders, cleanupArchive, permanentDeleteOrders, generateCollectiveInvoice, getCollectiveInvoice } from '../controllers/orders.controller';
+import { createOrder, getOrder, updateOrder, deleteOrder, getAllOrders, getUserOrders, refundOrder, restoreOrder, simulatePayment, checkRefundEligibility, requestRefund, getOrderTracking, syncOrderDelivery, updateTrackingNumber, getPendingCancellations, approveCancellation, rejectCancellation, requestCancellation, softDeleteOrder, restoreFromArchive, getArchivedOrders, cleanupArchive, permanentDeleteOrders, generateCollectiveInvoice, getCollectiveInvoice, getCollectiveInvoicePdf } from '../controllers/orders.controller';
 import { authGuard, adminOnly, optionalAuth } from '../middleware/auth.middleware';
 
 const router = Router();
@@ -12,6 +12,9 @@ router.post('/collective-invoice', authGuard, generateCollectiveInvoice);
 
 // Route to get a collective invoice
 router.get('/collective-invoice/:number', authGuard, getCollectiveInvoice);
+
+// Route to download the real PDF of a collective invoice from Fakturownia
+router.get('/collective-invoice/:number/pdf', authGuard, getCollectiveInvoicePdf);
 
 // Route to get all orders (admin)
 router.get('/admin/all', authGuard, adminOnly, getAllOrders);

@@ -77,6 +77,30 @@ export default function CollectiveInvoicePage({ params }: { params: Promise<{ nu
     window.print();
   };
 
+  const [downloadingPdf, setDownloadingPdf] = useState(false);
+  const [pdfError, setPdfError] = useState('');
+
+  const handleDownloadFakturowniaPdf = async () => {
+    try {
+      setPdfError('');
+      setDownloadingPdf(true);
+      const blob = await ordersApi.downloadCollectiveInvoicePdf(decodedNumber);
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = `${decodedNumber.replace(/\//g, '-')}.pdf`;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      URL.revokeObjectURL(url);
+    } catch (err) {
+      console.error('Failed to download Fakturownia PDF:', err);
+      setPdfError('Nie udało się pobrać PDF faktury z Fakturowni.');
+    } finally {
+      setDownloadingPdf(false);
+    }
+  };
+
   const formatPrice = (price: number | string | null | undefined) => {
     const num = Number(price) || 0;
     return new Intl.NumberFormat('pl-PL', { style: 'currency', currency: 'PLN' }).format(num);
@@ -250,16 +274,34 @@ export default function CollectiveInvoicePage({ params }: { params: Promise<{ nu
               </div>
             </div>
 
-            <button
-              onClick={handlePrint}
-              className="flex items-center gap-2 px-4 py-2 bg-orange-500 rounded-lg text-white hover:bg-orange-600 transition-colors"
-            >
-              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z" />
-              </svg>
-              Drukuj / PDF
-            </button>
+            <div className="flex items-center gap-2">
+              <button
+                onClick={handleDownloadFakturowniaPdf}
+                disabled={downloadingPdf}
+                className="flex items-center gap-2 px-4 py-2 bg-green-600 rounded-lg text-white hover:bg-green-700 disabled:opacity-60 transition-colors"
+              >
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                </svg>
+                {downloadingPdf ? 'Pobieranie...' : 'Pobierz PDF'}
+              </button>
+              <button
+                onClick={handlePrint}
+                className="flex items-center gap-2 px-4 py-2 bg-orange-500 rounded-lg text-white hover:bg-orange-600 transition-colors"
+              >
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z" />
+                </svg>
+                Podgląd / Drukuj
+              </button>
+            </div>
           </div>
+
+          {pdfError && (
+            <div className="mb-4 px-4 py-3 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg text-sm text-red-700 dark:text-red-400 print:hidden">
+              {pdfError}
+            </div>
+          )}
 
           {/* Invoice Page Container */}
           <div className="bg-white text-black p-8 rounded-xl shadow-sm border border-gray-200 print:rounded-none print:shadow-none print:border-0 print:p-0">

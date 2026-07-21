@@ -96,6 +96,14 @@ services:
       - key: RESEND_API_KEY
         # Klucz API Resend do wysyłania emaili (wymagany!)
         sync: false
+
+      # Faktury zbiorcze B2B - produkcyjne konto Fakturowni
+      - key: FAKTUROWNIA_DOMAIN
+        value: wb-partners
+
+      - key: FAKTUROWNIA_API_TOKEN
+        # Sekretny token produkcyjnego konta, ustawiany wyłącznie w panelu Render
+        sync: false
         
       - key: FROM_EMAIL
         value: "WB Trade <noreply@wb-trade.pl>"

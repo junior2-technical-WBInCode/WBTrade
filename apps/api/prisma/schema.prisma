@@ -404,6 +404,7 @@ model Order {
   addToCollectiveInvoice   Boolean              @default(false) @map("add_to_collective_invoice")
   collectiveInvoiceNumber  String?              @map("collective_invoice_number")
   collectiveInvoiceDate    DateTime?            @map("collective_invoice_date")
+  collectiveInvoiceFakturowniaId Int?           @map("collective_invoice_fakturownia_id")
   orderLabel               String?              @map("order_label")
   b2bShippingLabel         String?              @map("b2b_shipping_label")
   pendingCancellation      Boolean              @default(false) @map("pending_cancellation")
