@@ -148,6 +148,46 @@ export default function CollectiveInvoicePage({ params }: { params: Promise<{ nu
     });
   });
 
+  // Group positions by product (SKU + variant) AND unit price - the same product sold
+  // at a different price is treated as a separate invoice position, but the same
+  // product sold at the same price across multiple orders is merged into one position.
+  const invoicePositionsMap = new Map<
+    string,
+    {
+      productName: string;
+      variantName: string;
+      sku: string;
+      quantity: number;
+      unitPrice: number;
+      total: number;
+      orderNumbers: string[];
+    }
+  >();
+
+  allInvoiceItems.forEach((item) => {
+    const key = `${item.sku}__${item.unitPrice.toFixed(2)}`;
+    const existing = invoicePositionsMap.get(key);
+    if (existing) {
+      existing.quantity += item.quantity;
+      existing.total += item.total;
+      if (!existing.orderNumbers.includes(item.orderNumber)) {
+        existing.orderNumbers.push(item.orderNumber);
+      }
+    } else {
+      invoicePositionsMap.set(key, {
+        productName: item.productName,
+        variantName: item.variantName,
+        sku: item.sku,
+        quantity: item.quantity,
+        unitPrice: item.unitPrice,
+        total: item.total,
+        orderNumbers: [item.orderNumber],
+      });
+    }
+  });
+
+  const invoicePositions = Array.from(invoicePositionsMap.values());
+
   // Calculate combined totals
   const subtotal = orders.reduce((sum, o) => sum + Number(o.subtotal), 0);
   const shipping = orders.reduce((sum, o) => sum + Number(o.shipping), 0);
@@ -275,34 +315,39 @@ export default function CollectiveInvoicePage({ params }: { params: Promise<{ nu
                 <thead>
                   <tr className="bg-gray-800 text-white text-sm">
                     <th className="py-3 px-4 text-left rounded-tl">Lp.</th>
-                    <th className="py-3 px-4 text-left">Nazwa produktu / Opis</th>
+                    <th className="py-3 px-4 text-left">Nazwa produktu</th>
                     <th className="py-3 px-4 text-center">Ilość</th>
+                    <th className="py-3 px-4 text-center">J.m.</th>
                     <th className="py-3 px-4 text-right">Cena netto</th>
-                    <th className="py-3 px-4 text-center">VAT</th>
                     <th className="py-3 px-4 text-right">Wartość netto</th>
+                    <th className="py-3 px-4 text-center">Stawka VAT</th>
+                    <th className="py-3 px-4 text-right">Kwota VAT</th>
                     <th className="py-3 px-4 text-right rounded-tr">Wartość brutto</th>
                   </tr>
                 </thead>
                 <tbody className="text-sm">
-                  {allInvoiceItems.map((item, index) => {
-                    const netPrice = item.unitPrice / 1.23;
-                    const netTotal = item.total / 1.23;
+                  {invoicePositions.map((position, index) => {
+                    const netPrice = position.unitPrice / 1.23;
+                    const netValue = position.total / 1.23;
+                    const vatValue = position.total - netValue;
 
                     return (
-                      <tr key={`${item.id}-${index}`} className="border-b border-gray-200">
+                      <tr key={`${position.sku}-${position.unitPrice}-${index}`} className="border-b border-gray-200">
                         <td className="py-3 px-4">{index + 1}</td>
                         <td className="py-3 px-4">
-                          <p className="font-medium">{item.productName}</p>
+                          <p className="font-medium">{position.productName}</p>
                           <p className="text-xs text-gray-500">
-                            {item.variantName} • SKU: {item.sku} • Zamówienie:{' '}
-                            <span className="font-semibold text-orange-600">{item.orderNumber}</span>
+                            {position.variantName} • SKU: {position.sku} • Zamówienie:{' '}
+                            <span className="font-semibold text-orange-600">{position.orderNumbers.join(', ')}</span>
                           </p>
                         </td>
-                        <td className="py-3 px-4 text-center">{item.quantity}</td>
+                        <td className="py-3 px-4 text-center">{position.quantity}</td>
+                        <td className="py-3 px-4 text-center">szt.</td>
                         <td className="py-3 px-4 text-right">{formatPrice(netPrice)}</td>
+                        <td className="py-3 px-4 text-right">{formatPrice(netValue)}</td>
                         <td className="py-3 px-4 text-center">23%</td>
-                        <td className="py-3 px-4 text-right">{formatPrice(netTotal)}</td>
-                        <td className="py-3 px-4 text-right font-medium">{formatPrice(item.total)}</td>
+                        <td className="py-3 px-4 text-right">{formatPrice(vatValue)}</td>
+                        <td className="py-3 px-4 text-right font-medium">{formatPrice(position.total)}</td>
                       </tr>
                     );
                   })}
@@ -310,7 +355,7 @@ export default function CollectiveInvoicePage({ params }: { params: Promise<{ nu
                   {/* Combined Shipping row if shipping > 0 */}
                   {shipping > 0 && (
                     <tr className="border-b border-gray-200 bg-gray-50/50">
-                      <td className="py-3 px-4">{allInvoiceItems.length + 1}</td>
+                      <td className="py-3 px-4">{invoicePositions.length + 1}</td>
                       <td className="py-3 px-4">
                         <p className="font-medium">Dostawa zamówień (łączna)</p>
                         <p className="text-xs text-gray-500">
@@ -319,9 +364,11 @@ export default function CollectiveInvoicePage({ params }: { params: Promise<{ nu
                         </p>
                       </td>
                       <td className="py-3 px-4 text-center">1</td>
+                      <td className="py-3 px-4 text-center">szt.</td>
+                      <td className="py-3 px-4 text-right">{formatPrice(shipping / 1.23)}</td>
                       <td className="py-3 px-4 text-right">{formatPrice(shipping / 1.23)}</td>
                       <td className="py-3 px-4 text-center">23%</td>
-                      <td className="py-3 px-4 text-right">{formatPrice(shipping / 1.23)}</td>
+                      <td className="py-3 px-4 text-right">{formatPrice(shipping - shipping / 1.23)}</td>
                       <td className="py-3 px-4 text-right font-medium">{formatPrice(shipping)}</td>
                     </tr>
                   )}
