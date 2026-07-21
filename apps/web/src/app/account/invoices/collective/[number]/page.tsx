@@ -355,10 +355,6 @@ export default function CollectiveInvoicePage({ params }: { params: Promise<{ nu
                         <td className="py-3 px-4">{index + 1}</td>
                         <td className="py-3 px-4">
                           <p className="font-medium">{position.productName}</p>
-                          <p className="text-xs text-gray-500">
-                            {position.variantName} • SKU: {position.sku} • Zamówienie:{' '}
-                            <span className="font-semibold text-orange-600">{position.orderNumbers.join(', ')}</span>
-                          </p>
                         </td>
                         <td className="py-3 px-4 text-center">{position.quantity}</td>
                         <td className="py-3 px-4 text-center">szt.</td>
