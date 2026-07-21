@@ -62,6 +62,17 @@ export default function CollectiveInvoicePage({ params }: { params: Promise<{ nu
     }
   }
 
+  // Use the invoice number (not the site title) as the document title, so that
+  // "Save as PDF" / print dialogs suggest a numeric invoice filename by default.
+  useEffect(() => {
+    if (!decodedNumber) return;
+    const previousTitle = document.title;
+    document.title = decodedNumber.replace(/\//g, '-');
+    return () => {
+      document.title = previousTitle;
+    };
+  }, [decodedNumber]);
+
   const handlePrint = () => {
     window.print();
   };
@@ -329,8 +340,19 @@ export default function CollectiveInvoicePage({ params }: { params: Promise<{ nu
             </div>
 
             {/* Items Table */}
-            <div className="mb-8 overflow-x-auto">
-              <table className="w-full">
+            <div className="mb-8 overflow-x-auto print:overflow-visible">
+              <table className="w-full print:table-fixed">
+                <colgroup>
+                  <col style={{ width: '5%' }} />
+                  <col style={{ width: '27%' }} />
+                  <col style={{ width: '7%' }} />
+                  <col style={{ width: '7%' }} />
+                  <col style={{ width: '13%' }} />
+                  <col style={{ width: '13%' }} />
+                  <col style={{ width: '9%' }} />
+                  <col style={{ width: '10%' }} />
+                  <col style={{ width: '9%' }} />
+                </colgroup>
                 <thead>
                   <tr className="bg-gray-800 text-white text-sm">
                     <th className="py-3 px-4 text-left rounded-tl">Lp.</th>
@@ -466,9 +488,10 @@ export default function CollectiveInvoicePage({ params }: { params: Promise<{ nu
         @media print {
           @page {
             size: A4;
-            margin: 15mm 15mm 15mm 15mm;
+            margin: 10mm;
           }
-          body {
+          html, body {
+            width: 100%;
             -webkit-print-color-adjust: exact !important;
             print-color-adjust: exact !important;
           }
@@ -478,14 +501,30 @@ export default function CollectiveInvoicePage({ params }: { params: Promise<{ nu
           .print\\:hidden {
             display: none !important;
           }
+          .max-w-4xl {
+            max-width: 100% !important;
+          }
           table {
-            page-break-inside: avoid;
+            width: 100% !important;
+            table-layout: fixed;
+            border-collapse: collapse;
+            font-size: 8.5px;
+            page-break-inside: auto;
+          }
+          th, td {
+            padding: 4px 6px !important;
+            word-break: break-word;
+            overflow-wrap: break-word;
           }
           tr {
             page-break-inside: avoid;
           }
+          thead {
+            display: table-header-group;
+          }
           .bg-white {
-            page-break-inside: avoid;
+            box-shadow: none !important;
+            border: none !important;
           }
           .w-80 {
             page-break-inside: avoid;
