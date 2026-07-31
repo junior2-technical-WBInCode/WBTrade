@@ -430,7 +430,15 @@ export default function InvoicesPage() {
                             {formatPrice(item.total)}
                           </td>
                           <td className="px-4 py-3 text-right">
-                            {item.paymentStatus === 'PAID' ? (
+                            {item.status === 'CANCELLED' || item.paymentStatus === 'CANCELLED' ? (
+                              <span className="text-xs font-medium text-red-600 dark:text-red-400">
+                                Anulowano
+                              </span>
+                            ) : item.status === 'REFUNDED' || item.paymentStatus === 'REFUNDED' ? (
+                              <span className="text-xs font-medium text-gray-600 dark:text-gray-400">
+                                Zwrócono
+                              </span>
+                            ) : item.paymentStatus === 'PAID' ? (
                               <Link
                                 href={`/account/orders/${item.id}/invoice`}
                                 className="text-xs font-medium text-orange-600 dark:text-orange-500 hover:text-orange-700 dark:hover:text-orange-400 transition-colors"
