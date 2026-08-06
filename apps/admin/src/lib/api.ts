@@ -252,6 +252,9 @@ export const partnersApi = {
   
   getDetail: (id: string): Promise<any> =>
     fetchWithAuth(`/api/admin/partners/${id}`),
+
+  getTrafficStats: (status?: string): Promise<any> =>
+    fetchWithAuth(`/api/admin/partners/stats/traffic${status ? `?status=${status}` : ''}`),
   
   updateStatus: (id: string, status: 'APPROVED' | 'REJECTED' | 'SUSPENDED'): Promise<any> =>
     fetchWithAuth(`/api/admin/partners/${id}/status`, {

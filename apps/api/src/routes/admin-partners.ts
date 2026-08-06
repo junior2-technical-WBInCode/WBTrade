@@ -35,6 +35,21 @@ router.get('/', async (req: Request, res: Response): Promise<void> => {
 });
 
 /**
+ * GET /api/admin/partners/stats/traffic - Affiliate traffic report
+ * Query: ?status=PENDING|APPROVED|REJECTED|SUSPENDED
+ * Declared before '/:id' so it is not swallowed by the partner detail route.
+ */
+router.get('/stats/traffic', async (req: Request, res: Response): Promise<void> => {
+  try {
+    const status = req.query.status as string | undefined;
+    const stats = await referralService.getTrafficStats(status);
+    res.json(stats);
+  } catch (error: any) {
+    res.status(500).json({ message: error.message });
+  }
+});
+
+/**
  * GET /api/admin/partners/:id - Get partner details
  */
 router.get('/:id', async (req: Request, res: Response): Promise<void> => {
