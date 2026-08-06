@@ -13,7 +13,7 @@
  */
 
 import { prisma } from '../db';
-import { Prisma, ReferralStatus, PartnerRank } from '@prisma/client';
+import { Prisma, ReferralStatus, PartnerRank, PartnerStatus } from '@prisma/client';
 import { roundMoney } from '../lib/currency';
 import { isFraud, loadPartnerForFraudCheck } from './referral-fraud.service';
 import { getMlmConfig } from './mlm-config.service';
@@ -46,6 +46,45 @@ function generateCouponCode(): string {
 function toNum(val: Prisma.Decimal | number | null | undefined): number {
   if (val === null || val === undefined) return 0;
   return typeof val === 'number' ? val : Number(val);
+}
+
+/** Sales accumulator used by the admin traffic report; orderIds dedupes multi-item orders */
+interface SalesAgg {
+  orderIds: Set<string>;
+  itemsSold: number;
+  revenue: number;
+  commission: number;
+}
+
+function emptySalesAgg(): SalesAgg {
+  return { orderIds: new Set<string>(), itemsSold: 0, revenue: 0, commission: 0 };
+}
+
+function addSale(
+  target: Map<string, SalesAgg>,
+  key: string,
+  referralId: string,
+  quantity: number,
+  revenue: number,
+  commission: number
+): void {
+  const agg = target.get(key) ?? emptySalesAgg();
+  agg.orderIds.add(referralId);
+  agg.itemsSold += quantity;
+  agg.revenue += revenue;
+  agg.commission += commission;
+  target.set(key, agg);
+}
+
+function finalizeSales(agg: SalesAgg | undefined, clicks: number) {
+  const orders = agg?.orderIds.size ?? 0;
+  return {
+    orders,
+    itemsSold: agg?.itemsSold ?? 0,
+    revenue: roundMoney(agg?.revenue ?? 0),
+    commission: roundMoney(agg?.commission ?? 0),
+    conversionRate: clicks > 0 ? Math.round((orders / clicks) * 10000) / 100 : null,
+  };
 }
 
 // ─── Types ───
@@ -1376,6 +1415,169 @@ export class ReferralService {
       lineVolumes: { period, current: lineVolumes, previousPeriod: prevPeriod, previous: prevLineVolumes },
       leaderBonuses,
       monthlyVolume,
+    };
+  }
+
+  /**
+   * Affiliate traffic report for admin — which partner drives how much traffic,
+   * and which products their links point to.
+   *
+   * Clicks come from the lifetime ReferralLink.clicks counter, so this report has no
+   * time dimension; sales are attributed per link via ReferralItem.referralLinkId.
+   */
+  async getTrafficStats(status?: string) {
+    const [partners, links, items] = await Promise.all([
+      prisma.partnerProfile.findMany({
+        where: status ? { status: status as PartnerStatus } : {},
+        select: {
+          id: true,
+          referralCode: true,
+          status: true,
+          rank: true,
+          createdAt: true,
+          user: { select: { email: true, firstName: true, lastName: true } },
+        },
+      }),
+      prisma.referralLink.findMany({
+        select: {
+          id: true,
+          partnerId: true,
+          code: true,
+          name: true,
+          clicks: true,
+          createdAt: true,
+          productId: true,
+          product: { select: { id: true, name: true, slug: true } },
+        },
+      }),
+      prisma.referralItem.findMany({
+        where: { referral: { status: { not: 'CANCELLED' } } },
+        select: {
+          referralLinkId: true,
+          primaryCommissionAmount: true,
+          referral: { select: { id: true, partnerId: true } },
+          orderItem: { select: { quantity: true, unitPrice: true } },
+        },
+      }),
+    ]);
+
+    const byPartner = new Map<string, SalesAgg>();
+    const byLink = new Map<string, SalesAgg>();
+
+    for (const item of items) {
+      const quantity = item.orderItem?.quantity ?? 0;
+      const revenue = toNum(item.orderItem?.unitPrice) * quantity;
+      const commission = toNum(item.primaryCommissionAmount);
+
+      addSale(byPartner, item.referral.partnerId, item.referral.id, quantity, revenue, commission);
+      if (item.referralLinkId) {
+        addSale(byLink, item.referralLinkId, item.referral.id, quantity, revenue, commission);
+      }
+    }
+
+    const linksByPartner = new Map<string, typeof links>();
+    for (const link of links) {
+      const list = linksByPartner.get(link.partnerId) ?? [];
+      list.push(link);
+      linksByPartner.set(link.partnerId, list);
+    }
+
+    const partnerRows = partners.map((partner) => {
+      const partnerLinks = linksByPartner.get(partner.id) ?? [];
+      const clicks = partnerLinks.reduce((sum, link) => sum + link.clicks, 0);
+      const sales = byPartner.get(partner.id);
+
+      return {
+        id: partner.id,
+        name: `${partner.user.firstName} ${partner.user.lastName}`.trim(),
+        email: partner.user.email,
+        referralCode: partner.referralCode,
+        status: partner.status,
+        rank: partner.rank,
+        createdAt: partner.createdAt,
+        linksCount: partnerLinks.length,
+        productLinksCount: partnerLinks.filter((link) => link.productId).length,
+        clicks,
+        ...finalizeSales(sales, clicks),
+        links: partnerLinks
+          .map((link) => ({
+            id: link.id,
+            code: link.code,
+            name: link.name,
+            createdAt: link.createdAt,
+            product: link.product,
+            clicks: link.clicks,
+            ...finalizeSales(byLink.get(link.id), link.clicks),
+          }))
+          .sort((a, b) => b.clicks - a.clicks),
+      };
+    });
+
+    const productMap = new Map<string, {
+      productId: string | null;
+      productName: string;
+      productSlug: string | null;
+      linksCount: number;
+      partnerIds: Set<string>;
+      clicks: number;
+      agg: SalesAgg;
+    }>();
+
+    for (const link of links) {
+      const key = link.productId ?? '__general__';
+      const entry = productMap.get(key) ?? {
+        productId: link.productId,
+        productName: link.product?.name ?? 'Linki ogólne (bez produktu)',
+        productSlug: link.product?.slug ?? null,
+        linksCount: 0,
+        partnerIds: new Set<string>(),
+        clicks: 0,
+        agg: emptySalesAgg(),
+      };
+      entry.linksCount += 1;
+      entry.partnerIds.add(link.partnerId);
+      entry.clicks += link.clicks;
+
+      const linkSales = byLink.get(link.id);
+      if (linkSales) {
+        linkSales.orderIds.forEach((orderId) => entry.agg.orderIds.add(orderId));
+        entry.agg.itemsSold += linkSales.itemsSold;
+        entry.agg.revenue += linkSales.revenue;
+        entry.agg.commission += linkSales.commission;
+      }
+      productMap.set(key, entry);
+    }
+
+    const productRows = Array.from(productMap.values())
+      .map((entry) => ({
+        productId: entry.productId,
+        productName: entry.productName,
+        productSlug: entry.productSlug,
+        linksCount: entry.linksCount,
+        partnersCount: entry.partnerIds.size,
+        clicks: entry.clicks,
+        ...finalizeSales(entry.agg, entry.clicks),
+      }))
+      .sort((a, b) => b.clicks - a.clicks);
+
+    const totalClicks = links.reduce((sum, link) => sum + link.clicks, 0);
+    const totalAgg = emptySalesAgg();
+    for (const agg of byPartner.values()) {
+      agg.orderIds.forEach((orderId) => totalAgg.orderIds.add(orderId));
+      totalAgg.itemsSold += agg.itemsSold;
+      totalAgg.revenue += agg.revenue;
+      totalAgg.commission += agg.commission;
+    }
+
+    return {
+      totals: {
+        partners: partners.length,
+        linksCount: links.length,
+        clicks: totalClicks,
+        ...finalizeSales(totalAgg, totalClicks),
+      },
+      partners: partnerRows.sort((a, b) => b.clicks - a.clicks),
+      products: productRows,
     };
   }
 
