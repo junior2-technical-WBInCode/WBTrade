@@ -262,6 +262,25 @@ function AccountPageContent() {
                 </div>
               </div>
 
+              {/* Section: Program partnerski */}
+              <div>
+                <h3 className="text-xs font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider px-1 mb-1.5">Program partnerski</h3>
+                <div className="bg-white dark:bg-secondary-800 rounded-xl shadow-sm border border-gray-100 dark:border-secondary-700 overflow-hidden">
+                  <Link
+                    href="/account/partnership"
+                    className="flex items-center gap-3 px-4 py-3.5 hover:bg-gray-50 dark:hover:bg-secondary-700 transition-colors"
+                  >
+                    <div className="w-8 h-8 rounded-lg bg-orange-50 dark:bg-orange-900/30 flex items-center justify-center shrink-0">
+                      <SidebarIcon icon="users" />
+                    </div>
+                    <span className="flex-1 text-[15px] text-gray-800 dark:text-gray-200">Program partnerski</span>
+                    <svg className="w-4 h-4 text-gray-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                    </svg>
+                  </Link>
+                </div>
+              </div>
+
               {/* Section: Ustawienia */}
               <div>
                 <h3 className="text-xs font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider px-1 mb-1.5">Ustawienia</h3>
