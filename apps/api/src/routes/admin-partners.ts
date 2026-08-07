@@ -50,6 +50,19 @@ router.get('/stats/traffic', async (req: Request, res: Response): Promise<void> 
 });
 
 /**
+ * GET /api/admin/partners/structure/tree - Full hierarchy (who is attached to whom)
+ * Declared before '/:id' so it is not swallowed by the partner detail route.
+ */
+router.get('/structure/tree', async (_req: Request, res: Response): Promise<void> => {
+  try {
+    const structure = await referralService.getStructure();
+    res.json(structure);
+  } catch (error: any) {
+    res.status(500).json({ message: error.message });
+  }
+});
+
+/**
  * GET /api/admin/partners/:id - Get partner details
  */
 router.get('/:id', async (req: Request, res: Response): Promise<void> => {
@@ -118,19 +131,20 @@ router.patch('/:id/rank', async (req: Request, res: Response): Promise<void> => 
 
 /**
  * PATCH /api/admin/partners/:id/upline - Attach partner to an upline ("lider")
- * Body: { parent: string | null } - referral code, email or PartnerProfile id; null detaches
+ * Body: { parent: string } - referral code, email or PartnerProfile id.
+ * The bond is permanent: a partner who already has an upline is rejected.
  */
 router.patch('/:id/upline', async (req: Request, res: Response): Promise<void> => {
   try {
     const schema = z.object({
-      parent: z.string().max(200).nullable(),
+      parent: z.string().trim().min(1).max(200),
     });
     const { parent } = schema.parse(req.body);
     const partner = await referralService.updatePartnerUpline(req.params.id, parent);
     res.json(partner);
   } catch (error: any) {
     if (error instanceof z.ZodError) {
-      res.status(400).json({ message: 'Nieprawidłowe dane.', errors: error.errors });
+      res.status(400).json({ message: 'Podaj kod polecający, email konta lub ID profilu lidera.', errors: error.errors });
       return;
     }
     res.status(400).json({ message: error.message });
