@@ -36,6 +36,12 @@ export default function PartnerDetailPage() {
   const [error, setError] = useState('');
   const [uplineInput, setUplineInput] = useState('');
   const [uplineSaving, setUplineSaving] = useState(false);
+  const [uplineModalOpen, setUplineModalOpen] = useState(false);
+  const [uplineAck, setUplineAck] = useState(false);
+  const [uplineError, setUplineError] = useState('');
+  const [detachModalOpen, setDetachModalOpen] = useState(false);
+  const [detachReason, setDetachReason] = useState('');
+  const [detachError, setDetachError] = useState('');
 
   const fetchPartnerDetail = async () => {
     try {
@@ -77,30 +83,41 @@ export default function PartnerDetailPage() {
     }
   };
 
+  const openUplineModal = () => {
+    if (!uplineInput.trim()) return;
+    setUplineAck(false);
+    setUplineError('');
+    setUplineModalOpen(true);
+  };
+
   const handleSetUpline = async () => {
     const value = uplineInput.trim();
-    if (!value) return;
-    if (!confirm(`Podpiąć tego partnera pod „${value}” jako lidera? Od tej pory lider będzie naliczał prowizje ze struktury.`)) return;
+    if (!value || !uplineAck) return;
     try {
       setUplineSaving(true);
+      setUplineError('');
       await partnersApi.updateUpline(id, value);
       setUplineInput('');
+      setUplineModalOpen(false);
       fetchPartnerDetail();
     } catch (err: any) {
-      alert(err.message || 'Nie udało się ustawić lidera.');
+      setUplineError(err.message || 'Nie udało się podpiąć partnera pod lidera.');
     } finally {
       setUplineSaving(false);
     }
   };
 
-  const handleClearUpline = async () => {
-    if (!confirm('Odpiąć partnera od obecnego lidera? Straci on prowizje ze struktury tego partnera.')) return;
+  const handleDetachUpline = async () => {
+    if (detachReason.trim().length < 10) return;
     try {
       setUplineSaving(true);
-      await partnersApi.updateUpline(id, null);
+      setDetachError('');
+      await partnersApi.detachUpline(id, detachReason.trim());
+      setDetachReason('');
+      setDetachModalOpen(false);
       fetchPartnerDetail();
     } catch (err: any) {
-      alert(err.message || 'Nie udało się odpiąć lidera.');
+      setDetachError(err.message || 'Nie udało się odpiąć partnera od lidera.');
     } finally {
       setUplineSaving(false);
     }
@@ -245,60 +262,74 @@ export default function PartnerDetailPage() {
           </div>
 
           <div className="bg-white dark:bg-secondary-800 border border-gray-100 dark:border-secondary-700 p-6 rounded-2xl space-y-4">
-            <h3 className="font-semibold text-gray-900 dark:text-white border-b pb-2">Struktura MLM (lider)</h3>
-            <div className="grid grid-cols-2 text-sm">
-              <span className="text-gray-400">Obecny lider:</span>
-              {partner.parentPartner ? (
-                <Link href={`/partners/${partner.parentPartner.id}`} className="font-semibold text-orange-500 hover:underline">
-                  {partner.parentPartner.user.firstName} {partner.parentPartner.user.lastName}
-                </Link>
-              ) : (
-                <span className="text-gray-400">Brak (partner na szczycie struktury)</span>
-              )}
+            <div className="flex items-center justify-between border-b pb-2">
+              <h3 className="font-semibold text-gray-900 dark:text-white">Struktura MLM (lider)</h3>
+              <Link href="/partners/structure" className="text-xs font-semibold text-orange-500 hover:underline">
+                Zobacz całą strukturę
+              </Link>
             </div>
-            {partner.parentPartner && (
-              <div className="grid grid-cols-2 text-sm">
-                <span className="text-gray-400">Kod / email lidera:</span>
-                <span className="text-xs break-all">
-                  <span className="font-mono text-orange-500 font-bold">{partner.parentPartner.referralCode}</span>
-                  <br />
-                  {partner.parentPartner.user.email}
-                </span>
+
+            {partner.parentPartner ? (
+              <>
+                <div className="grid grid-cols-2 text-sm">
+                  <span className="text-gray-400">Lider:</span>
+                  <Link href={`/partners/${partner.parentPartner.id}`} className="font-semibold text-orange-500 hover:underline">
+                    {partner.parentPartner.user.firstName} {partner.parentPartner.user.lastName}
+                  </Link>
+                </div>
+                <div className="grid grid-cols-2 text-sm">
+                  <span className="text-gray-400">Kod / email lidera:</span>
+                  <span className="text-xs break-all">
+                    <span className="font-mono text-orange-500 font-bold">{partner.parentPartner.referralCode}</span>
+                    <br />
+                    {partner.parentPartner.user.email}
+                  </span>
+                </div>
+                <div className="flex items-start gap-2 p-3 rounded-xl bg-gray-50 dark:bg-secondary-900 border border-gray-200 dark:border-secondary-700">
+                  <svg className="w-4 h-4 text-gray-400 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                  </svg>
+                  <p className="text-[11px] text-gray-500 dark:text-gray-400">
+                    Powiązanie jest <strong>trwałe</strong>. Rozliczone już prowizje i obroty poziomów naliczono
+                    według tej struktury.
+                  </p>
+                </div>
+                <button
+                  onClick={() => { setDetachReason(''); setDetachError(''); setDetachModalOpen(true); }}
+                  className="text-xs font-semibold text-gray-500 hover:text-red-600 cursor-pointer"
+                >
+                  Odepnij od lidera (korekta błędu)
+                </button>
+              </>
+            ) : (
+              <div className="space-y-2">
+                <div className="grid grid-cols-2 text-sm">
+                  <span className="text-gray-400">Lider:</span>
+                  <span className="text-gray-400">Brak (partner na szczycie struktury)</span>
+                </div>
+                <label className="text-xs text-gray-400 block pt-2">
+                  Podepnij pod lidera (kod polecający, email konta lub ID profilu)
+                </label>
+                <div className="flex gap-2">
+                  <input
+                    value={uplineInput}
+                    onChange={(e) => setUplineInput(e.target.value)}
+                    placeholder="np. AB12CD34 lub mail@domena.pl"
+                    className="flex-1 px-3 py-2 rounded-lg text-xs bg-gray-50 dark:bg-secondary-900 border border-gray-200 dark:border-secondary-700"
+                  />
+                  <button
+                    onClick={openUplineModal}
+                    disabled={!uplineInput.trim()}
+                    className="px-3 py-2 bg-orange-500 hover:bg-orange-600 disabled:opacity-50 text-white rounded-lg text-xs font-medium transition-colors cursor-pointer"
+                  >
+                    Podepnij
+                  </button>
+                </div>
+                <p className="text-[11px] text-amber-600 dark:text-amber-400">
+                  Uwaga: podpięcie jest jednorazowe i nieodwracalne.
+                </p>
               </div>
             )}
-            <div className="space-y-2 pt-2 border-t border-gray-100 dark:border-secondary-700">
-              <label className="text-xs text-gray-400 block">
-                Podepnij pod lidera (kod polecający, email konta lub ID profilu)
-              </label>
-              <div className="flex gap-2">
-                <input
-                  value={uplineInput}
-                  onChange={(e) => setUplineInput(e.target.value)}
-                  placeholder="np. AB12CD34 lub mail@domena.pl"
-                  className="flex-1 px-3 py-2 rounded-lg text-xs bg-gray-50 dark:bg-secondary-900 border border-gray-200 dark:border-secondary-700"
-                />
-                <button
-                  onClick={handleSetUpline}
-                  disabled={uplineSaving || !uplineInput.trim()}
-                  className="px-3 py-2 bg-orange-500 hover:bg-orange-600 disabled:opacity-50 text-white rounded-lg text-xs font-medium transition-colors cursor-pointer"
-                >
-                  Podepnij
-                </button>
-              </div>
-              {partner.parentPartner && (
-                <button
-                  onClick={handleClearUpline}
-                  disabled={uplineSaving}
-                  className="text-xs font-semibold text-gray-500 hover:text-red-500 disabled:opacity-50 cursor-pointer"
-                >
-                  Odepnij od obecnego lidera
-                </button>
-              )}
-              <p className="text-[11px] text-gray-400">
-                Działa tak, jakby lider zaprosił tego partnera swoim kodem. Prowizje ze struktury naliczają się
-                dopiero od nowych zamówień, wcześniejsze rozliczenia nie są przeliczane wstecz.
-              </p>
-            </div>
           </div>
 
           <div className="bg-white dark:bg-secondary-800 border border-gray-100 dark:border-secondary-700 p-6 rounded-2xl space-y-4">
@@ -513,6 +544,151 @@ export default function PartnerDetailPage() {
             </div>
           )}
         </div>
+
+        {uplineModalOpen && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50">
+            <div className="w-full max-w-lg bg-white dark:bg-secondary-800 rounded-2xl shadow-xl border border-gray-100 dark:border-secondary-700 overflow-hidden">
+              <div className="flex items-start gap-3 p-5 border-b border-gray-100 dark:border-secondary-700">
+                <div className="w-10 h-10 rounded-full bg-amber-100 dark:bg-amber-900/30 flex items-center justify-center shrink-0">
+                  <svg className="w-5 h-5 text-amber-600 dark:text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01M5 19h14a2 2 0 001.84-2.75L13.74 4a2 2 0 00-3.48 0l-7.1 12.25A2 2 0 004.99 19z" />
+                  </svg>
+                </div>
+                <div>
+                  <h3 className="font-bold text-gray-900 dark:text-white">Podpięcie jest trwałe</h3>
+                  <p className="text-sm text-gray-500 dark:text-gray-400">Tej operacji nie da się cofnąć ani zmienić.</p>
+                </div>
+              </div>
+
+              <div className="p-5 space-y-4">
+                <div className="rounded-xl bg-gray-50 dark:bg-secondary-900 border border-gray-200 dark:border-secondary-700 p-4 space-y-2 text-sm">
+                  <div className="flex justify-between gap-4">
+                    <span className="text-gray-400">Partner:</span>
+                    <span className="font-semibold text-gray-900 dark:text-white text-right">
+                      {partner.user.firstName} {partner.user.lastName}
+                    </span>
+                  </div>
+                  <div className="flex justify-between gap-4">
+                    <span className="text-gray-400">Zostanie podpięty pod:</span>
+                    <span className="font-mono font-bold text-orange-500 text-right break-all">{uplineInput.trim()}</span>
+                  </div>
+                </div>
+
+                <ul className="space-y-2 text-sm text-gray-600 dark:text-gray-300">
+                  <li className="flex gap-2">
+                    <span className="text-amber-500 font-bold shrink-0">•</span>
+                    <span>Zadziała to tak, jakby lider zaprosił tego partnera swoim kodem przy rejestracji.</span>
+                  </li>
+                  <li className="flex gap-2">
+                    <span className="text-amber-500 font-bold shrink-0">•</span>
+                    <span><strong>Powiązania nie można później zmienić ani usunąć</strong>, ani z panelu, ani przez partnera.</span>
+                  </li>
+                  <li className="flex gap-2">
+                    <span className="text-amber-500 font-bold shrink-0">•</span>
+                    <span>Prowizje ze struktury naliczą się dopiero od nowych zamówień. Wcześniejsze rozliczenia nie są przeliczane wstecz.</span>
+                  </li>
+                </ul>
+
+                {uplineError && (
+                  <div className="p-3 rounded-xl bg-red-50 dark:bg-red-950/20 border border-red-200 dark:border-red-900/30 text-sm text-red-700 dark:text-red-400">
+                    {uplineError}
+                  </div>
+                )}
+
+                <label className="flex items-start gap-2.5 cursor-pointer">
+                  <input
+                    type="checkbox"
+                    checked={uplineAck}
+                    onChange={(e) => setUplineAck(e.target.checked)}
+                    className="mt-0.5 w-4 h-4 accent-orange-500 cursor-pointer"
+                  />
+                  <span className="text-sm text-gray-700 dark:text-gray-300">
+                    Rozumiem, że powiązanie jest trwałe i nieodwracalne.
+                  </span>
+                </label>
+              </div>
+
+              <div className="flex justify-end gap-2 p-5 pt-0">
+                <button
+                  onClick={() => setUplineModalOpen(false)}
+                  disabled={uplineSaving}
+                  className="px-4 py-2.5 rounded-xl border border-gray-200 dark:border-secondary-600 text-sm font-medium text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-secondary-700 disabled:opacity-50 transition-colors cursor-pointer"
+                >
+                  Anuluj
+                </button>
+                <button
+                  onClick={handleSetUpline}
+                  disabled={uplineSaving || !uplineAck}
+                  className="px-4 py-2.5 rounded-xl bg-orange-500 hover:bg-orange-600 disabled:opacity-50 disabled:cursor-not-allowed text-white text-sm font-medium transition-colors cursor-pointer"
+                >
+                  {uplineSaving ? 'Podpinam...' : 'Podepnij na stałe'}
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+        {detachModalOpen && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50">
+            <div className="w-full max-w-lg bg-white dark:bg-secondary-800 rounded-2xl shadow-xl border border-gray-100 dark:border-secondary-700 overflow-hidden">
+              <div className="flex items-start gap-3 p-5 border-b border-gray-100 dark:border-secondary-700">
+                <div className="w-10 h-10 rounded-full bg-red-100 dark:bg-red-900/30 flex items-center justify-center shrink-0">
+                  <svg className="w-5 h-5 text-red-600 dark:text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636" />
+                  </svg>
+                </div>
+                <div>
+                  <h3 className="font-bold text-gray-900 dark:text-white">Odpięcie od lidera</h3>
+                  <p className="text-sm text-gray-500 dark:text-gray-400">Operacja wyjątkowa, przeznaczona do korekty błędu.</p>
+                </div>
+              </div>
+
+              <div className="p-5 space-y-4">
+                <div className="rounded-xl bg-red-50 dark:bg-red-950/20 border border-red-200 dark:border-red-900/30 p-4 text-sm text-red-800 dark:text-red-300">
+                  Partner zostanie odłączony od <strong>{partner.parentPartner?.user.firstName} {partner.parentPartner?.user.lastName}</strong>.
+                  Naliczone wcześniej prowizje i obroty poziomów zostaną, ale przestaną się zgadzać z aktualną
+                  strukturą. Zdarzenie trafi do dziennika systemowego wraz z Twoim kontem i podanym powodem.
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                    Powód odpięcia (wymagany, min. 10 znaków)
+                  </label>
+                  <textarea
+                    value={detachReason}
+                    onChange={(e) => setDetachReason(e.target.value)}
+                    rows={3}
+                    placeholder="np. pomyłka przy podpinaniu, wskazano niewłaściwe konto lidera"
+                    className="w-full px-3 py-2 rounded-lg text-sm bg-gray-50 dark:bg-secondary-900 border border-gray-200 dark:border-secondary-700"
+                  />
+                  <div className="text-[11px] text-gray-400 mt-1">{detachReason.trim().length}/10</div>
+                </div>
+
+                {detachError && (
+                  <div className="p-3 rounded-xl bg-red-50 dark:bg-red-950/20 border border-red-200 dark:border-red-900/30 text-sm text-red-700 dark:text-red-400">
+                    {detachError}
+                  </div>
+                )}
+              </div>
+
+              <div className="flex justify-end gap-2 p-5 pt-0">
+                <button
+                  onClick={() => setDetachModalOpen(false)}
+                  disabled={uplineSaving}
+                  className="px-4 py-2.5 rounded-xl border border-gray-200 dark:border-secondary-600 text-sm font-medium text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-secondary-700 disabled:opacity-50 transition-colors cursor-pointer"
+                >
+                  Anuluj
+                </button>
+                <button
+                  onClick={handleDetachUpline}
+                  disabled={uplineSaving || detachReason.trim().length < 10}
+                  className="px-4 py-2.5 rounded-xl bg-red-600 hover:bg-red-700 disabled:opacity-50 disabled:cursor-not-allowed text-white text-sm font-medium transition-colors cursor-pointer"
+                >
+                  {uplineSaving ? 'Odpinam...' : 'Odepnij i zapisz w dzienniku'}
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
   );
 }

@@ -20,6 +20,7 @@ import { getMlmConfig } from './mlm-config.service';
 import { getRankConfig } from './partner-rank.service';
 import { leaderBonusService } from './leader-bonus.service';
 import { partnerVolumeService, currentPeriod, previousPeriod } from './partner-volume.service';
+import { logAuditEvent, AuditAction, AuditSeverity } from '../lib/audit';
 import crypto from 'crypto';
 
 // ─── Config ───
@@ -106,6 +107,13 @@ interface BuyerInfo {
   email: string;
   nip?: string | null;
   ip?: string | null;
+}
+
+/** Admin performing an audited action. */
+export interface AdminActor {
+  userId?: string;
+  email?: string;
+  userAgent?: string;
 }
 
 // ─── Service ───
@@ -282,7 +290,7 @@ export class ReferralService {
           },
         },
       },
-      orderBy: { createdAt: 'desc' },
+      orderBy: [{ sortOrder: 'asc' }, { createdAt: 'desc' }],
     });
 
     return links.map((link) => {
@@ -305,11 +313,45 @@ export class ReferralService {
         productId: link.productId,
         product: link.product,
         clicks: link.clicks,
+        sortOrder: link.sortOrder,
         salesCount,
         totalCommission: roundMoney(totalCommission),
         createdAt: link.createdAt,
       };
     });
+  }
+
+  /**
+   * Persist the drag-and-drop order of a partner's links.
+   * Ids not belonging to this partner are ignored, so a tampered payload
+   * cannot touch someone else's links.
+   */
+  async reorderLinks(partnerId: string, ids: string[]) {
+    const owned = await prisma.referralLink.findMany({
+      where: { partnerId },
+      select: { id: true },
+    });
+    const ownedIds = new Set(owned.map((l) => l.id));
+    const ordered = ids.filter((id) => ownedIds.has(id));
+
+    if (ordered.length === 0) {
+      throw new Error('Brak linków do uporządkowania.');
+    }
+
+    // Anything the client did not send keeps a stable place after the sorted ones.
+    const missing = owned.map((l) => l.id).filter((id) => !ordered.includes(id));
+    const finalOrder = [...ordered, ...missing];
+
+    await prisma.$transaction(
+      finalOrder.map((id, index) =>
+        prisma.referralLink.update({
+          where: { id },
+          data: { sortOrder: index + 1 },
+        })
+      )
+    );
+
+    return this.listLinks(partnerId);
   }
 
   /**
@@ -1592,34 +1634,59 @@ export class ReferralService {
   /**
    * Update partner status (admin action).
    */
-  async updatePartnerStatus(partnerId: string, status: 'APPROVED' | 'REJECTED' | 'SUSPENDED') {
-    return prisma.partnerProfile.update({
+  async updatePartnerStatus(partnerId: string, status: 'APPROVED' | 'REJECTED' | 'SUSPENDED', actor?: AdminActor) {
+    const before = await prisma.partnerProfile.findUnique({
+      where: { id: partnerId },
+      select: { status: true, referralCode: true },
+    });
+
+    const updated = await prisma.partnerProfile.update({
       where: { id: partnerId },
       data: { status },
     });
+
+    await logAuditEvent({
+      action: AuditAction.PARTNER_STATUS_CHANGED,
+      userId: actor?.userId,
+      email: actor?.email,
+      userAgent: actor?.userAgent,
+      severity: AuditSeverity.WARNING,
+      metadata: {
+        partnerId,
+        partnerCode: before?.referralCode,
+        from: before?.status,
+        to: status,
+      },
+    });
+
+    return updated;
   }
 
   /**
-   * Attach a partner to an upline (admin action), as if the upline had invited them.
-   * `parent` accepts a referral code, an account email or a PartnerProfile id;
-   * pass null/empty to detach the partner from their current upline.
+   * Attach a partner to an upline ("lider"), as if the upline had invited them.
+   * `parent` accepts a referral code, an account email or a PartnerProfile id.
+   *
+   * The bond is permanent by design: once set it can neither be changed nor removed,
+   * because commissions and rank volumes already settled through that line would
+   * stop reconciling with the structure they were calculated from.
    */
-  async updatePartnerUpline(partnerId: string, parent: string | null) {
+  async updatePartnerUpline(partnerId: string, parent: string, actor?: AdminActor) {
     const partner = await prisma.partnerProfile.findUnique({
       where: { id: partnerId },
-      select: { id: true, parentPartnerId: true },
+      select: { id: true, parentPartnerId: true, referralCode: true, user: { select: { email: true } } },
     });
     if (!partner) {
       throw new Error('Partner nie znaleziony.');
     }
+    if (partner.parentPartnerId) {
+      throw new Error(
+        'Ten partner ma już przypisanego lidera. Powiązanie jest trwałe — aby je zmienić, najpierw odepnij partnera (korekta administracyjna).'
+      );
+    }
 
     const identifier = parent?.trim();
     if (!identifier) {
-      return prisma.partnerProfile.update({
-        where: { id: partnerId },
-        data: { parentPartnerId: null },
-        include: { user: { select: { email: true, firstName: true, lastName: true } } },
-      });
+      throw new Error('Podaj kod polecający, email konta lub ID profilu lidera.');
     }
 
     const parentProfile =
@@ -1636,12 +1703,12 @@ export class ReferralService {
       throw new Error('Partner nie może być własnym liderem.');
     }
 
-    // Walking up from the new upline must never lead back to the partner being moved.
+    // Walking up from the new upline must never lead back to the partner being attached.
     let ancestorId: string | null = parentProfile.parentPartnerId;
     const visited = new Set<string>([parentProfile.id]);
     while (ancestorId) {
       if (ancestorId === partnerId) {
-        throw new Error('Taka zmiana utworzyłaby pętlę w strukturze (wskazany lider jest w dole struktury tego partnera).');
+        throw new Error('Takie podpięcie utworzyłoby pętlę w strukturze (wskazany lider jest w dole struktury tego partnera).');
       }
       if (visited.has(ancestorId)) break;
       visited.add(ancestorId);
@@ -1652,7 +1719,7 @@ export class ReferralService {
       ancestorId = ancestor?.parentPartnerId ?? null;
     }
 
-    return prisma.partnerProfile.update({
+    const updated = await prisma.partnerProfile.update({
       where: { id: partnerId },
       data: { parentPartnerId: parentProfile.id },
       include: {
@@ -1667,6 +1734,170 @@ export class ReferralService {
         },
       },
     });
+
+    await logAuditEvent({
+      action: AuditAction.PARTNER_UPLINE_ATTACHED,
+      userId: actor?.userId,
+      email: actor?.email,
+      userAgent: actor?.userAgent,
+      severity: AuditSeverity.WARNING,
+      metadata: {
+        partnerId,
+        partnerCode: partner.referralCode,
+        partnerEmail: partner.user.email,
+        uplineId: parentProfile.id,
+        uplineCode: parentProfile.referralCode,
+      },
+    });
+
+    return updated;
+  }
+
+  /**
+   * Detach a partner from their upline. Emergency admin correction only:
+   * the binding is meant to be permanent, so a reason is mandatory and the
+   * action is written to the security audit log.
+   */
+  async detachPartnerUpline(partnerId: string, reason: string, actor?: AdminActor) {
+    const partner = await prisma.partnerProfile.findUnique({
+      where: { id: partnerId },
+      select: {
+        id: true,
+        referralCode: true,
+        parentPartnerId: true,
+        user: { select: { email: true } },
+        parentPartner: { select: { id: true, referralCode: true } },
+      },
+    });
+    if (!partner) {
+      throw new Error('Partner nie znaleziony.');
+    }
+    if (!partner.parentPartnerId) {
+      throw new Error('Ten partner nie ma przypisanego lidera.');
+    }
+
+    const note = reason?.trim();
+    if (!note || note.length < 10) {
+      throw new Error('Podaj powód odpięcia (minimum 10 znaków). Trafi on do dziennika zdarzeń.');
+    }
+
+    const updated = await prisma.partnerProfile.update({
+      where: { id: partnerId },
+      data: { parentPartnerId: null },
+      include: { user: { select: { email: true, firstName: true, lastName: true } } },
+    });
+
+    await logAuditEvent({
+      action: AuditAction.PARTNER_UPLINE_DETACHED,
+      userId: actor?.userId,
+      email: actor?.email,
+      userAgent: actor?.userAgent,
+      severity: AuditSeverity.CRITICAL,
+      metadata: {
+        partnerId,
+        partnerCode: partner.referralCode,
+        partnerEmail: partner.user.email,
+        previousUplineId: partner.parentPartner?.id,
+        previousUplineCode: partner.parentPartner?.referralCode,
+        reason: note,
+      },
+    });
+
+    return updated;
+  }
+
+  /**
+   * Full partner hierarchy for the admin structure view: who is attached to whom.
+   * Returns roots (partners without an upline) with nested children.
+   */
+  async getStructure() {
+    const partners = await prisma.partnerProfile.findMany({
+      select: {
+        id: true,
+        referralCode: true,
+        status: true,
+        rank: true,
+        parentPartnerId: true,
+        createdAt: true,
+        user: { select: { email: true, firstName: true, lastName: true } },
+        _count: { select: { referrals: true, referralLinks: true } },
+      },
+      orderBy: { createdAt: 'asc' },
+    });
+
+    type Row = (typeof partners)[number];
+    interface Node {
+      id: string;
+      name: string;
+      email: string;
+      referralCode: string;
+      status: string;
+      rank: string;
+      createdAt: Date;
+      ordersCount: number;
+      linksCount: number;
+      level: number;
+      teamSize: number;
+      children: Node[];
+    }
+
+    const toNode = (p: Row, level: number): Node => ({
+      id: p.id,
+      name: `${p.user.firstName} ${p.user.lastName}`.trim(),
+      email: p.user.email,
+      referralCode: p.referralCode,
+      status: p.status,
+      rank: p.rank,
+      createdAt: p.createdAt,
+      ordersCount: p._count.referrals,
+      linksCount: p._count.referralLinks,
+      level,
+      teamSize: 0,
+      children: [],
+    });
+
+    const byParent = new Map<string, Row[]>();
+    const roots: Row[] = [];
+    for (const p of partners) {
+      if (p.parentPartnerId) {
+        const list = byParent.get(p.parentPartnerId) ?? [];
+        list.push(p);
+        byParent.set(p.parentPartnerId, list);
+      } else {
+        roots.push(p);
+      }
+    }
+
+    let maxDepth = 1;
+    const seen = new Set<string>();
+
+    const build = (row: Row, level: number): Node => {
+      const node = toNode(row, level);
+      maxDepth = Math.max(maxDepth, level);
+      if (seen.has(row.id)) return node; // damaged data guard, never recurse twice
+      seen.add(row.id);
+
+      node.children = (byParent.get(row.id) ?? []).map((child) => build(child, level + 1));
+      node.teamSize = node.children.reduce((sum, c) => sum + 1 + c.teamSize, 0);
+      return node;
+    };
+
+    const tree = roots.map((r) => build(r, 1));
+
+    // Any partner not reached from a root sits in a broken cycle; surface it instead of hiding it.
+    const detached = partners.filter((p) => !seen.has(p.id)).map((p) => toNode(p, 1));
+
+    return {
+      totals: {
+        partners: partners.length,
+        withUpline: partners.filter((p) => p.parentPartnerId).length,
+        withoutUpline: roots.length,
+        leaders: partners.filter((p) => byParent.has(p.id)).length,
+        maxDepth,
+      },
+      tree,
+      detached,
+    };
   }
 
   /**
@@ -1674,10 +1905,10 @@ export class ReferralService {
    * Sets rank AND consolidates it (highestRank) — an admin override is authoritative.
    * Emits a MANUAL PartnerRankEvent for the audit trail.
    */
-  async updatePartnerRank(partnerId: string, rank: PartnerRank, adminNote?: string) {
+  async updatePartnerRank(partnerId: string, rank: PartnerRank, adminNote?: string, actor?: AdminActor) {
     const partner = await prisma.partnerProfile.findUnique({
       where: { id: partnerId },
-      select: { rank: true },
+      select: { rank: true, referralCode: true },
     });
     if (!partner) throw new Error('Partner nie znaleziony.');
 
@@ -1702,6 +1933,22 @@ export class ReferralService {
         },
       }),
     ]);
+
+    await logAuditEvent({
+      action: AuditAction.PARTNER_RANK_CHANGED,
+      userId: actor?.userId,
+      email: actor?.email,
+      userAgent: actor?.userAgent,
+      severity: AuditSeverity.WARNING,
+      metadata: {
+        partnerId,
+        partnerCode: partner.referralCode,
+        from: partner.rank,
+        to: rank,
+        adminNote,
+      },
+    });
+
     return updated;
   }
 

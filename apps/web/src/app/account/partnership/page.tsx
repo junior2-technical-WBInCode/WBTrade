@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useMemo } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import Header from '../../../components/Header';
@@ -100,6 +100,13 @@ export default function PartnershipPage() {
   const [newLinkUrl, setNewLinkUrl] = useState('');
   const [newLinkLabel, setNewLinkLabel] = useState('');
   const [creatingLink, setCreatingLink] = useState(false);
+
+  const [linkQuery, setLinkQuery] = useState('');
+  const [linkPage, setLinkPage] = useState(1);
+  const [linkPageSize, setLinkPageSize] = useState(20);
+  const [dragId, setDragId] = useState<string | null>(null);
+  const [dragOverId, setDragOverId] = useState<string | null>(null);
+  const [orderError, setOrderError] = useState('');
 
   const [payoutType, setPayoutType] = useState<'COUPON' | 'CASH'>('COUPON');
   const [payoutAmount, setPayoutAmount] = useState('');
@@ -203,6 +210,46 @@ export default function PartnershipPage() {
       setError(err.message || 'Nie udało się stworzyć linku.');
     } finally {
       setCreatingLink(false);
+    }
+  };
+
+  const filteredLinks = useMemo(() => {
+    const q = linkQuery.trim().toLowerCase();
+    if (!q) return links;
+    return links.filter((l) =>
+      (l.name || '').toLowerCase().includes(q) ||
+      (l.product?.name || '').toLowerCase().includes(q) ||
+      l.code.toLowerCase().includes(q)
+    );
+  }, [links, linkQuery]);
+
+  const linkTotalPages = Math.max(1, Math.ceil(filteredLinks.length / linkPageSize));
+  const currentLinkPage = Math.min(linkPage, linkTotalPages);
+  const pagedLinks = filteredLinks.slice((currentLinkPage - 1) * linkPageSize, currentLinkPage * linkPageSize);
+
+  /** Moves the dragged link to the target's position within the full list, then persists. */
+  const handleLinkDrop = async (targetId: string) => {
+    const sourceId = dragId;
+    setDragId(null);
+    setDragOverId(null);
+    if (!sourceId || sourceId === targetId) return;
+
+    const from = links.findIndex((l) => l.id === sourceId);
+    const to = links.findIndex((l) => l.id === targetId);
+    if (from === -1 || to === -1) return;
+
+    const previous = links;
+    const next = [...links];
+    const [moved] = next.splice(from, 1);
+    next.splice(to, 0, moved);
+    setLinks(next);
+    setOrderError('');
+
+    try {
+      await referralApi.reorderLinks(next.map((l) => l.id));
+    } catch (err: any) {
+      setLinks(previous);
+      setOrderError(err.message || 'Nie udało się zapisać kolejności.');
     }
   };
 
@@ -334,6 +381,9 @@ export default function PartnershipPage() {
                         placeholder="KOD-PARTNERA"
                         className="w-full px-4 py-3 rounded-xl border border-gray-200 dark:border-secondary-700 bg-white dark:bg-secondary-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-orange-500 focus:border-orange-500 outline-none transition-colors animate-pulse"
                       />
+                      <p className="mt-1.5 text-xs text-amber-600 dark:text-amber-400">
+                        Uwaga: przypisanie do zapraszającego jest trwałe. Później nie da się go zmienić ani usunąć.
+                      </p>
                     </div>
 
                     <button
@@ -566,48 +616,150 @@ export default function PartnershipPage() {
 
                   {/* Generated Links list */}
                   <div>
-                    <h3 className="text-lg font-semibold text-gray-950 dark:text-white mb-4">Twoje Linki Polecające</h3>
+                    <div className="flex items-center justify-between flex-wrap gap-3 mb-4">
+                      <h3 className="text-lg font-semibold text-gray-950 dark:text-white">Twoje Linki Polecające</h3>
+                      {links.length > 0 && (
+                        <div className="flex items-center gap-2 flex-wrap">
+                          <div className="relative">
+                            <svg className="w-4 h-4 text-gray-400 absolute left-3 top-1/2 -translate-y-1/2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-4.35-4.35M17 11a6 6 0 11-12 0 6 6 0 0112 0z" />
+                            </svg>
+                            <input
+                              value={linkQuery}
+                              onChange={(e) => { setLinkQuery(e.target.value); setLinkPage(1); }}
+                              placeholder="Szukaj po nazwie, produkcie lub kodzie"
+                              className="w-64 max-w-full pl-9 pr-3 py-2 rounded-xl text-sm border border-gray-200 dark:border-secondary-700 bg-white dark:bg-secondary-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-orange-500 focus:border-orange-500 outline-none"
+                            />
+                          </div>
+                          <select
+                            value={linkPageSize}
+                            onChange={(e) => { setLinkPageSize(Number(e.target.value)); setLinkPage(1); }}
+                            className="px-3 py-2 rounded-xl text-sm border border-gray-200 dark:border-secondary-700 bg-white dark:bg-secondary-800 text-gray-700 dark:text-gray-300 cursor-pointer"
+                          >
+                            {[10, 20, 50, 100].map((n) => (
+                              <option key={n} value={n}>Pokaż {n}</option>
+                            ))}
+                          </select>
+                        </div>
+                      )}
+                    </div>
+
+                    {orderError && (
+                      <div className="mb-3 p-3 rounded-xl bg-red-50 dark:bg-red-950/20 border border-red-200 dark:border-red-900/30 text-sm text-red-700 dark:text-red-400">
+                        {orderError}
+                      </div>
+                    )}
+
                     {links.length === 0 ? (
                       <p className="text-sm text-gray-400 dark:text-gray-500">Brak wygenerowanych dedykowanych linków. Możesz polecać sklep używając kodu: ?ref={profile.referralCode}</p>
+                    ) : filteredLinks.length === 0 ? (
+                      <p className="text-sm text-gray-400 dark:text-gray-500">Żaden link nie pasuje do wyszukiwania „{linkQuery}”.</p>
                     ) : (
-                      <div className="overflow-x-auto">
-                        <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-                          <thead className="text-xs uppercase bg-gray-50 dark:bg-secondary-900 text-gray-400">
-                            <tr>
-                              <th className="px-4 py-3">Nazwa</th>
-                              <th className="px-4 py-3">Kod Reflinku</th>
-                              <th className="px-4 py-3 text-center">Kliknięcia</th>
-                              <th className="px-4 py-3 text-center">Zamówienia</th>
-                              <th className="px-4 py-3 text-right">Prowizja</th>
-                              <th className="px-4 py-3">Akcje</th>
-                            </tr>
-                          </thead>
-                          <tbody className="divide-y divide-gray-100 dark:divide-secondary-700/50">
-                            {links.map((l) => {
-                              const refUrl = `${window.location.origin}${l.product ? `/products/${l.product.slug || l.product.id}` : ''}?ref=${l.code}`;
-                              return (
-                                <tr key={l.id} className="hover:bg-gray-50/50 dark:hover:bg-secondary-800/30">
-                                  <td className="px-4 py-3.5 font-medium text-gray-900 dark:text-white">
-                                    {l.name || (l.product ? l.product.name : 'Strona główna')}
-                                  </td>
-                                  <td className="px-4 py-3.5 font-mono text-xs text-orange-500">{l.code}</td>
-                                  <td className="px-4 py-3.5 text-center">{l.clicks}</td>
-                                  <td className="px-4 py-3.5 text-center">{l.salesCount ?? 0}</td>
-                                  <td className="px-4 py-3.5 text-right font-medium text-gray-950 dark:text-white">{(l.totalCommission ?? 0).toFixed(2)} PLN</td>
-                                  <td className="px-4 py-3.5">
+                      <>
+                        <div className="overflow-x-auto">
+                          <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                            <thead className="text-xs uppercase bg-gray-50 dark:bg-secondary-900 text-gray-400">
+                              <tr>
+                                <th className="px-2 py-3 w-8"></th>
+                                <th className="px-4 py-3">Nazwa</th>
+                                <th className="px-4 py-3">Kod Reflinku</th>
+                                <th className="px-4 py-3 text-center">Kliknięcia</th>
+                                <th className="px-4 py-3 text-center">Zamówienia</th>
+                                <th className="px-4 py-3 text-right">Prowizja</th>
+                                <th className="px-4 py-3">Akcje</th>
+                              </tr>
+                            </thead>
+                            <tbody className="divide-y divide-gray-100 dark:divide-secondary-700/50">
+                              {pagedLinks.map((l) => {
+                                const refUrl = `${window.location.origin}${l.product ? `/products/${l.product.slug || l.product.id}` : ''}?ref=${l.code}`;
+                                return (
+                                  <tr
+                                    key={l.id}
+                                    draggable
+                                    onDragStart={() => setDragId(l.id)}
+                                    onDragEnd={() => { setDragId(null); setDragOverId(null); }}
+                                    onDragOver={(e) => { e.preventDefault(); setDragOverId(l.id); }}
+                                    onDragLeave={() => setDragOverId((cur) => (cur === l.id ? null : cur))}
+                                    onDrop={(e) => { e.preventDefault(); handleLinkDrop(l.id); }}
+                                    className={`hover:bg-gray-50/50 dark:hover:bg-secondary-800/30 transition-colors ${
+                                      dragId === l.id ? 'opacity-40' : ''
+                                    } ${dragOverId === l.id && dragId !== l.id ? 'ring-2 ring-inset ring-orange-500' : ''}`}
+                                  >
+                                    <td className="px-2 py-3.5 cursor-grab active:cursor-grabbing text-gray-300 dark:text-secondary-600" title="Przeciągnij, aby zmienić kolejność">
+                                      <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                                        <circle cx="7" cy="5" r="1.5" /><circle cx="13" cy="5" r="1.5" />
+                                        <circle cx="7" cy="10" r="1.5" /><circle cx="13" cy="10" r="1.5" />
+                                        <circle cx="7" cy="15" r="1.5" /><circle cx="13" cy="15" r="1.5" />
+                                      </svg>
+                                    </td>
+                                    <td className="px-4 py-3.5 font-medium text-gray-900 dark:text-white">
+                                      {l.name || (l.product ? l.product.name : 'Strona główna')}
+                                    </td>
+                                    <td className="px-4 py-3.5 font-mono text-xs text-orange-500">{l.code}</td>
+                                    <td className="px-4 py-3.5 text-center">{l.clicks}</td>
+                                    <td className="px-4 py-3.5 text-center">{l.salesCount ?? 0}</td>
+                                    <td className="px-4 py-3.5 text-right font-medium text-gray-950 dark:text-white">{(l.totalCommission ?? 0).toFixed(2)} PLN</td>
+                                    <td className="px-4 py-3.5">
+                                      <button
+                                        onClick={() => copyToClipboard(refUrl, l.id)}
+                                        className="text-xs text-orange-500 hover:text-orange-600 font-semibold cursor-pointer"
+                                      >
+                                        {copiedText === l.id ? 'Skopiowano!' : 'Kopiuj link'}
+                                      </button>
+                                    </td>
+                                  </tr>
+                                );
+                              })}
+                            </tbody>
+                          </table>
+                        </div>
+
+                        <div className="flex items-center justify-between flex-wrap gap-3 mt-4">
+                          <p className="text-xs text-gray-400 dark:text-gray-500">
+                            Pokazano {(currentLinkPage - 1) * linkPageSize + 1}
+                            {' '}do {Math.min(currentLinkPage * linkPageSize, filteredLinks.length)}
+                            {' '}z {filteredLinks.length}
+                            {linkQuery && ` (z ${links.length} wszystkich)`}
+                            . Przeciągnij wiersz za uchwyt, aby zmienić kolejność.
+                          </p>
+
+                          {linkTotalPages > 1 && (
+                            <div className="flex items-center gap-1">
+                              <button
+                                onClick={() => setLinkPage((p) => Math.max(1, p - 1))}
+                                disabled={currentLinkPage === 1}
+                                className="px-3 py-1.5 rounded-lg text-sm border border-gray-200 dark:border-secondary-700 text-gray-600 dark:text-gray-300 disabled:opacity-40 hover:bg-gray-50 dark:hover:bg-secondary-800 transition-colors cursor-pointer"
+                              >
+                                Poprzednia
+                              </button>
+                              {Array.from({ length: linkTotalPages }, (_, i) => i + 1)
+                                .filter((n) => n === 1 || n === linkTotalPages || Math.abs(n - currentLinkPage) <= 1)
+                                .map((n, idx, arr) => (
+                                  <span key={n} className="flex items-center gap-1">
+                                    {idx > 0 && n - arr[idx - 1] > 1 && <span className="text-gray-300 px-1">…</span>}
                                     <button
-                                      onClick={() => copyToClipboard(refUrl, l.id)}
-                                      className="text-xs text-orange-500 hover:text-orange-600 font-semibold cursor-pointer"
+                                      onClick={() => setLinkPage(n)}
+                                      className={`w-8 h-8 rounded-lg text-sm font-medium transition-colors cursor-pointer ${
+                                        n === currentLinkPage
+                                          ? 'bg-orange-500 text-white'
+                                          : 'text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-secondary-800'
+                                      }`}
                                     >
-                                      {copiedText === l.id ? 'Skopiowano!' : 'Kopiuj link'}
+                                      {n}
                                     </button>
-                                  </td>
-                                </tr>
-                              );
-                            })}
-                          </tbody>
-                        </table>
-                      </div>
+                                  </span>
+                                ))}
+                              <button
+                                onClick={() => setLinkPage((p) => Math.min(linkTotalPages, p + 1))}
+                                disabled={currentLinkPage === linkTotalPages}
+                                className="px-3 py-1.5 rounded-lg text-sm border border-gray-200 dark:border-secondary-700 text-gray-600 dark:text-gray-300 disabled:opacity-40 hover:bg-gray-50 dark:hover:bg-secondary-800 transition-colors cursor-pointer"
+                              >
+                                Następna
+                              </button>
+                            </div>
+                          )}
+                        </div>
+                      </>
                     )}
                   </div>
 

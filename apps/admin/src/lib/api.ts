@@ -268,11 +268,20 @@ export const partnersApi = {
       body: JSON.stringify({ rank, note }),
     }),
 
-  updateUpline: (id: string, parent: string | null): Promise<any> =>
+  updateUpline: (id: string, parent: string): Promise<any> =>
     fetchWithAuth(`/api/admin/partners/${id}/upline`, {
       method: 'PATCH',
       body: JSON.stringify({ parent }),
     }),
+
+  detachUpline: (id: string, reason: string): Promise<any> =>
+    fetchWithAuth(`/api/admin/partners/${id}/upline`, {
+      method: 'DELETE',
+      body: JSON.stringify({ reason }),
+    }),
+
+  getStructure: (): Promise<any> =>
+    fetchWithAuth('/api/admin/partners/structure/tree'),
   
   listPayouts: (status?: string, page = 1, limit = 20): Promise<any> =>
     fetchWithAuth(`/api/admin/partners/payouts/list?page=${page}&limit=${limit}${status ? `&status=${status}` : ''}`),
