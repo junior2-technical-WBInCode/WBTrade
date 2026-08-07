@@ -39,6 +39,9 @@ export default function PartnerDetailPage() {
   const [uplineModalOpen, setUplineModalOpen] = useState(false);
   const [uplineAck, setUplineAck] = useState(false);
   const [uplineError, setUplineError] = useState('');
+  const [detachModalOpen, setDetachModalOpen] = useState(false);
+  const [detachReason, setDetachReason] = useState('');
+  const [detachError, setDetachError] = useState('');
 
   const fetchPartnerDetail = async () => {
     try {
@@ -99,6 +102,22 @@ export default function PartnerDetailPage() {
       fetchPartnerDetail();
     } catch (err: any) {
       setUplineError(err.message || 'Nie udało się podpiąć partnera pod lidera.');
+    } finally {
+      setUplineSaving(false);
+    }
+  };
+
+  const handleDetachUpline = async () => {
+    if (detachReason.trim().length < 10) return;
+    try {
+      setUplineSaving(true);
+      setDetachError('');
+      await partnersApi.detachUpline(id, detachReason.trim());
+      setDetachReason('');
+      setDetachModalOpen(false);
+      fetchPartnerDetail();
+    } catch (err: any) {
+      setDetachError(err.message || 'Nie udało się odpiąć partnera od lidera.');
     } finally {
       setUplineSaving(false);
     }
@@ -271,10 +290,16 @@ export default function PartnerDetailPage() {
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
                   </svg>
                   <p className="text-[11px] text-gray-500 dark:text-gray-400">
-                    Powiązanie jest <strong>trwałe</strong>. Nie można go zmienić ani usunąć, ponieważ rozliczone
-                    już prowizje i obroty poziomów zostały naliczone według tej struktury.
+                    Powiązanie jest <strong>trwałe</strong>. Rozliczone już prowizje i obroty poziomów naliczono
+                    według tej struktury.
                   </p>
                 </div>
+                <button
+                  onClick={() => { setDetachReason(''); setDetachError(''); setDetachModalOpen(true); }}
+                  className="text-xs font-semibold text-gray-500 hover:text-red-600 cursor-pointer"
+                >
+                  Odepnij od lidera (korekta błędu)
+                </button>
               </>
             ) : (
               <div className="space-y-2">
@@ -597,6 +622,68 @@ export default function PartnerDetailPage() {
                   className="px-4 py-2.5 rounded-xl bg-orange-500 hover:bg-orange-600 disabled:opacity-50 disabled:cursor-not-allowed text-white text-sm font-medium transition-colors cursor-pointer"
                 >
                   {uplineSaving ? 'Podpinam...' : 'Podepnij na stałe'}
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+        {detachModalOpen && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50">
+            <div className="w-full max-w-lg bg-white dark:bg-secondary-800 rounded-2xl shadow-xl border border-gray-100 dark:border-secondary-700 overflow-hidden">
+              <div className="flex items-start gap-3 p-5 border-b border-gray-100 dark:border-secondary-700">
+                <div className="w-10 h-10 rounded-full bg-red-100 dark:bg-red-900/30 flex items-center justify-center shrink-0">
+                  <svg className="w-5 h-5 text-red-600 dark:text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636" />
+                  </svg>
+                </div>
+                <div>
+                  <h3 className="font-bold text-gray-900 dark:text-white">Odpięcie od lidera</h3>
+                  <p className="text-sm text-gray-500 dark:text-gray-400">Operacja wyjątkowa, przeznaczona do korekty błędu.</p>
+                </div>
+              </div>
+
+              <div className="p-5 space-y-4">
+                <div className="rounded-xl bg-red-50 dark:bg-red-950/20 border border-red-200 dark:border-red-900/30 p-4 text-sm text-red-800 dark:text-red-300">
+                  Partner zostanie odłączony od <strong>{partner.parentPartner?.user.firstName} {partner.parentPartner?.user.lastName}</strong>.
+                  Naliczone wcześniej prowizje i obroty poziomów zostaną, ale przestaną się zgadzać z aktualną
+                  strukturą. Zdarzenie trafi do dziennika systemowego wraz z Twoim kontem i podanym powodem.
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                    Powód odpięcia (wymagany, min. 10 znaków)
+                  </label>
+                  <textarea
+                    value={detachReason}
+                    onChange={(e) => setDetachReason(e.target.value)}
+                    rows={3}
+                    placeholder="np. pomyłka przy podpinaniu, wskazano niewłaściwe konto lidera"
+                    className="w-full px-3 py-2 rounded-lg text-sm bg-gray-50 dark:bg-secondary-900 border border-gray-200 dark:border-secondary-700"
+                  />
+                  <div className="text-[11px] text-gray-400 mt-1">{detachReason.trim().length}/10</div>
+                </div>
+
+                {detachError && (
+                  <div className="p-3 rounded-xl bg-red-50 dark:bg-red-950/20 border border-red-200 dark:border-red-900/30 text-sm text-red-700 dark:text-red-400">
+                    {detachError}
+                  </div>
+                )}
+              </div>
+
+              <div className="flex justify-end gap-2 p-5 pt-0">
+                <button
+                  onClick={() => setDetachModalOpen(false)}
+                  disabled={uplineSaving}
+                  className="px-4 py-2.5 rounded-xl border border-gray-200 dark:border-secondary-600 text-sm font-medium text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-secondary-700 disabled:opacity-50 transition-colors cursor-pointer"
+                >
+                  Anuluj
+                </button>
+                <button
+                  onClick={handleDetachUpline}
+                  disabled={uplineSaving || detachReason.trim().length < 10}
+                  className="px-4 py-2.5 rounded-xl bg-red-600 hover:bg-red-700 disabled:opacity-50 disabled:cursor-not-allowed text-white text-sm font-medium transition-colors cursor-pointer"
+                >
+                  {uplineSaving ? 'Odpinam...' : 'Odepnij i zapisz w dzienniku'}
                 </button>
               </div>
             </div>

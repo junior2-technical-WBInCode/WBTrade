@@ -113,6 +113,26 @@ router.get('/links', authGuard, partnerGuard, async (req: Request, res: Response
 });
 
 /**
+ * PATCH /api/referrals/links/order - Persist drag-and-drop order of the partner's links
+ * Body: { ids: string[] }
+ */
+router.patch('/links/order', authGuard, partnerGuard, async (req: Request, res: Response): Promise<void> => {
+  try {
+    const schema = z.object({ ids: z.array(z.string()).min(1).max(500) });
+    const { ids } = schema.parse(req.body);
+    const partner = (req as any).partnerProfile;
+    const links = await referralService.reorderLinks(partner.id, ids);
+    res.json(links);
+  } catch (error: any) {
+    if (error instanceof z.ZodError) {
+      res.status(400).json({ message: 'Nieprawidłowa lista linków.', errors: error.errors });
+      return;
+    }
+    res.status(400).json({ message: error.message });
+  }
+});
+
+/**
  * GET /api/referrals/balance - Get partner balance (ledger)
  */
 router.get('/balance', authGuard, partnerGuard, async (req: Request, res: Response): Promise<void> => {

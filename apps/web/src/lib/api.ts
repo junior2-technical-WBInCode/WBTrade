@@ -1886,6 +1886,9 @@ export const referralApi = {
   listLinks: () =>
     api.get<ReferralLinkData[]>('/referrals/links'),
 
+  reorderLinks: (ids: string[]) =>
+    api.patch<ReferralLinkData[]>('/referrals/links/order', { ids }),
+
   redeemCoupon: (amount: number) =>
     api.post<{ couponCode: string; amount: number }>('/referrals/payouts/coupon', { amount }),
 

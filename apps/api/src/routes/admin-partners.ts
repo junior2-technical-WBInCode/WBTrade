@@ -17,6 +17,15 @@ const router = Router();
 // All routes require admin auth
 router.use(authGuard, adminOnly);
 
+/** Who is performing the action, for the security audit log. */
+function actorOf(req: Request) {
+  return {
+    userId: req.user?.userId,
+    email: req.user?.email,
+    userAgent: req.get('user-agent') || undefined,
+  };
+}
+
 /**
  * GET /api/admin/partners - List all partners
  * Query: ?status=PENDING|APPROVED|REJECTED|SUSPENDED&page=1&limit=20
@@ -88,7 +97,7 @@ router.patch('/:id/status', async (req: Request, res: Response): Promise<void> =
       status: z.enum(['APPROVED', 'REJECTED', 'SUSPENDED']),
     });
     const { status } = schema.parse(req.body);
-    const partner = await referralService.updatePartnerStatus(req.params.id, status);
+    const partner = await referralService.updatePartnerStatus(req.params.id, status, actorOf(req));
     res.json(partner);
   } catch (error: any) {
     if (error instanceof z.ZodError) {
@@ -118,7 +127,7 @@ router.patch('/:id/rank', async (req: Request, res: Response): Promise<void> => 
       note: z.string().max(500).optional(),
     });
     const { rank, note } = schema.parse(req.body);
-    const partner = await referralService.updatePartnerRank(req.params.id, rank, note);
+    const partner = await referralService.updatePartnerRank(req.params.id, rank, note, actorOf(req));
     res.json(partner);
   } catch (error: any) {
     if (error instanceof z.ZodError) {
@@ -140,11 +149,32 @@ router.patch('/:id/upline', async (req: Request, res: Response): Promise<void> =
       parent: z.string().trim().min(1).max(200),
     });
     const { parent } = schema.parse(req.body);
-    const partner = await referralService.updatePartnerUpline(req.params.id, parent);
+    const partner = await referralService.updatePartnerUpline(req.params.id, parent, actorOf(req));
     res.json(partner);
   } catch (error: any) {
     if (error instanceof z.ZodError) {
       res.status(400).json({ message: 'Podaj kod polecający, email konta lub ID profilu lidera.', errors: error.errors });
+      return;
+    }
+    res.status(400).json({ message: error.message });
+  }
+});
+
+/**
+ * DELETE /api/admin/partners/:id/upline - Emergency detach from upline
+ * Body: { reason: string } - mandatory, lands in the security audit log.
+ */
+router.delete('/:id/upline', async (req: Request, res: Response): Promise<void> => {
+  try {
+    const schema = z.object({
+      reason: z.string().trim().min(10).max(500),
+    });
+    const { reason } = schema.parse(req.body);
+    const partner = await referralService.detachPartnerUpline(req.params.id, reason, actorOf(req));
+    res.json(partner);
+  } catch (error: any) {
+    if (error instanceof z.ZodError) {
+      res.status(400).json({ message: 'Podaj powód odpięcia (minimum 10 znaków).', errors: error.errors });
       return;
     }
     res.status(400).json({ message: error.message });

@@ -274,6 +274,12 @@ export const partnersApi = {
       body: JSON.stringify({ parent }),
     }),
 
+  detachUpline: (id: string, reason: string): Promise<any> =>
+    fetchWithAuth(`/api/admin/partners/${id}/upline`, {
+      method: 'DELETE',
+      body: JSON.stringify({ reason }),
+    }),
+
   getStructure: (): Promise<any> =>
     fetchWithAuth('/api/admin/partners/structure/tree'),
   

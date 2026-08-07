@@ -61,6 +61,10 @@ const actionLabels: Record<string, string> = {
   INVALID_TOKEN: 'Nieprawidłowy token',
   CONTACT_FORM_SENT: 'Formularz kontaktowy — wysłano',
   CONTACT_FORM_FAILED: 'Formularz kontaktowy — błąd',
+  PARTNER_UPLINE_ATTACHED: 'Partner podpięty pod lidera',
+  PARTNER_UPLINE_DETACHED: 'Partner odpięty od lidera',
+  PARTNER_STATUS_CHANGED: 'Zmiana statusu partnera',
+  PARTNER_RANK_CHANGED: 'Zmiana poziomu partnera',
 };
 
 export default function ActivityLogPage() {
