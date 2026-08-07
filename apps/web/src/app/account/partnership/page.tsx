@@ -334,6 +334,9 @@ export default function PartnershipPage() {
                         placeholder="KOD-PARTNERA"
                         className="w-full px-4 py-3 rounded-xl border border-gray-200 dark:border-secondary-700 bg-white dark:bg-secondary-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-orange-500 focus:border-orange-500 outline-none transition-colors animate-pulse"
                       />
+                      <p className="mt-1.5 text-xs text-amber-600 dark:text-amber-400">
+                        Uwaga: przypisanie do zapraszającego jest trwałe. Później nie da się go zmienić ani usunąć.
+                      </p>
                     </div>
 
                     <button
