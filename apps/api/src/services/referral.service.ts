@@ -1370,6 +1370,14 @@ export class ReferralService {
       where: { id: partnerId },
       include: {
         user: { select: { id: true, email: true, firstName: true, lastName: true } },
+        parentPartner: {
+          select: {
+            id: true,
+            referralCode: true,
+            status: true,
+            user: { select: { email: true, firstName: true, lastName: true } },
+          },
+        },
         referralLinks: {
           include: { product: { select: { id: true, name: true, slug: true } } },
         },
@@ -1588,6 +1596,76 @@ export class ReferralService {
     return prisma.partnerProfile.update({
       where: { id: partnerId },
       data: { status },
+    });
+  }
+
+  /**
+   * Attach a partner to an upline (admin action), as if the upline had invited them.
+   * `parent` accepts a referral code, an account email or a PartnerProfile id;
+   * pass null/empty to detach the partner from their current upline.
+   */
+  async updatePartnerUpline(partnerId: string, parent: string | null) {
+    const partner = await prisma.partnerProfile.findUnique({
+      where: { id: partnerId },
+      select: { id: true, parentPartnerId: true },
+    });
+    if (!partner) {
+      throw new Error('Partner nie znaleziony.');
+    }
+
+    const identifier = parent?.trim();
+    if (!identifier) {
+      return prisma.partnerProfile.update({
+        where: { id: partnerId },
+        data: { parentPartnerId: null },
+        include: { user: { select: { email: true, firstName: true, lastName: true } } },
+      });
+    }
+
+    const parentProfile =
+      (await prisma.partnerProfile.findUnique({ where: { referralCode: identifier.toUpperCase() } })) ??
+      (await prisma.partnerProfile.findUnique({ where: { id: identifier } })) ??
+      (await prisma.partnerProfile.findFirst({
+        where: { user: { email: { equals: identifier, mode: 'insensitive' } } },
+      }));
+
+    if (!parentProfile) {
+      throw new Error(`Nie znaleziono partnera dla "${identifier}" (kod polecający, email lub ID profilu).`);
+    }
+    if (parentProfile.id === partnerId) {
+      throw new Error('Partner nie może być własnym liderem.');
+    }
+
+    // Walking up from the new upline must never lead back to the partner being moved.
+    let ancestorId: string | null = parentProfile.parentPartnerId;
+    const visited = new Set<string>([parentProfile.id]);
+    while (ancestorId) {
+      if (ancestorId === partnerId) {
+        throw new Error('Taka zmiana utworzyłaby pętlę w strukturze (wskazany lider jest w dole struktury tego partnera).');
+      }
+      if (visited.has(ancestorId)) break;
+      visited.add(ancestorId);
+      const ancestor: { parentPartnerId: string | null } | null = await prisma.partnerProfile.findUnique({
+        where: { id: ancestorId },
+        select: { parentPartnerId: true },
+      });
+      ancestorId = ancestor?.parentPartnerId ?? null;
+    }
+
+    return prisma.partnerProfile.update({
+      where: { id: partnerId },
+      data: { parentPartnerId: parentProfile.id },
+      include: {
+        user: { select: { email: true, firstName: true, lastName: true } },
+        parentPartner: {
+          select: {
+            id: true,
+            referralCode: true,
+            status: true,
+            user: { select: { email: true, firstName: true, lastName: true } },
+          },
+        },
+      },
     });
   }
 

@@ -117,6 +117,27 @@ router.patch('/:id/rank', async (req: Request, res: Response): Promise<void> => 
 });
 
 /**
+ * PATCH /api/admin/partners/:id/upline - Attach partner to an upline ("lider")
+ * Body: { parent: string | null } - referral code, email or PartnerProfile id; null detaches
+ */
+router.patch('/:id/upline', async (req: Request, res: Response): Promise<void> => {
+  try {
+    const schema = z.object({
+      parent: z.string().max(200).nullable(),
+    });
+    const { parent } = schema.parse(req.body);
+    const partner = await referralService.updatePartnerUpline(req.params.id, parent);
+    res.json(partner);
+  } catch (error: any) {
+    if (error instanceof z.ZodError) {
+      res.status(400).json({ message: 'Nieprawidłowe dane.', errors: error.errors });
+      return;
+    }
+    res.status(400).json({ message: error.message });
+  }
+});
+
+/**
  * GET /api/admin/partners/payouts/list - List all payout requests
  * Query: ?status=PENDING|COMPLETED|REJECTED&page=1&limit=20
  */
