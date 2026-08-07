@@ -34,6 +34,8 @@ export default function PartnerDetailPage() {
   const [partner, setPartner] = useState<any | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
+  const [uplineInput, setUplineInput] = useState('');
+  const [uplineSaving, setUplineSaving] = useState(false);
 
   const fetchPartnerDetail = async () => {
     try {
@@ -72,6 +74,35 @@ export default function PartnerDetailPage() {
       fetchPartnerDetail();
     } catch (err: any) {
       alert(err.message || 'Nie udało się zaktualizować poziomu.');
+    }
+  };
+
+  const handleSetUpline = async () => {
+    const value = uplineInput.trim();
+    if (!value) return;
+    if (!confirm(`Podpiąć tego partnera pod „${value}” jako lidera? Od tej pory lider będzie naliczał prowizje ze struktury.`)) return;
+    try {
+      setUplineSaving(true);
+      await partnersApi.updateUpline(id, value);
+      setUplineInput('');
+      fetchPartnerDetail();
+    } catch (err: any) {
+      alert(err.message || 'Nie udało się ustawić lidera.');
+    } finally {
+      setUplineSaving(false);
+    }
+  };
+
+  const handleClearUpline = async () => {
+    if (!confirm('Odpiąć partnera od obecnego lidera? Straci on prowizje ze struktury tego partnera.')) return;
+    try {
+      setUplineSaving(true);
+      await partnersApi.updateUpline(id, null);
+      fetchPartnerDetail();
+    } catch (err: any) {
+      alert(err.message || 'Nie udało się odpiąć lidera.');
+    } finally {
+      setUplineSaving(false);
     }
   };
 
@@ -210,6 +241,63 @@ export default function PartnerDetailPage() {
                   <option key={value} value={value}>{label}</option>
                 ))}
               </select>
+            </div>
+          </div>
+
+          <div className="bg-white dark:bg-secondary-800 border border-gray-100 dark:border-secondary-700 p-6 rounded-2xl space-y-4">
+            <h3 className="font-semibold text-gray-900 dark:text-white border-b pb-2">Struktura MLM (lider)</h3>
+            <div className="grid grid-cols-2 text-sm">
+              <span className="text-gray-400">Obecny lider:</span>
+              {partner.parentPartner ? (
+                <Link href={`/partners/${partner.parentPartner.id}`} className="font-semibold text-orange-500 hover:underline">
+                  {partner.parentPartner.user.firstName} {partner.parentPartner.user.lastName}
+                </Link>
+              ) : (
+                <span className="text-gray-400">Brak (partner na szczycie struktury)</span>
+              )}
+            </div>
+            {partner.parentPartner && (
+              <div className="grid grid-cols-2 text-sm">
+                <span className="text-gray-400">Kod / email lidera:</span>
+                <span className="text-xs break-all">
+                  <span className="font-mono text-orange-500 font-bold">{partner.parentPartner.referralCode}</span>
+                  <br />
+                  {partner.parentPartner.user.email}
+                </span>
+              </div>
+            )}
+            <div className="space-y-2 pt-2 border-t border-gray-100 dark:border-secondary-700">
+              <label className="text-xs text-gray-400 block">
+                Podepnij pod lidera (kod polecający, email konta lub ID profilu)
+              </label>
+              <div className="flex gap-2">
+                <input
+                  value={uplineInput}
+                  onChange={(e) => setUplineInput(e.target.value)}
+                  placeholder="np. AB12CD34 lub mail@domena.pl"
+                  className="flex-1 px-3 py-2 rounded-lg text-xs bg-gray-50 dark:bg-secondary-900 border border-gray-200 dark:border-secondary-700"
+                />
+                <button
+                  onClick={handleSetUpline}
+                  disabled={uplineSaving || !uplineInput.trim()}
+                  className="px-3 py-2 bg-orange-500 hover:bg-orange-600 disabled:opacity-50 text-white rounded-lg text-xs font-medium transition-colors cursor-pointer"
+                >
+                  Podepnij
+                </button>
+              </div>
+              {partner.parentPartner && (
+                <button
+                  onClick={handleClearUpline}
+                  disabled={uplineSaving}
+                  className="text-xs font-semibold text-gray-500 hover:text-red-500 disabled:opacity-50 cursor-pointer"
+                >
+                  Odepnij od obecnego lidera
+                </button>
+              )}
+              <p className="text-[11px] text-gray-400">
+                Działa tak, jakby lider zaprosił tego partnera swoim kodem. Prowizje ze struktury naliczają się
+                dopiero od nowych zamówień, wcześniejsze rozliczenia nie są przeliczane wstecz.
+              </p>
             </div>
           </div>
 

@@ -264,6 +264,12 @@ export const partnersApi = {
       method: 'PATCH',
       body: JSON.stringify({ rank, note }),
     }),
+
+  updateUpline: (id: string, parent: string | null): Promise<any> =>
+    fetchWithAuth(`/api/admin/partners/${id}/upline`, {
+      method: 'PATCH',
+      body: JSON.stringify({ parent }),
+    }),
   
   listPayouts: (status?: string, page = 1, limit = 20): Promise<any> =>
     fetchWithAuth(`/api/admin/partners/payouts/list?page=${page}&limit=${limit}${status ? `&status=${status}` : ''}`),
