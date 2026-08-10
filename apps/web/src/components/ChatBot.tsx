@@ -1014,6 +1014,7 @@ export default function ChatBotWidget() {
   const [isTyping, setIsTyping] = useState(false);
   const [bubbleHidden, setBubbleHidden] = useState(false);
   const [placeholderIdx, setPlaceholderIdx] = useState(0);
+  const [endChatConfirm, setEndChatConfirm] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const noMatchCount = useRef(0);
@@ -1061,17 +1062,23 @@ export default function ChatBotWidget() {
     setIsMinimized(true);
   }, []);
 
-  const handleEndChat = useCallback(() => {
-    if (hasConversation) {
-      if (!window.confirm('Zakończyć rozmowę? Historia czatu zostanie usunięta.')) return;
-    }
+  const resetChat = useCallback(() => {
+    setEndChatConfirm(false);
     setIsOpen(false);
     setIsMinimized(false);
     setMessages([createInitialMessage()]);
     setInput('');
     noMatchCount.current = 0;
     productSearchRetryCount.current = 0;
-  }, [hasConversation]);
+  }, []);
+
+  const handleEndChat = useCallback(() => {
+    if (hasConversation) {
+      setEndChatConfirm(true);
+      return;
+    }
+    resetChat();
+  }, [hasConversation, resetChat]);
 
   const handleProductSearch = useCallback(async (rawQuery: string) => {
     // Strip punctuation, noise words, bot name and normalize at the entry point
@@ -1402,11 +1409,17 @@ export default function ChatBotWidget() {
   // Close on Escape
   useEffect(() => {
     const handleEsc = (e: KeyboardEvent) => {
-      if (e.key === 'Escape' && isOpen) handleMinimize();
+      if (e.key !== 'Escape' || !isOpen) return;
+      // The confirmation sits on top of the window, so it swallows the first Escape.
+      if (endChatConfirm) {
+        setEndChatConfirm(false);
+        return;
+      }
+      handleMinimize();
     };
     window.addEventListener('keydown', handleEsc);
     return () => window.removeEventListener('keydown', handleEsc);
-  }, [isOpen, handleMinimize]);
+  }, [isOpen, endChatConfirm, handleMinimize]);
 
   // Smart-hide chatbot on scroll - only on mobile viewport (< 768px)
   // Hide after 0.6s continuous scrolling down, only restore by clicking
@@ -1602,6 +1615,58 @@ export default function ChatBotWidget() {
               <SendIcon className="w-4 h-4" />
             </button>
           </div>
+
+          {/* End-chat confirmation, kept inside the widget so it matches the chat design */}
+          {endChatConfirm && (
+            <div
+              className="absolute inset-0 z-10 flex items-center justify-center p-5 bg-gray-900/50 dark:bg-black/60 backdrop-blur-[2px] animate-fade-in"
+              role="dialog"
+              aria-modal="true"
+              aria-labelledby="wubus-end-chat-title"
+              onClick={() => setEndChatConfirm(false)}
+            >
+              <div
+                onClick={(e) => e.stopPropagation()}
+                className="w-full bg-white dark:bg-gray-800 rounded-2xl shadow-xl border border-gray-200 dark:border-gray-700 overflow-hidden"
+              >
+                <div className="px-5 pt-5 pb-4 text-center">
+                  <div className="w-14 h-14 mx-auto mb-3 rounded-full bg-orange-100 dark:bg-orange-900/30 flex items-center justify-center overflow-hidden">
+                    <Image src={WB_LOGO} alt="" width={34} height={34} className="object-contain" />
+                  </div>
+                  <h3 id="wubus-end-chat-title" className="text-base font-bold text-gray-900 dark:text-white">
+                    Zakończyć rozmowę?
+                  </h3>
+                  <p className="mt-1.5 text-sm text-gray-500 dark:text-gray-400 leading-relaxed">
+                    Historia tej rozmowy zostanie usunięta i nie da się jej odzyskać.
+                    Jeśli chcesz wrócić do niej później, zminimalizuj okno zamiast zamykać.
+                  </p>
+                </div>
+
+                <div className="flex gap-2 px-5 pb-5">
+                  <button
+                    onClick={() => setEndChatConfirm(false)}
+                    autoFocus
+                    className="flex-1 py-2.5 rounded-full text-sm font-semibold text-gray-700 dark:text-gray-200 bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-orange-400 focus-visible:ring-offset-2 focus-visible:ring-offset-white dark:focus-visible:ring-offset-gray-800"
+                  >
+                    Anuluj
+                  </button>
+                  <button
+                    onClick={resetChat}
+                    className="flex-1 py-2.5 rounded-full text-sm font-semibold text-white bg-red-500 hover:bg-red-600 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-red-400 focus-visible:ring-offset-2 focus-visible:ring-offset-white dark:focus-visible:ring-offset-gray-800"
+                  >
+                    Zakończ
+                  </button>
+                </div>
+
+                <button
+                  onClick={() => { setEndChatConfirm(false); handleMinimize(); }}
+                  className="w-full py-2.5 text-xs font-semibold text-orange-500 hover:text-orange-600 border-t border-gray-100 dark:border-gray-700 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-orange-400"
+                >
+                  Zminimalizuj i zachowaj rozmowę
+                </button>
+              </div>
+            </div>
+          )}
         </div>
       )}
     </>
