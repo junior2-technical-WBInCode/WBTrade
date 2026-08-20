@@ -15,6 +15,7 @@ import { isMeilisearchAvailable, markMeilisearchUnavailable } from '../lib/meili
 import { BaselinkerSyncType, BaselinkerSyncStatus, Prisma, PriceChangeSource } from '@prisma/client';
 import { wholesalerConfigService } from './wholesaler-config.service';
 import { priceHistoryService } from './price-history.service';
+import { FEED_URLS } from './feed-price-sync.service';
 import { syncProgress } from './sync-progress';
 import { SearchService } from './search.service';
 
@@ -1527,6 +1528,12 @@ export class BaselinkerService {
       const allInventories = await provider.getInventories();
       const currentInventory = allInventories.find(inv => inv.inventory_id.toString() === inventoryId);
       const warehouseKey = currentInventory ? await this.getWarehouseKey(currentInventory.name) : null;
+      // Prices for feed-managed wholesalers come exclusively from their XML feed
+      // (workers/baselinker-sync.worker.ts processPriceSync). Baselinker price groups
+      // for these inventories hold stale/pre-markup values - copying them corrupted
+      // retail prices on 2026-07-02, 2026-08-06 and 2026-08-19 (dofirmy ~35% below
+      // retail for ~1h until the feed sync restored them).
+      const isFeedPriceManaged = !!warehouseKey && !!FEED_URLS[warehouseKey];
       // Get inventory prefix for baselinkerProductId (e.g., "leker-", "btp-", "hp-")
       const inventoryPrefix = currentInventory ? await this.getInventoryPrefix(currentInventory.name) : '';
       const skuPrefix = currentInventory ? await this.getSkuPrefix(currentInventory.name) : '';
@@ -1879,7 +1886,7 @@ export class BaselinkerService {
                 if (existingSku !== newSku) productChanges.push(`SKU: ${existingSku} → ${newSku}`);
                 if (existingProduct.barcode !== productEan) productChanges.push(`EAN: ${existingProduct.barcode || 'brak'} → ${productEan || 'brak'}`);
                 const currentPrice = Number(existingProduct.price);
-                if (Math.abs(currentPrice - productPrice) > 0.01) productChanges.push(`Cena: ${currentPrice.toFixed(2)} → ${productPrice.toFixed(2)} zł`);
+                if (!isFeedPriceManaged && Math.abs(currentPrice - productPrice) > 0.01) productChanges.push(`Cena: ${currentPrice.toFixed(2)} → ${productPrice.toFixed(2)} zł`);
                 if (existingProduct.categoryId !== (category?.id || null)) productChanges.push('Kategoria zmieniona');
                 
                 // Product exists - update without price first
@@ -2136,6 +2143,10 @@ export class BaselinkerService {
 
         // Execute pending price updates AFTER transaction commit (avoids nested tx deadlock)
         // Process sequentially to avoid Prisma P2034 deadlocks
+        if (isFeedPriceManaged && pendingPriceUpdates.length > 0) {
+          console.log(`[BaselinkerSync] Skipping ${pendingPriceUpdates.length} price update(s) for feed-managed wholesaler "${warehouseKey}" - prices are owned by the XML feed sync`);
+          pendingPriceUpdates.length = 0;
+        }
         for (const pu of pendingPriceUpdates) {
           const MAX_RETRIES = 3;
           for (let attempt = 1; attempt <= MAX_RETRIES; attempt++) {

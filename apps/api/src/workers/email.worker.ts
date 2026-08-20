@@ -96,13 +96,13 @@ export const EMAIL_TEMPLATES: Record<string, (context: Record<string, any>) => {
     subject: `Twoje zamówienie #${escapeHtml(ctx.orderId)} zostało wysłane`,
     html: wrapWithLogo('🚚 Twoja paczka jest w drodze!', `
       <p style="font-size: 16px; color: #333;">Zamówienie <strong>#${escapeHtml(ctx.orderId)}</strong> zostało wysłane.</p>
-      <p style="font-size: 16px; color: #555;">Numer przesyłki: <strong>${escapeHtml(ctx.trackingNumber)}</strong></p>
-      <p style="font-size: 16px; color: #555;">Przewoźnik: <strong>${escapeHtml(ctx.carrier)}</strong></p>
-      <div style="text-align: center; margin: 25px 0;">
+      ${ctx.trackingNumber ? `<p style="font-size: 16px; color: #555;">Numer przesyłki: <strong>${escapeHtml(ctx.trackingNumber)}</strong></p>` : ''}
+      ${ctx.carrier ? `<p style="font-size: 16px; color: #555;">Przewoźnik: <strong>${escapeHtml(ctx.carrier)}</strong></p>` : ''}
+      ${ctx.trackingUrl ? `<div style="text-align: center; margin: 25px 0;">
         <a href="${ctx.trackingUrl}" style="display: inline-block; background: linear-gradient(135deg, #f97316 0%, #ea580c 100%); color: white; text-decoration: none; padding: 12px 30px; border-radius: 8px; font-weight: bold;">Śledź przesyłkę</a>
-      </div>
+      </div>` : ''}
     `),
-    text: `Zamówienie #${ctx.orderId} wysłane. Numer przesyłki: ${ctx.trackingNumber}`,
+    text: `Zamówienie #${ctx.orderId} zostało wysłane.${ctx.trackingNumber ? ` Numer przesyłki: ${ctx.trackingNumber}` : ''}`,
   }),
   
   'password-reset': (ctx) => ({

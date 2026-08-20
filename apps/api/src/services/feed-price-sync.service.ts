@@ -374,24 +374,47 @@ export class FeedPriceSyncService {
       else if (wholesalerKey === 'dofirmy') {
         const oNodes = this.findNodes(parsedObj, 'o');
         console.log(`Found ${oNodes.length} elements in DoFirmy feed.`);
+        // DoFirmy exports every pack size as a separate offer with a unique Kod_produktu
+        // (e.g. 5907522992156 / -10 / -100 / -240) but the SAME EAN and wildly different
+        // prices (2.89 vs 477.60). Keying by EAN made the last offer win, so single units
+        // got multipack prices and vice versa (2026-08-06 and 2026-08-19 incidents).
+        // Kod_produktu keys are authoritative; EAN keys are used only when every offer
+        // sharing that EAN carries the same price.
+        const eanFirstPrice = new Map<string, number>();
+        const ambiguousEans = new Set<string>();
+        const offers: Array<{ code: string; ean: string | null; data: { wholesalePrice: number } }> = [];
         for (const node of oNodes) {
           const price = parseFloat(this.getAttr(node, 'price') || '0');
           const code = this.getAttrValueFromAttrs(node, 'Kod_produktu');
           const ean = this.getAttrValueFromAttrs(node, 'EAN');
           if (code && price > 0) {
-            const data = { wholesalePrice: price };
-            feedItemsBySkuMap.set('DOFIRMY-' + code, data);
-            feedItemsBySkuMap.set('dofirmy-' + code, data);
-            feedItemsBySkuMap.set(code, data);
+            offers.push({ code, ean: ean || null, data: { wholesalePrice: price } });
             if (ean) {
-              feedItemsMap.set(ean, data);
-              feedItemsBySkuMap.set('DOFIRMY-' + ean, data);
-              feedItemsBySkuMap.set('dofirmy-' + ean, data);
-              feedItemsBySkuMap.set(ean, data);
+              const seen = eanFirstPrice.get(ean);
+              if (seen === undefined) {
+                eanFirstPrice.set(ean, price);
+              } else if (Math.abs(seen - price) > 0.005) {
+                ambiguousEans.add(ean);
+              }
             }
           }
         }
-      } 
+        for (const { code, ean, data } of offers) {
+          feedItemsBySkuMap.set('DOFIRMY-' + code, data);
+          feedItemsBySkuMap.set('dofirmy-' + code, data);
+          feedItemsBySkuMap.set(code, data);
+          if (ean && !ambiguousEans.has(ean)) {
+            feedItemsMap.set(ean, data);
+            // Never let an EAN alias shadow a Kod_produktu key
+            if (!feedItemsBySkuMap.has('DOFIRMY-' + ean)) feedItemsBySkuMap.set('DOFIRMY-' + ean, data);
+            if (!feedItemsBySkuMap.has('dofirmy-' + ean)) feedItemsBySkuMap.set('dofirmy-' + ean, data);
+            if (!feedItemsBySkuMap.has(ean)) feedItemsBySkuMap.set(ean, data);
+          }
+        }
+        if (ambiguousEans.size > 0) {
+          console.log(`DoFirmy: ${ambiguousEans.size} EANs shared by offers with different prices - those match by Kod_produktu only.`);
+        }
+      }
       else if (wholesalerKey === 'polzoo') {
         const sizeNodes = this.findNodes(parsedObj, 'size');
         console.log(`Found ${sizeNodes.length} size elements in PolZoo feed.`);
