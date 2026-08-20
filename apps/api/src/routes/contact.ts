@@ -333,28 +333,41 @@ router.post('/complaint', async (req: Request, res: Response) => {
       });
     }
 
-    // Send complaint email
+    // PRIMARY channel: support ticket in DB - visible in the admin panel.
+    // Before this, the complaint only went out as an email and a Resend
+    // failure lost it entirely.
+    const order = await prisma.order.findFirst({
+      where: { orderNumber: orderNumber.trim() },
+      select: { id: true, userId: true },
+    });
+    const ticket = await supportService.createTicket({
+      userId: order?.userId || undefined,
+      guestEmail: email.trim(),
+      orderId: order?.id,
+      subject: subject.trim(),
+      category: 'COMPLAINT',
+      message: `Zamówienie: #${orderNumber.trim()}\n\n${description.trim()}${
+        images.length > 0 ? `\n\n(${images.length} zdj. w załączniku e-maila do supportu)` : ''
+      }`,
+    });
+
+    // SECONDARY channel: email with image attachments - best-effort
     const result = await emailService.sendComplaintEmail({
       customerEmail: email,
       subject: subject.trim(),
       description: description.trim(),
       orderNumber: orderNumber.trim(),
       images,
-    });
-
-    if (result.success) {
-      console.log(`✅ [Contact] Complaint sent from ${email}, order: ${orderNumber}, subject: ${subject}`);
-      return res.json({
-        success: true,
-        message: 'Zgłoszenie zostało wysłane. Skontaktujemy się z Tobą wkrótce.',
-      });
-    } else {
-      console.error(`❌ [Contact] Failed to send complaint:`, result.error);
-      return res.status(500).json({
-        success: false,
-        message: 'Nie udało się wysłać zgłoszenia. Spróbuj ponownie później.',
-      });
+    }).catch((err) => ({ success: false, error: String(err) }));
+    if (!result.success) {
+      console.error(`[Contact] Complaint email failed (ticket ${ticket.ticketNumber} saved):`, (result as any).error);
     }
+
+    console.log(`✅ [Contact] Complaint from ${email}, order: ${orderNumber} -> ticket ${ticket.ticketNumber}`);
+    return res.json({
+      success: true,
+      message: 'Zgłoszenie zostało wysłane. Skontaktujemy się z Tobą wkrótce.',
+    });
   } catch (error) {
     console.error('[Contact] Complaint error:', error);
     return res.status(500).json({
@@ -387,63 +400,57 @@ router.post('/general', async (req: Request, res: Response) => {
       });
     }
 
+    // PRIMARY channel: support ticket in DB - shows up in the admin panel
+    // (Wiadomości + notification bell). Before this, the form only sent an
+    // email to support@ and a Resend failure silently swallowed the message.
+    const ticket = await supportService.createTicket({
+      guestEmail: email.trim(),
+      guestName: name.trim(),
+      subject: subject?.trim() || 'Wiadomość ze strony',
+      category: 'GENERAL',
+      message: message.trim(),
+    });
+
+    // SECONDARY channel: email to support - best-effort only
     const result = await emailService.sendContactFormEmail({
       name: name.trim(),
       email: email.trim(),
       subject: subject?.trim() || 'Wiadomość ze strony',
       message: message.trim(),
-    });
+    }).catch((err) => ({ success: false as const, error: String(err) }));
 
-    if (result.success) {
-      console.log(`✅ [Contact] General contact from ${email}`);
+    console.log(`✅ [Contact] General contact from ${email} -> ticket ${ticket.ticketNumber}`);
 
-      // Audit log
-      logAuditEvent({
-        action: AuditAction.CONTACT_FORM_SENT,
-        email: email.trim(),
-        severity: AuditSeverity.INFO,
-        success: true,
-        metadata: {
-          fromEmail: email.trim(),
-          toEmail: 'support@wb-partners.pl',
-          fromName: name.trim(),
-          subject: subject?.trim() || 'Wiadomość ze strony',
-          messageId: result.messageId,
-        },
-      }).catch(() => {});
-
-      // Send confirmation email to customer (fire and forget)
-      emailService.sendContactConfirmationEmail({
-        name: name.trim(),
-        email: email.trim(),
+    // Audit log (email failure downgraded to WARNING - the ticket is already saved)
+    logAuditEvent({
+      action: result.success ? AuditAction.CONTACT_FORM_SENT : AuditAction.CONTACT_FORM_FAILED,
+      email: email.trim(),
+      severity: result.success ? AuditSeverity.INFO : AuditSeverity.WARNING,
+      success: result.success,
+      metadata: {
+        fromEmail: email.trim(),
+        toEmail: 'support@wb-partners.pl',
+        fromName: name.trim(),
         subject: subject?.trim() || 'Wiadomość ze strony',
-      }).catch((err) => console.error('[Contact] Confirmation email error:', err));
-
-      return res.json({
-        success: true,
-        message: 'Wiadomość została wysłana. Dziękujemy!',
-      });
-    } else {
-      // Audit log — failed
-      logAuditEvent({
-        action: AuditAction.CONTACT_FORM_FAILED,
-        email: email.trim(),
-        severity: AuditSeverity.WARNING,
-        success: false,
-        metadata: {
-          fromEmail: email.trim(),
-          toEmail: 'support@wb-partners.pl',
-          fromName: name.trim(),
-          subject: subject?.trim() || 'Wiadomość ze strony',
-          error: result.error,
-        },
-      }).catch(() => {});
-
-      return res.status(500).json({
-        success: false,
-        message: 'Nie udało się wysłać wiadomości',
-      });
+        ticketNumber: ticket.ticketNumber,
+        ...(result.success ? { messageId: (result as any).messageId } : { error: (result as any).error }),
+      },
+    }).catch(() => {});
+    if (!result.success) {
+      console.error(`[Contact] Support email failed (ticket ${ticket.ticketNumber} saved):`, (result as any).error);
     }
+
+    // Send confirmation email to customer (fire and forget)
+    emailService.sendContactConfirmationEmail({
+      name: name.trim(),
+      email: email.trim(),
+      subject: subject?.trim() || 'Wiadomość ze strony',
+    }).catch((err) => console.error('[Contact] Confirmation email error:', err));
+
+    return res.json({
+      success: true,
+      message: 'Wiadomość została wysłana. Dziękujemy!',
+    });
   } catch (error) {
     console.error('[Contact] General contact error:', error);
     return res.status(500).json({
