@@ -482,7 +482,13 @@ export default function ProductDetailClient({ product }: ProductDetailClientProp
     { id: 'description', label: 'Opis produktu' },
     ...(specifications.length > 0 ? [{ id: 'parameters', label: 'Parametry' }] : []),
     ...(manufacturer ? [{ id: 'gpsr', label: 'Producent / GPSR' }] : []),
-    { id: 'reviews', label: `Opinie (${reviewStats?.totalReviews || 0})` },
+    // Tab hidden when the product has no reviews - an empty "Opinie (0)" panel
+    // only advertises the lack of social proof. Exception: a logged-in buyer who
+    // can actually review still sees the tab, otherwise nobody could ever write
+    // the FIRST review (this tab is the only review-creation entry point).
+    ...((reviewStats?.totalReviews || 0) > 0 || canReviewInfo?.canReview
+      ? [{ id: 'reviews', label: (reviewStats?.totalReviews || 0) > 0 ? `Opinie (${reviewStats!.totalReviews})` : 'Oceń produkt' }]
+      : []),
   ];
 
   return (
