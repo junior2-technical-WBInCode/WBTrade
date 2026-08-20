@@ -203,7 +203,10 @@ router.get('/', async (req: Request, res: Response) => {
           },
         },
         orderBy: { createdAt: 'desc' },
-        take: 20,
+        // ponytail: 10, not 20 - the dropdown shows max 30 items total and price
+        // alerts were drowning out actionable notifications; the rest lives on
+        // /products/monitoring anyway
+        take: 10,
       }),
     ]);
 
@@ -338,7 +341,7 @@ router.get('/', async (req: Request, res: Response) => {
         type: 'review',
         title: `Nowa recenzja (${r.rating}⭐)`,
         message: `${r.user.firstName} ${r.user.lastName} — ${r.product.name}`,
-        link: `/products`,
+        link: `/reviews`,
         priority: r.rating <= 2 ? 'medium' : 'low',
         createdAt: r.createdAt,
       });
@@ -349,15 +352,13 @@ router.get('/', async (req: Request, res: Response) => {
       const product = alert.monitor.product;
       const oldPrice = Number(alert.oldPrice).toFixed(2);
       const newPrice = Number(alert.newPrice).toFixed(2);
-      const diff = (Number(alert.newPrice) - Number(alert.oldPrice));
-      const direction = diff > 0 ? 'wzrosła' : 'spadła';
-      const diffFormatted = Math.abs(diff).toFixed(2);
+      const diff = Number(alert.newPrice) - Number(alert.oldPrice);
 
       notifications.push({
         id: `price-alert-${alert.id}`,
         type: 'price_alert',
-        title: 'Zmiana ceny produktu',
-        message: `${product.name} (SKU: ${product.sku}) — cena ${direction} z ${oldPrice} zł do ${newPrice} zł (Różnica: ${diff > 0 ? '+' : '-'}${diffFormatted} zł)`,
+        title: `Zmiana ceny ${diff > 0 ? '▲' : '▼'} ${diff > 0 ? '+' : ''}${diff.toFixed(2)} zł`,
+        message: `${product.name}: ${oldPrice} zł → ${newPrice} zł`,
         link: `/products/monitoring`,
         priority: 'medium',
         createdAt: alert.createdAt,
