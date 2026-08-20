@@ -414,6 +414,14 @@ export class PaymentService {
         }
       }
 
+      // Idempotency: PayU/P24 redeliver webhooks (and our 4xx replies trigger retries).
+      // A second 'succeeded' for an already-paid order must not re-send the confirmation
+      // email, re-increment coupon usage or re-run the status machine.
+      if (result.status === 'succeeded' && order.paymentStatus === 'PAID') {
+        console.log(`[PaymentService] Order ${order.id} already PAID - ignoring duplicate webhook (transaction: ${result.transactionId || 'unknown'})`);
+        return;
+      }
+
       const note = `Payment ${result.status}${result.transactionId ? ` (Transaction: ${result.transactionId})` : ''}`;
 
       // If status is transitioning to CANCELLED, run cancellation logic (forceCancel = true)

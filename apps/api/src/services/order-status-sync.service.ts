@@ -285,16 +285,8 @@ export class OrderStatusSyncService {
   private async updateOrderStatus(update: OrderStatusUpdate): Promise<void> {
     const note = `Status zsynchronizowany z Baselinkera (BL status -> ${update.newStatus})`;
 
-    // Run appropriate method based on state transition to execute inventory / reservation logic
-    if (update.newStatus === 'CANCELLED') {
-      await ordersService.cancel(update.orderId, true); // forceCancel = true to bypass B2B approval
-    } else if (update.newStatus === 'REFUNDED') {
-      await ordersService.refund(update.orderId, note);
-    } else {
-      await ordersService.updateStatus(update.orderId, update.newStatus, note, 'SYSTEM_BASELINKER');
-    }
-
-    // Set tracking number if provided and shipping
+    // Set tracking number BEFORE the status transition, so the shipped-email hook
+    // in ordersService.updateStatus can include it.
     if (update.trackingNumber && update.newStatus === 'SHIPPED') {
       await prisma.order.update({
         where: { id: update.orderId },
@@ -302,7 +294,15 @@ export class OrderStatusSyncService {
       });
     }
 
-    // TODO: Send email notification for SHIPPED/DELIVERED status changes
+    // Run appropriate method based on state transition to execute inventory / reservation logic
+    if (update.newStatus === 'CANCELLED') {
+      await ordersService.cancel(update.orderId, true); // forceCancel = true to bypass B2B approval
+    } else if (update.newStatus === 'REFUNDED') {
+      await ordersService.refund(update.orderId, note);
+    } else {
+      // ordersService.updateStatus also emails the customer on the first transition to SHIPPED
+      await ordersService.updateStatus(update.orderId, update.newStatus, note, 'SYSTEM_BASELINKER');
+    }
   }
 
   /**

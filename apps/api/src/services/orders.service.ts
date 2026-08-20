@@ -8,6 +8,7 @@ import { decryptToken } from '../lib/encryption';
 import { getB2bUserInfo, calculateB2bPriceForProduct } from './b2b-pricing.service';
 import { referralService } from './referral.service';
 import { salesRepService } from './sales-rep.service';
+import { queueEmail } from '../lib/queue';
 
 // Courier name mapping for display
 const COURIER_NAMES: Record<string, string> = {
@@ -550,7 +551,7 @@ export class OrdersService {
    * Update order status
    */
   async updateStatus(id: string, status: OrderStatus, note?: string, createdBy?: string) {
-    const { order: updatedOrder, becamePaid, becameDelivered } = await prisma.$transaction(async (tx) => {
+    const { order: updatedOrder, becamePaid, becameDelivered, becameShipped } = await prisma.$transaction(async (tx) => {
       // Get current order state before updating
       const currentOrder = await tx.order.findUnique({
         where: { id },
@@ -644,6 +645,7 @@ export class OrdersService {
         order,
         becamePaid: shouldMarkAsPaid && currentOrder.paymentStatus !== 'PAID',
         becameDelivered: status === 'DELIVERED' && currentOrder.status !== 'DELIVERED',
+        becameShipped: wasNotShipped && status === 'SHIPPED',
       };
     });
 
@@ -665,6 +667,41 @@ export class OrdersService {
         console.error(`[OrdersService] Error restarting referral hold on delivery for order ${updatedOrder.id}:`, err));
       salesRepService.markDelivered(updatedOrder.id).catch((err) =>
         console.error(`[OrdersService] Error restarting sales-rep hold on delivery for order ${updatedOrder.id}:`, err));
+    }
+
+    // Notify the customer that their package is on the way. Single choke point:
+    // covers admin, Baselinker status sync and courier tracking sync alike
+    // (callers write trackingNumber/trackingLink BEFORE calling updateStatus).
+    // Fire-and-forget - a mail failure must never fail the status change.
+    if (becameShipped) {
+      (async () => {
+        const o = await prisma.order.findUnique({
+          where: { id },
+          select: {
+            orderNumber: true,
+            trackingNumber: true,
+            trackingLink: true,
+            courierCode: true,
+            guestEmail: true,
+            user: { select: { email: true } },
+          },
+        });
+        const to = o?.guestEmail || o?.user?.email;
+        if (!o || !to) return;
+        const trackingUrl = o.trackingLink && o.trackingLink.startsWith('http') ? o.trackingLink : undefined;
+        await queueEmail({
+          to,
+          subject: `Twoje zamówienie #${o.orderNumber} zostało wysłane`,
+          template: 'order-shipped',
+          context: {
+            orderId: o.orderNumber,
+            trackingNumber: o.trackingNumber || undefined,
+            carrier: o.courierCode || undefined,
+            trackingUrl,
+          },
+        });
+      })().catch((err) =>
+        console.error(`[OrdersService] Error sending shipped email for order ${updatedOrder.id}:`, err));
     }
 
     return updatedOrder;
