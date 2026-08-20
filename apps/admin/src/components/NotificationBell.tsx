@@ -56,6 +56,21 @@ const priorityDot: Record<string, string> = {
   low: 'bg-green-500',
 };
 
+// Typy wymagające reakcji admina - pokazywane w osobnej sekcji na górze
+const ACTIONABLE_TYPES = new Set(['cancellation', 'delivery_delay', 'return_request', 'new_message']);
+
+const TYPE_LABELS: Record<string, string> = {
+  cancellation: 'Anulowania',
+  delivery_delay: 'Opóźnienia',
+  return_request: 'Zwroty i rekl.',
+  new_message: 'Wiadomości',
+  refund: 'Zwroty środków',
+  new_order: 'Zamówienia',
+  new_user: 'Nowi klienci',
+  review: 'Recenzje',
+  price_alert: 'Zmiany cen',
+};
+
 function timeAgo(dateStr: string): string {
   const diff = Date.now() - new Date(dateStr).getTime();
   const mins = Math.floor(diff / 60000);
@@ -152,6 +167,7 @@ export default function NotificationBell() {
   const [readIds, setReadIds] = useState<Set<string>>(new Set());
   const [seenAt, setSeenAtState] = useState(0);
   const [soundOn, setSoundOn] = useState(true);
+  const [typeFilter, setTypeFilter] = useState<string | null>(null);
   const dropdownRef = useRef<HTMLDivElement>(null);
   const prevUnreadCountRef = useRef<number>(-1); // -1 = first load, skip sound
   const isFirstFetchRef = useRef(true);
@@ -208,11 +224,12 @@ export default function NotificationBell() {
           setReadIds(cleaned);
         }
 
-        // Sound: play beep if new unread notifications appeared (skip first load)
+        // Sound: beep only when a new ACTIONABLE unread appears (skip first load).
+        // FYI items (reviews, new users, price changes) don't deserve a beep.
         const currentSeenAt = getSeenAt();
         const currentReadIds = getReadIds();
         const currentUnread = data.notifications.filter(
-          (n: Notification) => !isNotificationRead(n, currentReadIds, currentSeenAt)
+          (n: Notification) => ACTIONABLE_TYPES.has(n.type) && !isNotificationRead(n, currentReadIds, currentSeenAt)
         ).length;
 
         if (isFirstFetchRef.current) {
@@ -272,26 +289,73 @@ export default function NotificationBell() {
 
   // Unread count = notifications NOT read by ID or timestamp
   const unreadCount = notifications.filter((n) => !isNotificationRead(n, readIds, seenAt)).length;
+  // Unread that actually need admin action - drives the red badge; pure FYI gets a calm one
+  const unreadUrgent = notifications.filter(
+    (n) => ACTIONABLE_TYPES.has(n.type) && !isNotificationRead(n, readIds, seenAt)
+  ).length;
 
-  // Sort: low_stock always at bottom, others by priority then time
-  const typePriority: Record<string, number> = {
-    cancellation: 0,
-    delivery_delay: 1,
-    return_request: 2,
-    new_message: 3,
-    refund: 4,
-    new_order: 5,
-    new_user: 6,
-    review: 7,
-    price_alert: 8,
-    low_stock: 9,
+  // Chip counts per type (from the actual list, so chips always match what's inside)
+  const typeCounts: Record<string, number> = {};
+  for (const n of notifications) typeCounts[n.type] = (typeCounts[n.type] || 0) + 1;
+
+  // Two sections: actionable on top, informational below.
+  // Within each: unread first (newest first), read sink to the bottom.
+  const byRecency = (a: Notification, b: Notification) =>
+    new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
+  const sortSection = (items: Notification[]) => {
+    const unread = items.filter((n) => !isNotificationRead(n, readIds, seenAt)).sort(byRecency);
+    const read = items.filter((n) => isNotificationRead(n, readIds, seenAt)).sort(byRecency);
+    return [...unread, ...read];
   };
-  const sortedNotifications = [...notifications].sort((a, b) => {
-    const aPrio = typePriority[a.type] ?? 3;
-    const bPrio = typePriority[b.type] ?? 3;
-    if (aPrio !== bPrio) return aPrio - bPrio;
-    return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
-  });
+  const visible = typeFilter ? notifications.filter((n) => n.type === typeFilter) : notifications;
+  const actionable = sortSection(visible.filter((n) => ACTIONABLE_TYPES.has(n.type)));
+  const informational = sortSection(visible.filter((n) => !ACTIONABLE_TYPES.has(n.type)));
+  const unreadActionable = actionable.filter((n) => !isNotificationRead(n, readIds, seenAt)).length;
+
+  const renderItem = (notif: Notification) => {
+    const config = typeConfig[notif.type] || { icon: Bell, color: 'text-slate-400 bg-slate-400/10' };
+    const Icon = config.icon;
+    const isRead = isNotificationRead(notif, readIds, seenAt);
+
+    return (
+      <Link
+        key={notif.id}
+        href={notif.link}
+        onClick={() => {
+          markAsRead(notif.id);
+          setIsOpen(false);
+        }}
+        className={`flex items-start gap-3 px-4 py-3 hover:bg-slate-700/30 transition-colors group relative ${
+          isRead ? 'opacity-50 bg-slate-800/30' : ''
+        }`}
+      >
+        <div className={`w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0 ${config.color}`}>
+          <Icon className="w-4 h-4" />
+        </div>
+        <div className="flex-1 min-w-0">
+          <div className="flex items-center gap-2">
+            {!isRead && (
+              <span className={`w-1.5 h-1.5 rounded-full flex-shrink-0 ${priorityDot[notif.priority]}`} />
+            )}
+            <p className={`text-xs font-medium truncate ${isRead ? 'text-slate-400' : 'text-white'}`}>{notif.title}</p>
+          </div>
+          <p className="text-xs text-slate-400 mt-0.5 line-clamp-2">{notif.message}</p>
+          <p className="text-[10px] text-slate-500 mt-1" title={new Date(notif.createdAt).toLocaleString('pl-PL')}>
+            {timeAgo(notif.createdAt)}
+          </p>
+        </div>
+        {!isRead && (
+          <button
+            onClick={(e) => markAsRead(notif.id, e)}
+            className="opacity-0 group-hover:opacity-100 text-slate-500 hover:text-green-400 p-1 rounded transition-all flex-shrink-0"
+            title="Oznacz jako przeczytane"
+          >
+            <Eye className="w-3.5 h-3.5" />
+          </button>
+        )}
+      </Link>
+    );
+  };
 
   return (
     <div className="relative" ref={dropdownRef}>
@@ -302,11 +366,15 @@ export default function NotificationBell() {
         title="Powiadomienia"
       >
         <Bell className="w-5 h-5" />
-        {unreadCount > 0 && (
+        {unreadUrgent > 0 ? (
           <span className="absolute -top-0.5 -right-0.5 min-w-[18px] h-[18px] bg-red-500 text-white text-[10px] font-bold rounded-full flex items-center justify-center px-1 animate-pulse">
+            {unreadUrgent > 99 ? '99+' : unreadUrgent}
+          </span>
+        ) : unreadCount > 0 ? (
+          <span className="absolute -top-0.5 -right-0.5 min-w-[18px] h-[18px] bg-slate-500 text-white text-[10px] font-bold rounded-full flex items-center justify-center px-1">
             {unreadCount > 99 ? '99+' : unreadCount}
           </span>
-        )}
+        ) : null}
       </button>
 
       {/* Dropdown */}
@@ -356,45 +424,33 @@ export default function NotificationBell() {
             </div>
           </div>
 
-          {/* Summary chips */}
-          {summary && summary.total > 0 && (
+          {/* Filter chips - click to show only that type, click again to clear */}
+          {notifications.length > 0 && (
             <div className="flex flex-wrap gap-1.5 px-4 py-2.5 border-b border-slate-700/50 bg-slate-800/50">
-              {summary.byType.cancellations > 0 && (
-                <span className="text-[10px] px-2 py-0.5 rounded-full bg-red-500/10 text-red-400 font-medium">
-                  {summary.byType.cancellations} anulowań
-                </span>
+              {typeFilter && (
+                <button
+                  onClick={() => setTypeFilter(null)}
+                  className="text-[10px] px-2 py-0.5 rounded-full bg-slate-600/50 text-white font-medium hover:bg-slate-600 transition-colors"
+                >
+                  ✕ Wszystkie
+                </button>
               )}
-
-              {summary.byType.newOrders > 0 && (
-                <span className="text-[10px] px-2 py-0.5 rounded-full bg-green-500/10 text-green-400 font-medium">
-                  {summary.byType.newOrders} nowych zam.
-                </span>
-              )}
-              {summary.byType.refunds > 0 && (
-                <span className="text-[10px] px-2 py-0.5 rounded-full bg-orange-500/10 text-orange-400 font-medium">
-                  {summary.byType.refunds} zwrotów
-                </span>
-              )}
-              {summary.byType.newUsers > 0 && (
-                <span className="text-[10px] px-2 py-0.5 rounded-full bg-blue-500/10 text-blue-400 font-medium">
-                  {summary.byType.newUsers} nowych użytk.
-                </span>
-              )}
-              {summary.byType.reviews > 0 && (
-                <span className="text-[10px] px-2 py-0.5 rounded-full bg-purple-500/10 text-purple-400 font-medium">
-                  {summary.byType.reviews} recenzji
-                </span>
-              )}
-              {summary.byType.returnRequests > 0 && (
-                <span className="text-[10px] px-2 py-0.5 rounded-full bg-pink-500/10 text-pink-400 font-medium">
-                  {summary.byType.returnRequests} zwrotów/rek.
-                </span>
-              )}
-              {summary.byType.customerMessages > 0 && (
-                <span className="text-[10px] px-2 py-0.5 rounded-full bg-cyan-500/10 text-cyan-400 font-medium">
-                  {summary.byType.customerMessages} wiadomości
-                </span>
-              )}
+              {Object.entries(typeCounts).map(([type, count]) => {
+                const config = typeConfig[type] || { icon: Bell, color: 'text-slate-400 bg-slate-400/10' };
+                const active = typeFilter === type;
+                return (
+                  <button
+                    key={type}
+                    onClick={() => setTypeFilter(active ? null : type)}
+                    className={`text-[10px] px-2 py-0.5 rounded-full font-medium transition-colors ${config.color} ${
+                      active ? 'ring-1 ring-current' : 'opacity-80 hover:opacity-100'
+                    }`}
+                    title={active ? 'Kliknij, aby pokazać wszystkie' : `Pokaż tylko: ${TYPE_LABELS[type] || type}`}
+                  >
+                    {count} · {TYPE_LABELS[type] || type}
+                  </button>
+                );
+              })}
             </div>
           )}
 
@@ -411,49 +467,32 @@ export default function NotificationBell() {
                 <p className="text-sm">Brak powiadomień</p>
                 <p className="text-xs mt-1 opacity-60">Wszystko jest pod kontrolą!</p>
               </div>
+            ) : visible.length === 0 ? (
+              <div className="py-8 text-center text-slate-400">
+                <p className="text-sm">Brak powiadomień tego typu</p>
+                <button onClick={() => setTypeFilter(null)} className="text-xs text-orange-400 hover:text-orange-300 mt-1">
+                  Pokaż wszystkie
+                </button>
+              </div>
             ) : (
-              sortedNotifications.map((notif) => {
-                const config = typeConfig[notif.type] || { icon: Bell, color: 'text-slate-400 bg-slate-400/10' };
-                const Icon = config.icon;
-                const isRead = isNotificationRead(notif, readIds, seenAt);
-
-                return (
-                  <Link
-                    key={notif.id}
-                    href={notif.link}
-                    onClick={() => {
-                      markAsRead(notif.id);
-                      setIsOpen(false);
-                    }}
-                    className={`flex items-start gap-3 px-4 py-3 hover:bg-slate-700/30 transition-colors group relative ${
-                      isRead ? 'opacity-50 bg-slate-800/30' : ''
-                    }`}
-                  >
-                    <div className={`w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0 ${config.color}`}>
-                      <Icon className="w-4 h-4" />
+              <>
+                {actionable.length > 0 && (
+                  <>
+                    <div className="sticky top-0 z-10 px-4 py-1.5 text-[10px] font-semibold uppercase tracking-wider text-red-400 bg-slate-900/95 border-b border-slate-700/50">
+                      Wymagają działania{unreadActionable > 0 ? ` · ${unreadActionable} nowych` : ''}
                     </div>
-                    <div className="flex-1 min-w-0">
-                      <div className="flex items-center gap-2">
-                        {!isRead && (
-                          <span className={`w-1.5 h-1.5 rounded-full flex-shrink-0 ${priorityDot[notif.priority]}`} />
-                        )}
-                        <p className={`text-xs font-medium truncate ${isRead ? 'text-slate-400' : 'text-white'}`}>{notif.title}</p>
-                      </div>
-                      <p className="text-xs text-slate-400 mt-0.5 line-clamp-2">{notif.message}</p>
-                      <p className="text-[10px] text-slate-500 mt-1">{timeAgo(notif.createdAt)}</p>
+                    {actionable.map(renderItem)}
+                  </>
+                )}
+                {informational.length > 0 && (
+                  <>
+                    <div className="sticky top-0 z-10 px-4 py-1.5 text-[10px] font-semibold uppercase tracking-wider text-slate-400 bg-slate-900/95 border-b border-slate-700/50">
+                      Informacyjne
                     </div>
-                    {!isRead && (
-                      <button
-                        onClick={(e) => markAsRead(notif.id, e)}
-                        className="opacity-0 group-hover:opacity-100 text-slate-500 hover:text-green-400 p-1 rounded transition-all flex-shrink-0"
-                        title="Oznacz jako przeczytane"
-                      >
-                        <Eye className="w-3.5 h-3.5" />
-                      </button>
-                    )}
-                  </Link>
-                );
-              })
+                    {informational.map(renderItem)}
+                  </>
+                )}
+              </>
             )}
           </div>
 
