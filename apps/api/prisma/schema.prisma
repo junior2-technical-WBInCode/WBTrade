@@ -395,6 +395,9 @@ model Order {
   payment_reminder_count   Int?                 @default(0)
   last_payment_reminder_at DateTime?            @db.Timestamp(6)
   couponCode               String?              @map("coupon_code")
+  // Google Ads click attribution (from _gcl_aw cookie, read-only informational field)
+  gclid                    String?              @map("gclid")
+  gclidCapturedAt          DateTime?            @map("gclid_captured_at")
   // Business order fields
   billingNip               String?              @map("billing_nip")
   billingCompanyName       String?              @map("billing_company_name")

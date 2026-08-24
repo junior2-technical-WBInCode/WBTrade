@@ -77,6 +77,9 @@ interface CreateOrderData {
   // Discount/coupon fields
   couponCode?: string;
   discount?: number;
+  // Google Ads click attribution (from _gcl_aw cookie; informational only, never blocks checkout)
+  gclid?: string | null;
+  gclidCapturedAt?: Date | null;
   // Guest checkout fields
   guestEmail?: string;
   guestFirstName?: string;
@@ -306,6 +309,8 @@ export class OrdersService {
           shipping,
           discount,
           couponCode: data.couponCode, // Store the coupon code used
+          gclid: data.gclid || null,
+          gclidCapturedAt: data.gclidCapturedAt || null,
           tax,
           total,
           customerNotes: data.customerNotes,
