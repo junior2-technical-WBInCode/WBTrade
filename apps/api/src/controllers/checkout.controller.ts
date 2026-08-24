@@ -17,6 +17,7 @@ import { getB2bUserInfo } from '../services/b2b-pricing.service';
 import { CreatePaymentRequest, PaymentMethodType, PaymentProviderId } from '../types/payment.types';
 import { loyaltyService } from '../services/loyalty.service';
 import { referralService } from '../services/referral.service';
+import { extractGclid } from '../lib/gclid';
 
 /**
  * Map frontend payment method names to API payment method types
@@ -796,6 +797,10 @@ export async function createCheckout(req: Request, res: Response): Promise<void>
       }
     }
 
+    // Google Ads click attribution — informational only, never blocks checkout
+    // when the cookie is missing/malformed (e.g. direct/email/social traffic).
+    const { gclid, gclidCapturedAt } = extractGclid(req.headers.cookie);
+
     // Create order - include guest data if guest checkout
     const order = await ordersService.create({
       userId: userId || undefined,
@@ -828,6 +833,8 @@ export async function createCheckout(req: Request, res: Response): Promise<void>
       // Referral program fields
       referral: referral || undefined,
       buyerIp: (req.headers['x-forwarded-for'] as string)?.split(',')[0].trim() || req.ip || undefined,
+      gclid,
+      gclidCapturedAt,
     });
 
     // Clear only ordered items from cart (if partial checkout)
